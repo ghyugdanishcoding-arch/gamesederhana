@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>DEVONAX Intro</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Orbitron,sans-serif;
+}
+
+html,body{
+width:100%;
+height:100%;
+overflow:hidden;
+background:#000;
+}
+
+video{
+position:fixed;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.overlay{
+position:fixed;
+inset:0;
+display:flex;
+flex-direction:column;
+justify-content:flex-end;
+align-items:center;
+padding-bottom:70px;
+background:linear-gradient(to top,rgba(0,0,0,.75),rgba(0,0,0,.15),rgba(0,0,0,.05));
+}
+
+.skip{
+position:absolute;
+top:25px;
+right:20px;
+height:48px;
+padding:0 18px;
+border-radius:30px;
+border:1px solid rgba(255,255,255,.35);
+background:rgba(0,0,0,.45);
+backdrop-filter:blur(8px);
+display:flex;
+align-items:center;
+gap:8px;
+color:#fff;
+font-size:13px;
+letter-spacing:2px;
+cursor:pointer;
+}
+
+.skip span{
+font-variation-settings:'FILL'1;
+}
+
+.logo{
+font-size:42px;
+font-weight:800;
+letter-spacing:8px;
+color:#fff;
+text-shadow:0 0 20px rgba(255,255,255,.35);
+}
+
+.power{
+margin-top:18px;
+font-size:14px;
+color:#d7d7d7;
+letter-spacing:1px;
+}
+
+.loading{
+margin-top:28px;
+width:260px;
+height:4px;
+background:rgba(255,255,255,.18);
+border-radius:30px;
+overflow:hidden;
+}
+
+.bar{
+height:100%;
+width:0%;
+background:#fff;
+animation:load 8s linear forwards;
+}
+
+@keyframes load{
+100%{
+width:100%;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<video id="introVideo" autoplay playsinline>
+<source src="https://h.top4top.io/m_3867stv0v0.mp4" type="video/mp4">
+</video>
+
+<div class="overlay">
+
+<div class="skip" id="skipBtn">
+<span class="material-symbols-outlined">fast_forward</span>
+SKIP INTRO
+</div>
+
+<div class="logo">
+DEVONAX
+</div>
+
+<div class="power">
+Powered By DANZZ
+</div>
+
+<div class="loading">
+<div class="bar"></div>
+</div>
+
+</div>
+
+<script type="module">
+
+import {initializeApp} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import {getAuth,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+import {getDatabase,ref,get} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+authDomain:"project-coding-gabut.firebaseapp.com",
+databaseURL:"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+projectId:"project-coding-gabut",
+storageBucket:"project-coding-gabut.firebasestorage.app",
+messagingSenderId:"234910334669",
+appId:"1:234910334669:web:5203c9e9ce22a596f2b384"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getDatabase(app);
+
+function masuk(role){
+
+switch((role||"member").toLowerCase()){
+
+case "developer":
+location.replace("developer/dashboard.html");
+break;
+
+case "owner":
+location.replace("owner/dashboard.html");
+break;
+
+case "admin":
+location.replace("admin/dashboard.html");
+break;
+
+case "reseller":
+location.replace("reseller/dashboard.html");
+break;
+
+default:
+location.replace("dashboard.html");
+
+}
+
+}
+
+onAuthStateChanged(auth,async(user)=>{
+
+if(!user){
+location.replace("login.html");
+return;
+}
+
+const snap=await get(ref(db,"users/"+user.uid));
+
+if(!snap.exists()){
+location.replace("login.html");
+return;
+}
+
+const data=snap.val();
+
+document.getElementById("skipBtn").onclick=()=>masuk(data.role);
+
+document.getElementById("introVideo").onended=()=>masuk(data.role);
+
+});
+
+</script>
+
+</body>
+</html>
