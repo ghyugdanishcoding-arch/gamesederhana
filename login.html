@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>DEVONAX LOGIN</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+body{
+background:#070707;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+overflow:hidden;
+position:relative;
+}
+
+body::before{
+content:"";
+position:absolute;
+inset:0;
+background:
+radial-gradient(circle at top left,#ff000022,transparent 35%),
+radial-gradient(circle at bottom right,#ff000022,transparent 35%);
+}
+
+.grid{
+position:absolute;
+inset:0;
+opacity:.04;
+background-image:
+linear-gradient(#ff0000 1px,transparent 1px),
+linear-gradient(90deg,#ff0000 1px,transparent 1px);
+background-size:40px 40px;
+}
+
+.container{
+width:100%;
+max-width:430px;
+padding:25px;
+position:relative;
+z-index:2;
+text-align:center;
+}
+
+.logo{
+width:150px;
+height:150px;
+border-radius:32px;
+margin:auto;
+box-shadow:0 0 45px red;
+object-fit:cover;
+}
+
+.title{
+margin-top:6px;
+font-size:32px;
+font-weight:700;
+color:#fff;
+letter-spacing:0;
+line-height:1.1;
+text-shadow:0 0 18px rgba(255,0,0,.35);
+}
+  
+.sub{
+margin-top:8px;
+font-family:'Poppins',sans-serif;
+font-size:15px;
+font-weight:400;
+letter-spacing:1px;
+color:#9d9d9d;
+  }
+
+.card{
+margin-top:35px;
+background:#111;
+border-radius:30px;
+padding:25px;
+border:1px solid #330000;
+box-shadow:0 0 35px rgba(255,0,0,.25);
+}
+
+.input{
+width:100%;
+height:58px;
+margin-bottom:18px;
+background:#180808;
+border:1px solid #4a0000;
+border-radius:18px;
+padding:0 18px;
+color:#fff;
+font-size:14px;
+outline:none;
+}
+
+.input:focus{
+border-color:red;
+box-shadow:0 0 12px red;
+}
+
+.inputBox{
+position:relative;
+margin-bottom:18px;
+}
+
+.inputBox .material-symbols-outlined{
+position:absolute;
+left:18px;
+top:50%;
+transform:translateY(-50%);
+font-size:24px;
+color:#ff4444;
+transition:.3s;
+pointer-events:none;
+}
+
+.inputBox .input{
+margin-bottom:0;
+padding-left:58px;
+}
+
+.inputBox:focus-within .material-symbols-outlined{
+color:#ff0000;
+text-shadow:0 0 10px red;
+}
+
+.passwordBox .input{
+padding-left:58px;
+padding-right:60px;
+}
+
+.passwordBox .leftIcon{
+position:absolute;
+left:18px;
+top:50%;
+transform:translateY(-50%);
+font-size:24px;
+color:#ff4444;
+pointer-events:none;
+transition:.3s;
+}
+
+.passwordBox:focus-within .leftIcon{
+color:#ff0000;
+text-shadow:0 0 10px red;
+  }
+
+  .passwordBox{
+position:relative;
+margin-bottom:18px;
+}
+
+.passwordBox .input{
+margin-bottom:0;
+padding-right:60px;
+}
+
+#togglePassword{
+position:absolute;
+top:50%;
+right:18px;
+transform:translateY(-50%);
+color:#999;
+cursor:pointer;
+transition:.3s;
+user-select:none;
+}
+
+#togglePassword:hover{
+color:#ff0000;
+}
+
+button{
+width:100%;
+height:62px;
+border:none;
+border-radius:18px;
+background:#ff0000;
+color:white;
+font-size:18px;
+letter-spacing:4px;
+font-weight:bold;
+cursor:pointer;
+box-shadow:0 0 25px red;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.02);
+}
+
+#status{
+margin-top:18px;
+color:#ff5555;
+font-size:13px;
+min-height:18px;
+}
+
+.footer{
+margin-top:30px;
+font-size:12px;
+color:#ff5555;
+letter-spacing:6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<div class="container">
+
+<img src="img/file_000000007a60720897a751a9567ffb6e.png" class="logo">
+
+<div class="title">Welcome back</div>
+<div class="sub">
+Masukkan kredensial untuk melanjutkan
+</div>
+  
+<div class="card">
+
+<div class="inputBox">
+
+<span class="material-symbols-outlined">
+person
+</span>
+
+<input
+id="email"
+class="input"
+type="text"
+placeholder="Username">
+
+</div>
+
+<div class="passwordBox">
+
+<span class="material-symbols-outlined leftIcon">
+lock
+</span>
+
+<input
+id="password"
+class="input"
+type="password"
+placeholder="Password">
+
+<span id="togglePassword" class="material-symbols-outlined">
+visibility
+</span>
+
+</div>
+
+<button id="loginBtn">
+SIGN IN
+</button>
+
+<div id="status"></div>
+
+</div>
+
+<div class="footer">
+// HACK THE PLANET //
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
+import {
+getAuth,
+signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+get
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+// Firebase Config
+const firebaseConfig = {
+apiKey: "AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+authDomain: "project-coding-gabut.firebaseapp.com",
+databaseURL: "https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+projectId: "project-coding-gabut",
+storageBucket: "project-coding-gabut.firebasestorage.app",
+messagingSenderId: "234910334669",
+appId: "1:234910334669:web:5203c9e9ce22a596f2b384",
+measurementId: "G-PK3SFLJV25"
+};
+
+const app = initializeApp(firebaseConfig);
+getAnalytics(app);
+
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const btn = document.getElementById("loginBtn");
+const status = document.getElementById("status");
+
+const togglePassword=document.getElementById("togglePassword");
+
+togglePassword.onclick=()=>{
+
+if(password.type==="password"){
+
+password.type="text";
+togglePassword.textContent="visibility_off";
+
+}else{
+
+password.type="password";
+togglePassword.textContent="visibility";
+
+}
+
+};
+
+btn.onclick = async ()=>{
+
+status.style.color="#ffffff";
+status.innerHTML="Checking account...";
+
+let loginEmail=email.value.trim();
+
+try{
+
+if(!loginEmail.includes("@")){
+
+const snap=await get(ref(db,"users"));
+
+if(!snap.exists()){
+
+status.style.color="#ff4444";
+status.innerHTML="Database user kosong.";
+return;
+
+}
+
+let found=false;
+
+snap.forEach(child=>{
+
+const data=child.val();
+
+if((data.username||"").toLowerCase()===loginEmail.toLowerCase()){
+
+loginEmail=data.email;
+found=true;
+
+}
+
+});
+
+if(!found){
+
+status.style.color="#ff4444";
+status.innerHTML="Lengkapi semua data!";
+return;
+
+}
+
+}
+
+await signInWithEmailAndPassword(
+auth,
+loginEmail,
+password.value
+);
+
+status.style.color="#00ff88";
+status.innerHTML="Login berhasil!";
+
+setTimeout(()=>{
+
+location.href="intro.html";
+
+},700);
+
+}catch(err){
+
+status.style.color="#ff4444";
+status.innerHTML="Username atau Password salah!";
+
+}
+
+};
+
+</script>
+
+</body>
+  </html>
