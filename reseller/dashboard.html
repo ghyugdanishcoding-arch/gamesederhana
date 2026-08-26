@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>DEVONAX Reseller</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+:root{
+--bg:#070707;
+--card:#121212;
+--red:#ff2020;
+--text:#fff;
+--border:#303030;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+overflow-x:hidden;
+padding:18px 18px 100px;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at top left,#ff000018,transparent 35%),
+radial-gradient(circle at bottom right,#ff000018,transparent 35%);
+pointer-events:none;
+}
+
+.grid{
+position:fixed;
+inset:0;
+opacity:.04;
+background-image:
+linear-gradient(#ff0000 1px,transparent 1px),
+linear-gradient(90deg,#ff0000 1px,transparent 1px);
+background-size:40px 40px;
+pointer-events:none;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.menu,
+.profile{
+
+width:50px;
+height:50px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+border-radius:16px;
+background:#161616;
+border:1px solid #333;
+
+}
+
+.menu span,
+.profile span{
+
+font-size:28px;
+color:#ff3030;
+
+}
+
+.logo{
+
+font-size:28px;
+font-weight:800;
+letter-spacing:6px;
+
+}
+
+.banner{
+
+position:relative;
+height:210px;
+overflow:hidden;
+border-radius:24px;
+border:1px solid #333;
+margin-bottom:20px;
+box-shadow:0 0 20px rgba(255,0,0,.15);
+
+}
+
+.banner video{
+
+width:100%;
+height:100%;
+object-fit:cover;
+filter:brightness(.45);
+
+}
+
+.bannerContent{
+
+position:absolute;
+left:20px;
+bottom:20px;
+
+}
+
+.bannerContent h2{
+
+font-size:24px;
+
+}
+
+.bannerContent p{
+
+margin-top:8px;
+font-size:12px;
+color:#ddd;
+
+}
+
+.card{
+
+background:var(--card);
+border:1px solid #333;
+border-radius:22px;
+padding:18px;
+margin-bottom:18px;
+box-shadow:0 0 15px rgba(255,0,0,.08);
+
+}
+
+.title{
+
+font-size:14px;
+letter-spacing:3px;
+color:#ff5555;
+margin-bottom:15px;
+
+}
+
+.profileCard{
+
+display:flex;
+align-items:center;
+gap:15px;
+
+}
+
+.avatar{
+
+width:70px;
+height:70px;
+
+border-radius:50%;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+background:linear-gradient(#ff3030,#700);
+
+box-shadow:0 0 18px red;
+
+}
+
+.avatar span{
+
+font-size:36px;
+
+}
+
+.info h2{
+
+font-size:22px;
+
+}
+
+.role{
+
+display:inline-block;
+
+margin-top:6px;
+
+padding:5px 12px;
+
+border-radius:20px;
+
+background:#2a0000;
+
+border:1px solid #600;
+
+font-size:12px;
+
+color:#ff7777;
+
+}
+
+.expired{
+
+margin-top:10px;
+font-size:12px;
+color:#999;
+
+}
+
+.stats{
+
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+
+}
+
+.box{
+
+background:#181818;
+border:1px solid #333;
+border-radius:18px;
+padding:16px;
+text-align:center;
+
+}
+
+.box span{
+
+font-size:32px;
+color:#ff3030;
+
+}
+
+.box h2{
+
+margin-top:8px;
+font-size:22px;
+
+}
+
+.box p{
+
+margin-top:5px;
+font-size:11px;
+color:#888;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<header>
+
+<div class="menu" id="menuBtn">
+
+<span class="material-symbols-outlined">
+menu
+</span>
+
+</div>
+
+<div class="logo">
+DEVONAX
+</div>
+
+<div class="profile">
+
+<span class="material-symbols-outlined">
+storefront
+</span>
+
+</div>
+
+</header>
+
+<div class="banner">
+
+<video
+id="bannerVideo"
+autoplay
+muted
+loop
+playsinline>
+
+<source src="../video/celestial-veil.1920x1080.mp4" type="video/mp4">
+
+</video>
+
+<div class="bannerContent">
+
+<h2 id="bannerTitle">
+NEWS
+</h2>
+
+<p id="bannerText">
+DEVELOPER: @DANZZGNTG
+</p>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+RESELLER PROFILE
+</div>
+
+<div class="profileCard">
+
+<div class="avatar">
+
+<span class="material-symbols-outlined">
+storefront
+</span>
+
+</div>
+
+<div class="info">
+
+<h2 id="username">
+Loading...
+</h2>
+
+<div class="role" id="role">
+Reseller
+</div>
+
+<div class="expired" id="expired">
+Expired : -
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+YOUR STATISTICS
+</div>
+
+<div class="stats">
+
+<div class="box">
+
+<span class="material-symbols-outlined">
+groups
+</span>
+
+<h2 id="totalUser">
+0
+</h2>
+
+<p>Total User</p>
+
+</div>
+
+<div class="box">
+
+<span class="material-symbols-outlined">
+verified_user
+</span>
+
+<h2 id="activeUser">
+0
+</h2>
+
+<p>Active</p>
+
+</div>
+
+<div class="box">
+
+<span class="material-symbols-outlined">
+event_busy
+</span>
+
+<h2 id="expiredUser">
+0
+</h2>
+
+<p>Expired</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+SYSTEM STATUS
+</div>
+
+<div class="stats">
+
+<div class="box">
+
+<span class="material-symbols-outlined">
+wifi
+</span>
+
+<h2 id="status">
+ONLINE
+</h2>
+
+<p>Internet</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+QUICK MENU
+</div>
+
+<div class="menuGrid">
+
+<div class="item" onclick="location.href='create-user.html'">
+<span class="material-symbols-outlined">person_add</span>
+<p>Create User</p>
+</div>
+
+<div class="item" onclick="location.href='users.html'">
+<span class="material-symbols-outlined">groups</span>
+<p>Manage User</p>
+</div>
+
+<div class="item" onclick="location.href='../devices.html'">
+<span class="material-symbols-outlined">devices</span>
+<p>Device</p>
+</div>
+
+<div class="item" onclick="location.href='../music.html'">
+<span class="material-symbols-outlined">music_note</span>
+<p>Music</p>
+</div>
+
+<div class="item" onclick="location.href='../settings.html'">
+<span class="material-symbols-outlined">settings</span>
+<p>Settings</p>
+</div>
+
+<div class="item logoutBtn" id="logoutBtn">
+<span class="material-symbols-outlined">logout</span>
+<p>Logout</p>
+</div>
+
+</div>
+
+</div>
+
+<nav class="bottomNav">
+
+<a href="dashboard.html" class="active">
+<span class="material-symbols-outlined">home</span>
+</a>
+
+<a href="users.html">
+<span class="material-symbols-outlined">groups</span>
+</a>
+
+<a href="../devices.html">
+<span class="material-symbols-outlined">devices</span>
+</a>
+
+<a href="../change-password.html">
+<span class="material-symbols-outlined">settings</span>
+</a>
+
+</nav>
+
+<div id="drawer" class="drawer">
+
+<div class="drawerHeader">
+
+<div class="drawerAvatar">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+
+<div>
+
+<h2 id="drawerName">
+Loading...
+</h2>
+
+<p id="drawerRole">
+Reseller
+</p>
+
+</div>
+
+</div>
+
+<div class="drawerMenu">
+
+<div class="drawerItem" onclick="location.href='dashboard.html'">
+<span class="material-symbols-outlined">home</span>
+Dashboard
+</div>
+
+<div class="drawerItem" onclick="location.href='create-user.html'">
+<span class="material-symbols-outlined">person_add</span>
+Create User
+</div>
+
+<div class="drawerItem" onclick="location.href='users.html'">
+<span class="material-symbols-outlined">groups</span>
+Manage User
+</div>
+
+<div class="drawerItem" onclick="location.href='../devices.html'">
+<span class="material-symbols-outlined">devices</span>
+Device
+</div>
+
+<div class="drawerItem" onclick="location.href='../music.html'">
+<span class="material-symbols-outlined">music_note</span>
+Music
+</div>
+
+<div class="drawerItem" onclick="location.href='../change-password.html'">
+<span class="material-symbols-outlined">settings</span>
+Settings
+</div>
+
+<div class="drawerItem logoutBtn" id="drawerLogout">
+<span class="material-symbols-outlined">logout</span>
+Logout
+</div>
+
+</div>
+
+</div>
+
+<div id="overlay" class="overlayMenu"></div>
+
+<style>
+
+.menuGrid{
+
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+
+}
+
+.item{
+
+background:#181818;
+border:1px solid #333;
+border-radius:20px;
+padding:18px 10px;
+text-align:center;
+cursor:pointer;
+transition:.25s;
+
+}
+
+.item:hover{
+
+transform:translateY(-4px);
+border-color:#ff2020;
+box-shadow:0 0 18px rgba(255,0,0,.25);
+
+}
+
+.item span{
+
+font-size:34px;
+color:#ff3030;
+
+}
+
+.item p{
+
+margin-top:10px;
+font-size:11px;
+
+}
+
+.logoutBtn{
+
+background:#240000;
+border:1px solid #700;
+
+}
+
+.bottomNav{
+
+position:fixed;
+left:15px;
+right:15px;
+bottom:15px;
+height:68px;
+background:#121212;
+border:1px solid #333;
+border-radius:35px;
+display:flex;
+justify-content:space-around;
+align-items:center;
+box-shadow:0 0 20px rgba(255,0,0,.15);
+z-index:100;
+
+}
+
+.bottomNav a{
+
+display:flex;
+justify-content:center;
+align-items:center;
+text-decoration:none;
+color:#888;
+
+}
+
+.bottomNav a.active{
+
+color:#ff2020;
+
+}
+
+.bottomNav span{
+
+font-size:30px;
+
+}
+
+.drawer{
+
+position:fixed;
+top:0;
+left:-310px;
+width:300px;
+height:100%;
+background:#111;
+border-right:1px solid #333;
+transition:.3s;
+z-index:999;
+overflow:auto;
+
+}
+
+.drawer.show{
+
+left:0;
+
+}
+
+.overlayMenu{
+
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.45);
+display:none;
+z-index:998;
+
+}
+
+.overlayMenu.show{
+
+display:block;
+
+}
+
+.drawerHeader{
+
+padding:25px;
+display:flex;
+align-items:center;
+gap:15px;
+border-bottom:1px solid #222;
+
+}
+
+.drawerAvatar{
+
+width:65px;
+height:65px;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(#ff3030,#700);
+box-shadow:0 0 18px red;
+
+}
+
+.drawerAvatar span{
+
+font-size:34px;
+
+}
+
+.drawerMenu{
+
+padding:12px;
+
+}
+
+.drawerItem{
+
+height:58px;
+display:flex;
+align-items:center;
+gap:18px;
+padding:0 18px;
+border-radius:16px;
+margin-bottom:10px;
+cursor:pointer;
+transition:.25s;
+
+}
+
+.drawerItem:hover{
+
+background:#1b1b1b;
+
+}
+
+.drawerItem span{
+
+font-size:26px;
+color:#ff3030;
+
+}
+
+</style>
+
+<script>
+
+const drawer=document.getElementById("drawer");
+const overlay=document.getElementById("overlay");
+
+menuBtn.onclick=()=>{
+
+drawer.classList.add("show");
+overlay.classList.add("show");
+
+};
+
+overlay.onclick=()=>{
+
+drawer.classList.remove("show");
+overlay.classList.remove("show");
+
+};
+
+  </script>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged,
+signOut
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+get,
+set,
+onValue
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+const firebaseConfig={
+
+apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+
+authDomain:"project-coding-gabut.firebaseapp.com",
+
+databaseURL:"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+projectId:"project-coding-gabut",
+
+storageBucket:"project-coding-gabut.firebasestorage.app",
+
+messagingSenderId:"234910334669",
+
+appId:"1:234910334669:web:5203c9e9ce22a596f2b384"
+
+};
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getDatabase(app);
+
+let currentUser=null;
+
+/* ===========================
+LOGIN
+=========================== */
+
+onAuthStateChanged(auth,async(user)=>{
+
+if(!user){
+
+location.replace("../login.html");
+
+return;
+
+}
+
+currentUser=user;
+
+const snap=await get(ref(db,"users/"+user.uid));
+
+if(!snap.exists()){
+
+location.replace("../login.html");
+
+return;
+
+}
+
+const d=snap.val();
+
+username.textContent=d.username||user.email.split("@")[0];
+
+drawerName.textContent=d.username||user.email.split("@")[0];
+
+role.textContent=d.role||"Reseller";
+
+drawerRole.textContent=d.role||"Reseller";
+
+expired.textContent="Expired : "+(d.expired||"-");
+
+/* ONLINE */
+
+await set(ref(db,"online/"+user.uid),{
+
+username:d.username,
+
+role:d.role,
+
+time:Date.now()
+
+});
+
+window.addEventListener("beforeunload",()=>{
+
+set(ref(db,"online/"+user.uid,null));
+
+});
+
+/* ===========================
+STATISTIC USER RESELLER
+=========================== */
+
+onValue(ref(db,"users"),snap=>{
+
+let total=0;
+let active=0;
+let expiredCount=0;
+
+const now=Date.now();
+
+if(snap.exists()){
+
+snap.forEach(item=>{
+
+const u=item.val();
+
+if(u.ownerId!==user.uid) return;
+
+total++;
+
+if(u.expired){
+
+const exp=new Date(u.expired).getTime();
+
+if(exp>now){
+
+active++;
+
+}else{
+
+expiredCount++;
+
+}
+
+}else{
+
+active++;
+
+}
+
+});
+
+}
+
+totalUser.textContent=total;
+
+activeUser.textContent=active;
+
+expiredUser.textContent=expiredCount;
+
+});
+
+});
+
+/* ===========================
+BANNER VIDEO
+=========================== */
+
+onValue(ref(db,"banner/member"),snap=>{
+
+if(!snap.exists()) return;
+
+const d=snap.val();
+
+if(d.video){
+
+bannerVideo.src=d.video;
+
+bannerVideo.load();
+
+bannerVideo.play();
+
+}
+
+if(d.title){
+
+bannerTitle.textContent=d.title;
+
+}
+
+if(d.text){
+
+bannerText.textContent=d.text;
+
+}
+
+});
+
+/* ===========================
+LOGOUT
+=========================== */
+
+async function keluar(){
+
+if(currentUser){
+
+await set(ref(db,"online/"+currentUser.uid),null);
+
+}
+
+await signOut(auth);
+
+location.replace("../login.html");
+
+}
+
+logoutBtn.onclick=keluar;
+
+drawerLogout.onclick=keluar;
+
+</script>
+
+<script>
+
+/* ==========================
+   PAGE ANIMATION
+========================== */
+
+window.addEventListener("load",()=>{
+
+document.body.style.opacity="0";
+document.body.style.transition="opacity .5s";
+
+setTimeout(()=>{
+
+document.body.style.opacity="1";
+
+},100);
+
+});
+
+/* ==========================
+   VIDEO LOOP
+========================== */
+
+bannerVideo.addEventListener("ended",()=>{
+
+bannerVideo.currentTime=0;
+bannerVideo.play();
+
+});
+
+/* ==========================
+   STATUS INTERNET
+========================== */
+
+function updateNetwork(){
+
+if(navigator.onLine){
+
+status.textContent="ONLINE";
+status.style.color="#00ff66";
+
+}else{
+
+status.textContent="OFFLINE";
+status.style.color="#ff3030";
+
+}
+
+}
+
+window.addEventListener("online",updateNetwork);
+
+window.addEventListener("offline",updateNetwork);
+
+updateNetwork();
+
+/* ==========================
+   AUTO CEK EXPIRED
+========================== */
+
+setInterval(async()=>{
+
+if(!currentUser) return;
+
+const snap=await get(ref(db,"users/"+currentUser.uid));
+
+if(!snap.exists()) return;
+
+const d=snap.val();
+
+if(!d.expired) return;
+
+const expiredTime=new Date(d.expired).getTime();
+
+if(Date.now()>expiredTime){
+
+alert("Masa aktif akun telah habis!");
+
+await set(ref(db,"online/"+currentUser.uid),null);
+
+await signOut(auth);
+
+location.replace("../login.html");
+
+}
+
+},60000);
+
+</script>
+
+</body>
+  </html>
