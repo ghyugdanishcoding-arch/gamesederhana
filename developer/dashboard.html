@@ -486,6 +486,44 @@ box-shadow:0 0 12px rgba(255,0,0,.3);
 
 }
 
+.profileAvatar{
+overflow:hidden;
+position:relative;
+flex-shrink:0;
+}
+
+.profilePhoto{
+width:100%;
+height:100%;
+object-fit:cover;
+border-radius:50%;
+}
+
+.profileActions{
+display:flex;
+align-items:center;
+}
+
+.photoBtn{
+display:flex;
+align-items:center;
+gap:6px;
+margin-top:8px;
+padding:8px 12px;
+background:#220000;
+border:1px solid #600;
+border-radius:12px;
+color:#ff7777;
+font-size:9px;
+cursor:pointer;
+letter-spacing:1px;
+}
+
+.photoBtn:hover{
+background:#ff2020;
+color:#fff;
+}
+
 .chatContent{
 
 min-width:0;
@@ -622,6 +660,159 @@ color:#999;
 
 }
 
+.storyCreate{
+background:#181818;
+border:1px solid #333;
+border-radius:18px;
+padding:12px;
+}
+
+.storyCreate textarea{
+width:100%;
+height:85px;
+resize:none;
+outline:none;
+border:none;
+background:transparent;
+color:#fff;
+font-family:'Poppins',sans-serif;
+font-size:13px;
+}
+
+.storyCreate textarea::placeholder{
+color:#666;
+}
+
+.storyBottom{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:8px;
+}
+
+#storyCount{
+font-size:10px;
+color:#888;
+}
+
+#postStoryBtn{
+width:auto;
+height:38px;
+padding:0 16px;
+border:none;
+border-radius:11px;
+background:#ff2020;
+color:#fff;
+font-family:'Orbitron',sans-serif;
+font-size:10px;
+font-weight:bold;
+letter-spacing:1px;
+cursor:pointer;
+box-shadow:0 0 12px rgba(255,0,0,.25);
+}
+
+.myStoryBox,
+.storyItem{
+margin-top:14px;
+padding:15px;
+background:#181818;
+border:1px solid #333;
+border-radius:18px;
+}
+
+.myStoryHeader{
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.storyUser{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.miniAvatar{
+width:40px;
+height:40px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#700;
+color:#fff;
+font-weight:bold;
+overflow:hidden;
+flex-shrink:0;
+}
+
+.miniAvatar img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.storyUser b{
+font-size:12px;
+color:#ff6666;
+}
+
+.storyUser p{
+margin-top:4px;
+font-size:9px;
+color:#888;
+}
+
+#myStoryText,
+.storyText{
+margin-top:14px;
+font-family:'Poppins',sans-serif;
+font-size:13px;
+line-height:1.6;
+color:#ddd;
+white-space:pre-wrap;
+word-break:break-word;
+}
+
+#deleteStoryBtn{
+width:auto;
+height:34px;
+padding:0 10px;
+display:flex;
+align-items:center;
+gap:5px;
+border:1px solid #650000;
+border-radius:10px;
+background:#220000;
+color:#ff6666;
+font-family:'Orbitron',sans-serif;
+font-size:9px;
+cursor:pointer;
+box-shadow:none;
+letter-spacing:0;
+}
+
+#deleteStoryBtn span{
+font-size:17px;
+}
+
+.storyItem{
+display:flex;
+gap:12px;
+}
+
+.storyItemContent{
+flex:1;
+min-width:0;
+}
+
+.storyEmpty{
+text-align:center;
+padding:20px;
+font-size:11px;
+color:#777;
+  }
+
 </style>
 
 </head>
@@ -726,13 +917,30 @@ WELCOME BACK,
 
 <div class="profileCard">
 
-<div class="avatar">
+<div class="avatar profileAvatar">
 
-<span class="material-symbols-outlined">
+<img id="profilePhoto" class="profilePhoto" style="display:none">
 
+<span id="profileIcon" class="material-symbols-outlined">
 person
-
 </span>
+
+</div>
+
+<div class="profileActions">
+
+<label for="photoInput" class="photoBtn">
+
+<span class="material-symbols-outlined">photo_camera</span>
+GANTI FOTO
+
+</label>
+
+<input
+type="file"
+id="photoInput"
+accept="image/*"
+hidden>
 
 </div>
 
@@ -817,6 +1025,72 @@ wifi
 <p>Online</p>
 
 </div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+STORY
+</div>
+
+<div class="storyCreate">
+
+<textarea
+id="storyInput"
+maxlength="300"
+placeholder="Tulis status kamu..."
+></textarea>
+
+<div class="storyBottom">
+
+<span id="storyCount">0/300</span>
+
+<button id="postStoryBtn">
+POST STORY
+</button>
+
+</div>
+
+</div>
+
+<div id="myStoryBox" class="myStoryBox" style="display:none">
+
+<div class="myStoryHeader">
+
+<div class="storyUser">
+
+<div class="miniAvatar" id="myStoryAvatar">
+U
+</div>
+
+<div>
+
+<b id="myStoryName">User</b>
+
+<p id="storyTime">Baru saja</p>
+
+</div>
+
+</div>
+
+<button id="deleteStoryBtn">
+
+<span class="material-symbols-outlined">
+delete
+</span>
+
+HAPUS
+
+</button>
+
+</div>
+
+<p id="myStoryText"></p>
+
+</div>
+
+<div id="storyList" class="storyList"></div>
 
 </div>
 
