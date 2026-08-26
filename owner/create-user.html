@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Create User • DEVONAX</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+:root{
+--bg:#070707;
+--card:#141414;
+--red:#ff2020;
+--border:#333;
+--text:#fff;
+}
+
+body{
+
+background:#070707;
+color:#fff;
+padding:18px 18px 100px;
+
+}
+
+body::before{
+
+content:"";
+position:fixed;
+inset:0;
+
+background:
+
+radial-gradient(circle at top left,#ff000015,transparent 35%),
+radial-gradient(circle at bottom right,#ff000015,transparent 35%);
+
+pointer-events:none;
+
+}
+
+.grid{
+
+position:fixed;
+inset:0;
+opacity:.04;
+
+background-image:
+
+linear-gradient(#ff0000 1px,transparent 1px),
+linear-gradient(90deg,#ff0000 1px,transparent 1px);
+
+background-size:40px 40px;
+
+pointer-events:none;
+
+}
+
+header{
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+
+margin-bottom:25px;
+
+}
+
+.back{
+
+width:52px;
+height:52px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+background:#151515;
+
+border:1px solid #333;
+
+border-radius:16px;
+
+cursor:pointer;
+
+}
+
+.back span{
+
+font-size:28px;
+color:#fff;
+
+}
+
+.logo{
+
+font-size:28px;
+letter-spacing:6px;
+font-weight:800;
+
+}
+
+.card{
+
+background:#131313;
+
+border:1px solid #333;
+
+border-radius:22px;
+
+padding:20px;
+
+box-shadow:0 0 20px rgba(255,0,0,.08);
+
+}
+
+.title{
+
+font-size:14px;
+
+letter-spacing:3px;
+
+color:#ff6666;
+
+margin-bottom:18px;
+
+}
+
+.group{
+
+margin-bottom:18px;
+
+}
+
+.group label{
+
+display:block;
+
+margin-bottom:10px;
+
+font-size:12px;
+
+letter-spacing:2px;
+
+color:#bbb;
+
+}
+
+.group input,
+.group select{
+
+width:100%;
+
+height:56px;
+
+background:#1b1b1b;
+
+border:1px solid #333;
+
+border-radius:16px;
+
+padding:0 16px;
+
+color:#fff;
+
+font-size:14px;
+
+outline:none;
+
+}
+
+.group input:focus,
+.group select:focus{
+
+border-color:#ff2020;
+
+box-shadow:0 0 15px rgba(255,0,0,.25);
+
+}
+
+button{
+
+width:100%;
+
+height:60px;
+
+margin-top:10px;
+
+border:none;
+
+border-radius:18px;
+
+background:linear-gradient(180deg,#ff3030,#990000);
+
+color:#fff;
+
+font-size:15px;
+
+font-weight:700;
+
+letter-spacing:3px;
+
+cursor:pointer;
+
+box-shadow:0 0 18px rgba(255,0,0,.35);
+
+transition:.25s;
+
+}
+
+button:active{
+
+transform:scale(.98);
+
+}
+
+.status{
+
+margin-top:16px;
+
+text-align:center;
+
+font-size:12px;
+
+letter-spacing:2px;
+
+color:#ff8080;
+
+min-height:18px;
+
+}
+
+.recent{
+
+margin-top:22px;
+
+}
+
+.userCard{
+
+background:#191919;
+
+border:1px solid #333;
+
+border-radius:18px;
+
+padding:14px;
+
+margin-top:12px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+.userName{
+
+font-size:14px;
+
+}
+
+.userRole{
+
+font-size:11px;
+
+padding:5px 10px;
+
+border-radius:20px;
+
+background:#2b0000;
+
+border:1px solid #700;
+
+color:#ff7777;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<header>
+
+<div class="back" onclick="history.back()">
+
+<span class="material-symbols-outlined">
+
+arrow_back
+
+</span>
+
+</div>
+
+<div class="logo">
+
+CREATE USER
+
+</div>
+
+<div style="width:52px"></div>
+
+</header>
+
+<div class="card">
+
+<div class="title">
+
+CREATE NEW ACCOUNT
+
+</div>
+
+<div class="group">
+
+<label>USERNAME</label>
+
+<input id="username" type="text" placeholder="Username">
+
+</div>
+
+<div class="group">
+
+<label>EMAIL</label>
+
+<input id="email" type="email" placeholder="Email">
+
+</div>
+
+<div class="group">
+
+<label>PASSWORD</label>
+
+<input id="password" type="password" placeholder="Password">
+
+</div>
+
+<div class="group">
+
+<label>ROLE</label>
+
+<select id="role">
+
+<option>Member</option>
+
+<option>VIP</option>
+
+<option>Reseller</option>
+
+<option>Admin</option>
+
+</select>
+
+</div>
+
+<div class="group">
+
+<label>EXPIRED</label>
+
+<input id="expired" type="date">
+
+</div>
+
+<button id="createBtn">
+
+CREATE ACCOUNT
+
+</button>
+
+<div class="status" id="status">
+
+Ready...
+
+</div>
+
+</div>
+
+<div class="card recent">
+
+<div class="title">
+
+RECENT CREATED USER
+
+</div>
+
+<div id="recentList">
+
+</div>
+
+  </div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged,
+createUserWithEmailAndPassword,
+signOut
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+set,
+push,
+onValue,
+query,
+limitToLast
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+const firebaseConfig={
+
+apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+
+authDomain:"project-coding-gabut.firebaseapp.com",
+
+databaseURL:"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+projectId:"project-coding-gabut",
+
+storageBucket:"project-coding-gabut.firebasestorage.app",
+
+messagingSenderId:"234910334669",
+
+appId:"1:234910334669:web:5203c9e9ce22a596f2b384"
+
+};
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getDatabase(app);
+
+let owner=null;
+
+onAuthStateChanged(auth,user=>{
+
+if(!user){
+
+location.replace("../login.html");
+
+return;
+
+}
+
+owner=user;
+
+});
+
+const btn=document.getElementById("createBtn");
+
+const status=document.getElementById("status");
+
+btn.onclick=async()=>{
+
+const username=document.getElementById("username").value.trim();
+
+const email=document.getElementById("email").value.trim();
+
+const password=document.getElementById("password").value;
+
+const role=document.getElementById("role").value;
+
+const expired=document.getElementById("expired").value;
+
+if(!username||!email||!password){
+
+status.textContent="Lengkapi semua data.";
+
+return;
+
+}
+
+if(role==="Owner"||role==="Developer"){
+
+status.textContent="Role tidak diizinkan.";
+
+return;
+
+}
+
+status.textContent="Membuat akun...";
+
+try{
+
+const cred=await createUserWithEmailAndPassword(
+
+auth,
+email,
+password
+);
+
+await set(ref(db,"users/"+cred.user.uid),{
+
+uid:cred.user.uid,
+
+username,
+
+email,
+
+role,
+
+expired,
+
+createdBy:owner.email,
+
+createdAt:Date.now()
+
+});
+
+await push(ref(db,"activityLogs"),{
+
+action:"CREATE USER",
+
+target:username,
+
+role,
+
+by:owner.email,
+
+time:Date.now()
+
+});
+
+await signOut(auth);
+
+status.textContent="User berhasil dibuat.";
+
+location.href="../login.html";
+
+}catch(err){
+
+status.textContent=err.message;
+
+}
+
+};
+
+const recent=document.getElementById("recentList");
+
+onValue(
+
+query(ref(db,"users"),limitToLast(5)),
+
+snap=>{
+
+recent.innerHTML="";
+
+if(!snap.exists()){
+
+recent.innerHTML="<center>Belum ada data.</center>";
+
+return;
+
+}
+
+const arr=[];
+
+snap.forEach(c=>arr.push(c.val()));
+
+arr.reverse();
+
+arr.forEach(d=>{
+
+recent.innerHTML+=`
+
+<div class="userCard">
+
+<div>
+
+<div class="userName">${d.username}</div>
+
+<div style="font-size:11px;color:#888;margin-top:5px">
+
+${d.expired||"Unlimited"}
+
+</div>
+
+</div>
+
+<div class="userRole">
+
+${d.role}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+});
+
+</script>
+
+<script>
+
+// Kosongkan form setelah berhasil
+function resetForm(){
+
+document.getElementById("username").value="";
+document.getElementById("email").value="";
+document.getElementById("password").value="";
+document.getElementById("role").selectedIndex=0;
+document.getElementById("expired").value="";
+
+}
+
+// Animasi tombol
+const createBtn=document.getElementById("createBtn");
+
+createBtn.addEventListener("mousedown",()=>{
+
+createBtn.style.transform="scale(.97)";
+
+});
+
+createBtn.addEventListener("mouseup",()=>{
+
+createBtn.style.transform="scale(1)";
+
+});
+
+// Set tanggal expired default (+30 hari)
+const exp=document.getElementById("expired");
+
+if(!exp.value){
+
+const d=new Date();
+
+d.setDate(d.getDate()+30);
+
+exp.value=d.toISOString().split("T")[0];
+
+}
+
+</script>
+
+</body>
+</html>
