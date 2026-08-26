@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DEVONAX Setup</title>
+
+<style>
+body{
+margin:0;
+background:#000;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+font-family:Arial,sans-serif;
+color:#fff;
+}
+
+.box{
+width:320px;
+padding:30px;
+border-radius:20px;
+background:#111;
+border:1px solid #f00;
+text-align:center;
+box-shadow:0 0 20px rgba(255,0,0,.3);
+}
+
+h2{
+color:#ff2020;
+margin-bottom:15px;
+}
+
+p{
+color:#aaa;
+font-size:14px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="box">
+<h2>DEVONAX SETUP</h2>
+<p id="status">Memeriksa akun...</p>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getAuth,onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+import { getDatabase,ref,get,set } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+authDomain:"project-coding-gabut.firebaseapp.com",
+databaseURL:"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+projectId:"project-coding-gabut",
+storageBucket:"project-coding-gabut.firebasestorage.app",
+messagingSenderId:"234910334669",
+appId:"1:234910334669:web:5203c9e9ce22a596f2b384"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getDatabase(app);
+
+onAuthStateChanged(auth,async(user)=>{
+
+if(!user){
+
+location.href="login.html";
+return;
+
+}
+
+const status=document.getElementById("status");
+
+const userRef=ref(db,"users/"+user.uid);
+
+const snap=await get(userRef);
+
+if(snap.exists()){
+
+status.innerHTML="Akun sudah aktif...";
+
+setTimeout(()=>{
+location.href="dashboard.html";
+},1500);
+
+return;
+
+}
+
+const username=user.email.split("@")[0];
+
+await set(userRef,{
+username:username,
+role:"Developer",
+expired:"31-12-2099",
+device:0,
+bug:0,
+news:0
+});
+
+status.innerHTML="Setup berhasil...";
+
+setTimeout(()=>{
+location.href="dashboard.html";
+},1500);
+
+});
+
+</script>
+
+</body>
+  </html>
