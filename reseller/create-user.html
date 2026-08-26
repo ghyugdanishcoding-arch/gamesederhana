@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Create User - DEVONAX</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+:root{
+
+--bg:#070707;
+--card:#131313;
+--line:#2d2d2d;
+--red:#ff2b2b;
+--text:#ffffff;
+--sub:#9a9a9a;
+
+}
+
+body{
+
+background:var(--bg);
+color:var(--text);
+padding:18px;
+padding-bottom:100px;
+overflow-x:hidden;
+
+}
+
+body::before{
+
+content:"";
+position:fixed;
+inset:0;
+
+background:
+
+radial-gradient(circle at top left,#ff000015,transparent 35%),
+radial-gradient(circle at bottom right,#ff000012,transparent 35%);
+
+pointer-events:none;
+
+}
+
+.grid{
+
+position:fixed;
+inset:0;
+
+opacity:.04;
+
+background-image:
+
+linear-gradient(#ff0000 1px,transparent 1px),
+linear-gradient(90deg,#ff0000 1px,transparent 1px);
+
+background-size:40px 40px;
+
+pointer-events:none;
+
+}
+
+header{
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:22px;
+
+}
+
+.back{
+
+width:52px;
+height:52px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:#161616;
+border:1px solid var(--line);
+border-radius:18px;
+
+cursor:pointer;
+transition:.25s;
+
+}
+
+.back:hover{
+
+border-color:var(--red);
+box-shadow:0 0 15px rgba(255,0,0,.35);
+
+}
+
+.back span{
+
+font-size:28px;
+
+}
+
+.logo{
+
+font-size:26px;
+font-weight:800;
+letter-spacing:5px;
+
+color:#d7d7d7;
+
+}
+
+.saveBtn{
+
+width:52px;
+height:52px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:#161616;
+border:1px solid var(--line);
+border-radius:18px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.saveBtn:hover{
+
+background:#1d1d1d;
+border-color:var(--red);
+
+}
+
+.saveBtn span{
+
+font-size:28px;
+color:var(--red);
+
+}
+
+.card{
+
+background:var(--card);
+border:1px solid var(--line);
+
+border-radius:22px;
+
+padding:20px;
+
+margin-bottom:18px;
+
+box-shadow:0 0 18px rgba(255,0,0,.08);
+
+}
+
+.title{
+
+display:flex;
+align-items:center;
+gap:12px;
+
+font-size:16px;
+letter-spacing:2px;
+
+color:#ff5b5b;
+
+margin-bottom:18px;
+
+}
+
+.title span{
+
+font-size:26px;
+
+}
+
+.inputBox{
+
+margin-bottom:18px;
+
+}
+
+.inputBox label{
+
+display:block;
+
+margin-bottom:8px;
+
+font-size:12px;
+
+letter-spacing:2px;
+
+color:#bbbbbb;
+
+}
+
+.inputBox input,
+.inputBox select{
+
+width:100%;
+height:56px;
+
+padding:0 18px;
+
+background:#191919;
+
+border:1px solid #333;
+
+border-radius:16px;
+
+outline:none;
+
+color:#fff;
+
+font-size:14px;
+
+transition:.25s;
+
+}
+
+.inputBox input:focus,
+.inputBox select:focus{
+
+border-color:var(--red);
+
+box-shadow:0 0 15px rgba(255,0,0,.2);
+
+}
+
+.passwordBox{
+position:relative;
+}
+
+.passwordBox input{
+padding-right:60px;
+}
+
+#togglePassword{
+position:absolute;
+right:18px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+color:#888;
+transition:.25s;
+user-select:none;
+}
+
+#togglePassword:hover{
+color:var(--red);
+  }
+
+.infoBox{
+
+display:flex;
+gap:15px;
+align-items:flex-start;
+
+background:#171717;
+
+border:1px solid #292929;
+
+border-radius:18px;
+
+padding:16px;
+
+}
+
+.infoBox span{
+
+font-size:34px;
+
+color:var(--red);
+
+}
+
+.infoBox h3{
+
+font-size:15px;
+
+margin-bottom:8px;
+
+}
+
+.infoBox p{
+
+font-size:12px;
+line-height:20px;
+
+color:#9d9d9d;
+
+}
+
+.createBtn{
+
+width:100%;
+height:58px;
+
+margin-top:15px;
+
+border:none;
+
+border-radius:18px;
+
+background:linear-gradient(180deg,#ff3535,#a30000);
+
+color:#fff;
+
+font-size:15px;
+
+letter-spacing:2px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.createBtn:hover{
+
+transform:translateY(-2px);
+
+box-shadow:0 0 20px rgba(255,0,0,.35);
+
+}
+
+.loading{
+
+display:none;
+
+margin-top:18px;
+
+text-align:center;
+
+font-size:13px;
+
+color:#ff8a8a;
+
+letter-spacing:2px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<header>
+
+<div class="back"
+onclick="location.href='dashboard.html'">
+
+<span class="material-symbols-outlined">
+
+arrow_back
+
+</span>
+
+</div>
+
+<div class="logo">
+
+CREATE USER
+
+</div>
+
+<div class="saveBtn">
+
+<span class="material-symbols-outlined">
+
+person_add
+
+</span>
+
+</div>
+
+  </header>
+
+  <div class="card">
+
+<div class="title">
+
+<span class="material-symbols-outlined">
+
+person_add
+
+</span>
+
+CREATE NEW USER
+
+</div>
+
+<div class="inputBox">
+
+<label>
+
+<span class="material-symbols-outlined">
+
+mail
+
+</span>
+
+Email
+
+</label>
+
+<input
+type="email"
+id="email"
+placeholder="user@email.com"
+autocomplete="off">
+
+</div>
+
+<div class="inputBox">
+
+<label>
+
+<span class="material-symbols-outlined">
+
+lock
+
+</span>
+
+Password
+
+</label>
+
+<div class="passwordBox">
+
+<input
+type="password"
+id="password"
+placeholder="Minimal 6 karakter">
+
+<span id="togglePassword" class="material-symbols-outlined">
+visibility
+</span>
+
+</div>
+
+</div>
+
+<div class="inputBox">
+
+<label>
+
+<span class="material-symbols-outlined">
+
+badge
+
+</span>
+
+Username
+
+</label>
+
+<input
+type="text"
+id="username"
+placeholder="Masukkan username">
+
+</div>
+
+<div class="inputBox">
+
+<label>
+
+<span class="material-symbols-outlined">
+
+admin_panel_settings
+
+</span>
+
+Role
+
+</label>
+
+<select id="role">
+
+<option value="">Pilih Role</option>
+
+<option value="Member">Member</option>
+
+<option value="VIP">VIP</option>
+
+<option value="Admin">Admin</option>
+
+</select>
+
+</div>
+
+<div class="inputBox">
+
+<label>
+
+<span class="material-symbols-outlined">
+
+calendar_month
+
+</span>
+
+Expired Date
+
+</label>
+
+<input
+type="date"
+id="expired">
+
+</div>
+
+<div class="inputBox">
+
+<label>
+
+<span class="material-symbols-outlined">
+
+toggle_on
+
+</span>
+
+Status
+
+</label>
+
+<select id="status">
+
+<option value="Active">
+
+Active
+
+</option>
+
+<option value="Inactive">
+
+Inactive
+
+</option>
+
+</select>
+
+</div>
+
+<button
+id="createBtn"
+class="createBtn">
+
+<span class="material-symbols-outlined">
+
+person_add
+
+</span>
+
+CREATE USER
+
+</button>
+
+<div
+id="loading"
+class="loading">
+
+Creating account...
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+
+<span class="material-symbols-outlined">
+
+info
+
+</span>
+
+ACCOUNT INFORMATION
+
+</div>
+
+<div class="infoBox">
+
+<span class="material-symbols-outlined">
+
+shield_person
+
+</span>
+
+<div>
+
+<h3>
+
+DEVONAX USER MANAGEMENT
+
+</h3>
+
+<p>
+
+• Email harus unik.<br>
+• Password minimal 6 karakter.<br>
+• Username tampil di Dashboard.<br>
+• Reseller hanya dapat membuat akun Member, VIP, dan Admin.<br>
+• Expired Date dipilih manual oleh reseller.<br>
+
+</p>
+
+</div>
+
+</div>
+
+  </div>
+
+  <script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+getAuth,
+createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+set
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+const firebaseConfig={
+
+apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+
+authDomain:"project-coding-gabut.firebaseapp.com",
+
+databaseURL:"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+projectId:"project-coding-gabut",
+
+storageBucket:"project-coding-gabut.firebasestorage.app",
+
+messagingSenderId:"234910334669",
+
+appId:"1:234910334669:web:5203c9e9ce22a596f2b384"
+
+};
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getDatabase(app);
+
+const btn=document.getElementById("createBtn");
+
+const loading=document.getElementById("loading");
+
+const passwordInput=document.getElementById("password");
+const togglePassword=document.getElementById("togglePassword");
+
+togglePassword.onclick=()=>{
+
+if(passwordInput.type==="password"){
+
+passwordInput.type="text";
+togglePassword.textContent="visibility_off";
+
+}else{
+
+passwordInput.type="password";
+togglePassword.textContent="visibility";
+
+}
+
+};
+
+btn.onclick=async()=>{
+
+const email=document.getElementById("email").value.trim();
+
+const password=document.getElementById("password").value;
+
+const username=document.getElementById("username").value.trim();
+
+const role=document.getElementById("role").value;
+
+const expired=document.getElementById("expired").value;
+
+const status=document.getElementById("status").value;
+
+if(!email||!password||!username||!role||!expired){
+
+alert("Lengkapi semua data.");
+
+return;
+
+}
+
+loading.style.display="block";
+
+btn.disabled=true;
+
+try{
+
+const result=await createUserWithEmailAndPassword(
+
+auth,
+email,
+password
+
+);
+
+const uid=result.user.uid;
+
+await set(ref(db,"users/"+uid),{
+
+uid:uid,
+
+email:email,
+
+username:username,
+
+role:role,
+
+status:status,
+
+expired:expired,
+
+device:"-",
+
+lastLogin:0,
+
+createdAt:Date.now()
+
+});
+
+  showToast("User berhasil dibuat");
+
+  setTimeout(()=>{
+
+location.href="users.html";
+
+},1500);
+
+document.getElementById("email").value="";
+document.getElementById("password").value="";
+document.getElementById("username").value="";
+document.getElementById("role").selectedIndex=0;
+document.getElementById("expired").value="";
+document.getElementById("status").selectedIndex=0;
+
+loading.textContent="User berhasil dibuat.";
+
+}catch(e){
+
+alert(e.message);
+
+}
+
+loading.style.display="none";
+
+btn.disabled=false;
+
+};
+
+  </script>
+
+  <div id="toast" class="toast">
+
+<span class="material-symbols-outlined">
+
+check_circle
+
+</span>
+
+<p id="toastText">
+
+Success
+
+</p>
+
+</div>
+
+<style>
+
+.toast{
+
+position:fixed;
+
+left:50%;
+
+bottom:25px;
+
+transform:translateX(-50%) translateY(120px);
+
+display:flex;
+align-items:center;
+gap:12px;
+
+background:#161616;
+
+border:1px solid #333;
+
+padding:15px 22px;
+
+border-radius:18px;
+
+transition:.35s;
+
+z-index:9999;
+
+box-shadow:0 0 25px rgba(255,0,0,.2);
+
+}
+
+.toast.show{
+
+transform:translateX(-50%) translateY(0);
+
+}
+
+.toast span{
+
+font-size:28px;
+
+color:#00ff66;
+
+}
+
+.toast p{
+
+font-size:13px;
+
+letter-spacing:1px;
+
+color:#fff;
+
+}
+
+</style>
+
+<script>
+
+const toast=document.getElementById("toast");
+
+const toastText=document.getElementById("toastText");
+
+function showToast(text){
+
+toastText.textContent=text;
+
+toast.classList.add("show");
+
+setTimeout(()=>{
+
+toast.classList.remove("show");
+
+},3000);
+
+}
+
+document.getElementById("email").addEventListener("input",e=>{
+
+e.target.value=e.target.value.replace(/\s/g,"");
+
+});
+
+document.getElementById("username").addEventListener("input",e=>{
+
+e.target.value=e.target.value.replace(/[^a-zA-Z0-9_ ]/g,"");
+
+});
+
+</script>
+
+</body>
+  </html>
