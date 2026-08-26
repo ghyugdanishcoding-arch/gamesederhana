@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>DEVONAX - Users</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+:root{
+
+--bg:#080808;
+--card:#141414;
+--border:#2d2d2d;
+--red:#ff3030;
+--text:#ffffff;
+--sub:#9d9d9d;
+
+}
+
+body{
+
+background:var(--bg);
+color:var(--text);
+padding:18px;
+padding-bottom:120px;
+overflow-x:hidden;
+
+}
+
+body::before{
+
+content:"";
+position:fixed;
+inset:0;
+
+background:
+
+radial-gradient(circle at top left,#ff000018,transparent 35%),
+radial-gradient(circle at bottom right,#ff000018,transparent 35%);
+
+pointer-events:none;
+
+}
+
+.grid{
+
+position:fixed;
+inset:0;
+
+opacity:.04;
+
+background-image:
+
+linear-gradient(#ff0000 1px,transparent 1px),
+linear-gradient(90deg,#ff0000 1px,transparent 1px);
+
+background-size:40px 40px;
+
+pointer-events:none;
+
+}
+
+header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:22px;
+
+}
+
+.iconBtn{
+
+width:52px;
+height:52px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+background:#171717;
+
+border:1px solid var(--border);
+
+border-radius:18px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.iconBtn:hover{
+
+border-color:var(--red);
+
+box-shadow:0 0 15px rgba(255,0,0,.35);
+
+}
+
+.iconBtn span{
+
+font-size:28px;
+
+}
+
+.logo{
+
+font-size:28px;
+
+font-weight:800;
+
+letter-spacing:5px;
+
+color:#d8d8d8;
+
+text-shadow:0 0 12px rgba(255,255,255,.15);
+
+}
+
+.card{
+
+background:var(--card);
+
+border:1px solid var(--border);
+
+border-radius:22px;
+
+padding:18px;
+
+margin-bottom:18px;
+
+box-shadow:0 0 20px rgba(255,0,0,.08);
+
+}
+
+.title{
+
+display:flex;
+align-items:center;
+gap:10px;
+
+margin-bottom:16px;
+
+font-size:15px;
+
+letter-spacing:2px;
+
+color:#ff6666;
+
+}
+
+.title span{
+
+font-size:24px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<header>
+
+<div
+class="iconBtn"
+onclick="location.href='dashboard.html'">
+
+<span class="material-symbols-outlined">
+
+arrow_back
+
+</span>
+
+</div>
+
+<div class="logo">
+
+USERS
+
+</div>
+
+<div
+class="iconBtn"
+id="refreshBtn">
+
+<span class="material-symbols-outlined">
+
+refresh
+
+</span>
+
+</div>
+
+</header>
+
+<div class="card">
+
+<div class="title">
+
+<span class="material-symbols-outlined">
+
+monitoring
+
+</span>
+
+USER STATISTICS
+
+</div>
+
+<div class="statsGrid">
+
+<div class="statBox">
+
+<span class="material-symbols-outlined">
+
+groups
+
+</span>
+
+<h2 id="totalUser">
+
+0
+
+</h2>
+
+<p>Total User</p>
+
+</div>
+
+<div class="statBox">
+
+<span class="material-symbols-outlined">
+
+wifi
+
+</span>
+
+<h2 id="onlineUser">
+
+0
+
+</h2>
+
+<p>Online</p>
+
+</div>
+
+<div class="statBox">
+
+<span class="material-symbols-outlined">
+
+verified_user
+
+</span>
+
+<h2 id="activeUser">
+
+0
+
+</h2>
+
+<p>Active</p>
+
+</div>
+
+<div class="statBox">
+
+<span class="material-symbols-outlined">
+
+event_busy
+
+</span>
+
+<h2 id="expiredUser">
+
+0
+
+</h2>
+
+<p>Expired</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+
+<span class="material-symbols-outlined">
+
+manage_search
+
+</span>
+
+SEARCH USER
+
+</div>
+
+<div class="searchBox">
+
+<span class="material-symbols-outlined">
+
+search
+
+</span>
+
+<input
+type="text"
+id="search"
+placeholder="Cari username atau email...">
+
+</div>
+
+<select id="filterRole">
+
+<option value="All">Semua Role</option>
+<option value="Developer">Developer</option>
+<option value="Owner">Owner</option>
+<option value="Admin">Admin</option>
+<option value="Reseller">Reseller</option>
+<option value="Premium">Premium</option>
+<option value="Member">Member</option>
+
+</select>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+
+<span class="material-symbols-outlined">
+
+groups
+
+</span>
+
+USER LIST
+
+</div>
+
+<div id="userList">
+
+<div class="loadingCard">
+
+<span class="material-symbols-outlined">
+
+hourglass_empty
+
+</span>
+
+<p>
+
+Loading users...
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<a
+href="create-user.html"
+class="fab">
+
+<span class="material-symbols-outlined">
+
+person_add
+
+</span>
+
+</a>
+
+<style>
+
+.statsGrid{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:14px;
+
+}
+
+.statBox{
+
+background:#191919;
+
+border:1px solid #333;
+
+border-radius:18px;
+
+padding:18px;
+
+text-align:center;
+
+transition:.25s;
+
+}
+
+.statBox:hover{
+
+border-color:#ff3030;
+
+box-shadow:0 0 20px rgba(255,0,0,.2);
+
+}
+
+.statBox span{
+
+font-size:34px;
+
+color:#ff3030;
+
+}
+
+.statBox h2{
+
+margin-top:10px;
+
+font-size:24px;
+
+}
+
+.statBox p{
+
+margin-top:8px;
+
+font-size:11px;
+
+color:#888;
+
+}
+
+.searchBox{
+
+height:56px;
+
+display:flex;
+
+align-items:center;
+
+background:#191919;
+
+border:1px solid #333;
+
+border-radius:18px;
+
+padding:0 18px;
+
+margin-bottom:15px;
+
+}
+
+.searchBox span{
+
+font-size:24px;
+
+color:#ff3030;
+
+margin-right:12px;
+
+}
+
+.searchBox input{
+
+flex:1;
+
+background:none;
+
+border:none;
+
+outline:none;
+
+font-size:14px;
+
+color:#fff;
+
+}
+
+#filterRole{
+
+width:100%;
+
+height:54px;
+
+background:#191919;
+
+border:1px solid #333;
+
+border-radius:16px;
+
+padding:0 16px;
+
+color:#fff;
+
+outline:none;
+
+}
+
+.loadingCard{
+
+padding:45px 20px;
+
+text-align:center;
+
+color:#888;
+
+}
+
+.loadingCard span{
+
+font-size:55px;
+
+display:block;
+
+margin-bottom:12px;
+
+color:#666;
+
+}
+
+.userCard{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+background:#191919;
+
+border:1px solid #333;
+
+border-radius:18px;
+
+padding:16px;
+
+margin-bottom:14px;
+
+transition:.25s;
+
+}
+
+.userCard:hover{
+
+border-color:#ff3030;
+
+}
+
+.userLeft{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+}
+
+.avatar{
+
+width:60px;
+
+height:60px;
+
+border-radius:50%;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+background:linear-gradient(180deg,#ff3030,#770000);
+
+box-shadow:0 0 15px rgba(255,0,0,.35);
+
+}
+
+.avatar span{
+
+font-size:32px;
+
+}
+
+.userInfo h3{
+
+font-size:15px;
+
+margin-bottom:6px;
+
+}
+
+.userInfo p{
+
+font-size:11px;
+
+color:#999;
+
+margin-bottom:5px;
+
+}
+
+.roleBadge{
+
+display:inline-block;
+
+padding:4px 10px;
+
+background:#2b0000;
+
+border:1px solid #700;
+
+border-radius:20px;
+
+font-size:10px;
+
+color:#ff8b8b;
+
+}
+
+.userAction{
+
+display:flex;
+
+gap:10px;
+
+}
+
+.actionBtn{
+
+width:46px;
+
+height:46px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+background:#222;
+
+border:1px solid #333;
+
+border-radius:14px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.actionBtn:hover{
+
+border-color:#ff3030;
+
+}
+
+.actionBtn span{
+
+font-size:24px;
+
+color:#ff3030;
+
+}
+
+.fab{
+
+position:fixed;
+
+right:22px;
+
+bottom:25px;
+
+width:65px;
+
+height:65px;
+
+border-radius:50%;
+
+background:linear-gradient(180deg,#ff3030,#990000);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+text-decoration:none;
+
+color:#fff;
+
+box-shadow:0 0 22px rgba(255,0,0,.4);
+
+z-index:999;
+
+}
+
+.fab span{
+
+font-size:34px;
+
+}
+
+  </style>
+
+  <!-- EDIT USER MODAL -->
+
+<div id="editModal" class="modal">
+
+<div class="modalBox">
+
+<div class="modalTitle">
+
+<span class="material-symbols-outlined">
+
+edit_square
+
+</span>
+
+EDIT USER
+
+</div>
+
+<input id="editUsername" placeholder="Username">
+
+<input id="editEmail" disabled>
+
+<select id="editRole">
+
+<option>Developer</option>
+<option>Owner</option>
+<option>Admin</option>
+<option>Reseller</option>
+<option>Premium</option>
+<option>Member</option>
+
+</select>
+
+<input
+type="date"
+id="editExpired">
+
+<select id="editStatus">
+
+<option>Active</option>
+<option>Inactive</option>
+
+</select>
+
+<div class="modalButton">
+
+<button id="cancelEdit">
+
+Cancel
+
+</button>
+
+<button id="saveEdit">
+
+Save
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- TOAST -->
+
+<div id="toast" class="toast">
+
+<span
+id="toastIcon"
+class="material-symbols-outlined">
+
+check_circle
+
+</span>
+
+<p id="toastText">
+
+Success
+
+</p>
+
+</div>
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottomNav">
+
+<a href="dashboard.html">
+
+<span class="material-symbols-outlined">
+
+home
+
+</span>
+
+</a>
+
+<a class="active">
+
+<span class="material-symbols-outlined">
+
+groups
+
+</span>
+
+</a>
+
+<a href="tools.html">
+
+<span class="material-symbols-outlined">
+
+construction
+
+</span>
+
+</a>
+
+<a href="settings.html">
+
+<span class="material-symbols-outlined">
+
+settings
+
+</span>
+
+</a>
+
+</nav>
+
+<style>
+
+.modal{
+
+position:fixed;
+inset:0;
+
+display:none;
+
+justify-content:center;
+align-items:center;
+
+background:rgba(0,0,0,.75);
+
+backdrop-filter:blur(5px);
+
+z-index:9999;
+
+}
+
+.modal.show{
+
+display:flex;
+
+}
+
+.modalBox{
+
+width:92%;
+max-width:430px;
+
+background:#141414;
+
+border:1px solid #333;
+
+border-radius:22px;
+
+padding:22px;
+
+box-shadow:0 0 25px rgba(255,0,0,.18);
+
+}
+
+.modalTitle{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+font-size:17px;
+
+letter-spacing:2px;
+
+color:#ff5555;
+
+margin-bottom:20px;
+
+}
+
+.modalTitle span{
+
+font-size:28px;
+
+}
+
+.modalBox input,
+.modalBox select{
+
+width:100%;
+
+height:55px;
+
+margin-bottom:14px;
+
+padding:0 16px;
+
+background:#1b1b1b;
+
+border:1px solid #333;
+
+border-radius:15px;
+
+outline:none;
+
+color:#fff;
+
+}
+
+.modalBox input:disabled{
+
+color:#888;
+
+background:#202020;
+
+}
+
+.modalButton{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:12px;
+
+margin-top:10px;
+
+}
+
+.modalButton button{
+
+height:54px;
+
+border:none;
+
+border-radius:15px;
+
+font-size:14px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+}
+
+#cancelEdit{
+
+background:#2b2b2b;
+
+color:#fff;
+
+}
+
+#saveEdit{
+
+background:#ff3030;
+
+color:#fff;
+
+}
+
+.toast{
+
+position:fixed;
+
+left:50%;
+
+bottom:-100px;
+
+transform:translateX(-50%);
+
+background:#171717;
+
+border:1px solid #333;
+
+border-radius:18px;
+
+padding:15px 22px;
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+transition:.35s;
+
+z-index:99999;
+
+}
+
+.toast.show{
+
+bottom:100px;
+
+}
+
+.toast span{
+
+font-size:28px;
+
+color:#00ff66;
+
+}
+
+.toast p{
+
+font-size:13px;
+
+}
+
+.bottomNav{
+
+position:fixed;
+
+left:15px;
+
+right:15px;
+
+bottom:15px;
+
+height:70px;
+
+background:#141414;
+
+border:1px solid #333;
+
+border-radius:35px;
+
+display:flex;
+
+justify-content:space-around;
+
+align-items:center;
+
+box-shadow:0 0 20px rgba(255,0,0,.12);
+
+z-index:999;
+
+}
+
+.bottomNav a{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+text-decoration:none;
+
+color:#777;
+
+}
+
+.bottomNav a.active{
+
+color:#ff3030;
+
+}
+
+.bottomNav span{
+
+font-size:30px;
+
+}
+
+  </style>
+
+  <script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+get,
+onValue,
+set,
+update,
+remove
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+const firebaseConfig={
+
+apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+
+authDomain:"project-coding-gabut.firebaseapp.com",
+
+databaseURL:"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+projectId:"project-coding-gabut",
+
+storageBucket:"project-coding-gabut.firebasestorage.app",
+
+messagingSenderId:"234910334669",
+
+appId:"1:234910334669:web:5203c9e9ce22a596f2b384"
+
+};
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getDatabase(app);
+
+let currentUser=null;
+
+let users=[];
+
+let editUID="";
+
+onAuthStateChanged(auth,async(user)=>{
+
+if(!user){
+
+location.replace("../login.html");
+
+return;
+
+}
+
+currentUser=user;
+
+const myData=await get(ref(db,"users/"+user.uid));
+
+if(!myData.exists()){
+
+location.replace("../setup.html");
+
+return;
+
+}
+
+const me=myData.val();
+
+if(
+me.role!="Developer" &&
+me.role!="Owner" &&
+me.role!="Admin"
+){
+
+alert("Akses ditolak");
+
+location.replace("../dashboard.html");
+
+return;
+
+}
+
+await set(ref(db,"online/"+user.uid),{
+
+username:me.username,
+
+role:me.role,
+
+time:Date.now()
+
+});
+
+window.addEventListener("beforeunload",()=>{
+
+remove(ref(db,"online/"+user.uid));
+
+});
+
+loadUsers();
+
+});
+
+function loadUsers(){
+
+onValue(ref(db,"users"),snap=>{
+
+users=[];
+
+let total=0;
+
+let active=0;
+
+let expired=0;
+
+const today=new Date().toISOString().split("T")[0];
+
+if(snap.exists()){
+
+snap.forEach(item=>{
+
+const d=item.val();
+
+d.uid=item.key;
+
+users.push(d);
+
+total++;
+
+if(d.expired && d.expired>=today){
+
+active++;
+
+}else{
+
+expired++;
+
+}
+
+});
+
+}
+
+document.getElementById("totalUser").textContent=total;
+
+document.getElementById("activeUser").textContent=active;
+
+document.getElementById("expiredUser").textContent=expired;
+
+renderUsers();
+
+});
+
+onValue(ref(db,"online"),snap=>{
+
+document.getElementById("onlineUser").textContent=
+
+snap.exists()?snap.size:0;
+
+});
+
+}
+
+function roleIcon(role){
+
+switch(role){
+
+case "Developer":
+return "code";
+
+case "Owner":
+return "workspace_premium";
+
+case "Admin":
+return "admin_panel_settings";
+
+case "Reseller":
+return "storefront";
+
+case "Premium":
+return "verified";
+
+default:
+return "person";
+
+}
+
+}
+
+function renderUsers(){
+
+const keyword=document
+.getElementById("search")
+.value
+.toLowerCase();
+
+const filter=document
+.getElementById("filterRole")
+.value;
+
+const list=document
+.getElementById("userList");
+
+list.innerHTML="";
+
+let data=users.filter(u=>{
+
+const cocok=
+
+(u.username||"")
+.toLowerCase()
+.includes(keyword)
+
+||
+
+(u.email||"")
+.toLowerCase()
+.includes(keyword);
+
+const role=
+
+filter=="All"
+
+||
+
+u.role==filter;
+
+return cocok&&role;
+
+});
+
+if(data.length==0){
+
+list.innerHTML=`
+
+<div class="loadingCard">
+
+<span class="material-symbols-outlined">
+
+person_off
+
+</span>
+
+<p>
+
+User tidak ditemukan
+
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+const today=
+new Date()
+.toISOString()
+.split("T")[0];
+
+data.forEach(u=>{
+
+const online=
+document.getElementById("onlineUser")
+.textContent;
+
+const expired=
+
+u.expired &&
+u.expired<today;
+
+list.innerHTML+=`
+
+<div class="userCard">
+
+<div class="userLeft">
+
+<div class="avatar">
+
+<span class="material-symbols-outlined">
+
+${roleIcon(u.role)}
+
+</span>
+
+</div>
+
+<div class="userInfo">
+
+<h3>
+
+${u.username||"-"}
+
+</h3>
+
+<p>
+
+${u.email||"-"}
+
+</p>
+
+<div class="roleBadge">
+
+${u.role||"Member"}
+
+</div>
+
+<br>
+
+<span class="${
+expired?
+"expiredBadge":
+"activeBadge"
+}">
+
+${
+expired?
+"Expired":
+"Active"
+}
+
+</span>
+
+</div>
+
+</div>
+
+<div class="userAction">
+
+<div
+class="actionBtn editBtn"
+data-id="${u.uid}">
+
+<span class="material-symbols-outlined">
+
+edit
+
+</span>
+
+</div>
+
+<div
+class="actionBtn deleteBtn"
+data-id="${u.uid}">
+
+<span class="material-symbols-outlined">
+
+delete
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+document
+.getElementById("search")
+.oninput=renderUsers;
+
+document
+.getElementById("filterRole")
+.onchange=renderUsers;
+
+  function showToast(text){
+
+const toast=document.getElementById("toast");
+
+document.getElementById("toastText").textContent=text;
+
+toast.classList.add("show");
+
+setTimeout(()=>{
+
+toast.classList.remove("show");
+
+},2200);
+
+}
+
+document.addEventListener("click",async(e)=>{
+
+const edit=e.target.closest(".editBtn");
+
+if(edit){
+
+editUID=edit.dataset.id;
+
+const u=users.find(x=>x.uid===editUID);
+
+if(!u)return;
+
+editUsername.value=u.username||"";
+editEmail.value=u.email||"";
+editRole.value=u.role||"Member";
+editExpired.value=u.expired||"";
+editStatus.value=u.status||"Active";
+
+editModal.classList.add("show");
+
+return;
+
+}
+
+const del=e.target.closest(".deleteBtn");
+
+if(del){
+
+const uid=del.dataset.id;
+
+if(uid===currentUser.uid){
+
+alert("Tidak dapat menghapus akun yang sedang digunakan.");
+
+return;
+
+}
+
+if(!confirm("Hapus user ini?")) return;
+
+await remove(ref(db,"users/"+uid));
+
+showToast("User berhasil dihapus");
+
+}
+
+});
+
+cancelEdit.onclick=()=>{
+
+editModal.classList.remove("show");
+
+};
+
+saveEdit.onclick=async()=>{
+
+await update(ref(db,"users/"+editUID),{
+
+username:editUsername.value.trim(),
+
+role:editRole.value,
+
+expired:editExpired.value,
+
+status:editStatus.value
+
+});
+
+editModal.classList.remove("show");
+
+showToast("User berhasil diperbarui");
+
+};
+
+refreshBtn.onclick=()=>{
+
+renderUsers();
+
+showToast("Data diperbarui");
+
+};
+
+window.addEventListener("online",()=>{
+
+showToast("Internet Connected");
+
+});
+
+window.addEventListener("offline",()=>{
+
+showToast("Internet Disconnected");
+
+});
+
+</script>
+
+</body>
+  </html>
