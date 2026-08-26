@@ -282,129 +282,292 @@ SIGN IN
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
+
 import {
-getAuth,
-signInWithEmailAndPassword
+  getAuth,
+  signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 import {
-getDatabase,
-ref,
-get
+  getDatabase,
+  ref,
+  get
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
-// Firebase Config
+
+
 const firebaseConfig = {
-apiKey: "AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
-authDomain: "project-coding-gabut.firebaseapp.com",
-databaseURL: "https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
-projectId: "project-coding-gabut",
-storageBucket: "project-coding-gabut.firebasestorage.app",
-messagingSenderId: "234910334669",
-appId: "1:234910334669:web:5203c9e9ce22a596f2b384",
-measurementId: "G-PK3SFLJV25"
+  apiKey: "AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+  authDomain: "project-coding-gabut.firebaseapp.com",
+  databaseURL: "https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "project-coding-gabut",
+  storageBucket: "project-coding-gabut.firebasestorage.app",
+  messagingSenderId: "234910334669",
+  appId: "1:234910334669:web:5203c9e9ce22a596f2b384",
+  measurementId: "G-PK3SFLJV25"
 };
 
-const app = initializeApp(firebaseConfig);
-getAnalytics(app);
 
+const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 
-const email = document.getElementById("email");
+
+const usernameInput = document.getElementById("email");
 const password = document.getElementById("password");
 const btn = document.getElementById("loginBtn");
 const status = document.getElementById("status");
+const togglePassword = document.getElementById("togglePassword");
 
-const togglePassword=document.getElementById("togglePassword");
 
-togglePassword.onclick=()=>{
+/* TOGGLE PASSWORD */
 
-if(password.type==="password"){
+togglePassword.onclick = () => {
 
-password.type="text";
-togglePassword.textContent="visibility_off";
+  if(password.type === "password"){
 
-}else{
+    password.type = "text";
+    togglePassword.textContent = "visibility_off";
 
-password.type="password";
-togglePassword.textContent="visibility";
+  }else{
 
-}
+    password.type = "password";
+    togglePassword.textContent = "visibility";
+
+  }
 
 };
 
-btn.onclick = async ()=>{
 
-status.style.color="#ffffff";
-status.innerHTML="Checking account...";
+/* TAMPILKAN STATUS */
 
-let loginEmail=email.value.trim();
+function showStatus(message, color="#ff5555"){
 
-try{
-
-if(!loginEmail.includes("@")){
-
-const snap=await get(ref(db,"users"));
-
-if(!snap.exists()){
-
-status.style.color="#ff4444";
-status.innerHTML="Database user kosong.";
-return;
+  status.style.color = color;
+  status.textContent = message;
 
 }
 
-let found=false;
 
-snap.forEach(child=>{
+/* LOGIN */
 
-const data=child.val();
+async function login(){
 
-if((data.username||"").toLowerCase()===loginEmail.toLowerCase()){
+  const username = usernameInput.value.trim();
+  const userPassword = password.value;
 
-loginEmail=data.email;
-found=true;
+  if(!username || !userPassword){
+
+    showStatus("Username dan password wajib diisi!");
+    return;
+
+  }
+
+
+  btn.disabled = true;
+  btn.style.opacity = ".7";
+  btn.style.cursor = "wait";
+
+  showStatus("Checking account...", "#ffffff");
+
+
+  try{
+
+    let loginEmail = "";
+
+
+    /*
+      JIKA INPUT BERUPA EMAIL
+      TETAP BISA LOGIN LANGSUNG
+    */
+
+    if(username.includes("@")){
+
+      loginEmail = username;
+
+    }else{
+
+
+      /*
+        LOGIN DENGAN USERNAME
+
+        Database yang direkomendasikan:
+
+        usernames/
+          usernamekecil/
+            uid: "UID_USER"
+
+        users/
+          UID_USER/
+            email: "email@gmail.com"
+            username: "Username"
+      */
+
+      const usernameKey = username.toLowerCase();
+
+      const usernameSnap = await get(
+        ref(db, "usernames/" + usernameKey)
+      );
+
+
+      if(!usernameSnap.exists()){
+
+        showStatus("Username tidak ditemukan!");
+
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        btn.style.cursor = "pointer";
+
+        return;
+
+      }
+
+
+      const usernameData = usernameSnap.val();
+
+
+      const uid =
+        typeof usernameData === "string"
+          ? usernameData
+          : usernameData.uid;
+
+
+      if(!uid){
+
+        showStatus("Data username tidak valid!");
+
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        btn.style.cursor = "pointer";
+
+        return;
+
+      }
+
+
+      const userSnap = await get(
+        ref(db, "users/" + uid)
+      );
+
+
+      if(!userSnap.exists()){
+
+        showStatus("Data akun tidak ditemukan!");
+
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        btn.style.cursor = "pointer";
+
+        return;
+
+      }
+
+
+      const userData = userSnap.val();
+
+
+      loginEmail = userData.email || "";
+
+
+      if(!loginEmail){
+
+        showStatus("Email akun belum terdaftar!");
+
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        btn.style.cursor = "pointer";
+
+        return;
+
+      }
+
+    }
+
+
+    /*
+      LOGIN FIREBASE AUTH
+    */
+
+    await signInWithEmailAndPassword(
+      auth,
+      loginEmail,
+      userPassword
+    );
+
+
+    showStatus(
+      "Login berhasil! Mengalihkan...",
+      "#00ff88"
+    );
+
+
+    setTimeout(() => {
+
+      location.href = "intro.html";
+
+    }, 700);
+
+
+  }catch(err){
+
+    console.error(err);
+
+
+    if(
+      err.code === "auth/invalid-credential" ||
+      err.code === "auth/wrong-password" ||
+      err.code === "auth/user-not-found"
+    ){
+
+      showStatus(
+        "Username atau password salah!"
+      );
+
+    }else{
+
+      showStatus(
+        "Login gagal, silakan coba lagi!"
+      );
+
+    }
+
+
+    btn.disabled = false;
+    btn.style.opacity = "1";
+    btn.style.cursor = "pointer";
+
+  }
 
 }
+
+
+/* CLICK LOGIN */
+
+btn.onclick = login;
+
+
+/* ENTER UNTUK LOGIN */
+
+password.addEventListener("keydown", e => {
+
+  if(e.key === "Enter"){
+
+    login();
+
+  }
 
 });
 
-if(!found){
+usernameInput.addEventListener("keydown", e => {
 
-status.style.color="#ff4444";
-status.innerHTML="Lengkapi semua data!";
-return;
+  if(e.key === "Enter"){
 
-}
+    password.focus();
 
-}
+  }
 
-await signInWithEmailAndPassword(
-auth,
-loginEmail,
-password.value
-);
+});
 
-status.style.color="#00ff88";
-status.innerHTML="Login berhasil!";
-
-setTimeout(()=>{
-
-location.href="intro.html";
-
-},700);
-
-}catch(err){
-
-status.style.color="#ff4444";
-status.innerHTML="Username atau Password salah!";
-
-}
-
-};
-
-</script>
+  </script>
 
 </body>
   </html>
