@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>DEVONAX • USER MANAGEMENT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+:root{
+--bg:#060606;
+--card:#141414;
+--card2:#1b1b1b;
+--red:#ff2020;
+--border:#333;
+--text:#fff;
+}
+
+body{
+background:var(--bg);
+color:#fff;
+overflow-x:hidden;
+padding:18px;
+padding-bottom:110px;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+background:
+radial-gradient(circle at top left,#ff000018,transparent 35%),
+radial-gradient(circle at bottom right,#ff000018,transparent 35%);
+}
+
+.grid{
+position:fixed;
+inset:0;
+opacity:.04;
+pointer-events:none;
+background-image:
+linear-gradient(#ff0000 1px,transparent 1px),
+linear-gradient(90deg,#ff0000 1px,transparent 1px);
+background-size:40px 40px;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.back,
+.profile{
+width:55px;
+height:55px;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#181818;
+border:1px solid #333;
+border-radius:18px;
+}
+
+.back span,
+.profile span{
+font-size:30px;
+color:#fff;
+}
+
+.logo{
+font-size:28px;
+font-weight:800;
+letter-spacing:5px;
+color:#fff;
+text-shadow:0 0 15px rgba(255,0,0,.35);
+}
+
+.banner{
+position:relative;
+height:180px;
+border-radius:24px;
+overflow:hidden;
+border:1px solid #333;
+margin-bottom:20px;
+box-shadow:0 0 20px rgba(255,0,0,.15);
+}
+
+.banner video,
+.banner img{
+width:100%;
+height:100%;
+object-fit:cover;
+filter:brightness(.35);
+}
+
+.banner::after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(transparent,rgba(0,0,0,.9));
+}
+
+.bannerText{
+position:absolute;
+left:20px;
+bottom:20px;
+z-index:2;
+}
+
+.bannerText h2{
+font-size:27px;
+letter-spacing:3px;
+}
+
+.bannerText p{
+margin-top:8px;
+font-size:11px;
+color:#ddd;
+letter-spacing:2px;
+}
+
+.card{
+background:var(--card);
+border:1px solid #333;
+border-radius:22px;
+padding:18px;
+margin-bottom:18px;
+box-shadow:0 0 18px rgba(255,0,0,.08);
+}
+
+.title{
+font-size:13px;
+letter-spacing:3px;
+color:#ff6666;
+margin-bottom:15px;
+text-transform:uppercase;
+}
+
+.statsGrid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:14px;
+}
+
+.statBox{
+background:var(--card2);
+border:1px solid #333;
+border-radius:18px;
+padding:16px;
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.statIcon{
+width:58px;
+height:58px;
+border-radius:16px;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(180deg,#ff3030,#850000);
+}
+
+.statIcon span{
+font-size:30px;
+color:#fff;
+}
+
+.statInfo h2{
+font-size:24px;
+margin-bottom:5px;
+}
+
+.statInfo p{
+font-size:11px;
+color:#999;
+letter-spacing:2px;
+}
+
+.searchBox{
+margin-top:15px;
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+.searchBox input,
+.searchBox select{
+width:100%;
+height:56px;
+background:#1a1a1a;
+border:1px solid #333;
+border-radius:16px;
+padding:0 18px;
+color:#fff;
+outline:none;
+font-size:13px;
+}
+
+.userList{
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<header>
+
+<div class="back" onclick="history.back()">
+
+<span class="material-symbols-outlined">
+
+arrow_back
+
+</span>
+
+</div>
+
+<div class="logo">
+
+DEVONAX
+
+</div>
+
+<div class="profile">
+
+<span class="material-symbols-outlined">
+
+groups
+
+</span>
+
+</div>
+
+</header>
+
+<div class="banner">
+
+<video autoplay muted loop playsinline>
+
+<source src="../video/celestial-veil.1920x1080.mp4" type="video/mp4">
+
+</video>
+
+<div class="bannerText">
+
+<h2>USER MANAGEMENT</h2>
+
+<p>OWNER CONTROL PANEL</p>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+
+SYSTEM STATISTICS
+
+</div>
+
+<div class="statsGrid">
+
+<div class="statBox">
+
+<div class="statIcon">
+
+<span class="material-symbols-outlined">
+
+groups
+
+</span>
+
+</div>
+
+<div class="statInfo">
+
+<h2 id="totalUser">0</h2>
+
+<p>Total User</p>
+
+</div>
+
+</div>
+
+<div class="statBox">
+
+<div class="statIcon">
+
+<span class="material-symbols-outlined">
+
+wifi
+
+</span>
+
+</div>
+
+<div class="statInfo">
+
+<h2 id="onlineUser">0</h2>
+
+<p>Online</p>
+
+</div>
+
+</div>
+
+<div class="statBox">
+
+<div class="statIcon">
+
+<span class="material-symbols-outlined">
+
+admin_panel_settings
+
+</span>
+
+</div>
+
+<div class="statInfo">
+
+<h2 id="adminUser">0</h2>
+
+<p>Admin</p>
+
+</div>
+
+</div>
+
+<div class="statBox">
+
+<div class="statIcon">
+
+<span class="material-symbols-outlined">
+
+engineering
+
+</span>
+
+</div>
+
+<div class="statInfo">
+
+<h2 id="developerUser">0</h2>
+
+<p>Developer</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="searchBox">
+
+<input
+type="text"
+id="searchUser"
+placeholder="Search username...">
+
+<select id="filterRole">
+
+<option value="All">All Roles</option>
+<option value="Member">Member</option>
+<option value="VIP">VIP</option>
+<option value="Reseller">Reseller</option>
+<option value="Admin">Admin</option>
+<option value="Developer">Developer</option>
+<option value="Owner">Owner</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div id="userList" class="userList">
+
+<!-- Realtime User Card -->
+
+</div>
+
+<!-- USER EDIT MODAL -->
+
+<div id="editModal" class="editModal">
+
+<div class="modalCard">
+
+<div class="modalHeader">
+
+<h2>
+
+<span class="material-symbols-outlined">
+
+edit_square
+
+</span>
+
+EDIT USER
+
+</h2>
+
+<button id="closeModal">
+
+<span class="material-symbols-outlined">
+
+close
+
+</span>
+
+</button>
+
+</div>
+
+<div class="modalBody">
+
+<div class="avatarBox">
+
+<span class="material-symbols-outlined">
+
+person
+
+</span>
+
+</div>
+
+<div class="inputBox">
+
+<label>Username</label>
+
+<input
+type="text"
+id="editUsername">
+
+</div>
+
+<div class="inputBox">
+
+<label>Email</label>
+
+<input
+type="text"
+id="editEmail"
+readonly>
+
+</div>
+
+<div class="inputBox">
+
+<label>UID</label>
+
+<input
+type="text"
+id="editUid"
+readonly>
+
+</div>
+
+<div class="inputBox">
+
+<label>Role</label>
+
+<select id="editRole">
+
+<option>Member</option>
+
+<option>VIP</option>
+
+<option>Reseller</option>
+
+<option>Admin</option>
+
+</select>
+
+</div>
+
+<div class="inputBox">
+
+<label>Expired</label>
+
+<input
+type="date"
+id="editExpired">
+
+</div>
+
+<div class="quickGrid">
+
+<button class="quickBtn" data-day="7">
+
++7 DAYS
+
+</button>
+
+<button class="quickBtn" data-day="30">
+
++30 DAYS
+
+</button>
+
+<button class="quickBtn" data-day="365">
+
++1 YEAR
+
+</button>
+
+<button
+class="quickBtn"
+id="unlimitedBtn">
+
+UNLIMITED
+
+</button>
+
+</div>
+
+<div class="inputBox">
+
+<label>Status</label>
+
+<select id="editStatus">
+
+<option>Active</option>
+
+<option>Suspend</option>
+
+<option>Banned</option>
+
+</select>
+
+</div>
+
+<div class="inputBox">
+
+<label>Owner Notes</label>
+
+<textarea
+id="editNotes"
+rows="4">
+
+</textarea>
+
+</div>
+
+<div
+id="protectedBox"
+class="protectedBox">
+
+<span class="material-symbols-outlined">
+
+lock
+
+</span>
+
+<div>
+
+SYSTEM PROTECTED
+
+<br>
+
+<small>
+
+Developer & Owner tidak dapat diedit.
+
+</small>
+
+</div>
+
+</div>
+
+<div class="buttonGrid">
+
+<button
+id="saveUser"
+class="saveBtn">
+
+<span class="material-symbols-outlined">
+
+save
+
+</span>
+
+SAVE
+
+</button>
+
+<button
+id="deleteUser"
+class="deleteBtn">
+
+<span class="material-symbols-outlined">
+
+delete
+
+</span>
+
+DELETE
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<style>
+
+.editModal{
+
+position:fixed;
+
+inset:0;
+
+display:none;
+
+justify-content:center;
+
+align-items:center;
+
+background:rgba(0,0,0,.75);
+
+backdrop-filter:blur(10px);
+
+z-index:9999;
+
+padding:18px;
+
+}
+
+.editModal.show{
+
+display:flex;
+
+animation:fade .25s;
+
+}
+
+@keyframes fade{
+
+from{
+
+opacity:0;
+
+}
+
+to{
+
+opacity:1;
+
+}
+
+}
+
+.modalCard{
+
+width:100%;
+
+max-width:470px;
+
+max-height:90vh;
+
+overflow:auto;
+
+background:#141414;
+
+border:1px solid #444;
+
+border-radius:28px;
+
+box-shadow:
+
+0 0 30px rgba(255,0,0,.35);
+
+}
+
+.modalHeader{
+
+height:75px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:0 22px;
+
+border-bottom:1px solid #2d2d2d;
+
+}
+
+.modalHeader h2{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+font-size:19px;
+
+letter-spacing:2px;
+
+}
+
+.modalHeader button{
+
+width:45px;
+
+height:45px;
+
+border:none;
+
+border-radius:14px;
+
+background:#202020;
+
+color:#fff;
+
+cursor:pointer;
+
+}
+
+.modalBody{
+
+padding:22px;
+
+}
+
+.avatarBox{
+
+width:90px;
+
+height:90px;
+
+margin:auto;
+
+margin-bottom:20px;
+
+border-radius:50%;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+background:linear-gradient(180deg,#ff3030,#730000);
+
+box-shadow:0 0 20px rgba(255,0,0,.4);
+
+}
+
+.avatarBox span{
+
+font-size:48px;
+
+color:#fff;
+
+}
+
+.inputBox{
+
+margin-bottom:16px;
+
+}
+
+.inputBox label{
+
+display:block;
+
+margin-bottom:8px;
+
+font-size:12px;
+
+color:#ff7070;
+
+letter-spacing:2px;
+
+}
+
+.inputBox input,
+
+.inputBox select,
+
+.inputBox textarea{
+
+width:100%;
+
+background:#1c1c1c;
+
+border:1px solid #333;
+
+border-radius:15px;
+
+padding:15px;
+
+outline:none;
+
+color:#fff;
+
+}
+
+.inputBox textarea{
+
+resize:none;
+
+}
+
+.quickGrid{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:10px;
+
+margin-bottom:18px;
+
+}
+
+.quickBtn{
+
+height:45px;
+
+border:none;
+
+border-radius:14px;
+
+background:#242424;
+
+color:#fff;
+
+cursor:pointer;
+
+}
+
+.quickBtn:hover{
+
+background:#ff2020;
+
+}
+
+.protectedBox{
+
+display:none;
+
+align-items:center;
+
+gap:15px;
+
+padding:18px;
+
+border-radius:18px;
+
+background:#300000;
+
+border:1px solid #900;
+
+margin-bottom:18px;
+
+color:#fff;
+
+}
+
+.protectedBox span{
+
+font-size:40px;
+
+}
+
+.buttonGrid{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:14px;
+
+margin-top:15px;
+
+}
+
+.saveBtn,
+
+.deleteBtn{
+
+height:55px;
+
+border:none;
+
+border-radius:16px;
+
+font-size:13px;
+
+font-weight:700;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+gap:8px;
+
+cursor:pointer;
+
+}
+
+.saveBtn{
+
+background:#ff2020;
+
+color:#fff;
+
+}
+
+.deleteBtn{
+
+background:#3a0000;
+
+color:#fff;
+
+}
+
+  </style>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+get,
+onValue,
+update,
+remove
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+const firebaseConfig={
+
+apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+
+authDomain:"project-coding-gabut.firebaseapp.com",
+
+databaseURL:"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+projectId:"project-coding-gabut",
+
+storageBucket:"project-coding-gabut.firebasestorage.app",
+
+messagingSenderId:"234910334669",
+
+appId:"1:234910334669:web:5203c9e9ce22a596f2b384"
+
+};
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getDatabase(app);
+
+let users={};
+
+let editUID=null;
+
+const list=document.getElementById("userList");
+
+const search=document.getElementById("searchUser");
+
+const filter=document.getElementById("filterRole");
+
+onAuthStateChanged(auth,async(user)=>{
+
+if(!user){
+
+location.replace("../login.html");
+
+return;
+
+}
+
+const snap=await get(ref(db,"users/"+user.uid));
+
+if(!snap.exists()){
+
+location.replace("../login.html");
+
+return;
+
+}
+
+const me=snap.val();
+
+if(me.role!="Owner"){
+
+alert("Akses ditolak.");
+
+location.replace("../login.html");
+
+return;
+
+}
+
+});
+
+function renderUsers(){
+
+list.innerHTML="";
+
+let total=0;
+
+let admin=0;
+
+let developer=0;
+
+let online=0;
+
+Object.entries(users).forEach(([uid,u])=>{
+
+const keyword=(search.value||"").toLowerCase();
+
+if(keyword){
+
+if(!(u.username||"").toLowerCase().includes(keyword)) return;
+
+}
+
+if(filter.value!="All"){
+
+if(u.role!=filter.value) return;
+
+}
+
+total++;
+
+if(u.role=="Admin") admin++;
+
+if(u.role=="Developer") developer++;
+
+if(u.online===true) online++;
+
+const protect=
+
+u.role=="Developer"||
+
+u.role=="Owner";
+
+list.innerHTML+=`
+
+<div class="userCard">
+
+<div class="userTop">
+
+<div class="avatar">
+
+<span class="material-symbols-outlined">
+
+person
+
+</span>
+
+</div>
+
+<div class="info">
+
+<h3>${u.username||"-"}</h3>
+
+<div class="email">
+
+${u.email||"-"}
+
+</div>
+
+<div class="role">
+
+${u.role||"Member"}
+
+</div>
+
+<div class="expired">
+
+Expired : ${u.expired||"Unlimited"}
+
+</div>
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<button
+
+class="editBtn"
+
+onclick="openEdit('${uid}')">
+
+<span class="material-symbols-outlined">
+
+edit
+
+</span>
+
+EDIT
+
+</button>
+
+${
+protect
+
+?
+
+`<button
+class="lockBtn">
+
+SYSTEM LOCK
+
+</button>`
+
+:
+
+`<button
+class="deleteBtn"
+onclick="deleteUser('${uid}')">
+
+<span class="material-symbols-outlined">
+
+delete
+
+</span>
+
+DELETE
+
+</button>`
+
+}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("totalUser").textContent=total;
+
+document.getElementById("adminUser").textContent=admin;
+
+document.getElementById("developerUser").textContent=developer;
+
+document.getElementById("onlineUser").textContent=online;
+
+}
+
+onValue(ref(db,"users"),snap=>{
+
+users={};
+
+if(snap.exists()){
+
+snap.forEach(c=>{
+
+users[c.key]=c.val();
+
+});
+
+}
+
+renderUsers();
+
+});
+
+search.oninput=renderUsers;
+
+filter.onchange=renderUsers;
+
+/* ===== OPEN EDIT ===== */
+
+window.openEdit=(uid)=>{
+
+editUID=uid;
+
+const u=users[uid];
+
+document.getElementById("editModal").classList.add("show");
+
+editUsername.value=u.username||"";
+
+editEmail.value=u.email||"";
+
+document.getElementById("editUid").value=uid;
+
+editRole.value=u.role||"Member";
+
+editExpired.value=u.expired||"";
+
+editStatus.value=u.status||"Active";
+
+editNotes.value=u.notes||"";
+
+const protect=
+u.role==="Developer"||
+u.role==="Owner";
+
+document.getElementById("protectedBox").style.display=
+protect?"flex":"none";
+
+editUsername.disabled=protect;
+editRole.disabled=protect;
+editExpired.disabled=protect;
+editStatus.disabled=protect;
+editNotes.disabled=protect;
+
+saveUser.disabled=protect;
+deleteUser.disabled=protect;
+
+};
+
+/* ===== CLOSE MODAL ===== */
+
+closeModal.onclick=()=>{
+
+editModal.classList.remove("show");
+
+};
+
+/* ===== QUICK EXPIRED ===== */
+
+document.querySelectorAll(".quickBtn").forEach(btn=>{
+
+btn.onclick=()=>{
+
+const day=btn.dataset.day;
+
+if(!day) return;
+
+const d=new Date();
+
+d.setDate(d.getDate()+Number(day));
+
+editExpired.value=d.toISOString().split("T")[0];
+
+};
+
+});
+
+unlimitedBtn.onclick=()=>{
+
+editExpired.value="Unlimited";
+
+};
+
+/* ===== SAVE USER ===== */
+
+saveUser.onclick=async()=>{
+
+if(!editUID) return;
+
+await update(ref(db,"users/"+editUID),{
+
+username:editUsername.value.trim(),
+
+role:editRole.value,
+
+expired:editExpired.value,
+
+status:editStatus.value,
+
+notes:editNotes.value.trim()
+
+});
+
+alert("User berhasil diperbarui.");
+
+editModal.classList.remove("show");
+
+};
+
+/* ===== DELETE USER ===== */
+
+window.deleteUser=async(uid)=>{
+
+const u=users[uid];
+
+if(
+
+u.role==="Developer"||
+
+u.role==="Owner"
+
+){
+
+alert("Role Developer & Owner dilindungi sistem.");
+
+return;
+
+}
+
+if(!confirm("Hapus user "+u.username+" ?")) return;
+
+try{
+
+await remove(ref(db,"users/"+uid));
+
+alert("User berhasil dihapus.");
+
+}catch(err){
+
+alert(err.message);
+
+}
+
+};
+
+/* ===== REALTIME ONLINE ===== */
+
+onValue(ref(db,"online"),snap=>{
+
+let totalOnline=0;
+
+if(snap.exists()){
+
+snap.forEach(()=>{
+
+totalOnline++;
+
+});
+
+}
+
+document.getElementById("onlineUser").textContent=totalOnline;
+
+});
+
+/* ===== CLICK OUTSIDE MODAL ===== */
+
+const modal=document.getElementById("editModal");
+
+modal.onclick=(e)=>{
+
+if(e.target===modal){
+
+modal.classList.remove("show");
+
+}
+
+};
+
+/* ===== ESC CLOSE ===== */
+
+document.addEventListener("keydown",(e)=>{
+
+if(e.key==="Escape"){
+
+modal.classList.remove("show");
+
+}
+
+});
+
+/* ===== REALTIME SEARCH ===== */
+
+search.addEventListener("keyup",renderUsers);
+
+filter.addEventListener("change",renderUsers);
+
+/* ===== AUTO REFRESH USER ===== */
+
+onValue(ref(db,"users"),(snap)=>{
+
+users={};
+
+if(snap.exists()){
+
+snap.forEach((child)=>{
+
+users[child.key]=child.val();
+
+});
+
+}
+
+renderUsers();
+
+});
+
+/* ===== PREVENT EDIT OWNER & DEVELOPER ===== */
+
+window.openEdit=(uid)=>{
+
+editUID=uid;
+
+const data=users[uid];
+
+if(!data) return;
+
+const locked=
+
+data.role==="Developer"||
+
+data.role==="Owner";
+
+document.getElementById("editModal").classList.add("show");
+
+editUsername.value=data.username||"";
+
+editEmail.value=data.email||"";
+
+document.getElementById("editUid").value=uid;
+
+editRole.value=data.role||"Member";
+
+editExpired.value=data.expired||"";
+
+editStatus.value=data.status||"Active";
+
+editNotes.value=data.notes||"";
+
+document.getElementById("protectedBox").style.display=
+
+locked?"flex":"none";
+
+editUsername.disabled=locked;
+
+editRole.disabled=locked;
+
+editExpired.disabled=locked;
+
+editStatus.disabled=locked;
+
+editNotes.disabled=locked;
+
+saveUser.disabled=locked;
+
+deleteUser.disabled=locked;
+
+};
+
+/* ===== FINISH ===== */
+
+console.log("DEVONAX USER MANAGEMENT READY");
+
+</script>
+
+</body>
+  </html>
