@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>BADAK · Devonax</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        :root {
+            --bg: #070707;
+            --card: #131313;
+            --card2: #1b1b1b;
+            --red: #ff2020;
+            --blue: #1a8cff;
+            --green: #00ff88;
+            --border: #333;
+            --text: #fff;
+            --font-display: 'Orbitron', monospace;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 12px;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at top left, #ff000015, transparent 35%),
+                radial-gradient(circle at bottom right, #ff000012, transparent 35%);
+            z-index: 0;
+        }
+        .grid {
+            position: fixed;
+            inset: 0;
+            opacity: .04;
+            background-image: linear-gradient(#ff0000 1px, transparent 1px),
+                linear-gradient(90deg, #ff0000 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 440px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            padding-bottom: 30px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 4px 10px;
+            border-bottom: 1px solid #1a1a1a;
+            margin-bottom: 14px;
+        }
+        .header .back {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #888;
+            font-size: 11px;
+            cursor: pointer;
+            transition: .25s;
+            padding: 4px 10px 4px 4px;
+            border-radius: 40px;
+            border: 1px solid transparent;
+        }
+        .header .back:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+        .header .back .material-symbols-outlined {
+            font-size: 20px;
+        }
+        .header .logo {
+            text-align: center;
+            flex: 1;
+        }
+        .header .logo h1 {
+            font-size: 22px;
+            font-family: var(--font-display);
+            background: linear-gradient(135deg, #ff2020, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 4px;
+            text-shadow: 0 0 30px rgba(255, 0, 0, 0.15);
+        }
+        .header .logo p {
+            font-size: 8px;
+            color: #555;
+            font-family: var(--font-display);
+            letter-spacing: 2px;
+            margin-top: 1px;
+        }
+        .header .spacer {
+            width: 60px;
+        }
+
+        /* ===== BANNER ===== */
+        .banner {
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.08), rgba(255, 0, 0, 0.02));
+            border: 1px solid rgba(255, 0, 0, 0.10);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .banner .material-symbols-outlined {
+            font-size: 28px;
+            color: var(--red);
+            filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.15));
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .banner .text {
+            flex: 1;
+        }
+        .banner .text .title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: 0.3px;
+        }
+        .banner .text .desc {
+            font-size: 10px;
+            color: #888;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+        .banner .text .desc strong {
+            color: var(--red);
+        }
+
+        /* ===== CARD ===== */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px 14px;
+            margin-bottom: 12px;
+        }
+        .card-title {
+            font-size: 10px;
+            font-weight: 700;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .card-title .material-symbols-outlined {
+            font-size: 16px;
+            color: var(--red);
+        }
+
+        /* ===== INPUT ===== */
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2px 4px 2px 14px;
+            transition: .25s;
+        }
+        .input-group:focus-within {
+            border-color: var(--red);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.05);
+        }
+        .input-group .material-symbols-outlined {
+            color: #25D366;
+            font-size: 22px;
+            margin-right: 6px;
+        }
+        .input-group .prefix {
+            color: #666;
+            font-size: 13px;
+            font-weight: 600;
+            margin-right: 4px;
+        }
+        .input-group input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px 8px;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            font-family: 'Courier New', monospace;
+        }
+        .input-group input::placeholder {
+            color: #444;
+            font-weight: 400;
+        }
+
+        /* ===== SELECT ===== */
+        .select-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .select-opt {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: .25s;
+        }
+        .select-opt:hover {
+            border-color: #555;
+        }
+        .select-opt.active {
+            border-color: var(--red);
+            background: rgba(255, 0, 0, 0.06);
+        }
+        .select-opt .radio {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: .25s;
+        }
+        .select-opt.active .radio {
+            border-color: var(--red);
+        }
+        .select-opt.active .radio::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--red);
+        }
+        .select-opt .opt-icon .material-symbols-outlined {
+            font-size: 20px;
+            color: #555;
+            transition: .25s;
+        }
+        .select-opt.active .opt-icon .material-symbols-outlined {
+            color: var(--red);
+        }
+        .select-opt .opt-text {
+            flex: 1;
+        }
+        .select-opt .opt-text .name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .select-opt .opt-text .sub {
+            font-size: 10px;
+            color: #666;
+            margin-top: 1px;
+        }
+        .select-opt .opt-badge {
+            font-size: 9px;
+            font-weight: 700;
+            color: #555;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 2px 10px;
+            border-radius: 40px;
+            border: 1px solid var(--border);
+        }
+        .select-opt.active .opt-badge {
+            color: var(--red);
+            border-color: rgba(255, 0, 0, 0.15);
+            background: rgba(255, 0, 0, 0.06);
+        }
+
+        /* ===== BADAK BUTTON ===== */
+        .badak-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #ff2020, #cc0000);
+            border: none;
+            border-radius: 60px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 800;
+            font-family: var(--font-display);
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: .3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 8px 30px rgba(255, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .badak-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 40px rgba(255, 0, 0, 0.3);
+        }
+        .badak-btn:active {
+            transform: scale(0.97);
+        }
+        .badak-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .badak-btn .material-symbols-outlined {
+            font-size: 24px;
+        }
+
+        /* ============================================================
+           OVERLAY: VIDEO INTRO
+           ============================================================ */
+        .video-overlay {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            padding: 20px;
+            flex-direction: column;
+        }
+        .video-overlay.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .video-overlay video {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 0, 0, 0.1);
+        }
+        .video-overlay .skip-video {
+            margin-top: 16px;
+            padding: 10px 28px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 60px;
+            color: #888;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .25s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .video-overlay .skip-video:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+        .video-overlay .skip-video .material-symbols-outlined {
+            font-size: 16px;
+        }
+        .video-overlay .skip-video.show {
+            opacity: 1;
+        }
+
+        /* ============================================================
+           OVERLAY: PROCESS BADAK
+           ============================================================ */
+        .process-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(12px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+            padding: 30px;
+        }
+        .process-overlay.show {
+            display: flex;
+            animation: fadeIn 0.4s ease;
+        }
+        .process-overlay .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 0, 0, 0.1);
+            border-top: 4px solid var(--red);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        .process-overlay .status-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            margin-top: 20px;
+            font-family: var(--font-display);
+            letter-spacing: 1px;
+        }
+        .process-overlay .sub-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .process-overlay .progress-bar {
+            width: 200px;
+            height: 4px;
+            background: #1a1a1a;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 16px;
+        }
+        .process-overlay .progress-bar .fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff2020, #ff6b6b);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* ============================================================
+           OVERLAY: SUCCESS BADAK
+           ============================================================ */
+        .success-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(16px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            flex-direction: column;
+            padding: 30px;
+        }
+        .success-overlay.show {
+            display: flex;
+            animation: fadeIn 0.5s ease;
+        }
+        .success-overlay .icon {
+            font-size: 80px;
+            color: var(--blue);
+            animation: pulse 1.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 40px rgba(26, 140, 255, 0.3));
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        .success-overlay h2 {
+            font-size: 28px;
+            font-family: var(--font-display);
+            background: linear-gradient(135deg, var(--blue), #4da6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 12px;
+            letter-spacing: 2px;
+        }
+        .success-overlay p {
+            color: #888;
+            font-size: 13px;
+            margin-top: 6px;
+            text-align: center;
+            max-width: 300px;
+        }
+        .success-overlay .detail {
+            background: rgba(26, 140, 255, 0.05);
+            border: 1px solid rgba(26, 140, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 20px;
+            margin-top: 16px;
+            font-size: 12px;
+            color: #aaa;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            width: 100%;
+            max-width: 320px;
+        }
+        .success-overlay .btn-lanjut {
+            margin-top: 20px;
+            padding: 12px 36px;
+            background: linear-gradient(135deg, var(--blue), #0066cc);
+            border: none;
+            border-radius: 60px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .25s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 30px rgba(26, 140, 255, 0.2);
+        }
+        .success-overlay .btn-lanjut:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 40px rgba(26, 140, 255, 0.3);
+        }
+        .success-overlay .btn-lanjut .material-symbols-outlined {
+            font-size: 20px;
+        }
+
+        /* ============================================================
+           TUTORIAL PAGE
+           ============================================================ */
+        .tutorial-page {
+            display: none;
+            padding: 16px 0;
+        }
+        .tutorial-page.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        .tutorial-page .tut-title {
+            font-size: 18px;
+            font-family: var(--font-display);
+            color: var(--red);
+            text-align: center;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+        .tutorial-page .tut-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+        .tutorial-page .tut-step .num {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--red);
+            background: rgba(255, 0, 0, 0.06);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 0, 0, 0.1);
+        }
+        .tutorial-page .tut-step .content {
+            flex: 1;
+        }
+        .tutorial-page .tut-step .content .title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .tutorial-page .tut-step .content .desc {
+            font-size: 11px;
+            color: #888;
+            margin-top: 2px;
+            line-height: 1.5;
+        }
+        .tutorial-page .tut-step .content .desc strong {
+            color: var(--red);
+        }
+        .tutorial-page .tut-back {
+            display: flex;
+            justify-content: center;
+            margin-top: 16px;
+        }
+        .tutorial-page .tut-back button {
+            padding: 10px 28px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 60px;
+            color: #888;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .25s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .tutorial-page .tut-back button:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+        .tutorial-page .tut-back button .material-symbols-outlined {
+            font-size: 18px;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1f35;
+            border: 1px solid var(--red);
+            border-radius: 10px;
+            padding: 8px 18px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            display: none;
+            z-index: 9999;
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.show {
+            display: block;
+            animation: toastIn 0.3s ease;
+        }
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .header .logo h1 {
+                font-size: 18px;
+            }
+            .card {
+                padding: 14px 12px;
+            }
+            .badak-btn {
+                font-size: 14px;
+                padding: 14px;
+            }
+            .success-overlay .icon {
+                font-size: 60px;
+            }
+            .success-overlay h2 {
+                font-size: 22px;
+            }
+            .banner .material-symbols-outlined {
+                font-size: 24px;
+            }
+            .select-opt {
+                padding: 8px 12px;
+            }
+            .select-opt .opt-text .name {
+                font-size: 12px;
+            }
+            .video-overlay video {
+                max-height: 60vh;
+            }
+            .tutorial-page .tut-title {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid"></div>
+
+    <!-- ============================================================
+    MAIN CONTAINER
+    ============================================================ -->
+    <div class="container" id="mainContainer">
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="back" id="backBtn">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Back
+            </div>
+            <div class="logo">
+                <h1>BADAK</h1>
+                <p>WHATSAPP TOOLS</p>
+            </div>
+            <div class="spacer"></div>
+        </div>
+
+        <!-- BANNER -->
+        <div class="banner">
+            <span class="material-symbols-outlined">security</span>
+            <div class="text">
+                <div class="title">Proteksi Badak</div>
+                <div class="desc">Buat WhatsApp kamu <strong>kebal</strong> terhadap blast & spam. Pilih level di bawah!</div>
+            </div>
+        </div>
+
+        <!-- CARD: INPUT -->
+        <div class="card">
+            <div class="card-title">
+                <span class="material-symbols-outlined">contact_support</span>
+                Nomor WhatsApp
+            </div>
+            <div class="input-group">
+                <span class="material-symbols-outlined">chat</span>
+                <span class="prefix">+62</span>
+                <input type="text" id="waNumber" placeholder="81234567890" maxlength="15" inputmode="numeric" />
+            </div>
+            <div style="font-size:9px;color:#444;margin-top:6px;">* Masukkan nomor tanpa 0 di depan</div>
+        </div>
+
+        <!-- CARD: SELECT METODE -->
+        <div class="card">
+            <div class="card-title">
+                <span class="material-symbols-outlined">tune</span>
+                Pilih Metode Badak
+            </div>
+            <div class="select-group">
+                <div class="select-opt active" data-level="100">
+                    <div class="radio"></div>
+                    <div class="opt-icon"><span class="material-symbols-outlined">shield</span></div>
+                    <div class="opt-text">
+                        <div class="name">Badak 100 Chat</div>
+                        <div class="sub">Kebal hingga 100 pesan blast</div>
+                    </div>
+                    <div class="opt-badge">POPULER</div>
+                </div>
+                <div class="select-opt" data-level="200">
+                    <div class="radio"></div>
+                    <div class="opt-icon"><span class="material-symbols-outlined">shield</span></div>
+                    <div class="opt-text">
+                        <div class="name">Badak 200 Chat</div>
+                        <div class="sub">Kebal hingga 200 pesan blast</div>
+                    </div>
+                    <div class="opt-badge">PRO</div>
+                </div>
+                <div class="select-opt" data-level="500">
+                    <div class="radio"></div>
+                    <div class="opt-icon"><span class="material-symbols-outlined">auto_awesome</span></div>
+                    <div class="opt-text">
+                        <div class="name">Badak 300-500 Chat</div>
+                        <div class="sub">Kebal hingga 500 pesan blast</div>
+                    </div>
+                    <div class="opt-badge">VIP</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BADAK BUTTON -->
+        <button class="badak-btn" id="badakBtn">
+            <span class="material-symbols-outlined">flash_on</span>
+            BADAK SEKARANG
+        </button>
+
+    </div>
+
+    <!-- ============================================================
+    TUTORIAL PAGE
+    ============================================================ -->
+    <div class="container" id="tutorialContainer" style="display:none;">
+        <div class="tutorial-page show" id="tutorialPage">
+            <div class="tut-title">METODE BADAK</div>
+
+            <div class="tut-step">
+                <div class="num">1</div>
+                <div class="content">
+                    <div class="title">Nyalakan Proxy 1.1.1.1</div>
+                    <div class="desc">Pastikan koneksi internet Anda melalui proxy <strong>Cloudflare 1.1.1.1</strong>.</div>
+                </div>
+            </div>
+
+            <div class="tut-step">
+                <div class="num">2</div>
+                <div class="content">
+                    <div class="title">Diamkan WhatsApp 1-7 Hari</div>
+                    <div class="desc"><strong>Jangan buka WhatsApp</strong> sama sekali selama periode ini. Biarkan akun dalam kondisi tidak aktif.</div>
+                </div>
+            </div>
+
+            <div class="tut-step">
+                <div class="num">3</div>
+                <div class="content">
+                    <div class="title">Matikan Proxy</div>
+                    <div class="desc">Setelah 1-7 hari, <strong>matikan proxy</strong> dan kembali ke koneksi internet normal.</div>
+                </div>
+            </div>
+
+            <div class="tut-step">
+                <div class="num">4</div>
+                <div class="content">
+                    <div class="title">Tes dengan Blast</div>
+                    <div class="desc">Kirim pesan massal (<strong>blast</strong>) untuk menguji apakah WA Anda sudah kebal.</div>
+                </div>
+            </div>
+
+            <div class="tut-step">
+                <div class="num">5</div>
+                <div class="content">
+                    <div class="title">Selamat! WA Anda BADAK!</div>
+                    <div class="desc">Sekarang WhatsApp Anda <strong style="color:var(--red);">tidak mudah terkena banned/kenon</strong> dari sistem WhatsApp.</div>
+                </div>
+            </div>
+
+            <div class="tut-back">
+                <button id="tutBackBtn">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    Kembali
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    OVERLAY: VIDEO INTRO
+    ============================================================ -->
+    <div class="video-overlay" id="videoOverlay">
+        <video id="introVideo" autoplay playsinline>
+            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
+        </video>
+        <div class="skip-video" id="skipVideo">
+            <span class="material-symbols-outlined">forward</span>
+            Lewati
+        </div>
+    </div>
+
+    <!-- ============================================================
+    OVERLAY: PROCESS BADAK
+    ============================================================ -->
+    <div class="process-overlay" id="processOverlay">
+        <div class="spinner"></div>
+        <div class="status-text" id="processStatus">Mempersiapkan ...</div>
+        <div class="sub-text" id="processSub">Mohon tunggu, proses badak sedang berjalan</div>
+        <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
+    </div>
+
+    <!-- ============================================================
+    OVERLAY: SUCCESS BADAK
+    ============================================================ -->
+    <div class="success-overlay" id="successOverlay">
+        <span class="material-symbols-outlined icon">check_circle</span>
+        <h2>SUCCESS BADAK</h2>
+        <p>WhatsApp Anda sekarang telah berubah menjadi <strong style="color:var(--red);">BADAK</strong>!</p>
+        <div class="detail" id="successDetail">
+            +62 81234567890 · Level: 100 Chat
+        </div>
+        <button class="btn-lanjut" id="btnLanjut">
+            <span class="material-symbols-outlined">arrow_forward</span>
+            Lanjut ke Tutorial
+        </button>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ============================================================
+        // BADAK WA TOOLS — DEVONAX FINAL
+        // ============================================================
+
+        const waInput = document.getElementById('waNumber');
+        const optBtns = document.querySelectorAll('.select-opt');
+        const badakBtn = document.getElementById('badakBtn');
+        const backBtn = document.getElementById('backBtn');
+
+        const mainContainer = document.getElementById('mainContainer');
+        const tutorialContainer = document.getElementById('tutorialContainer');
+        const tutBackBtn = document.getElementById('tutBackBtn');
+
+        const videoOverlay = document.getElementById('videoOverlay');
+        const introVideo = document.getElementById('introVideo');
+        const skipVideo = document.getElementById('skipVideo');
+
+        const processOverlay = document.getElementById('processOverlay');
+        const processStatus = document.getElementById('processStatus');
+        const processSub = document.getElementById('processSub');
+        const progressFill = document.getElementById('progressFill');
+
+        const successOverlay = document.getElementById('successOverlay');
+        const successDetail = document.getElementById('successDetail');
+        const btnLanjut = document.getElementById('btnLanjut');
+
+        const toast = document.getElementById('toast');
+
+        let selectedLevel = '100';
+        let isProcessing = false;
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+        function showToast(msg, dur = 3000) {
+            toast.textContent = msg;
+            toast.classList.add('show');
+            clearTimeout(toast._timer);
+            toast._timer = setTimeout(() => toast.classList.remove('show'), dur);
+        }
+
+        // ============================================================
+        // BACK BUTTON
+        // ============================================================
+        backBtn.addEventListener('click', () => {
+            if (isProcessing) {
+                showToast('Proses badak sedang berjalan!');
+                return;
+            }
+            if (tutorialContainer.style.display !== 'none') {
+                tutorialContainer.style.display = 'none';
+                mainContainer.style.display = 'block';
+                return;
+            }
+            history.back();
+        });
+
+        // ============================================================
+        // SELECT OPTION
+        // ============================================================
+        optBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                optBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedLevel = btn.dataset.level;
+            });
+        });
+
+        // ============================================================
+        // BADAK BUTTON
+        // ============================================================
+        badakBtn.addEventListener('click', () => {
+            const number = waInput.value.trim();
+            if (!number) {
+                showToast('Masukkan nomor WhatsApp dulu!');
+                waInput.focus();
+                return;
+            }
+            if (number.length < 8) {
+                showToast('Nomor tidak valid!');
+                return;
+            }
+            if (isProcessing) return;
+
+            startBadakProcess(number);
+        });
+
+        function startBadakProcess(number) {
+            isProcessing = true;
+            badakBtn.disabled = true;
+
+            const levelLabel = selectedLevel === '500' ? '300-500 Chat' : `${selectedLevel} Chat`;
+
+            // ============================================================
+            // 1. TAMPILKAN VIDEO INTRO
+            // ============================================================
+            videoOverlay.classList.add('show');
+            introVideo.currentTime = 0;
+            introVideo.play();
+
+            skipVideo.classList.remove('show');
+            setTimeout(() => {
+                skipVideo.classList.add('show');
+            }, 3000);
+
+            // ============================================================
+            // 2. SETELAH VIDEO SELESAI ATAU DI-SKIP → TAMPILKAN PROSES
+            // ============================================================
+            function finishVideo() {
+                videoOverlay.classList.remove('show');
+                introVideo.pause();
+
+                // Tampilkan proses badak
+                showProcess(number, levelLabel);
+            }
+
+            introVideo.addEventListener('ended', finishVideo, { once: true });
+            skipVideo.addEventListener('click', finishVideo, { once: true });
+
+            // Fallback: 10 detik
+            setTimeout(() => {
+                if (videoOverlay.classList.contains('show')) {
+                    finishVideo();
+                }
+            }, 10000);
+        }
+
+        // ============================================================
+        // 3. PROSES BADAK (ANIMASI LOADING)
+        // ============================================================
+        function showProcess(number, levelLabel) {
+            processOverlay.classList.add('show');
+            progressFill.style.width = '0%';
+
+            const steps = [
+                { progress: 15, status: 'Mengaktifkan shield ...', sub: 'Memproses nomor +62' + number },
+                { progress: 35, status: 'Menghubungkan ke server ...', sub: 'Koneksi aman terenkripsi' },
+                { progress: 55, status: 'Menerapkan proteksi ...', sub: 'Level ' + levelLabel },
+                { progress: 75, status: 'Mengoptimalkan sistem ...', sub: 'Hampir selesai' },
+                { progress: 95, status: 'Finalisasi ...', sub: 'Menyiapkan hasil' },
+                { progress: 100, status: 'BADAK AKTIF!', sub: 'Proses selesai' }
+            ];
+
+            let stepIndex = 0;
+
+            function runStep() {
+                if (stepIndex >= steps.length) {
+                    // Selesai proses → tampilkan SUCCESS
+                    setTimeout(() => {
+                        processOverlay.classList.remove('show');
+                        showSuccess(number, levelLabel);
+                    }, 500);
+                    return;
+                }
+
+                const step = steps[stepIndex];
+                progressFill.style.width = step.progress + '%';
+                processStatus.textContent = step.status;
+                processSub.textContent = step.sub;
+
+                const delay = 700 + Math.random() * 800;
+                stepIndex++;
+                setTimeout(runStep, delay);
+            }
+
+            setTimeout(runStep, 600);
+        }
+
+        // ============================================================
+        // 4. SUCCESS BADAK (CENTANG BIRU + TOMBOL LANJUT)
+        // ============================================================
+        function showSuccess(number, levelLabel) {
+            successDetail.textContent = `+62 ${number} · Level: ${levelLabel}`;
+            successOverlay.classList.add('show');
+
+            isProcessing = false;
+            badakBtn.disabled = false;
+
+            console.log('✅ SUCCESS BADAK!');
+            console.log(`📱 Nomor: +62 ${number}`);
+            console.log(`🛡️ Level: ${levelLabel}`);
+        }
+
+        // ============================================================
+        // 5. TOMBOL LANJUT → TAMPILKAN TUTORIAL
+        // ============================================================
+        btnLanjut.addEventListener('click', () => {
+            successOverlay.classList.remove('show');
+            mainContainer.style.display = 'none';
+            tutorialContainer.style.display = 'block';
+            document.querySelector('.tutorial-page').classList.add('show');
+            showToast('📖 Baca tutorial dengan teliti!', 4000);
+        });
+
+        // ============================================================
+        // TUTORIAL BACK
+        // ============================================================
+        tutBackBtn.addEventListener('click', () => {
+            tutorialContainer.style.display = 'none';
+            mainContainer.style.display = 'block';
+        });
+
+        // ============================================================
+        // AUTO-FORMAT INPUT
+        // ============================================================
+        waInput.addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '');
+            if (this.value.startsWith('0')) {
+                this.value = this.value.slice(1);
+            }
+        });
+
+        // ============================================================
+        // KEYBOARD ENTER
+        // ============================================================
+        waInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                badakBtn.click();
+            }
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        console.log('🛡️ BADAK WA TOOLS · DEVONAX FINAL');
+        console.log('📱 Siap mengubah WA menjadi BADAK!');
+        console.log('🔑 Level: ' + selectedLevel);
+    </script>
+
+</body>
+  </html>
