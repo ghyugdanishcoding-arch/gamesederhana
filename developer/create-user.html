@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>CREATE USER | DEVONAX</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+:root{
+--bg:#070707;
+--card:#121212;
+--red:#ff2020;
+--red2:#ff5555;
+--text:#ffffff;
+--border:#303030;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+min-height:100vh;
+padding:18px 18px 100px;
+overflow-x:hidden;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at top left,#ff000018,transparent 35%),
+radial-gradient(circle at bottom right,#ff000018,transparent 35%);
+pointer-events:none;
+z-index:-1;
+}
+
+.grid{
+position:fixed;
+inset:0;
+opacity:.04;
+background-image:
+linear-gradient(#ff0000 1px,transparent 1px),
+linear-gradient(90deg,#ff0000 1px,transparent 1px);
+background-size:40px 40px;
+pointer-events:none;
+z-index:-1;
+}
+
+/* HEADER */
+
+header{
+display:flex;
+align-items:center;
+gap:14px;
+margin-bottom:24px;
+}
+
+.backBtn{
+width:50px;
+height:50px;
+border-radius:16px;
+background:#161616;
+border:1px solid #333;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+transition:.25s;
+}
+
+.backBtn:hover{
+border-color:#ff2020;
+box-shadow:0 0 15px rgba(255,0,0,.3);
+}
+
+.backBtn span{
+font-size:28px;
+}
+
+.headerText{
+flex:1;
+}
+
+.headerText h1{
+font-size:18px;
+letter-spacing:2px;
+}
+
+.headerText p{
+margin-top:6px;
+font-size:10px;
+color:#888;
+letter-spacing:1px;
+}
+
+/* CARD */
+
+.card{
+background:#121212;
+border:1px solid #333;
+border-radius:24px;
+padding:20px;
+box-shadow:0 0 20px rgba(255,0,0,.08);
+margin-bottom:18px;
+}
+
+.cardTitle{
+display:flex;
+align-items:center;
+gap:10px;
+font-size:14px;
+letter-spacing:2px;
+color:#ff5555;
+margin-bottom:20px;
+}
+
+.cardTitle span{
+font-size:23px;
+}
+
+/* FORM */
+
+.inputGroup{
+margin-bottom:18px;
+}
+
+.inputGroup label{
+display:block;
+font-size:10px;
+letter-spacing:1.5px;
+color:#aaa;
+margin-bottom:9px;
+}
+
+.inputWrap{
+position:relative;
+}
+
+.inputWrap > span{
+position:absolute;
+left:16px;
+top:50%;
+transform:translateY(-50%);
+font-size:22px;
+color:#ff4444;
+pointer-events:none;
+}
+
+.input{
+width:100%;
+height:56px;
+background:#181818;
+border:1px solid #353535;
+border-radius:16px;
+outline:none;
+color:white;
+padding:0 16px 0 52px;
+font-size:13px;
+transition:.25s;
+}
+
+.input:focus{
+border-color:#ff2020;
+box-shadow:0 0 14px rgba(255,0,0,.18);
+}
+
+.input::placeholder{
+color:#666;
+}
+
+/* PASSWORD */
+
+.passwordWrap{
+position:relative;
+}
+
+.passwordWrap .input{
+padding-right:58px;
+}
+
+#togglePassword{
+position:absolute;
+right:16px;
+top:50%;
+transform:translateY(-50%);
+color:#999;
+cursor:pointer;
+font-size:22px;
+transition:.2s;
+}
+
+#togglePassword:hover{
+color:#ff3030;
+}
+
+/* SELECT */
+
+.selectWrap{
+position:relative;
+}
+
+.selectWrap > span{
+position:absolute;
+left:16px;
+top:50%;
+transform:translateY(-50%);
+color:#ff4444;
+pointer-events:none;
+font-size:22px;
+}
+
+.select{
+width:100%;
+height:56px;
+padding:0 15px 0 52px;
+border-radius:16px;
+border:1px solid #353535;
+background:#181818;
+color:white;
+outline:none;
+font-family:'Orbitron',sans-serif;
+font-size:12px;
+appearance:none;
+}
+
+.select:focus{
+border-color:#ff2020;
+}
+
+/* ROLE */
+
+.rolePreview{
+margin-top:10px;
+padding:13px;
+border-radius:14px;
+background:#170909;
+border:1px solid #3d1111;
+font-size:10px;
+color:#aaa;
+line-height:1.6;
+}
+
+.rolePreview b{
+color:#ff5555;
+}
+
+/* EXPIRY */
+
+.expireBox{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+}
+
+.expireBtn{
+height:48px;
+border-radius:14px;
+border:1px solid #353535;
+background:#181818;
+color:#aaa;
+font-family:'Orbitron',sans-serif;
+font-size:10px;
+cursor:pointer;
+transition:.2s;
+}
+
+.expireBtn:hover,
+.expireBtn.active{
+background:#2a0000;
+border-color:#ff2020;
+color:#ff5555;
+box-shadow:0 0 12px rgba(255,0,0,.15);
+}
+
+/* CREATE */
+
+#createBtn{
+width:100%;
+height:60px;
+border:none;
+border-radius:18px;
+background:#ff2020;
+color:white;
+font-family:'Orbitron',sans-serif;
+font-size:14px;
+font-weight:bold;
+letter-spacing:3px;
+cursor:pointer;
+box-shadow:0 0 22px rgba(255,0,0,.4);
+transition:.25s;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+}
+
+#createBtn:hover{
+transform:translateY(-2px);
+box-shadow:0 0 30px rgba(255,0,0,.6);
+}
+
+#createBtn:disabled{
+opacity:.6;
+cursor:not-allowed;
+transform:none;
+}
+
+/* STATUS */
+
+#status{
+margin-top:16px;
+min-height:18px;
+text-align:center;
+font-size:10px;
+line-height:1.6;
+letter-spacing:.5px;
+color:#888;
+}
+
+/* INFO */
+
+.infoBox{
+padding:15px;
+border-radius:16px;
+background:#101010;
+border:1px solid #292929;
+}
+
+.infoRow{
+display:flex;
+gap:12px;
+margin-bottom:12px;
+}
+
+.infoRow:last-child{
+margin-bottom:0;
+}
+
+.infoRow span{
+color:#ff4444;
+font-size:22px;
+}
+
+.infoRow b{
+display:block;
+font-size:10px;
+color:#ddd;
+margin-bottom:5px;
+}
+
+.infoRow p{
+font-size:9px;
+color:#777;
+line-height:1.6;
+}
+
+/* BOTTOM NAV */
+
+.bottomNav{
+position:fixed;
+left:15px;
+right:15px;
+bottom:15px;
+height:68px;
+background:#121212;
+border:1px solid #333;
+border-radius:35px;
+display:flex;
+justify-content:space-around;
+align-items:center;
+box-shadow:0 0 20px rgba(255,0,0,.15);
+z-index:100;
+}
+
+.bottomNav a{
+color:#888;
+text-decoration:none;
+display:flex;
+align-items:center;
+justify-content:center;
+width:55px;
+height:55px;
+border-radius:50%;
+}
+
+.bottomNav a.active{
+color:#ff2020;
+background:#210000;
+}
+
+.bottomNav span{
+font-size:28px;
+}
+
+/* SUCCESS */
+
+.successCard{
+display:none;
+text-align:center;
+animation:fadeIn .4s ease;
+}
+
+.successIcon{
+width:75px;
+height:75px;
+margin:0 auto 18px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#062414;
+border:1px solid #00aa55;
+color:#00ff88;
+box-shadow:0 0 20px rgba(0,255,136,.2);
+}
+
+.successIcon span{
+font-size:42px;
+}
+
+.successCard h2{
+font-size:17px;
+margin-bottom:10px;
+}
+
+.successCard p{
+font-size:10px;
+color:#999;
+line-height:1.7;
+}
+
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(10px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@media(max-width:360px){
+
+.expireBox{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<header>
+
+<div class="backBtn" onclick="location.href='dashboard.html'">
+
+<span class="material-symbols-outlined">
+arrow_back
+</span>
+
+</div>
+
+<div class="headerText">
+
+<h1>CREATE USER</h1>
+
+<p>CREATE USER • ADMIN • DEVELOPER</p>
+
+</div>
+
+</header>
+
+
+<!-- FORM -->
+
+<div class="card" id="formCard">
+
+<div class="cardTitle">
+
+<span class="material-symbols-outlined">
+person_add
+</span>
+
+ACCOUNT INFORMATION
+
+</div>
+
+
+<div class="inputGroup">
+
+<label>USERNAME</label>
+
+<div class="inputWrap">
+
+<span class="material-symbols-outlined">
+person
+</span>
+
+<input
+id="username"
+class="input"
+type="text"
+placeholder="Contoh: DANZZ"
+autocomplete="off"
+maxlength="30">
+
+</div>
+
+</div>
+
+
+<div class="inputGroup">
+
+<label>EMAIL FIREBASE</label>
+
+<div class="inputWrap">
+
+<span class="material-symbols-outlined">
+mail
+</span>
+
+<input
+id="email"
+class="input"
+type="email"
+placeholder="contoh@email.com"
+autocomplete="off">
+
+</div>
+
+</div>
+
+
+<div class="inputGroup">
+
+<label>PASSWORD</label>
+
+<div class="inputWrap passwordWrap">
+
+<span class="material-symbols-outlined">
+lock
+</span>
+
+<input
+id="password"
+class="input"
+type="password"
+placeholder="Minimal 6 karakter"
+autocomplete="new-password">
+
+<span
+id="togglePassword"
+class="material-symbols-outlined">
+
+visibility
+
+</span>
+
+</div>
+
+</div>
+
+
+<div class="inputGroup">
+
+<label>ROLE ACCOUNT</label>
+
+<div class="selectWrap">
+
+<span class="material-symbols-outlined">
+admin_panel_settings
+</span>
+
+<select id="role" class="select">
+
+<option value="user">USER</option>
+
+<option value="admin">ADMIN</option>
+
+<option value="developer">DEVELOPER</option>
+
+</select>
+
+</div>
+
+<div class="rolePreview" id="rolePreview">
+
+<b>USER</b><br>
+
+Akses dasar untuk menggunakan fitur aplikasi.
+
+</div>
+
+</div>
+
+
+<div class="inputGroup">
+
+<label>MASA AKTIF AKUN</label>
+
+<div class="expireBox">
+
+<button class="expireBtn active" data-days="0">
+PERMANENT
+</button>
+
+<button class="expireBtn" data-days="1">
+1 HARI
+</button>
+
+<button class="expireBtn" data-days="7">
+7 HARI
+</button>
+
+<button class="expireBtn" data-days="30">
+30 HARI
+</button>
+
+<button class="expireBtn" data-days="90">
+90 HARI
+</button>
+
+<button class="expireBtn" data-days="365">
+1 TAHUN
+</button>
+
+</div>
+
+</div>
+
+
+<button id="createBtn">
+
+<span class="material-symbols-outlined">
+person_add
+</span>
+
+CREATE ACCOUNT
+
+</button>
+
+<div id="status"></div>
+
+</div>
+
+
+<!-- SUCCESS -->
+
+<div class="card successCard" id="successCard">
+
+<div class="successIcon">
+
+<span class="material-symbols-outlined">
+check
+</span>
+
+</div>
+
+<h2>ACCOUNT CREATED!</h2>
+
+<p id="successText">
+User berhasil dibuat.
+</p>
+
+</div>
+
+
+<!-- INFORMATION -->
+
+<div class="card">
+
+<div class="cardTitle">
+
+<span class="material-symbols-outlined">
+info
+</span>
+
+INFORMATION
+
+</div>
+
+<div class="infoBox">
+
+<div class="infoRow">
+
+<span class="material-symbols-outlined">
+person
+</span>
+
+<div>
+
+<b>USERNAME LOGIN</b>
+
+<p>User dapat login menggunakan username atau email sesuai sistem login Firebase kamu.</p>
+
+</div>
+
+</div>
+
+<div class="infoRow">
+
+<span class="material-symbols-outlined">
+shield
+</span>
+
+<div>
+
+<b>ROLE SYSTEM</b>
+
+<p>User, Admin, dan Developer memiliki role berbeda yang tersimpan di Firebase Database.</p>
+
+</div>
+
+</div>
+
+<div class="infoRow">
+
+<span class="material-symbols-outlined">
+schedule
+</span>
+
+<div>
+
+<b>ACCOUNT EXPIRY</b>
+
+<p>Jika akun memiliki masa aktif, user akan otomatis dianggap expired setelah waktu habis.</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<nav class="bottomNav">
+
+<a href="dashboard.html">
+
+<span class="material-symbols-outlined">
+home
+</span>
+
+</a>
+
+<a href="users.html">
+
+<span class="material-symbols-outlined">
+groups
+</span>
+
+</a>
+
+<a href="create-user.html" class="active">
+
+<span class="material-symbols-outlined">
+person_add
+</span>
+
+</a>
+
+<a href="../change-password.html">
+
+<span class="material-symbols-outlined">
+settings
+</span>
+
+</a>
+
+</nav>
+
+
+<script type="module">
+
+import {
+initializeApp,
+getApps,
+getApp
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged,
+createUserWithEmailAndPassword,
+signOut
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+get,
+set,
+update
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+
+/* =========================
+   FIREBASE CONFIG
+========================= */
+
+const firebaseConfig={
+
+apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+
+authDomain:"project-coding-gabut.firebaseapp.com",
+
+databaseURL:"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+projectId:"project-coding-gabut",
+
+storageBucket:"project-coding-gabut.firebasestorage.app",
+
+messagingSenderId:"234910334669",
+
+appId:"1:234910334669:web:5203c9e9ce22a596f2b384"
+
+};
+
+
+/* =========================
+   MAIN APP
+========================= */
+
+const app =
+getApps().length
+? getApp()
+: initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getDatabase(app);
+
+
+/* =========================
+   SECONDARY APP
+
+   Agar developer yang sedang
+   login tidak otomatis pindah
+   ke akun baru
+========================= */
+
+const secondaryApp=
+initializeApp(
+firebaseConfig,
+"createUserSecondary"
+);
+
+const secondaryAuth=
+getAuth(secondaryApp);
+
+
+/* =========================
+   ELEMENT
+========================= */
+
+const usernameInput=
+document.getElementById("username");
+
+const emailInput=
+document.getElementById("email");
+
+const passwordInput=
+document.getElementById("password");
+
+const roleInput=
+document.getElementById("role");
+
+const createBtn=
+document.getElementById("createBtn");
+
+const statusEl=
+document.getElementById("status");
+
+const rolePreview=
+document.getElementById("rolePreview");
+
+const formCard=
+document.getElementById("formCard");
+
+const successCard=
+document.getElementById("successCard");
+
+const successText=
+document.getElementById("successText");
+
+const togglePassword=
+document.getElementById("togglePassword");
+
+
+/* =========================
+   PASSWORD TOGGLE
+========================= */
+
+togglePassword.onclick=()=>{
+
+if(passwordInput.type==="password"){
+
+passwordInput.type="text";
+
+togglePassword.textContent=
+"visibility_off";
+
+}else{
+
+passwordInput.type="password";
+
+togglePassword.textContent=
+"visibility";
+
+}
+
+};
+
+
+/* =========================
+   ROLE PREVIEW
+========================= */
+
+const roleInfo={
+
+user:`
+<b>USER</b><br>
+Akses dasar untuk menggunakan fitur aplikasi.
+`,
+
+admin:`
+<b>ADMIN</b><br>
+Memiliki akses administrasi sesuai pengaturan panel.
+`,
+
+developer:`
+<b>DEVELOPER</b><br>
+Memiliki akses penuh untuk manajemen developer dan sistem.
+`
+
+};
+
+roleInput.onchange=()=>{
+
+rolePreview.innerHTML=
+roleInfo[roleInput.value];
+
+};
+
+
+/* =========================
+   EXPIRY SELECTOR
+========================= */
+
+let selectedDays=0;
+
+const expireButtons=
+document.querySelectorAll(".expireBtn");
+
+expireButtons.forEach(button=>{
+
+button.onclick=()=>{
+
+expireButtons.forEach(btn=>{
+
+btn.classList.remove("active");
+
+});
+
+button.classList.add("active");
+
+selectedDays=
+Number(button.dataset.days);
+
+};
+
+});
+
+
+/* =========================
+   STATUS
+========================= */
+
+function showStatus(
+message,
+color="#999"
+){
+
+statusEl.textContent=message;
+
+statusEl.style.color=color;
+
+}
+
+
+/* =========================
+   PROTECT PAGE
+
+   Hanya developer
+========================= */
+
+let currentDeveloper=null;
+
+onAuthStateChanged(
+auth,
+async(user)=>{
+
+if(!user){
+
+location.replace("../login.html");
+
+return;
+
+}
+
+try{
+
+const userSnap=
+await get(
+ref(db,"users/"+user.uid)
+);
+
+if(!userSnap.exists()){
+
+await signOut(auth);
+
+location.replace("../login.html");
+
+return;
+
+}
+
+const userData=
+userSnap.val();
+
+const role=
+String(
+userData.role||"user"
+).toLowerCase();
+
+
+if(role!=="developer"){
+
+alert(
+"Akses ditolak! Halaman ini hanya untuk Developer."
+);
+
+location.replace("dashboard.html");
+
+return;
+
+}
+
+currentDeveloper=user;
+
+}catch(error){
+
+console.error(error);
+
+showStatus(
+"Gagal memverifikasi akses developer.",
+"#ff4444"
+);
+
+}
+
+});
+
+
+/* =========================
+   NORMALIZE USERNAME
+========================= */
+
+function normalizeUsername(value){
+
+return value
+.trim()
+.toLowerCase()
+.replace(/\s+/g,"");
+
+}
+
+
+/* =========================
+   DATE FORMAT
+========================= */
+
+function formatDate(timestamp){
+
+if(!timestamp) return "Permanent";
+
+return new Date(timestamp)
+.toLocaleString(
+"id-ID",
+{
+day:"2-digit",
+month:"2-digit",
+year:"numeric",
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+}
+
+
+/* =========================
+   CREATE USER
+========================= */
+
+createBtn.onclick=async()=>{
+
+if(!currentDeveloper){
+
+showStatus(
+"Sedang memverifikasi akun developer...",
+"#ffb000"
+);
+
+return;
+
+}
+
+const username=
+usernameInput.value.trim();
+
+const usernameKey=
+normalizeUsername(username);
+
+const email=
+emailInput.value.trim();
+
+const password=
+passwordInput.value;
+
+const role=
+roleInput.value;
+
+
+if(!username){
+
+showStatus(
+"Username wajib diisi!",
+"#ff4444"
+);
+
+return;
+
+}
+
+
+if(username.length<3){
+
+showStatus(
+"Username minimal 3 karakter!",
+"#ff4444"
+);
+
+return;
+
+}
+
+
+if(!/^[a-zA-Z0-9_.-]+$/.test(username)){
+
+showStatus(
+"Username hanya boleh huruf, angka, titik, strip, atau underscore!",
+"#ff4444"
+);
+
+return;
+
+}
+
+
+if(!email){
+
+showStatus(
+"Email Firebase wajib diisi!",
+"#ff4444"
+);
+
+return;
+
+}
+
+
+if(!email.includes("@")){
+
+showStatus(
+"Format email tidak valid!",
+"#ff4444"
+);
+
+return;
+
+}
+
+
+if(password.length<6){
+
+showStatus(
+"Password minimal 6 karakter!",
+"#ff4444"
+);
+
+return;
+
+}
+
+
+createBtn.disabled=true;
+
+showStatus(
+"Memeriksa username...",
+"#ffffff"
+);
+
+
+try{
+
+
+/* =========================
+   CHECK USERNAME UNIQUE
+========================= */
+
+const usernameSnap=
+await get(
+ref(
+db,
+"usernameIndex/"+usernameKey
+)
+);
+
+
+if(usernameSnap.exists()){
+
+throw new Error(
+"USERNAME_EXISTS"
+);
+
+}
+
+
+/* =========================
+   CREATE FIREBASE AUTH
+========================= */
+
+showStatus(
+"Membuat akun Firebase...",
+"#ffffff"
+);
+
+const credential=
+await createUserWithEmailAndPassword(
+secondaryAuth,
+email,
+password
+);
+
+const newUser=
+credential.user;
+
+
+/* =========================
+   EXPIRATION
+========================= */
+
+let expiredAt=0;
+
+let expired="Permanent";
+
+
+if(selectedDays>0){
+
+expiredAt=
+Date.now()+
+(selectedDays*24*60*60*1000);
+
+expired=
+formatDate(expiredAt);
+
+}
+
+
+/* =========================
+   SAVE DATABASE
+========================= */
+
+showStatus(
+"Menyimpan profil user...",
+"#ffffff"
+);
+
+const userData={
+
+uid:newUser.uid,
+
+username:username,
+
+usernameLower:usernameKey,
+
+email:email,
+
+role:role,
+
+photoURL:"",
+
+story:null,
+
+createdAt:Date.now(),
+
+createdBy:currentDeveloper.uid,
+
+expired:expired,
+
+expiredAt:expiredAt,
+
+status:"active"
+
+};
+
+
+const updates={};
+
+
+/* USER DATA */
+
+updates[
+"users/"+newUser.uid
+]=userData;
+
+
+/* USERNAME INDEX */
+
+updates[
+"usernameIndex/"+usernameKey
+]=newUser.uid;
+
+
+/* ACTIVITY LOG */
+
+const logId=
+"create_"+Date.now()+"_"+newUser.uid;
+
+updates[
+"logs/"+logId
+]={
+action:"CREATE_USER",
+developer:currentDeveloper.uid,
+targetUid:newUser.uid,
+targetUsername:username,
+role:role,
+time:Date.now()
+};
+
+
+await update(
+ref(db),
+updates
+);
+
+
+/* LOGOUT SECONDARY */
+
+await signOut(
+secondaryAuth
+);
+
+
+/* SUCCESS */
+
+showStatus(
+"Akun berhasil dibuat!",
+"#00ff88"
+);
+
+successText.innerHTML=
+`
+Username: <b>${username}</b><br>
+Role: <b>${role.toUpperCase()}</b><br>
+Expired: <b>${expired}</b>
+`;
+
+successCard.style.display="block";
+
+
+/* RESET FORM */
+
+usernameInput.value="";
+emailInput.value="";
+passwordInput.value="";
+roleInput.value="user";
+
+selectedDays=0;
+
+expireButtons.forEach(btn=>{
+
+btn.classList.remove("active");
+
+if(Number(btn.dataset.days)===0){
+
+btn.classList.add("active");
+
+}
+
+});
+
+rolePreview.innerHTML=
+roleInfo.user;
+
+
+/* SCROLL SUCCESS */
+
+setTimeout(()=>{
+
+successCard.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+},200);
+
+
+}catch(error){
+
+console.error(
+"CREATE USER ERROR:",
+error
+);
+
+
+/* JIKA AUTH SUDAH TERBUAT
+   TAPI DATABASE GAGAL,
+   secondary user di-logout */
+
+try{
+
+await signOut(
+secondaryAuth
+);
+
+}catch(e){}
+
+
+let message=
+"Gagal membuat akun!";
+
+
+if(
+error.code==="auth/email-already-in-use"
+){
+
+message=
+"Email sudah terdaftar di Firebase!";
+
+}
+
+
+else if(
+error.code==="auth/invalid-email"
+){
+
+message=
+"Email tidak valid!";
+
+}
+
+
+else if(
+error.code==="auth/weak-password"
+){
+
+message=
+"Password terlalu lemah!";
+
+}
+
+
+else if(
+error.message==="USERNAME_EXISTS"
+){
+
+message=
+"Username sudah digunakan!";
+
+}
+
+
+else if(
+error.code==="auth/network-request-failed"
+){
+
+message=
+"Tidak ada koneksi internet!";
+
+}
+
+
+else if(
+error.code==="auth/operation-not-allowed"
+){
+
+message=
+"Email/Password belum diaktifkan di Firebase Authentication!";
+
+}
+
+
+showStatus(
+message,
+"#ff4444"
+);
+
+}
+
+finally{
+
+createBtn.disabled=false;
+
+}
+
+};
+
+
+</script>
+
+</body>
+  </html>
