@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>CREATE USER - PROJECT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+:root{
+--bg:#070707;
+--card:#121212;
+--red:#ff2020;
+--text:#ffffff;
+--border:#303030;
+--input:#181818;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+min-height:100vh;
+padding:18px 18px 100px;
+overflow-x:hidden;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at top left,#ff000018,transparent 35%),
+radial-gradient(circle at bottom right,#ff000018,transparent 35%);
+pointer-events:none;
+}
+
+.grid{
+position:fixed;
+inset:0;
+opacity:.04;
+background-image:
+linear-gradient(#ff0000 1px,transparent 1px),
+linear-gradient(90deg,#ff0000 1px,transparent 1px);
+background-size:40px 40px;
+pointer-events:none;
+z-index:0;
+}
+
+.page{
+position:relative;
+z-index:1;
+max-width:600px;
+margin:auto;
+}
+
+header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:25px;
+}
+
+.backBtn{
+width:50px;
+height:50px;
+border-radius:16px;
+border:1px solid #333;
+background:#151515;
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+transition:.25s;
+}
+
+.backBtn:hover{
+border-color:var(--red);
+box-shadow:0 0 18px rgba(255,0,0,.3);
+}
+
+.logo{
+font-size:22px;
+font-weight:800;
+letter-spacing:5px;
+}
+
+.headerSpace{
+width:50px;
+}
+
+.card{
+background:var(--card);
+border:1px solid #333;
+border-radius:24px;
+padding:20px;
+box-shadow:0 0 25px rgba(255,0,0,.08);
+}
+
+.cardTitle{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:8px;
+color:#ff5555;
+font-size:16px;
+letter-spacing:2px;
+}
+
+.cardTitle span{
+font-size:28px;
+}
+
+.description{
+font-family:Arial,sans-serif;
+font-size:12px;
+line-height:1.6;
+color:#888;
+margin-bottom:22px;
+}
+
+.field{
+margin-bottom:18px;
+}
+
+label{
+display:block;
+font-size:11px;
+letter-spacing:1px;
+color:#aaa;
+margin-bottom:9px;
+}
+
+.inputBox{
+position:relative;
+}
+
+.inputBox > span{
+position:absolute;
+left:15px;
+top:50%;
+transform:translateY(-50%);
+font-size:22px;
+color:#ff4444;
+pointer-events:none;
+}
+
+input,
+select{
+width:100%;
+height:56px;
+background:var(--input);
+border:1px solid #333;
+border-radius:16px;
+outline:none;
+color:#fff;
+padding:0 16px 0 52px;
+font-size:13px;
+font-family:'Orbitron',sans-serif;
+transition:.25s;
+}
+
+select{
+padding-left:16px;
+cursor:pointer;
+}
+
+input:focus,
+select:focus{
+border-color:var(--red);
+box-shadow:0 0 15px rgba(255,0,0,.2);
+}
+
+.passwordWrap{
+position:relative;
+}
+
+.passwordWrap > .leftIcon{
+position:absolute;
+left:15px;
+top:50%;
+transform:translateY(-50%);
+font-size:22px;
+color:#ff4444;
+pointer-events:none;
+}
+
+.passwordWrap input{
+padding-left:52px;
+padding-right:55px;
+}
+
+.togglePassword{
+position:absolute;
+right:15px;
+top:50%;
+transform:translateY(-50%);
+font-size:22px;
+color:#999;
+cursor:pointer;
+}
+
+.togglePassword:hover{
+color:#ff3030;
+}
+
+.durationGrid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+}
+
+.durationBtn{
+height:60px;
+background:#171717;
+border:1px solid #333;
+border-radius:16px;
+color:#aaa;
+font-family:'Orbitron',sans-serif;
+font-size:10px;
+font-weight:bold;
+cursor:pointer;
+transition:.25s;
+}
+
+.durationBtn.active{
+background:#280000;
+border-color:#ff2020;
+color:#fff;
+box-shadow:0 0 15px rgba(255,0,0,.18);
+}
+
+.customDuration{
+display:none;
+margin-top:14px;
+}
+
+.customDuration.show{
+display:block;
+}
+
+.createBtn{
+width:100%;
+height:60px;
+border:none;
+border-radius:18px;
+background:#ff2020;
+color:#fff;
+font-family:'Orbitron',sans-serif;
+font-size:15px;
+font-weight:800;
+letter-spacing:3px;
+cursor:pointer;
+box-shadow:0 0 22px rgba(255,0,0,.4);
+transition:.25s;
+margin-top:5px;
+}
+
+.createBtn:hover{
+transform:translateY(-2px);
+box-shadow:0 0 30px rgba(255,0,0,.6);
+}
+
+.createBtn:disabled{
+opacity:.6;
+cursor:not-allowed;
+transform:none;
+}
+
+.status{
+min-height:20px;
+margin-top:16px;
+text-align:center;
+font-family:Arial,sans-serif;
+font-size:13px;
+color:#999;
+}
+
+.preview{
+margin-top:20px;
+padding:16px;
+border-radius:18px;
+background:#161616;
+border:1px solid #2c2c2c;
+}
+
+.previewTitle{
+font-size:10px;
+color:#ff5555;
+letter-spacing:2px;
+margin-bottom:12px;
+}
+
+.previewRow{
+display:flex;
+justify-content:space-between;
+gap:15px;
+padding:8px 0;
+border-bottom:1px solid #252525;
+font-family:Arial,sans-serif;
+font-size:12px;
+}
+
+.previewRow:last-child{
+border-bottom:none;
+}
+
+.previewRow span:last-child{
+color:#ddd;
+text-align:right;
+word-break:break-word;
+}
+
+@media(max-width:420px){
+
+.durationGrid{
+grid-template-columns:1fr;
+}
+
+.logo{
+font-size:17px;
+letter-spacing:3px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<div class="page">
+
+<header>
+
+<div class="backBtn" onclick="location.href='dashboard.html'">
+<span class="material-symbols-outlined">
+arrow_back
+</span>
+</div>
+
+<div class="logo">
+CREATE USER
+</div>
+
+<div class="headerSpace"></div>
+
+</header>
+
+<div class="card">
+
+<div class="cardTitle">
+
+<span class="material-symbols-outlined">
+person_add
+</span>
+
+CREATE NEW ACCOUNT
+
+</div>
+
+<div class="description">
+Buat akun baru dengan role dan durasi akses yang dapat disesuaikan.
+User dapat login menggunakan username dan password.
+</div>
+
+
+<div class="field">
+
+<label>USERNAME</label>
+
+<div class="inputBox">
+
+<span class="material-symbols-outlined">
+person
+</span>
+
+<input
+id="username"
+type="text"
+placeholder="Contoh: DANZZ"
+autocomplete="off"
+maxlength="30">
+
+</div>
+
+</div>
+
+
+<div class="field">
+
+<label>PASSWORD</label>
+
+<div class="passwordWrap">
+
+<span class="material-symbols-outlined leftIcon">
+lock
+</span>
+
+<input
+id="password"
+type="password"
+placeholder="Minimal 6 karakter"
+autocomplete="new-password">
+
+<span
+id="togglePassword"
+class="material-symbols-outlined togglePassword">
+visibility
+</span>
+
+</div>
+
+</div>
+
+
+<div class="field">
+
+<label>ROLE ACCOUNT</label>
+
+<select id="role">
+
+<option value="developer">
+DEVELOPER
+</option>
+
+<option value="owner">
+OWNER
+</option>
+
+<option value="reseller">
+RESELLER
+</option>
+
+<option value="VIP">
+VIP
+</option>
+
+<option value="member" selected>
+MEMBER
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>DURASI AKUN</label>
+
+<div class="durationGrid">
+
+<button
+type="button"
+class="durationBtn active"
+data-duration="permanent">
+
+PERMANEN
+
+</button>
+
+<button
+type="button"
+class="durationBtn"
+data-duration="30">
+
+30 HARI
+
+</button>
+
+<button
+type="button"
+class="durationBtn"
+data-duration="custom">
+
+ISI SENDIRI
+
+</button>
+
+</div>
+
+
+<div id="customDurationBox" class="customDuration">
+
+<label>JUMLAH HARI</label>
+
+<div class="inputBox">
+
+<span class="material-symbols-outlined">
+calendar_month
+</span>
+
+<input
+id="customDays"
+type="number"
+min="1"
+placeholder="Contoh: 7">
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="preview">
+
+<div class="previewTitle">
+ACCOUNT PREVIEW
+</div>
+
+<div class="previewRow">
+<span>Username</span>
+<span id="previewUsername">-</span>
+</div>
+
+<div class="previewRow">
+<span>Role</span>
+<span id="previewRole">MEMBER</span>
+</div>
+
+<div class="previewRow">
+<span>Durasi</span>
+<span id="previewDuration">PERMANEN</span>
+</div>
+
+<div class="previewRow">
+<span>Expired</span>
+<span id="previewExpired">Tidak terbatas</span>
+</div>
+
+</div>
+
+
+<div id="status" class="status"></div>
+
+<button id="createBtn" class="createBtn">
+
+CREATE USER
+
+</button>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged,
+createUserWithEmailAndPassword,
+signOut
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+get,
+set
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+
+/* FIREBASE CONFIG */
+
+const firebaseConfig={
+
+apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+
+authDomain:"project-coding-gabut.firebaseapp.com",
+
+databaseURL:"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+projectId:"project-coding-gabut",
+
+storageBucket:"project-coding-gabut.firebasestorage.app",
+
+messagingSenderId:"234910334669",
+
+appId:"1:234910334669:web:5203c9e9ce22a596f2b384"
+
+};
+
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getDatabase(app);
+
+
+/* ELEMENT */
+
+const usernameInput=
+document.getElementById("username");
+
+const passwordInput=
+document.getElementById("password");
+
+const roleInput=
+document.getElementById("role");
+
+const customDaysInput=
+document.getElementById("customDays");
+
+const customDurationBox=
+document.getElementById("customDurationBox");
+
+const createBtn=
+document.getElementById("createBtn");
+
+const status=
+document.getElementById("status");
+
+const togglePassword=
+document.getElementById("togglePassword");
+
+
+/* LOGIN DEVELOPER CHECK */
+
+let developerUser=null;
+
+onAuthStateChanged(auth,async(user)=>{
+
+if(!user){
+
+location.replace("../login.html");
+
+return;
+
+}
+
+const snap=await get(
+ref(db,"users/"+user.uid)
+);
+
+if(!snap.exists()){
+
+location.replace("../setup.html");
+
+return;
+
+}
+
+const userData=snap.val();
+
+const role=String(
+userData.role||""
+).toLowerCase();
+
+
+/*
+Hanya developer yang dapat
+mengakses halaman create user
+*/
+
+if(role!=="developer"){
+
+alert(
+"Akses ditolak! Halaman ini hanya untuk Developer."
+);
+
+location.replace("dashboard.html");
+
+return;
+
+}
+
+developerUser=user;
+
+});
+
+
+/* PASSWORD TOGGLE */
+
+togglePassword.onclick=()=>{
+
+if(passwordInput.type==="password"){
+
+passwordInput.type="text";
+
+togglePassword.textContent=
+"visibility_off";
+
+}else{
+
+passwordInput.type="password";
+
+togglePassword.textContent=
+"visibility";
+
+}
+
+};
+
+
+/* DURATION */
+
+let selectedDuration="permanent";
+
+const durationButtons=
+document.querySelectorAll(".durationBtn");
+
+durationButtons.forEach(btn=>{
+
+btn.onclick=()=>{
+
+durationButtons.forEach(item=>{
+
+item.classList.remove("active");
+
+});
+
+btn.classList.add("active");
+
+selectedDuration=
+btn.dataset.duration;
+
+
+if(selectedDuration==="custom"){
+
+customDurationBox.classList.add("show");
+
+}else{
+
+customDurationBox.classList.remove("show");
+
+}
+
+updatePreview();
+
+};
+
+});
+
+
+/* USERNAME NORMALIZATION */
+
+function normalizeUsername(value){
+
+return value
+.trim()
+.toLowerCase()
+.replace(/\s+/g,"");
+
+}
+
+
+/* INTERNAL EMAIL */
+
+function generateInternalEmail(username){
+
+const cleanUsername=
+normalizeUsername(username)
+.replace(/[^a-z0-9._-]/g,"");
+
+return cleanUsername+
+"@project-user.dev";
+
+}
+
+
+/* DATE FORMAT */
+
+function formatDate(timestamp){
+
+if(!timestamp){
+
+return "Tidak terbatas";
+
+}
+
+return new Date(timestamp)
+.toLocaleString("id-ID",{
+
+day:"2-digit",
+month:"long",
+year:"numeric",
+
+hour:"2-digit",
+minute:"2-digit"
+
+});
+
+}
+
+
+/* GET DURATION DATA */
+
+function getDurationData(){
+
+const now=Date.now();
+
+
+if(selectedDuration==="permanent"){
+
+return{
+
+expired:"Permanen",
+
+expiredAt:0,
+
+days:0
+
+};
+
+}
+
+
+if(selectedDuration==="30"){
+
+const days=30;
+
+const expiredAt=
+now+(days*24*60*60*1000);
+
+return{
+
+expired:formatDate(expiredAt),
+
+expiredAt,
+
+days
+
+};
+
+}
+
+
+const days=
+Number(customDaysInput.value);
+
+
+if(!days||days<1){
+
+return null;
+
+}
+
+
+const expiredAt=
+now+(days*24*60*60*1000);
+
+return{
+
+expired:formatDate(expiredAt),
+
+expiredAt,
+
+days
+
+};
+
+}
+
+
+/* PREVIEW */
+
+function updatePreview(){
+
+const username=
+usernameInput.value.trim()||"-";
+
+const role=
+roleInput.value.toUpperCase();
+
+document.getElementById(
+"previewUsername"
+).textContent=username;
+
+document.getElementById(
+"previewRole"
+).textContent=role;
+
+
+const duration=getDurationData();
+
+
+if(selectedDuration==="permanent"){
+
+document.getElementById(
+"previewDuration"
+).textContent="PERMANEN";
+
+document.getElementById(
+"previewExpired"
+).textContent="Tidak terbatas";
+
+return;
+
+}
+
+
+if(selectedDuration==="30"){
+
+document.getElementById(
+"previewDuration"
+).textContent="30 HARI";
+
+}else{
+
+const days=
+Number(customDaysInput.value)||0;
+
+document.getElementById(
+"previewDuration"
+).textContent=
+days>0
+?days+" HARI"
+:"ISI JUMLAH HARI";
+
+}
+
+
+document.getElementById(
+"previewExpired"
+).textContent=
+duration
+?duration.expired
+:"-";
+
+}
+
+
+usernameInput.addEventListener(
+"input",
+updatePreview
+);
+
+roleInput.addEventListener(
+"change",
+updatePreview
+);
+
+customDaysInput.addEventListener(
+"input",
+updatePreview
+);
+
+updatePreview();
+
+
+/* CREATE USER */
+
+createBtn.onclick=async()=>{
+
+
+if(!developerUser){
+
+status.style.color="#ff5555";
+
+status.textContent=
+"Memeriksa akses Developer...";
+
+return;
+
+}
+
+
+const usernameRaw=
+usernameInput.value.trim();
+
+const username=
+normalizeUsername(usernameRaw);
+
+const password=
+passwordInput.value;
+
+const role=
+roleInput.value;
+
+
+if(!usernameRaw){
+
+status.style.color="#ff5555";
+
+status.textContent=
+"Username wajib diisi.";
+
+return;
+
+}
+
+
+if(username.length<3){
+
+status.style.color="#ff5555";
+
+status.textContent=
+"Username minimal 3 karakter.";
+
+return;
+
+}
+
+
+if(!/^[a-z0-9._-]+$/i.test(username)){
+
+status.style.color="#ff5555";
+
+status.textContent=
+"Username hanya boleh huruf, angka, titik, underscore, atau strip.";
+
+return;
+
+}
+
+
+if(password.length<6){
+
+status.style.color="#ff5555";
+
+status.textContent=
+"Password minimal 6 karakter.";
+
+return;
+
+}
+
+
+const durationData=
+getDurationData();
+
+
+if(!durationData){
+
+status.style.color="#ff5555";
+
+status.textContent=
+"Masukkan jumlah hari yang valid.";
+
+return;
+
+}
+
+
+const internalEmail=
+generateInternalEmail(username);
+
+
+try{
+
+
+createBtn.disabled=true;
+
+createBtn.textContent=
+"CHECKING...";
+
+status.style.color="#fff";
+
+status.textContent=
+"Memeriksa username...";
+
+
+/*
+Cek username unik.
+
+Data disimpan dalam:
+usernames/{username}
+*/
+
+const usernameSnap=
+await get(
+ref(db,"usernames/"+username)
+);
+
+
+if(usernameSnap.exists()){
+
+throw new Error(
+"USERNAME_ALREADY_EXISTS"
+);
+
+}
+
+
+createBtn.textContent=
+"CREATING...";
+
+status.textContent=
+"Membuat akun Firebase...";
+
+
+/*
+Simpan sesi developer sementara
+karena createUserWithEmailAndPassword
+akan otomatis mengganti current user.
+
+UID developer disimpan untuk restore.
+*/
+
+const creatorUid=
+developerUser.uid;
+
+
+/*
+CREATE FIREBASE AUTH ACCOUNT
+*/
+
+const credential=
+await createUserWithEmailAndPassword(
+auth,
+internalEmail,
+password
+);
+
+
+const newUser=
+credential.user;
+
+
+/*
+DATA USER
+*/
+
+const userData={
+
+username:usernameRaw,
+
+usernameLower:username,
+
+email:internalEmail,
+
+role:role,
+
+expired:durationData.expired,
+
+expiredAt:durationData.expiredAt,
+
+durationDays:durationData.days,
+
+createdAt:Date.now(),
+
+createdBy:creatorUid,
+
+photoURL:"",
+
+story:{
+
+text:"",
+
+createdAt:0,
+
+expiresAt:0
+
+},
+
+status:"active"
+
+};
+
+
+/*
+SIMPAN DATABASE
+*/
+
+await set(
+ref(db,"users/"+newUser.uid),
+userData
+);
+
+
+/*
+INDEX USERNAME
+*/
+
+await set(
+ref(db,"usernames/"+username),
+{
+
+uid:newUser.uid,
+
+username:usernameRaw,
+
+email:internalEmail,
+
+createdAt:Date.now()
+
+}
+);
+
+
+status.style.color="#00ff88";
+
+status.textContent=
+"✓ User berhasil dibuat!";
+
+
+/*
+Tampilkan hasil
+*/
+
+setTimeout(()=>{
+
+alert(
+
+"USER BERHASIL DIBUAT!\n\n"+
+"Username: "+usernameRaw+"\n"+
+"Role: "+role.toUpperCase()+"\n"+
+"Expired: "+durationData.expired+"\n\n"+
+"Login menggunakan Username + Password."
+
+);
+
+},200);
+
+
+/*
+RESET FORM
+
+Catatan:
+createUserWithEmailAndPassword
+mengganti sesi auth browser menjadi user baru.
+
+Halaman akan diarahkan kembali ke login
+agar tidak menjalankan panel Developer
+dengan akun yang baru dibuat.
+*/
+
+setTimeout(async()=>{
+
+await signOut(auth);
+
+location.replace("../login.html");
+
+},1800);
+
+
+}catch(err){
+
+
+console.error(err);
+
+
+createBtn.disabled=false;
+
+createBtn.textContent=
+"CREATE USER";
+
+
+status.style.color="#ff5555";
+
+
+if(
+err.message==="USERNAME_ALREADY_EXISTS"
+){
+
+status.textContent=
+"Username sudah digunakan.";
+
+return;
+
+}
+
+
+if(
+err.code==="auth/email-already-in-use"
+){
+
+status.textContent=
+"Username sudah digunakan.";
+
+return;
+
+}
+
+
+if(
+err.code==="auth/weak-password"
+){
+
+status.textContent=
+"Password terlalu lemah.";
+
+return;
+
+}
+
+
+if(
+err.code==="auth/operation-not-allowed"
+){
+
+status.textContent=
+"Email/Password belum diaktifkan di Firebase Authentication.";
+
+return;
+
+}
+
+
+status.textContent=
+"Gagal membuat user: "+
+(err.message||"Unknown error");
+
+
+}
+
+};
+
+</script>
+
+</body>
+  </html>
