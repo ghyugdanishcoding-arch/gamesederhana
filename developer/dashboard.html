@@ -726,14 +726,11 @@ WELCOME BACK,
 
 <div class="profileCard">
 
-<div class="avatar">
-
-<span class="material-symbols-outlined">
-
-person
-
-</span>
-
+<div class="avatar profileAvatar" id="profileAvatar">
+  <img id="profileImage" alt="Profile">
+  <span class="material-symbols-outlined" id="profileDefault">
+    person
+  </span>
 </div>
 
 <div class="info">
@@ -763,103 +760,119 @@ Expired : -
 </div>
 
 <div class="card">
+<!-- STORY -->
+<div class="card">
+  <div class="sectionHead">
+    <div>
+      <div class="title">STORY</div>
+      <p class="sectionSub">Status terbaru dari pengguna</p>
+    </div>
 
-<div class="title">
-SYSTEM STATISTICS
+    <button class="addStoryBtn" id="addStoryBtn">
+      <span class="material-symbols-outlined">add</span>
+      BUAT
+    </button>
+  </div>
+
+  <div class="storyList" id="storyList">
+    <div class="storyEmpty">Belum ada story aktif...</div>
+  </div>
 </div>
 
-<div class="stats">
+<!-- MUSIC PLAYER -->
+<div class="card musicCard">
 
-<div class="box">
+  <div class="sectionHead">
+    <div>
+      <div class="title">NOW PLAYING</div>
+      <p class="sectionSub">Musik tetap tersimpan saat kembali</p>
+    </div>
 
-<span class="material-symbols-outlined">
-groups
-</span>
+    <span class="material-symbols-outlined musicIcon">
+      music_note
+    </span>
+  </div>
 
-<h2 id="totalUser">0</h2>
+  <div class="musicPlayer" id="musicPlayer">
 
-<p>Total User</p>
+    <div class="musicCover">
+      <span class="material-symbols-outlined" id="musicCoverIcon">
+        music_note
+      </span>
+    </div>
 
-</div>
+    <div class="musicInfo">
+      <b id="musicTitle">Belum ada lagu</b>
+      <p id="musicArtist">Putar lagu dari Music Player</p>
+    </div>
 
-<div class="box">
+    <button class="musicOpenBtn" onclick="location.href='../music.html'">
+      <span class="material-symbols-outlined">play_arrow</span>
+    </button>
 
-<span class="material-symbols-outlined">
-verified_user
-</span>
-
-<h2 id="activeUser">0</h2>
-
-<p>Active</p>
-
-</div>
-
-<div class="box">
-
-<span class="material-symbols-outlined">
-event_busy
-</span>
-
-<h2 id="expiredUser">0</h2>
-
-<p>Expired</p>
-
-</div>
-
-<div class="box">
-
-<span class="material-symbols-outlined">
-wifi
-</span>
-
-<h2 id="onlineUser">0</h2>
-
-<p>Online</p>
-
-</div>
+  </div>
 
 </div>
 
 <!-- GLOBAL CHAT -->
-<div class="globalChatBox">
+<div class="card">
 
-<div class="globalChatTop">
+  <div class="globalChatBox">
 
-<div class="globalChatTitle">
+    <div class="globalChatTop">
 
-<span class="material-symbols-outlined">
-forum
-</span>
+      <div class="globalChatTitle">
 
-<div>
-<h3>GLOBAL CHAT</h3>
-<p id="chatStatus">Realtime Chat</p>
-</div>
+        <span class="material-symbols-outlined">
+          forum
+        </span>
 
-</div>
+        <div>
+          <h3>GLOBAL CHAT</h3>
+          <p id="chatStatus">Realtime Chat</p>
+        </div>
 
-<div class="chatLive">
-<span></span>
-LIVE
-</div>
+      </div>
 
-</div>
+      <div class="chatLive">
+        <span></span>
+        LIVE
+      </div>
 
-<div class="globalChatMessage" id="globalChatMessage">
+    </div>
 
-<div class="chatAvatar" id="chatAvatar">
-D
-</div>
+    <div class="globalChatMessage">
 
-<div class="chatContent">
+      <div class="chatAvatar" id="chatAvatar">
+        <span class="material-symbols-outlined">
+          person
+        </span>
+      </div>
 
-<b id="chatUsername">GLOBAL CHAT</b>
+      <div class="chatContent">
 
-<p id="latestChat">
-Belum ada pesan...
-</p>
+        <b id="chatUsername">GLOBAL CHAT</b>
 
-</div>
+        <p id="latestChat">
+          Belum ada pesan...
+        </p>
+
+      </div>
+
+    </div>
+
+    <button class="openChatBtn"
+      onclick="location.href='../chat.html'">
+
+      <span class="material-symbols-outlined">
+        chat
+      </span>
+
+      BUKA
+
+    </button>
+
+  </div>
 
 </div>
 
