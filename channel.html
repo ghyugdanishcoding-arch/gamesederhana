@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>DEVONAX | Channel</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+:root{
+--bg:#070707;
+--card:#141414;
+--red:#ff2020;
+--border:#303030;
+--text:#fff;
+}
+
+body{
+background:var(--bg);
+color:#fff;
+padding:18px;
+overflow-x:hidden;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+background:
+radial-gradient(circle at top,#ff202018,transparent 35%),
+radial-gradient(circle at bottom,#ff202012,transparent 40%);
+}
+
+.grid{
+position:fixed;
+inset:0;
+opacity:.04;
+background-image:
+linear-gradient(#ff2020 1px,transparent 1px),
+linear-gradient(90deg,#ff2020 1px,transparent 1px);
+background-size:40px 40px;
+pointer-events:none;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.back{
+width:50px;
+height:50px;
+display:flex;
+justify-content:center;
+align-items:center;
+border-radius:16px;
+background:#171717;
+border:1px solid var(--border);
+cursor:pointer;
+}
+
+.back span{
+font-size:28px;
+color:#fff;
+}
+
+.logo{
+font-size:22px;
+font-weight:800;
+letter-spacing:4px;
+}
+
+.hero{
+background:linear-gradient(180deg,#1b1b1b,#111);
+border:1px solid var(--border);
+border-radius:28px;
+padding:30px 20px;
+text-align:center;
+margin-bottom:22px;
+}
+
+.hero span{
+font-size:82px;
+color:var(--red);
+margin-bottom:12px;
+display:block;
+}
+
+.hero h1{
+font-size:24px;
+margin-bottom:8px;
+}
+
+.hero p{
+font-size:12px;
+color:#aaa;
+line-height:1.7;
+}
+
+.title{
+margin:18px 0 15px;
+font-size:15px;
+letter-spacing:3px;
+color:#ff6b6b;
+}
+
+.channel{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:22px;
+padding:18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:16px;
+transition:.25s;
+}
+
+.channel:hover{
+border-color:var(--red);
+box-shadow:0 0 18px rgba(255,0,0,.2);
+}
+
+.left{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.icon{
+width:60px;
+height:60px;
+border-radius:18px;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#1d1d1d;
+}
+
+.icon span{
+font-size:34px;
+color:var(--red);
+}
+
+.info h2{
+font-size:15px;
+margin-bottom:6px;
+}
+
+.info p{
+font-size:11px;
+color:#999;
+}
+
+.openBtn{
+padding:12px 18px;
+border-radius:14px;
+background:var(--red);
+color:#fff;
+font-size:11px;
+font-weight:700;
+text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<header>
+
+<div class="back" onclick="history.back()">
+<span class="material-symbols-outlined">
+arrow_back
+</span>
+</div>
+
+<div class="logo">
+DEVONAX
+</div>
+
+<div style="width:50px"></div>
+
+</header>
+
+<div class="hero">
+
+<span class="material-symbols-outlined">
+campaign
+</span>
+
+<h1>Official Community</h1>
+
+<p>
+Gabung ke komunitas resmi DEVONAX untuk mendapatkan update aplikasi, pengumuman, bug terbaru, dan informasi lainnya.
+</p>
+
+</div>
+
+<div class="card">
+
+<div class="title">
+CHANNEL & GROUP
+</div>
+
+<div class="channelList">
+
+<!-- WhatsApp Group -->
+<div class="channelItem">
+<div class="left">
+
+<div class="icon wa">
+<span class="material-symbols-outlined">
+groups
+</span>
+</div>
+
+<div>
+<h3>WhatsApp Group</h3>
+<p>Diskusi, bantuan & komunitas DEVONAX.</p>
+</div>
+
+</div>
+
+<a class="joinBtn"
+href="https://chat.whatsapp.com/EOE3jKgc07eKhbYVFWhMFg?s=cl&p=a&ilr=4"
+target="_blank">
+Gabung
+</a>
+</div>
+
+<!-- WhatsApp Channel -->
+<div class="channelItem">
+<div class="left">
+
+<div class="icon channel">
+<span class="material-symbols-outlined">
+campaign
+</span>
+</div>
+
+<div>
+<h3>WhatsApp Channel</h3>
+<p>Update fitur, bug fix & pengumuman resmi.</p>
+</div>
+
+</div>
+
+<a class="joinBtn"
+href="https://whatsapp.com/channel/0029VbCKrHR60eBfjgGO3S2l"
+target="_blank">
+Follow
+</a>
+</div>
+
+<!-- Telegram -->
+<div class="channelItem">
+<div class="left">
+
+<div class="icon tg">
+<span class="material-symbols-outlined">
+send
+</span>
+</div>
+
+<div>
+<h3>Telegram Group</h3>
+<p>Informasi terbaru & komunitas DEVONAX.</p>
+</div>
+
+</div>
+
+<a class="joinBtn"
+href="https://t.me/+qjzqVKE-fJZkZjk9"
+target="_blank">
+Gabung
+</a>
+</div>
+
+</div>
+
+</div>
+
+<style>
+
+.channelList{
+display:flex;
+flex-direction:column;
+gap:16px;
+}
+
+.channelItem{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#181818;
+border:1px solid #333;
+border-radius:18px;
+padding:16px;
+transition:.25s;
+}
+
+.channelItem:hover{
+border-color:#ff2020;
+box-shadow:0 0 15px rgba(255,0,0,.25);
+}
+
+.left{
+display:flex;
+align-items:center;
+gap:15px;
+flex:1;
+}
+
+.icon{
+width:58px;
+height:58px;
+border-radius:16px;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.icon span{
+font-size:30px;
+color:#fff;
+}
+
+.wa{
+background:#25D366;
+}
+
+.channel{
+background:#0A84FF;
+}
+
+.tg{
+background:#229ED9;
+}
+
+.left h3{
+font-size:15px;
+margin-bottom:4px;
+}
+
+.left p{
+font-size:11px;
+color:#aaa;
+line-height:1.4;
+}
+
+.joinBtn{
+padding:10px 18px;
+border-radius:12px;
+background:#ff2020;
+color:#fff;
+text-decoration:none;
+font-size:12px;
+font-weight:700;
+transition:.25s;
+}
+
+.joinBtn:hover{
+background:#ff4040;
+}
+
+</style>
+
+<script>
+// Tombol kembali
+function goBack(){
+    if(history.length > 1){
+        history.back();
+    }else{
+        location.href = "dashboard.html";
+    }
+}
+
+// Link Channel & Grup
+const links = {
+    waGroup: "https://chat.whatsapp.com/EOE3jKgc07eKhbYVFWhMFg?s=cl&p=a&ilr=4",
+    waChannel: "https://whatsapp.com/channel/0029VbCKrHR60eBfjgGO3S2l",
+    telegram: "https://t.me/+qjzqVKE-fJZkZjk9"
+};
+
+function openLink(type){
+    if(links[type]){
+        window.open(links[type], "_blank");
+    }
+}
+
+// Efek animasi card
+document.querySelectorAll(".channelCard").forEach((card,i)=>{
+    card.style.opacity="0";
+    card.style.transform="translateY(25px)";
+
+    setTimeout(()=>{
+        card.style.transition=".45s ease";
+        card.style.opacity="1";
+        card.style.transform="translateY(0)";
+    },150*i);
+});
+
+// Ripple saat ditekan
+document.querySelectorAll(".joinBtn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+        btn.animate([
+            {transform:"scale(1)"},
+            {transform:"scale(.94)"},
+            {transform:"scale(1)"}
+        ],{
+            duration:180
+        });
+    });
+});
+</script>
+
+</body>
+  </html>
