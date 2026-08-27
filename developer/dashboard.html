@@ -2177,6 +2177,94 @@ const auth=getAuth(app);
 
 const db=getDatabase(app);
 
+onValue(ref(db,"globalChat"),(snap)=>{
+
+const usernameEl=document.getElementById("chatUsername");
+const messageEl=document.getElementById("latestChat");
+const avatarEl=document.getElementById("chatAvatar");
+const statusEl=document.getElementById("chatStatus");
+
+if(!snap.exists()){
+
+usernameEl.textContent="GLOBAL CHAT";
+messageEl.textContent="Belum ada pesan...";
+avatarEl.textContent="G";
+statusEl.textContent="Belum ada aktivitas";
+
+return;
+
+}
+
+let latestMessage=null;
+
+snap.forEach(child=>{
+
+const data=child.val();
+
+if(!latestMessage){
+
+latestMessage={
+...data,
+key:child.key
+};
+
+return;
+
+}
+
+const currentTime=Number(
+data.timestamp ||
+data.time ||
+data.createdAt ||
+0
+);
+
+const latestTime=Number(
+latestMessage.timestamp ||
+latestMessage.time ||
+latestMessage.createdAt ||
+0
+);
+
+if(currentTime>=latestTime){
+
+latestMessage={
+...data,
+key:child.key
+};
+
+}
+
+});
+
+if(!latestMessage){
+
+return;
+
+}
+
+const username=
+latestMessage.username ||
+latestMessage.name ||
+latestMessage.sender ||
+"Unknown";
+
+const message=
+latestMessage.message ||
+latestMessage.text ||
+latestMessage.chat ||
+"...";
+
+usernameEl.textContent=username;
+messageEl.textContent=username+": "+message;
+
+avatarEl.textContent=
+username.charAt(0).toUpperCase();
+
+statusEl.textContent="Pesan terbaru • Realtime";
+
+});
+
 onValue(ref(db,"users"),(snap)=>{
 
 let total=0;
