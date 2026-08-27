@@ -1152,7 +1152,7 @@ return "Promosi APK atau brand lain tidak diperbolehkan.";
 /* KATA KASAR DASAR */
 
 if(
-/\b(bangsat|kontol|memek|anjing|babi|tolol|goblok|ngentot|fuck|bitch|asshole)\b/i.test(t)
+/\b(bangsat|jancok|cok|kontol|memek|anjing|babi|tolol|goblok|ngentot|fuck|bitch|asshole)\b/i.test(t)
 ){
 return "Bahasa kasar, hinaan, atau pelecehan tidak diperbolehkan.";
 }
@@ -1294,260 +1294,402 @@ updateCooldown,
 
 }
 
-/* FIND USER BY USERNAME */
+/* FIND USER BY USERNAME + ROLE */
 
 async function findUserByUsername(username){
 
-const usersSnap=
-await get(ref(db,"users"));
+  const usersSnap = await get(ref(db,"users"));
 
-if(!usersSnap.exists()) return null;
+  if(!usersSnap.exists()) return null;
 
-const users=usersSnap.val();
+  const users = usersSnap.val();
 
-const target=
-username
-.replace(/^@/,"")
-.toLowerCase();
+  const target = username
+    .replace(/^@/,"")
+    .trim()
+    .toLowerCase();
 
-for(const uid in users){
+  for(const uid in users){
 
-const u=users[uid];
+    const u = users[uid] || {};
 
-const name=String(
-u.username||""
-).toLowerCase();
+    const name = String(
+      u.username || ""
+    ).trim().toLowerCase();
 
-if(name===target){
+    if(name === target){
 
-return{
+      return {
+        uid: uid,
+        username: u.username || target,
+        role: u.role || "Member"
+      };
 
-uid:uid,
+    }
 
-username:u.username||target
+  }
 
-};
+  return null;
+
+}
+
+
+/* CHECK STAFF PERMISSION */
+
+function canModerateTarget(target){
+
+  const myRoleLower =
+    String(myRole || "").trim().toLowerCase();
+
+  const targetRoleLower =
+    String(target.role || "").trim().toLowerCase();
+
+
+  /* Hanya Developer / Owner */
+
+  if(
+    myRoleLower !== "developer" &&
+    myRoleLower !== "owner"
+  ){
+    return {
+      allowed:false,
+      message:"Kamu tidak memiliki akses moderasi."
+    };
+  }
+
+
+  /* Tidak boleh mute / unmute diri sendiri */
+
+  if(target.uid === myUid){
+    return {
+      allowed:false,
+      message:"Developer/Owner tidak dapat memoderasi dirinya sendiri."
+    };
+  }
+
+
+  /*
+    DEVELOPER:
+    Bisa mute/unmute semua user.
+  */
+
+  if(myRoleLower === "developer"){
+    return {
+      allowed:true
+    };
+  }
+
+
+  /*
+    OWNER:
+    Bisa semua user kecuali Developer.
+  */
+
+  if(
+    myRoleLower === "owner" &&
+    targetRoleLower === "developer"
+  ){
+    return {
+      allowed:false,
+      message:"Owner tidak dapat memoderasi user dengan role Developer."
+    };
+  }
+
+
+  return {
+    allowed:true
+  };
 
 }
 
-}
-
-return null;
-
-}
 
 /* STAFF COMMAND */
 
 async function handleStaffCommand(text){
 
-const role=myRole.toLowerCase();
+  const role =
+    String(myRole || "").trim().toLowerCase();
 
-if(role!=="developer" && role!=="owner"){
+  if(
+    role !== "developer" &&
+    role !== "owner"
+  ){
+    return false;
+  }
 
-return false;
 
-}
+  const command = text.trim();
 
-/* MUTE */
+  const lowerCommand =
+    command.toLowerCase();
 
-if(text.startsWith("/mute ")){
 
-const username=
-text.replace("/mute ","").trim();
+  /* =========================
+     MUTE
+  ========================= */
 
-if(!username){
+  if(lowerCommand.startsWith("/mute")){
 
-alert("Gunakan: /mute @username");
-return true;
+    const username =
+      command
+      .replace(/^\/mute/i,"")
+      .trim();
 
-}
+    if(!username){
 
-const target=
-await findUserByUsername(username);
+      alert("Gunakan: /mute @username");
 
-if(!target){
+      return true;
+    }
 
-alert("User tidak ditemukan.");
-return true;
 
-}
+    const target =
+      await findUserByUsername(username);
 
-const until=
-Date.now()+(7*24*60*60*1000);
 
-await update(
-ref(db,"globalChatModeration/"+target.uid),
-{
-mutedUntil:until,
-mutedBy:myName,
-mutedAt:Date.now()
-}
-);
+    if(!target){
 
-await push(ref(db,"globalChat"),{
+      alert("User tidak ditemukan.");
 
-type:"moderation",
+      return true;
+    }
 
-uid:"moderation",
 
-username:"Moderation Bot",
+    const permission =
+      canModerateTarget(target);
 
-message:
-"@"+target.username+
-" telah di-mute dari Global Chat selama 7 hari oleh staff.",
 
-time:Date.now()
+    if(!permission.allowed){
 
-});
+      alert(permission.message);
 
-input.value="";
+      return true;
+    }
 
-return true;
 
-}
+    const until =
+      Date.now() +
+      (7 * 24 * 60 * 60 * 1000);
 
-/* UNMUTE */
 
-if(text.startsWith("/unmute ")){
+    await update(
+      ref(
+        db,
+        "globalChatModeration/" +
+        target.uid
+      ),
+      {
 
-const username=
-text.replace("/unmute ","").trim();
+        mutedUntil:until,
 
-if(!username){
+        mutedBy:myName,
 
-alert("Gunakan: /unmute @username");
-return true;
+        mutedByUid:myUid,
 
-}
+        mutedByRole:myRole,
 
-const target=
-await findUserByUsername(username);
+        mutedAt:Date.now(),
 
-if(!target){
+        manualMute:true
 
-alert("User tidak ditemukan.");
-return true;
+      }
+    );
 
-}
 
-await update(
-ref(db,"globalChatModeration/"+target.uid),
-{
-mutedUntil:0,
-mutedBy:null,
-unmutedBy:myName,
-unmutedAt:Date.now()
-}
-);
+    await push(
+      ref(db,"globalChat"),
+      {
 
-await push(ref(db,"globalChat"),{
+        type:"moderation",
 
-type:"moderation",
+        uid:"moderation",
 
-uid:"moderation",
+        username:"Moderation Bot",
 
-username:"Moderation Bot",
+        message:
+          "@"+target.username+
+          " telah di-mute dari Global Chat selama 7 hari oleh "+
+          myRole+".",
 
-message:
-"@"+target.username+
-" telah di-unmute dan dapat kembali menggunakan Global Chat.",
+        time:Date.now()
 
-time:Date.now()
+      }
+    );
 
-});
 
-input.value="";
+    input.value="";
 
-return true;
+    cancelReply();
 
-}
+    return true;
 
-return false;
+  }
 
-}
 
-/* SEND MESSAGE */
+  /* =========================
+     UNMUTE
+  ========================= */
 
-async function sendMessage(){
+  if(lowerCommand.startsWith("/unmute")){
 
-const text=input.value.trim();
+    const username =
+      command
+      .replace(/^\/unmute/i,"")
+      .trim();
 
-if(!text) return;
 
-if(Date.now()<mutedUntil){
+    if(!username){
 
-showMuteStatus();
-return;
+      alert("Gunakan: /unmute @username");
 
-}
+      return true;
+    }
 
-if(Date.now()<cooldownUntil){
 
-return;
+    const target =
+      await findUserByUsername(username);
 
-}
 
-sendBtn.disabled=true;
+    if(!target){
 
-/* STAFF COMMAND */
+      alert("User tidak ditemukan.");
 
-try{
+      return true;
+    }
 
-const isCommand=
-await handleStaffCommand(text);
 
-if(isCommand){
+    const permission =
+      canModerateTarget(target);
 
-if(mutedUntil<=Date.now()){
 
-sendBtn.disabled=false;
+    if(!permission.allowed){
 
-}
+      alert(permission.message);
 
-return;
+      return true;
+    }
 
-}
 
-}catch(e){
+    await update(
+      ref(
+        db,
+        "globalChatModeration/" +
+        target.uid
+      ),
+      {
 
-console.error(e);
+        mutedUntil:0,
 
-}
+        manualMute:false,
+
+        mutedBy:null,
+
+        mutedByUid:null,
+
+        mutedByRole:null,
+
+        unmutedBy:myName,
+
+        unmutedByUid:myUid,
+
+        unmutedByRole:myRole,
+
+        unmutedAt:Date.now()
+
+      }
+    );
+
+
+    await push(
+      ref(db,"globalChat"),
+      {
+
+        type:"moderation",
+
+        uid:"moderation",
+
+        username:"Moderation Bot",
+
+        message:
+          "@"+target.username+
+          " telah di-unmute oleh "+
+          myRole+
+          " dan dapat kembali menggunakan Global Chat.",
+
+        time:Date.now()
+
+      }
+    );
+
+
+    input.value="";
+
+    cancelReply();
+
+    return true;
+
+  }
+
+
+  return false;
+
+  }
 
 /* CHECK VIOLATION */
 
-const violation=
-detectViolation(text);
+/*
+  Developer & Owner kebal Moderation Bot
+*/
 
-if(violation){
+const roleLower =
+  String(myRole || "")
+  .trim()
+  .toLowerCase();
 
-try{
+const isModerationImmune =
+  roleLower === "developer" ||
+  roleLower === "owner";
 
-await addWarning(violation);
 
-input.value="";
+if(!isModerationImmune){
 
-cancelReply();
+  const violation =
+    detectViolation(text);
 
-}catch(e){
 
-console.error(e);
+  if(violation){
 
-alert("Gagal memproses moderasi.");
+    try{
 
-}
+      await addWarning(violation);
 
-if(mutedUntil<=Date.now()){
+      input.value="";
 
-sendBtn.disabled=false;
+      cancelReply();
 
-}
+    }catch(e){
 
-input.focus();
+      console.error(e);
 
-return;
+      alert("Gagal memproses moderasi.");
 
-}
+    }
+
+
+    if(mutedUntil <= Date.now()){
+
+      sendBtn.disabled=false;
+
+    }
+
+
+    input.focus();
+
+    return;
+
+  }
+
+  }
 
 /* NORMAL MESSAGE */
 
