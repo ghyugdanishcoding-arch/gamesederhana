@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>DEVONAX MUSIC</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+:root{
+--bg:#070707;
+--card:#121212;
+--card2:#181818;
+--red:#ff2020;
+--redsoft:#ff5555;
+--border:#303030;
+--text:#fff;
+--muted:#999;
+}
+
+body{
+min-height:100vh;
+background:var(--bg);
+color:var(--text);
+padding:18px 18px 100px;
+overflow-x:hidden;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+background:
+radial-gradient(circle at top left,
+rgba(255,0,0,.12),
+transparent 35%),
+radial-gradient(circle at bottom right,
+rgba(255,0,0,.10),
+transparent 35%);
+}
+
+.grid{
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:-1;
+opacity:.035;
+background-image:
+linear-gradient(#ff0000 1px,transparent 1px),
+linear-gradient(90deg,#ff0000 1px,transparent 1px);
+background-size:40px 40px;
+}
+
+/* HEADER */
+
+header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:24px;
+position:relative;
+z-index:2;
+}
+
+.backBtn,
+.headerMusic{
+width:50px;
+height:50px;
+border-radius:16px;
+background:#161616;
+border:1px solid #333;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+color:#fff;
+transition:.25s;
+}
+
+.backBtn:hover,
+.headerMusic:hover{
+border-color:var(--red);
+box-shadow:0 0 18px rgba(255,0,0,.25);
+transform:translateY(-2px);
+}
+
+.backBtn span,
+.headerMusic span{
+font-size:27px;
+}
+
+.headerMusic{
+color:var(--redsoft);
+}
+
+.logo{
+font-size:18px;
+font-weight:800;
+letter-spacing:3px;
+color:#ddd;
+text-align:center;
+}
+
+/* CARD */
+
+.card{
+position:relative;
+z-index:1;
+background:rgba(18,18,18,.96);
+border:1px solid #333;
+border-radius:24px;
+padding:18px;
+margin-bottom:18px;
+box-shadow:0 0 20px rgba(255,0,0,.08);
+}
+
+/* PLAYER HERO */
+
+.playerHero{
+text-align:center;
+padding:26px 18px 22px;
+}
+
+.coverWrap{
+position:relative;
+width:min(250px,70vw);
+aspect-ratio:1;
+margin:0 auto 22px;
+border-radius:28px;
+overflow:hidden;
+background:
+linear-gradient(
+135deg,
+#330000,
+#111
+);
+border:1px solid #650000;
+box-shadow:
+0 0 25px rgba(255,0,0,.2),
+inset 0 0 30px rgba(255,0,0,.08);
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.coverWrap img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:none;
+}
+
+.coverWrap .defaultMusicIcon{
+font-size:90px;
+color:#ff3030;
+text-shadow:0 0 25px red;
+}
+
+.nowPlayingBadge{
+display:inline-flex;
+align-items:center;
+gap:7px;
+padding:7px 13px;
+border-radius:20px;
+background:#220000;
+border:1px solid #600;
+font-size:9px;
+letter-spacing:1.5px;
+color:#ff7777;
+margin-bottom:14px;
+}
+
+.nowPlayingBadge i{
+width:7px;
+height:7px;
+border-radius:50%;
+background:#ff3030;
+box-shadow:0 0 10px red;
+animation:pulse 1s infinite;
+}
+
+.songTitle{
+font-size:20px;
+line-height:1.5;
+word-break:break-word;
+}
+
+.songArtist{
+margin-top:9px;
+font-size:11px;
+color:var(--muted);
+}
+
+/* PROGRESS */
+
+.progressBox{
+margin-top:25px;
+}
+
+.progressTop{
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:10px;
+color:#999;
+margin-bottom:10px;
+}
+
+.progressBar{
+height:6px;
+background:#292929;
+border-radius:20px;
+overflow:hidden;
+cursor:pointer;
+}
+
+.progressFill{
+height:100%;
+width:0%;
+background:var(--red);
+border-radius:20px;
+box-shadow:0 0 12px red;
+}
+
+/* CONTROLS */
+
+.playerControls{
+margin-top:25px;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:17px;
+}
+
+.controlBtn{
+width:48px;
+height:48px;
+border:none;
+border-radius:50%;
+background:#1b1b1b;
+border:1px solid #383838;
+color:#ddd;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+transition:.25s;
+}
+
+.controlBtn:hover{
+border-color:var(--red);
+color:var(--redsoft);
+transform:scale(1.05);
+}
+
+.controlBtn.active{
+background:#220000;
+border-color:#ff3030;
+color:#ff5555;
+box-shadow:0 0 16px rgba(255,0,0,.22);
+}
+
+.controlBtn span{
+font-size:25px;
+}
+
+.mainPlayBtn{
+width:68px;
+height:68px;
+border:none;
+border-radius:50%;
+background:var(--red);
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+box-shadow:0 0 22px rgba(255,0,0,.45);
+transition:.25s;
+}
+
+.mainPlayBtn:hover{
+transform:scale(1.06);
+box-shadow:0 0 30px rgba(255,0,0,.65);
+}
+
+.mainPlayBtn span{
+font-size:38px;
+}
+
+/* REPEAT STATUS */
+
+.repeatStatus{
+margin-top:20px;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:8px;
+font-size:9px;
+letter-spacing:1px;
+color:#ff6666;
+}
+
+.repeatStatus span{
+font-size:17px;
+}
+
+/* SEARCH */
+
+.sectionTitle{
+font-size:14px;
+letter-spacing:2px;
+color:#ff5555;
+margin-bottom:15px;
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.sectionTitle span{
+font-size:23px;
+}
+
+.searchBox{
+display:flex;
+gap:10px;
+}
+
+.searchInput{
+flex:1;
+height:52px;
+border-radius:16px;
+border:1px solid #333;
+background:#171717;
+outline:none;
+color:#fff;
+padding:0 15px;
+font-family:'Orbitron',sans-serif;
+font-size:10px;
+}
+
+.searchInput:focus{
+border-color:#ff3030;
+box-shadow:0 0 15px rgba(255,0,0,.12);
+}
+
+.searchBtn{
+width:55px;
+height:52px;
+border:none;
+border-radius:16px;
+background:var(--red);
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+box-shadow:0 0 14px rgba(255,0,0,.25);
+}
+
+.searchBtn span{
+font-size:26px;
+}
+
+/* RESULTS */
+
+.resultInfo{
+margin:15px 2px 8px;
+font-size:10px;
+color:#888;
+line-height:1.5;
+}
+
+.musicResults{
+display:flex;
+flex-direction:column;
+gap:9px;
+}
+
+.musicItem{
+display:flex;
+align-items:center;
+gap:12px;
+padding:11px;
+border-radius:18px;
+background:#171717;
+border:1px solid #292929;
+cursor:pointer;
+transition:.25s;
+}
+
+.musicItem:hover{
+border-color:#ff3030;
+background:#1c1c1c;
+transform:translateY(-2px);
+}
+
+.musicItem.active{
+border-color:#ff3030;
+box-shadow:0 0 16px rgba(255,0,0,.12);
+background:#200909;
+}
+
+.resultCover{
+width:58px;
+height:58px;
+min-width:58px;
+border-radius:14px;
+overflow:hidden;
+background:#220000;
+border:1px solid #600;
+}
+
+.resultCover img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.resultInfoBox{
+min-width:0;
+flex:1;
+}
+
+.resultInfoBox b{
+display:block;
+font-size:11px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.resultInfoBox p{
+margin-top:7px;
+font-size:9px;
+color:#999;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.resultInfoBox small{
+display:block;
+margin-top:6px;
+font-size:8px;
+color:#ff5555;
+}
+
+.resultPlay{
+width:43px;
+height:43px;
+min-width:43px;
+border-radius:50%;
+background:#220000;
+border:1px solid #650000;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#ff5555;
+}
+
+.resultPlay span{
+font-size:23px;
+}
+
+/* EMPTY / LOADING */
+
+.emptyState{
+padding:35px 15px;
+text-align:center;
+font-size:10px;
+color:#888;
+line-height:1.8;
+}
+
+.emptyState span{
+font-size:45px;
+color:#ff3030;
+margin-bottom:8px;
+}
+
+.loading{
+padding:30px;
+text-align:center;
+font-size:10px;
+color:#ff5555;
+line-height:2;
+}
+
+/* MINI NOTICE */
+
+.notice{
+display:flex;
+align-items:flex-start;
+gap:10px;
+padding:13px;
+margin-top:16px;
+background:#171717;
+border:1px solid #292929;
+border-radius:16px;
+font-size:9px;
+line-height:1.7;
+color:#888;
+}
+
+.notice span{
+color:#ff5555;
+font-size:20px;
+flex-shrink:0;
+}
+
+/* BOTTOM ACTION */
+
+.bottomAction{
+position:fixed;
+left:15px;
+right:15px;
+bottom:15px;
+height:64px;
+z-index:100;
+border-radius:23px;
+background:#121212;
+border:1px solid #333;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:12px;
+box-shadow:0 0 22px rgba(255,0,0,.14);
+}
+
+.dashboardBtn{
+height:46px;
+padding:0 24px;
+border:none;
+border-radius:15px;
+background:#220000;
+border:1px solid #650000;
+color:#ff7777;
+font-family:'Orbitron',sans-serif;
+font-size:10px;
+letter-spacing:1.5px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:9px;
+cursor:pointer;
+}
+
+.dashboardBtn:hover{
+background:#ff2020;
+color:white;
+}
+
+/* ANIMATION */
+
+@keyframes pulse{
+0%,100%{
+opacity:.4;
+transform:scale(.8);
+}
+50%{
+opacity:1;
+transform:scale(1.2);
+}
+}
+
+@media(max-width:430px){
+
+body{
+padding-left:14px;
+padding-right:14px;
+}
+
+.logo{
+font-size:15px;
+letter-spacing:2px;
+}
+
+.coverWrap{
+width:min(230px,72vw);
+}
+
+.songTitle{
+font-size:17px;
+}
+
+.playerControls{
+gap:12px;
+}
+
+.controlBtn{
+width:43px;
+height:43px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+
+<!-- HEADER -->
+
+<header>
+
+<button
+class="backBtn"
+id="backBtn"
+aria-label="Kembali">
+
+<span class="material-symbols-outlined">
+arrow_back
+</span>
+
+</button>
+
+<div class="logo">
+DEVONAX MUSIC
+</div>
+
+<div class="headerMusic">
+
+<span class="material-symbols-outlined">
+library_music
+</span>
+
+</div>
+
+</header>
+
+
+<!-- MUSIC PLAYER -->
+
+<div class="card">
+
+<div class="playerHero">
+
+<div class="coverWrap">
+
+<img
+id="playerCover"
+alt="Music Cover">
+
+<span
+id="defaultMusicIcon"
+class="material-symbols-outlined defaultMusicIcon">
+music_note
+</span>
+
+</div>
+
+
+<div class="nowPlayingBadge">
+
+<i></i>
+
+NOW PLAYING
+
+</div>
+
+
+<h1
+id="playerTitle"
+class="songTitle">
+
+Belum ada lagu
+
+</h1>
+
+
+<p
+id="playerArtist"
+class="songArtist">
+
+Cari lagu di bawah
+
+</p>
+
+
+<!-- PROGRESS -->
+
+<div class="progressBox">
+
+<div class="progressTop">
+
+<span id="currentTime">
+00:00
+</span>
+
+<span id="duration">
+00:00
+</span>
+
+</div>
+
+<div
+class="progressBar"
+id="progressBar">
+
+<div
+class="progressFill"
+id="progressFill">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CONTROLS -->
+
+<div class="playerControls">
+
+<button
+class="controlBtn"
+id="previousBtn"
+title="Mulai ulang">
+
+<span class="material-symbols-outlined">
+restart_alt
+</span>
+
+</button>
+
+
+<button
+class="controlBtn active"
+id="repeatBtn"
+title="Repeat otomatis">
+
+<span class="material-symbols-outlined">
+repeat
+</span>
+
+</button>
+
+
+<button
+class="mainPlayBtn"
+id="mainPlayBtn">
+
+<span
+id="mainPlayIcon"
+class="material-symbols-outlined">
+play_arrow
+</span>
+
+</button>
+
+
+<button
+class="controlBtn"
+id="muteBtn"
+title="Mute">
+
+<span
+id="muteIcon"
+class="material-symbols-outlined">
+volume_up
+</span>
+
+</button>
+
+
+<button
+class="controlBtn"
+id="stopBtn"
+title="Stop">
+
+<span class="material-symbols-outlined">
+stop
+</span>
+
+</button>
+
+</div>
+
+
+<div class="repeatStatus"
+id="repeatStatus">
+
+<span class="material-symbols-outlined">
+repeat
+</span>
+
+REPEAT OTOMATIS AKTIF
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- SEARCH -->
+
+<div class="card">
+
+<div class="sectionTitle">
+
+<span class="material-symbols-outlined">
+search
+</span>
+
+CARI LAGU
+
+</div>
+
+
+<div class="searchBox">
+
+<input
+id="searchInput"
+class="searchInput"
+type="text"
+placeholder="Judul lagu atau nama artis..."
+autocomplete="off">
+
+<button
+id="searchBtn"
+class="searchBtn">
+
+<span class="material-symbols-outlined">
+search
+</span>
+
+</button>
+
+</div>
+
+
+<div
+id="searchStatus"
+class="resultInfo">
+
+Masukkan judul lagu atau nama artis untuk mencari.
+
+</div>
+
+
+<div
+id="musicResults"
+class="musicResults">
+
+<div class="emptyState">
+
+<span class="material-symbols-outlined">
+music_note
+</span>
+
+<br>
+
+Belum ada hasil pencarian
+
+</div>
+
+</div>
+
+
+<div class="notice">
+
+<span class="material-symbols-outlined">
+info
+</span>
+
+<div>
+
+Lagu yang dipilih akan disimpan otomatis dan terhubung ke Dashboard awal.
+Jika preview selesai, lagu akan diputar ulang selama Repeat aktif.
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- BOTTOM ACTION -->
+
+<div class="bottomAction">
+
+<button
+class="dashboardBtn"
+id="goDashboardBtn">
+
+<span class="material-symbols-outlined">
+home
+</span>
+
+KEMBALI KE DASHBOARD
+
+</button>
+
+</div>
+
+
+<audio
+id="audioPlayer"
+preload="metadata">
+</audio>
+
+
+<script>
+
+/* =========================================
+ELEMENTS
+========================================= */
+
+const audioPlayer=
+document.getElementById("audioPlayer");
+
+const playerTitle=
+document.getElementById("playerTitle");
+
+const playerArtist=
+document.getElementById("playerArtist");
+
+const playerCover=
+document.getElementById("playerCover");
+
+const defaultMusicIcon=
+document.getElementById("defaultMusicIcon");
+
+const mainPlayBtn=
+document.getElementById("mainPlayBtn");
+
+const mainPlayIcon=
+document.getElementById("mainPlayIcon");
+
+const repeatBtn=
+document.getElementById("repeatBtn");
+
+const repeatStatus=
+document.getElementById("repeatStatus");
+
+const previousBtn=
+document.getElementById("previousBtn");
+
+const muteBtn=
+document.getElementById("muteBtn");
+
+const muteIcon=
+document.getElementById("muteIcon");
+
+const stopBtn=
+document.getElementById("stopBtn");
+
+const currentTimeEl=
+document.getElementById("currentTime");
+
+const durationEl=
+document.getElementById("duration");
+
+const progressBar=
+document.getElementById("progressBar");
+
+const progressFill=
+document.getElementById("progressFill");
+
+const searchInput=
+document.getElementById("searchInput");
+
+const searchBtn=
+document.getElementById("searchBtn");
+
+const searchStatus=
+document.getElementById("searchStatus");
+
+const musicResults=
+document.getElementById("musicResults");
+
+
+/* =========================================
+STATE
+========================================= */
+
+let currentMusic=null;
+
+let repeatEnabled=
+localStorage.getItem("devonaxMusicRepeat") !== "false";
+
+
+audioPlayer.loop=
+repeatEnabled;
+
+
+/* =========================================
+FORMAT TIME
+========================================= */
+
+function formatTime(seconds){
+
+if(
+!seconds ||
+isNaN(seconds)
+){
+
+return "00:00";
+
+}
+
+const minutes=
+Math.floor(seconds/60);
+
+const secs=
+Math.floor(seconds%60);
+
+return
+String(minutes).padStart(2,"0")
++
+":"
++
+String(secs).padStart(2,"0");
+
+}
+
+
+/* =========================================
+LOAD SAVED MUSIC
+========================================= */
+
+function loadSavedMusic(){
+
+const savedMusic=
+localStorage.getItem(
+"devonaxCurrentMusic"
+);
+
+
+if(!savedMusic){
+
+return;
+
+}
+
+
+try{
+
+const music=
+JSON.parse(savedMusic);
+
+currentMusic=music;
+
+
+if(music.src){
+
+audioPlayer.src=
+music.src;
+
+}
+
+
+updatePlayerUI(
+music
+);
+
+
+}catch(error){
+
+console.log(
+"Load music error:",
+error
+);
+
+}
+
+}
+
+
+function updatePlayerUI(music){
+
+if(!music) return;
+
+
+playerTitle.textContent=
+music.title ||
+"Tanpa Judul";
+
+
+playerArtist.textContent=
+music.artist ||
+"Unknown Artist";
+
+
+if(music.cover){
+
+playerCover.src=
+music.cover;
+
+playerCover.style.display=
+"block";
+
+defaultMusicIcon.style.display=
+"none";
+
+}else{
+
+playerCover.style.display=
+"none";
+
+defaultMusicIcon.style.display=
+"block";
+
+}
+
+}
+
+
+/* =========================================
+SAVE MUSIC FOR DASHBOARD
+========================================= */
+
+function saveMusic(music){
+
+const data={
+
+title:
+music.title ||
+"Tanpa Judul",
+
+artist:
+music.artist ||
+"Unknown Artist",
+
+cover:
+music.cover ||
+"",
+
+src:
+music.src ||
+""
+
+};
+
+
+currentMusic=data;
+
+
+localStorage.setItem(
+"devonaxCurrentMusic",
+JSON.stringify(data)
+);
+
+
+updatePlayerUI(
+data
+);
+
+}
+
+
+/* =========================================
+PLAY SELECTED MUSIC
+========================================= */
+
+async function selectMusic(song){
+
+const music={
+
+title:
+song.trackName ||
+song.collectionName ||
+"Tanpa Judul",
+
+artist:
+song.artistName ||
+"Unknown Artist",
+
+cover:
+song.artworkUrl100 ||
+song.artworkUrl60 ||
+"",
+
+src:
+song.previewUrl ||
+""
+
+};
+
+
+if(!music.src){
+
+alert(
+"Preview lagu ini tidak tersedia."
+);
+
+return;
+
+}
+
+
+audioPlayer.pause();
+
+audioPlayer.src=
+music.src;
+
+audioPlayer.currentTime=0;
+
+
+saveMusic(
+music
+);
+
+
+try{
+
+await audioPlayer.play();
+
+}catch(error){
+
+console.log(
+"Play error:",
+error
+);
+
+}
+
+}
+
+
+loadSavedMusic();
+
+
+/* =========================================
+PLAY / PAUSE
+========================================= */
+
+mainPlayBtn.onclick=
+async()=>{
+
+if(!audioPlayer.src){
+
+searchInput.focus();
+
+searchStatus.textContent=
+"Cari dan pilih lagu terlebih dahulu.";
+
+return;
+
+}
+
+
+if(audioPlayer.paused){
+
+try{
+
+await audioPlayer.play();
+
+}catch(error){
+
+console.log(
+"Play error:",
+error
+);
+
+}
+
+}else{
+
+audioPlayer.pause();
+
+}
+
+};
+
+
+audioPlayer.addEventListener(
+"play",
+()=>{
+
+mainPlayIcon.textContent=
+"pause";
+
+}
+);
+
+
+audioPlayer.addEventListener(
+"pause",
+()=>{
+
+mainPlayIcon.textContent=
+"play_arrow";
+
+}
+);
+
+
+/* =========================================
+REPEAT AUTO
+========================================= */
+
+function updateRepeatUI(){
+
+audioPlayer.loop=
+repeatEnabled;
+
+
+if(repeatEnabled){
+
+repeatBtn.classList.add(
+"active"
+);
+
+repeatStatus.innerHTML=`
+
+<span class="material-symbols-outlined">
+repeat
+</span>
+
+REPEAT OTOMATIS AKTIF
+
+`;
+
+}else{
+
+repeatBtn.classList.remove(
+"active"
+);
+
+repeatStatus.innerHTML=`
+
+<span class="material-symbols-outlined">
+repeat
+</span>
+
+REPEAT OTOMATIS NONAKTIF
+
+`;
+
+}
+
+
+localStorage.setItem(
+"devonaxMusicRepeat",
+String(repeatEnabled)
+);
+
+}
+
+
+repeatBtn.onclick=()=>{
+
+repeatEnabled=
+!repeatEnabled;
+
+updateRepeatUI();
+
+};
+
+
+updateRepeatUI();
+
+
+/* BACKUP REPEAT
+Untuk memastikan audio kembali
+ke awal jika browser tidak
+menjalankan loop dengan normal */
+
+audioPlayer.addEventListener(
+"ended",
+async()=>{
+
+if(repeatEnabled){
+
+audioPlayer.currentTime=0;
+
+try{
+
+await audioPlayer.play();
+
+}catch(error){
+
+console.log(
+"Repeat error:",
+error
+);
+
+}
+
+}
+
+}
+);
+
+
+/* =========================================
+RESTART
+========================================= */
+
+previousBtn.onclick=()=>{
+
+if(!audioPlayer.src) return;
+
+audioPlayer.currentTime=0;
+
+};
+
+
+/* =========================================
+STOP
+========================================= */
+
+stopBtn.onclick=()=>{
+
+if(!audioPlayer.src) return;
+
+audioPlayer.pause();
+
+audioPlayer.currentTime=0;
+
+};
+
+
+/* =========================================
+MUTE
+========================================= */
+
+muteBtn.onclick=()=>{
+
+audioPlayer.muted=
+!audioPlayer.muted;
+
+
+muteIcon.textContent=
+audioPlayer.muted
+? "volume_off"
+: "volume_up";
+
+
+muteBtn.classList.toggle(
+"active",
+audioPlayer.muted
+);
+
+};
+
+
+/* =========================================
+PROGRESS
+========================================= */
+
+audioPlayer.addEventListener(
+"loadedmetadata",
+()=>{
+
+durationEl.textContent=
+formatTime(
+audioPlayer.duration
+);
+
+}
+);
+
+
+audioPlayer.addEventListener(
+"timeupdate",
+()=>{
+
+const current=
+audioPlayer.currentTime;
+
+const duration=
+audioPlayer.duration;
+
+
+currentTimeEl.textContent=
+formatTime(
+current
+);
+
+
+if(
+duration &&
+!isNaN(duration)
+){
+
+const percent=
+(current/duration)*100;
+
+progressFill.style.width=
+percent+"%";
+
+}
+
+}
+);
+
+
+/* SEEK */
+
+progressBar.onclick=(event)=>{
+
+if(
+!audioPlayer.duration ||
+isNaN(audioPlayer.duration)
+){
+
+return;
+
+}
+
+
+const rect=
+progressBar.getBoundingClientRect();
+
+const position=
+event.clientX-rect.left;
+
+const percent=
+position/rect.width;
+
+
+audioPlayer.currentTime=
+percent*
+audioPlayer.duration;
+
+};
+
+
+/* =========================================
+SEARCH MUSIC
+iTunes Search API
+========================================= */
+
+async function searchMusic(){
+
+const query=
+searchInput.value.trim();
+
+
+if(!query){
+
+searchInput.focus();
+
+searchStatus.textContent=
+"Masukkan judul lagu atau nama artis.";
+
+return;
+
+}
+
+
+searchStatus.textContent=
+"Mencari lagu...";
+
+
+musicResults.innerHTML=`
+
+<div class="loading">
+
+<span class="material-symbols-outlined"
+style="font-size:32px">
+progress_activity
+</span>
+
+<br>
+
+Mencari lagu...
+
+</div>
+
+`;
+
+
+try{
+
+const url=
+`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=30&country=ID`;
+
+
+const response=
+await fetch(url);
+
+
+if(!response.ok){
+
+throw new Error(
+"Request gagal"
+);
+
+}
+
+
+const data=
+await response.json();
+
+
+const songs=
+(data.results || [])
+.filter(song=>
+song.previewUrl
+);
+
+
+if(!songs.length){
+
+searchStatus.textContent=
+"Lagu tidak ditemukan.";
+
+
+musicResults.innerHTML=`
+
+<div class="emptyState">
+
+<span class="material-symbols-outlined">
+search_off
+</span>
+
+<br>
+
+Tidak ada lagu dengan preview yang tersedia.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+searchStatus.textContent=
+`${songs.length} lagu ditemukan • Pilih untuk langsung memutar`;
+
+
+renderResults(
+songs
+);
+
+
+}catch(error){
+
+console.log(
+"Search error:",
+error
+);
+
+
+searchStatus.textContent=
+"Gagal mencari lagu.";
+
+
+musicResults.innerHTML=`
+
+<div class="emptyState">
+
+<span class="material-symbols-outlined">
+cloud_off
+</span>
+
+<br>
+
+Gagal terhubung ke layanan pencarian.
+Periksa koneksi internet.
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =========================================
+RENDER RESULTS
+========================================= */
+
+function renderResults(songs){
+
+musicResults.innerHTML=
+"";
+
+
+songs.forEach(song=>{
+
+
+const item=
+document.createElement(
+"div"
+);
+
+
+item.className=
+"musicItem";
+
+
+const isCurrent=
+currentMusic &&
+currentMusic.src ===
+song.previewUrl;
+
+
+if(isCurrent){
+
+item.classList.add(
+"active"
+);
+
+}
+
+
+const cover=
+song.artworkUrl100 ||
+song.artworkUrl60 ||
+"";
+
+
+item.innerHTML=`
+
+<div class="resultCover">
+
+<img
+src="${escapeHtml(cover)}"
+alt="Cover Lagu">
+
+</div>
+
+
+<div class="resultInfoBox">
+
+<b>
+${escapeHtml(
+song.trackName ||
+"Tanpa Judul"
+)}
+</b>
+
+<p>
+${escapeHtml(
+song.artistName ||
+"Unknown Artist"
+)}
+</p>
+
+<small>
+Preview lagu tersedia
+</small>
+
+</div>
+
+
+<div class="resultPlay">
+
+<span class="material-symbols-outlined">
+${isCurrent
+? "equalizer"
+: "play_arrow"}
+</span>
+
+</div>
+
+`;
+
+
+item.onclick=
+async()=>{
+
+await selectMusic(
+song
+);
+
+
+document.querySelectorAll(
+".musicItem"
+).forEach(el=>{
+
+el.classList.remove(
+"active"
+);
+
+const icon=
+el.querySelector(
+".resultPlay span"
+);
+
+if(icon){
+
+icon.textContent=
+"play_arrow";
+
+}
+
+});
+
+
+item.classList.add(
+"active"
+);
+
+
+const selectedIcon=
+item.querySelector(
+".resultPlay span"
+);
+
+
+if(selectedIcon){
+
+selectedIcon.textContent=
+"equalizer";
+
+}
+
+};
+
+
+musicResults.appendChild(
+item
+);
+
+
+});
+
+}
+
+
+/* =========================================
+ESCAPE HTML
+========================================= */
+
+function escapeHtml(text){
+
+const div=
+document.createElement(
+"div"
+);
+
+div.textContent=
+String(
+text || ""
+);
+
+return div.innerHTML;
+
+}
+
+
+/* =========================================
+SEARCH EVENTS
+========================================= */
+
+searchBtn.onclick=
+searchMusic;
+
+
+searchInput.addEventListener(
+"keydown",
+(event)=>{
+
+if(event.key==="Enter"){
+
+searchMusic();
+
+}
+
+}
+);
+
+
+/* =========================================
+HISTORY BACK
+========================================= */
+
+document.getElementById(
+"backBtn"
+).onclick=()=>{
+
+if(
+window.history.length > 1
+){
+
+history.back();
+
+}else{
+
+location.href=
+"dashboard.html";
+
+}
+
+};
+
+
+/* =========================================
+DASHBOARD BUTTON
+========================================= */
+
+document.getElementById(
+"goDashboardBtn"
+).onclick=()=>{
+
+location.href=
+"dashboard.html";
+
+};
+
+
+/* =========================================
+PAGE VISIBILITY
+Dashboard tetap membaca lagu
+yang sama dari localStorage
+========================================= */
+
+window.addEventListener(
+"beforeunload",
+()=>{
+
+if(currentMusic){
+
+localStorage.setItem(
+"devonaxCurrentMusic",
+JSON.stringify(
+currentMusic
+)
+);
+
+}
+
+}
+);
+
+</script>
+
+</body>
+  </html>
