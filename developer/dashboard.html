@@ -622,6 +622,280 @@ color:#999;
 
 }
 
+.profileAvatar,
+.drawerAvatar,
+.chatAvatar,
+.storyAvatar{
+overflow:hidden;
+}
+
+.profileAvatar img,
+.drawerAvatar img,
+.chatAvatar img,
+.storyAvatar img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:none;
+}
+
+.sectionHead{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+margin-bottom:15px;
+}
+
+.sectionSub{
+font-size:10px;
+color:#888;
+margin-top:-8px;
+}
+
+.addStoryBtn{
+height:40px;
+padding:0 14px;
+border-radius:13px;
+border:1px solid #650000;
+background:#220000;
+color:#ff5555;
+font-family:'Orbitron',sans-serif;
+font-size:10px;
+font-weight:bold;
+display:flex;
+align-items:center;
+gap:6px;
+cursor:pointer;
+}
+
+.addStoryBtn:hover{
+background:#ff2020;
+color:#fff;
+}
+
+.addStoryBtn span{
+font-size:18px;
+}
+
+.storyList{
+display:flex;
+gap:14px;
+overflow-x:auto;
+padding:3px 2px 8px;
+scrollbar-width:none;
+}
+
+.storyList::-webkit-scrollbar{
+display:none;
+}
+
+.storyItem{
+width:76px;
+min-width:76px;
+text-align:center;
+cursor:pointer;
+}
+
+.storyRing{
+width:68px;
+height:68px;
+margin:auto;
+padding:3px;
+border-radius:50%;
+background:linear-gradient(135deg,#ff2020,#ff7777,#700);
+box-shadow:0 0 12px rgba(255,0,0,.3);
+}
+
+.storyAvatar{
+width:100%;
+height:100%;
+border-radius:50%;
+overflow:hidden;
+background:#181818;
+border:3px solid #121212;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#fff;
+font-size:20px;
+}
+
+.storyAvatar img{
+display:block;
+}
+
+.storyItem b{
+display:block;
+margin-top:7px;
+font-size:9px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.storyEmpty{
+width:100%;
+padding:18px;
+border-radius:16px;
+border:1px dashed #333;
+color:#777;
+font-size:11px;
+text-align:center;
+}
+
+.musicCard{
+position:relative;
+}
+
+.musicIcon{
+font-size:28px;
+color:#ff3030;
+}
+
+.musicPlayer{
+display:flex;
+align-items:center;
+gap:12px;
+background:#181818;
+border:1px solid #333;
+border-radius:18px;
+padding:12px;
+}
+
+.musicCover{
+width:55px;
+height:55px;
+min-width:55px;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:linear-gradient(135deg,#ff3030,#700);
+box-shadow:0 0 15px rgba(255,0,0,.25);
+}
+
+.musicCover span{
+font-size:30px;
+}
+
+.musicInfo{
+min-width:0;
+flex:1;
+}
+
+.musicInfo b{
+display:block;
+font-size:12px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.musicInfo p{
+margin-top:6px;
+font-size:10px;
+color:#888;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.musicOpenBtn{
+width:45px;
+height:45px;
+border-radius:50%;
+border:1px solid #650000;
+background:#220000;
+color:#ff5555;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+}
+
+.musicOpenBtn:hover{
+background:#ff2020;
+color:#fff;
+}
+
+.musicOpenBtn span{
+font-size:25px;
+}
+
+/* STORY MODAL */
+.storyModal{
+position:fixed;
+inset:0;
+z-index:3000;
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+background:rgba(0,0,0,.75);
+backdrop-filter:blur(5px);
+}
+
+.storyModal.show{
+display:flex;
+}
+
+.storyModalBox{
+width:min(100%,420px);
+background:#121212;
+border:1px solid #444;
+border-radius:24px;
+padding:20px;
+box-shadow:0 0 30px rgba(255,0,0,.2);
+}
+
+.storyModalBox h3{
+font-size:15px;
+color:#ff5555;
+margin-bottom:15px;
+}
+
+.storyModalBox textarea{
+width:100%;
+height:120px;
+resize:none;
+padding:15px;
+border-radius:16px;
+border:1px solid #333;
+outline:none;
+background:#0d0d0d;
+color:#fff;
+font-family:Arial,sans-serif;
+font-size:14px;
+}
+
+.storyModalActions{
+display:flex;
+gap:10px;
+margin-top:14px;
+}
+
+.storyModalActions button{
+flex:1;
+height:48px;
+border-radius:14px;
+font-family:'Orbitron',sans-serif;
+font-size:11px;
+cursor:pointer;
+}
+
+.cancelStory{
+background:#181818;
+color:#aaa;
+border:1px solid #333;
+}
+
+.sendStory{
+background:#ff2020;
+color:#fff;
+border:1px solid #ff4040;
+  }
+
 </style>
 
 </head>
@@ -733,6 +1007,13 @@ WELCOME BACK,
   </span>
 </div>
 
+<div class="drawerAvatar" id="drawerAvatar">
+  <img id="drawerProfileImage" alt="Profile">
+  <span class="material-symbols-outlined" id="drawerProfileDefault">
+    admin_panel_settings
+  </span>
+</div>
+
 <div class="info">
 
 <h2 id="username">
@@ -777,6 +1058,34 @@ Expired : -
   <div class="storyList" id="storyList">
     <div class="storyEmpty">Belum ada story aktif...</div>
   </div>
+</div>
+
+<div class="storyModal" id="storyModal">
+
+  <div class="storyModalBox">
+
+    <h3>BUAT STORY</h3>
+
+    <textarea
+      id="storyText"
+      maxlength="500"
+      placeholder="Apa yang sedang kamu pikirkan?"
+    ></textarea>
+
+    <div class="storyModalActions">
+
+      <button class="cancelStory" id="cancelStory">
+        BATAL
+      </button>
+
+      <button class="sendStory" id="sendStory">
+        KIRIM
+      </button>
+
+    </div>
+
+  </div>
+
 </div>
 
 <!-- MUSIC PLAYER -->
@@ -2163,7 +2472,12 @@ getDatabase,
 ref,
 get,
 onValue,
-set
+set, 
+push,
+remove,
+query,
+orderByChild,
+limitToLast
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 
 const firebaseConfig={
@@ -2334,6 +2648,313 @@ document.getElementById("onlineUser").textContent=online;
 
 let currentUser=null;
 
+const STORY_DURATION = 24 * 60 * 60 * 1000;
+
+function setProfileImage(url){
+
+  const profileImage =
+    document.getElementById("profileImage");
+
+  const profileDefault =
+    document.getElementById("profileDefault");
+
+  const drawerImage =
+    document.getElementById("drawerProfileImage");
+
+  const drawerDefault =
+    document.getElementById("drawerProfileDefault");
+
+  if(url){
+
+    profileImage.src=url;
+    profileImage.style.display="block";
+    profileDefault.style.display="none";
+
+    drawerImage.src=url;
+    drawerImage.style.display="block";
+    drawerDefault.style.display="none";
+
+  }else{
+
+    profileImage.style.display="none";
+    profileDefault.style.display="block";
+
+    drawerImage.style.display="none";
+    drawerDefault.style.display="block";
+
+  }
+
+}
+
+function loadMusic(){
+
+  const musicData =
+    localStorage.getItem("devonaxMusic");
+
+  const title =
+    document.getElementById("musicTitle");
+
+  const artist =
+    document.getElementById("musicArtist");
+
+  const coverIcon =
+    document.getElementById("musicCoverIcon");
+
+  if(!musicData){
+
+    title.textContent="Belum ada lagu";
+    artist.textContent="Putar lagu dari Music Player";
+
+    return;
+
+  }
+
+  try{
+
+    const music=JSON.parse(musicData);
+
+    title.textContent=
+      music.title || music.name || "Belum ada lagu";
+
+    artist.textContent=
+      music.artist || music.singer || "Sedang diputar";
+
+    coverIcon.textContent=
+      music.playing ? "graphic_eq" : "music_note";
+
+  }catch(error){
+
+    title.textContent="Belum ada lagu";
+    artist.textContent="Putar lagu dari Music Player";
+
+  }
+
+}
+
+loadMusic();
+
+window.addEventListener("storage",loadMusic);
+
+window.addEventListener("focus",loadMusic);
+
+
+/* STORY MODAL */
+
+const storyModal =
+  document.getElementById("storyModal");
+
+document.getElementById("addStoryBtn").onclick=()=>{
+
+  storyModal.classList.add("show");
+
+};
+
+document.getElementById("cancelStory").onclick=()=>{
+
+  storyModal.classList.remove("show");
+
+};
+
+storyModal.addEventListener("click",(e)=>{
+
+  if(e.target===storyModal){
+
+    storyModal.classList.remove("show");
+
+  }
+
+});
+
+
+/* BUAT STORY */
+
+document.getElementById("sendStory").onclick=async()=>{
+
+  if(!currentUser){
+
+    return;
+
+  }
+
+  const text=
+    document.getElementById("storyText").value.trim();
+
+  if(!text){
+
+    alert("Isi story terlebih dahulu!");
+
+    return;
+
+  }
+
+  const userSnap=
+    await get(ref(db,"users/"+currentUser.uid));
+
+  const userData=
+    userSnap.exists() ? userSnap.val() : {};
+
+  await push(ref(db,"stories"),{
+
+    uid:currentUser.uid,
+
+    username:
+      userData.username ||
+      currentUser.email.split("@")[0],
+
+    photoURL:
+      userData.photoURL ||
+      userData.profileImage ||
+      "",
+
+    text:text,
+
+    createdAt:Date.now(),
+
+    expiresAt:
+      Date.now()+STORY_DURATION
+
+  });
+
+  document.getElementById("storyText").value="";
+
+  storyModal.classList.remove("show");
+
+};
+
+
+/* LOAD STORY REALTIME */
+
+onValue(
+  query(
+    ref(db,"stories"),
+    orderByChild("createdAt"),
+    limitToLast(50)
+  ),
+
+  async(snap)=>{
+
+    const storyList=
+      document.getElementById("storyList");
+
+    storyList.innerHTML="";
+
+    const now=Date.now();
+
+    const stories=[];
+
+    if(snap.exists()){
+
+      snap.forEach(child=>{
+
+        const data=child.val();
+
+        const expiresAt=
+          Number(
+            data.expiresAt ||
+            (
+              Number(data.createdAt||0)
+              +STORY_DURATION
+            )
+          );
+
+        if(expiresAt>now){
+
+          stories.push({
+            id:child.key,
+            ...data,
+            expiresAt
+          });
+
+        }else{
+
+          remove(
+            ref(db,"stories/"+child.key)
+          );
+
+        }
+
+      });
+
+    }
+
+    stories.sort(
+      (a,b)=>b.createdAt-a.createdAt
+    );
+
+    if(!stories.length){
+
+      storyList.innerHTML=
+        '<div class="storyEmpty">Belum ada story aktif...</div>';
+
+      return;
+
+    }
+
+    stories.forEach(story=>{
+
+      const item=
+        document.createElement("div");
+
+      item.className="storyItem";
+
+      const photoHTML=story.photoURL
+
+        ? `<img src="${story.photoURL}">`
+
+        : `<span class="material-symbols-outlined">person</span>`;
+
+      item.innerHTML=`
+
+        <div class="storyRing">
+
+          <div class="storyAvatar">
+
+            ${photoHTML}
+
+          </div>
+
+        </div>
+
+        <b>${story.username || "User"}</b>
+
+      `;
+
+      item.onclick=()=>{
+
+        const leftTime=
+          Math.max(
+            0,
+            story.expiresAt-Date.now()
+          );
+
+        const hours=
+          Math.floor(leftTime/3600000);
+
+        const minutes=
+          Math.floor(
+            (leftTime%3600000)/60000
+          );
+
+        alert(
+          (story.username || "User")
+          +"\n\n"
+          +story.text
+          +"\n\n"
+          +"Hilang dalam "
+          +hours+" jam "
+          +minutes+" menit"
+        );
+
+      };
+
+      storyList.appendChild(item);
+
+    });
+
+  }
+
+);
+
 onAuthStateChanged(auth,async(user)=>{
 
 if(!user){
@@ -2357,6 +2978,12 @@ return;
 }
 
 const d=snap.val();
+
+setProfileImage(
+  d.photoURL ||
+  d.profileImage ||
+  ""
+);
 
 const expiredTime = Number(d.expiredAt || 0);
 
