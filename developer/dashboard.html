@@ -546,6 +546,239 @@ cursor:pointer;
 box-shadow:0 0 15px rgba(255,0,0,.35);
 }
 
+.musicPlayBtn{
+flex-shrink:0;
+}
+
+.musicSearchBtn{
+width:46px;
+height:46px;
+min-width:46px;
+border:none;
+border-radius:14px;
+background:#202020;
+border:1px solid #444;
+color:#ff5555;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+transition:.25s;
+}
+
+.musicSearchBtn:hover{
+background:#220000;
+border-color:#ff2020;
+box-shadow:0 0 15px rgba(255,0,0,.25);
+transform:translateY(-2px);
+}
+
+.musicSearchBtn span{
+font-size:25px;
+}
+
+/* MUSIC SEARCH MODAL */
+
+.musicModalOverlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.72);
+backdrop-filter:blur(8px);
+-webkit-backdrop-filter:blur(8px);
+z-index:2000;
+display:none;
+align-items:flex-end;
+justify-content:center;
+padding:15px;
+}
+
+.musicModalOverlay.show{
+display:flex;
+}
+
+.musicModal{
+width:min(650px,100%);
+max-height:82vh;
+background:#101010;
+border:1px solid #444;
+border-radius:25px;
+overflow:hidden;
+box-shadow:0 0 35px rgba(255,0,0,.22);
+animation:musicModalIn .25s ease;
+}
+
+@keyframes musicModalIn{
+from{
+opacity:0;
+transform:translateY(30px) scale(.98);
+}
+to{
+opacity:1;
+transform:translateY(0) scale(1);
+}
+}
+
+.musicModalHeader{
+padding:18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+border-bottom:1px solid #292929;
+}
+
+.musicModalHeader h3{
+font-size:15px;
+letter-spacing:1.5px;
+color:#ff5555;
+}
+
+.closeMusicModal{
+width:42px;
+height:42px;
+border:none;
+border-radius:13px;
+background:#1b1b1b;
+color:#ff5555;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.musicSearchBox{
+padding:15px;
+display:flex;
+gap:10px;
+border-bottom:1px solid #292929;
+}
+
+.musicSearchInput{
+flex:1;
+height:50px;
+background:#171717;
+border:1px solid #333;
+border-radius:15px;
+outline:none;
+padding:0 15px;
+color:#fff;
+font-family:'Orbitron',sans-serif;
+font-size:11px;
+}
+
+.musicSearchInput:focus{
+border-color:#ff2020;
+box-shadow:0 0 15px rgba(255,0,0,.12);
+}
+
+.searchMusicSubmit{
+width:52px;
+height:50px;
+border:none;
+border-radius:15px;
+background:#ff2020;
+color:#fff;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.musicResults{
+padding:12px;
+overflow-y:auto;
+max-height:58vh;
+}
+
+.musicResult{
+display:flex;
+align-items:center;
+gap:12px;
+padding:12px;
+border-radius:17px;
+cursor:pointer;
+transition:.2s;
+border:1px solid transparent;
+}
+
+.musicResult:hover{
+background:#191919;
+border-color:#ff3030;
+}
+
+.musicResultCover{
+width:58px;
+height:58px;
+min-width:58px;
+border-radius:13px;
+overflow:hidden;
+background:#220000;
+border:1px solid #600;
+}
+
+.musicResultCover img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.musicResultInfo{
+flex:1;
+min-width:0;
+}
+
+.musicResultInfo b{
+display:block;
+font-size:12px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.musicResultInfo p{
+margin-top:7px;
+font-size:10px;
+color:#999;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.musicResultInfo small{
+display:inline-block;
+margin-top:6px;
+font-size:9px;
+color:#ff5555;
+}
+
+.musicResultPlay{
+width:42px;
+height:42px;
+min-width:42px;
+border-radius:50%;
+background:#220000;
+border:1px solid #600;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#ff5555;
+}
+
+.musicEmpty{
+padding:35px 15px;
+text-align:center;
+color:#888;
+font-size:11px;
+line-height:1.7;
+}
+
+.musicLoading{
+padding:30px;
+text-align:center;
+font-size:11px;
+color:#ff5555;
+                     }
+
 .musicBtn span{
 font-size:26px;
 }
@@ -1178,13 +1411,16 @@ Belum ada lagu
 </h3>
 
 <p id="musicArtist">
-Pilih lagu di Music Player
+Cari lagu atau pilih dari Music Player
 </p>
 
 </div>
 
-<button class="musicBtn"
-id="musicBtn">
+<!-- PLAY / PAUSE ON OFF -->
+
+<button class="musicBtn musicPlayBtn"
+id="musicBtn"
+title="Play / Pause">
 
 <span id="musicBtnIcon"
 class="material-symbols-outlined">
@@ -1193,10 +1429,93 @@ play_arrow
 
 </button>
 
+<!-- SEARCH MUSIC -->
+
+<button class="musicSearchBtn"
+id="musicSearchBtn"
+title="Cari Lagu">
+
+<span class="material-symbols-outlined">
+music_note
+</span>
+
+</button>
+
+</div>
+</div>
+
+<!-- MUSIC SEARCH MODAL -->
+
+<div id="musicModalOverlay" class="musicModalOverlay">
+
+<div class="musicModal">
+
+<div class="musicModalHeader">
+
+<h3>
+<span class="material-symbols-outlined"
+style="vertical-align:middle">
+library_music
+</span>
+
+CARI LAGU
+</h3>
+
+<button class="closeMusicModal"
+id="closeMusicModal">
+
+<span class="material-symbols-outlined">
+close
+</span>
+
+</button>
+
+</div>
+
+
+<div class="musicSearchBox">
+
+<input
+id="musicSearchInput"
+class="musicSearchInput"
+type="text"
+placeholder="Cari judul lagu atau artis..."
+autocomplete="off">
+
+<button
+id="searchMusicSubmit"
+class="searchMusicSubmit">
+
+<span class="material-symbols-outlined">
+search
+</span>
+
+</button>
+
+</div>
+
+
+<div id="musicResults"
+class="musicResults">
+
+<div class="musicEmpty">
+
+<span class="material-symbols-outlined"
+style="font-size:38px;color:#ff3030">
+music_note
+</span>
+
+<br>
+
+Cari lagu yang ingin kamu putar
+
+</div>
+
 </div>
 
 </div>
 
+</div>
 
 <!-- GLOBAL CHAT -->
 
@@ -1599,119 +1918,638 @@ startAuto();
 
 });
 
+<script>
 
-/* MUSIC */
+/* =========================================
+MUSIC DASHBOARD
+PLAY / PAUSE + SEARCH
+iTunes Search API
+========================================= */
 
 const dashboardAudio=new Audio();
+
+dashboardAudio.preload="metadata";
+dashboardAudio.volume=.8;
+
+let currentMusic=null;
+
+const musicTitleEl=
+document.getElementById("musicTitle");
+
+const musicArtistEl=
+document.getElementById("musicArtist");
+
+const musicCoverEl=
+document.getElementById("musicCover");
+
+const musicDefaultIcon=
+document.getElementById("musicDefaultIcon");
+
+const musicBtn=
+document.getElementById("musicBtn");
+
+const musicBtnIcon=
+document.getElementById("musicBtnIcon");
+
+const musicModalOverlay=
+document.getElementById("musicModalOverlay");
+
+const musicSearchBtn=
+document.getElementById("musicSearchBtn");
+
+const closeMusicModal=
+document.getElementById("closeMusicModal");
+
+const musicSearchInput=
+document.getElementById("musicSearchInput");
+
+const searchMusicSubmit=
+document.getElementById("searchMusicSubmit");
+
+const musicResults=
+document.getElementById("musicResults");
+
+
+function setMusicButtonState(){
+
+musicBtnIcon.textContent=
+dashboardAudio.paused
+? "play_arrow"
+: "pause";
+
+}
+
+
+function updateMusicUI(music){
+
+if(!music) return;
+
+musicTitleEl.textContent=
+music.title ||
+music.name ||
+"Tanpa Judul";
+
+musicArtistEl.textContent=
+music.artist ||
+"DEVONAX MUSIC";
+
+
+if(music.cover){
+
+musicCoverEl.src=music.cover;
+
+musicCoverEl.style.display="block";
+
+musicDefaultIcon.style.display="none";
+
+}else{
+
+musicCoverEl.style.display="none";
+
+musicDefaultIcon.style.display="block";
+
+}
+
+}
+
+
+function saveCurrentMusic(music){
+
+const data={
+
+title:music.title || "Tanpa Judul",
+
+artist:music.artist || "Unknown Artist",
+
+cover:music.cover || "",
+
+src:music.src || ""
+
+};
+
+localStorage.setItem(
+"devonaxCurrentMusic",
+JSON.stringify(data)
+);
+
+}
+
 
 function loadMusic(){
 
 const savedMusic=
-localStorage.getItem("devonaxCurrentMusic");
+localStorage.getItem(
+"devonaxCurrentMusic"
+);
 
 if(!savedMusic){
 
-document.getElementById("musicTitle").textContent=
+musicTitleEl.textContent=
 "Belum ada lagu";
 
-document.getElementById("musicArtist").textContent=
-"Pilih lagu di Music Player";
+musicArtistEl.textContent=
+"Cari lagu dengan tombol music";
 
 return;
 
 }
 
+
 try{
 
-const music=JSON.parse(savedMusic);
+const music=
+JSON.parse(savedMusic);
 
-document.getElementById("musicTitle").textContent=
-music.title || music.name || "Tanpa Judul";
+currentMusic=music;
 
-document.getElementById("musicArtist").textContent=
-music.artist || "DEVONAX MUSIC";
+updateMusicUI(music);
 
-if(music.cover){
-
-const cover=document.getElementById("musicCover");
-
-cover.src=music.cover;
-cover.style.display="block";
-
-document.getElementById("musicDefaultIcon").style.display="none";
-
-}
 
 if(music.src){
 
-dashboardAudio.src=music.src;
+dashboardAudio.src=
+music.src;
 
 }
 
 }catch(err){
 
-console.log("Music error",err);
+console.log(
+"Music load error:",
+err
+);
 
 }
 
 }
+
 
 loadMusic();
 
 
-document.getElementById("musicBtn").onclick=()=>{
+/* PLAY / PAUSE */
 
-const savedMusic=
-localStorage.getItem("devonaxCurrentMusic");
-
-if(!savedMusic){
-
-location.href="../music.html";
-
-return;
-
-}
+musicBtn.onclick=async()=>{
 
 if(!dashboardAudio.src){
 
-location.href="../music.html";
+musicSearchBtn.click();
 
 return;
 
 }
 
+
 if(dashboardAudio.paused){
 
-dashboardAudio.play();
+try{
 
-document.getElementById("musicBtnIcon").textContent=
-"pause";
+await dashboardAudio.play();
+
+}catch(err){
+
+console.log(
+"Audio play error:",
+err
+);
+
+alert(
+"Gagal memutar lagu. Preview mungkin tidak tersedia."
+);
+
+}
 
 }else{
 
 dashboardAudio.pause();
 
-document.getElementById("musicBtnIcon").textContent=
-"play_arrow";
+}
+
+};
+
+
+dashboardAudio.onplay=()=>{
+
+setMusicButtonState();
+
+};
+
+
+dashboardAudio.onpause=()=>{
+
+setMusicButtonState();
+
+};
+
+
+dashboardAudio.onended=()=>{
+
+setMusicButtonState();
+
+};
+
+
+/* MUSIC MODAL */
+
+musicSearchBtn.onclick=()=>{
+
+musicModalOverlay.classList.add(
+"show"
+);
+
+setTimeout(()=>{
+
+musicSearchInput.focus();
+
+},150);
+
+};
+
+
+closeMusicModal.onclick=()=>{
+
+musicModalOverlay.classList.remove(
+"show"
+);
+
+};
+
+
+musicModalOverlay.onclick=(e)=>{
+
+if(
+e.target===musicModalOverlay
+){
+
+musicModalOverlay.classList.remove(
+"show"
+);
 
 }
 
 };
 
-dashboardAudio.onplay=()=>{
 
-document.getElementById("musicBtnIcon").textContent=
-"pause";
+/* SEARCH MUSIC */
+
+async function searchMusic(){
+
+const query=
+musicSearchInput.value.trim();
+
+if(!query){
+
+musicSearchInput.focus();
+
+return;
+
+}
+
+
+musicResults.innerHTML=`
+
+<div class="musicLoading">
+
+<span class="material-symbols-outlined"
+style="font-size:30px">
+progress_activity
+</span>
+
+<br><br>
+
+Mencari lagu...
+
+</div>
+
+`;
+
+
+try{
+
+const url=
+`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=25&country=ID`;
+
+
+const response=
+await fetch(url);
+
+
+if(!response.ok){
+
+throw new Error(
+"Search failed"
+);
+
+}
+
+
+const data=
+await response.json();
+
+
+const songs=
+(data.results || [])
+.filter(song=>
+song.previewUrl
+);
+
+
+if(!songs.length){
+
+musicResults.innerHTML=`
+
+<div class="musicEmpty">
+
+<span class="material-symbols-outlined"
+style="font-size:38px;color:#ff3030">
+search_off
+</span>
+
+<br>
+
+Lagu tidak ditemukan atau preview tidak tersedia.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+renderMusicResults(songs);
+
+
+}catch(err){
+
+console.log(
+"Music search error:",
+err
+);
+
+
+musicResults.innerHTML=`
+
+<div class="musicEmpty">
+
+<span class="material-symbols-outlined"
+style="font-size:38px;color:#ff3030">
+cloud_off
+</span>
+
+<br>
+
+Gagal mencari lagu.<br>
+Periksa koneksi internet.
+
+</div>
+
+`;
+
+}
+
+}
+
+
+function renderMusicResults(songs){
+
+musicResults.innerHTML="";
+
+
+songs.forEach(song=>{
+
+
+const item=
+document.createElement("div");
+
+item.className=
+"musicResult";
+
+
+const cover=
+song.artworkUrl100 ||
+song.artworkUrl60 ||
+"";
+
+
+const previewDuration=
+song.trackTimeMillis
+? Math.round(
+song.trackTimeMillis/1000
+)
+: 30;
+
+
+item.innerHTML=`
+
+<div class="musicResultCover">
+
+<img
+src="${cover}"
+alt="Cover">
+
+</div>
+
+<div class="musicResultInfo">
+
+<b>
+${escapeHtml(
+song.trackName ||
+"Tanpa Judul"
+)}
+</b>
+
+<p>
+${escapeHtml(
+song.artistName ||
+"Unknown Artist"
+)}
+</p>
+
+<small>
+Preview tersedia • sekitar ${Math.min(
+previewDuration,
+60
+)} detik
+</small>
+
+</div>
+
+<div class="musicResultPlay">
+
+<span class="material-symbols-outlined">
+play_arrow
+</span>
+
+</div>
+
+`;
+
+
+item.onclick=()=>{
+
+selectMusic(song);
 
 };
 
-dashboardAudio.onpause=()=>{
 
-document.getElementById("musicBtnIcon").textContent=
-"play_arrow";
+musicResults.appendChild(
+item
+);
+
+
+});
+
+}
+
+
+function escapeHtml(text){
+
+const div=
+document.createElement("div");
+
+div.textContent=
+String(text || "");
+
+return div.innerHTML;
+
+}
+
+
+/* SELECT SONG */
+
+async function selectMusic(song){
+
+const music={
+
+title:
+song.trackName ||
+"Tanpa Judul",
+
+artist:
+song.artistName ||
+"Unknown Artist",
+
+cover:
+song.artworkUrl100 ||
+song.artworkUrl60 ||
+"",
+
+src:
+song.previewUrl ||
+
+""
 
 };
 
+
+if(!music.src){
+
+alert(
+"Preview lagu ini tidak tersedia."
+);
+
+return;
+
+}
+
+
+currentMusic=music;
+
+dashboardAudio.pause();
+
+dashboardAudio.src=
+music.src;
+
+dashboardAudio.currentTime=0;
+
+
+updateMusicUI(
+music
+);
+
+saveCurrentMusic(
+music
+);
+
+
+musicModalOverlay.classList.remove(
+"show"
+);
+
+
+try{
+
+await dashboardAudio.play();
+
+}catch(err){
+
+console.log(
+"Autoplay error:",
+err
+);
+
+setMusicButtonState();
+
+}
+
+}
+
+
+/* ENTER SEARCH */
+
+musicSearchInput.addEventListener(
+"keydown",
+(e)=>{
+
+if(e.key==="Enter"){
+
+searchMusic();
+
+}
+
+}
+);
+
+
+searchMusicSubmit.onclick=
+searchMusic;
+
+
+/* DEFAULT SEARCH */
+
+musicSearchInput.addEventListener(
+"input",
+()=>{
+
+if(
+musicSearchInput.value.trim().length===0
+){
+
+musicResults.innerHTML=`
+
+<div class="musicEmpty">
+
+<span class="material-symbols-outlined"
+style="font-size:38px;color:#ff3030">
+music_note
+</span>
+
+<br>
+
+Cari judul lagu atau nama artis
+
+</div>
+
+`;
+
+}
+
+}
+);
+
+</script>
 
 /* =========================================
 CUACA REALTIME
