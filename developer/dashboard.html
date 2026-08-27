@@ -207,7 +207,7 @@ margin-bottom:15px;
 .profileCard{
 display:flex;
 align-items:center;
-gap:16px;
+gap:14px;
 }
 
 .avatar{
@@ -236,10 +236,11 @@ font-size:38px;
 
 .info{
 min-width:0;
+flex:1;
 }
 
 .info h2{
-font-size:22px;
+font-size:19px;
 white-space:nowrap;
 overflow:hidden;
 text-overflow:ellipsis;
@@ -248,19 +249,362 @@ text-overflow:ellipsis;
 .role{
 display:inline-block;
 margin-top:6px;
-padding:5px 12px;
+padding:5px 10px;
 border-radius:20px;
 background:#2a0000;
 border:1px solid #600;
-font-size:12px;
+font-size:10px;
 color:#ff7777;
 }
 
 .expired{
-margin-top:10px;
-font-size:12px;
+margin-top:8px;
+font-size:10px;
 color:#999;
 }
+
+/* CUACA REALTIME */
+
+.weatherMini{
+width:88px;
+min-width:88px;
+min-height:92px;
+
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+
+background:#181818;
+
+border:1px solid #333;
+
+border-radius:18px;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.weatherMini::before{
+
+content:"";
+
+position:absolute;
+
+width:60px;
+height:60px;
+
+border-radius:50%;
+
+background:rgba(255,32,32,.08);
+
+filter:blur(18px);
+
+}
+
+.weatherMini span{
+
+position:relative;
+
+font-size:30px;
+
+color:#ff5555;
+
+}
+
+#weatherTemp{
+
+position:relative;
+
+margin-top:4px;
+
+font-size:16px;
+
+font-weight:800;
+
+}
+
+#weatherStatus{
+
+position:relative;
+
+margin-top:4px;
+
+font-size:7px;
+
+color:#888;
+
+text-align:center;
+
+max-width:80px;
+
+white-space:nowrap;
+
+overflow:hidden;
+
+text-overflow:ellipsis;
+
+}
+
+.weatherIndicator{
+
+position:absolute;
+
+top:9px;
+
+right:9px;
+
+width:7px;
+height:7px;
+
+border-radius:50%;
+
+background:#ff3030;
+
+box-shadow:0 0 10px red;
+
+}
+
+.weatherMini.online .weatherIndicator{
+
+background:#00ff66;
+
+box-shadow:0 0 10px #00ff66;
+
+animation:weatherPulse 1.2s infinite;
+
+}
+
+@keyframes weatherPulse{
+
+0%,100%{
+transform:scale(.8);
+opacity:.5;
+}
+
+50%{
+transform:scale(1.3);
+opacity:1;
+}
+
+}
+
+
+/* JADWAL SHALAT */
+
+.prayerBox{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+gap:15px;
+
+padding:16px;
+
+background:#181818;
+
+border:1px solid #333;
+
+border-radius:20px;
+
+margin-bottom:14px;
+
+}
+
+.prayerMain{
+
+display:flex;
+
+align-items:center;
+
+gap:13px;
+
+min-width:0;
+
+}
+
+.prayerIcon{
+
+width:52px;
+
+height:52px;
+
+min-width:52px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+border-radius:16px;
+
+background:#220000;
+
+border:1px solid #600;
+
+color:#ff3030;
+
+box-shadow:0 0 15px rgba(255,0,0,.18);
+
+}
+
+.prayerIcon span{
+
+font-size:29px;
+
+}
+
+.prayerInfo{
+
+min-width:0;
+
+}
+
+.prayerLabel{
+
+font-size:9px;
+
+letter-spacing:1px;
+
+color:#888;
+
+}
+
+.prayerInfo h3{
+
+margin-top:5px;
+
+font-size:15px;
+
+color:#ff6666;
+
+white-space:nowrap;
+
+overflow:hidden;
+
+text-overflow:ellipsis;
+
+}
+
+.prayerInfo p{
+
+margin-top:5px;
+
+font-size:9px;
+
+color:#aaa;
+
+}
+
+.prayerTime{
+
+font-size:21px;
+
+font-weight:800;
+
+color:#fff;
+
+white-space:nowrap;
+
+text-shadow:0 0 10px rgba(255,255,255,.2);
+
+}
+
+.prayerGrid{
+
+display:grid;
+
+grid-template-columns:repeat(5,1fr);
+
+gap:7px;
+
+}
+
+.prayerItem{
+
+padding:11px 4px;
+
+background:#171717;
+
+border:1px solid #292929;
+
+border-radius:13px;
+
+text-align:center;
+
+transition:.25s;
+
+}
+
+.prayerItem.active{
+
+border-color:#ff3030;
+
+background:#220000;
+
+box-shadow:0 0 14px rgba(255,0,0,.18);
+
+}
+
+.prayerItem span{
+
+display:block;
+
+font-size:7px;
+
+color:#888;
+
+margin-bottom:7px;
+
+}
+
+.prayerItem b{
+
+font-size:10px;
+
+color:#eee;
+
+}
+
+.prayerItem.active b{
+
+color:#ff6666;
+
+}
+
+@media(max-width:430px){
+
+.prayerGrid{
+
+gap:5px;
+
+}
+
+.prayerItem{
+
+padding:10px 2px;
+
+}
+
+.prayerItem span{
+
+font-size:6px;
+
+}
+
+.prayerItem b{
+
+font-size:9px;
+
+}
+
+  }
 
 /* STORY */
 
@@ -875,26 +1219,99 @@ Expired : -
 
 </div>
 
-</div>
+
+<!-- CUACA REALTIME -->
+
+<div class="weatherMini" id="weatherMini">
+
+<div class="weatherIndicator"></div>
+
+<span id="weatherIcon"
+class="material-symbols-outlined">
+cloud
+</span>
+
+<b id="weatherTemp">
+--°C
+</b>
+
+<p id="weatherStatus">
+Memuat...
+</p>
 
 </div>
 
+</div>
 
-<!-- STORY -->
+
+<!-- JADWAL SHALAT -->
 
 <div class="card">
 
-<div class="title">STORY</div>
+<div class="title">JADWAL SHALAT</div>
 
-<div class="storyRow" id="storyRow">
+<div class="prayerBox">
 
-<div class="emptyStory">
-Belum ada story
+<div class="prayerMain">
+
+<div class="prayerIcon" id="prayerIcon">
+<span class="material-symbols-outlined">mosque</span>
+</div>
+
+<div class="prayerInfo">
+
+<span class="prayerLabel" id="prayerLabel">
+Memuat jadwal...
+</span>
+
+<h3 id="nextPrayer">
+Jadwal Shalat
+</h3>
+
+<p id="prayerCountdown">
+Menyiapkan waktu...
+</p>
+
 </div>
 
 </div>
 
+<div class="prayerTime" id="prayerTime">
+--:--
 </div>
+
+</div>
+
+<div class="prayerGrid">
+
+<div class="prayerItem" id="fajrBox">
+<span>SUBUH</span>
+<b id="fajrTime">--:--</b>
+</div>
+
+<div class="prayerItem" id="dhuhrBox">
+<span>ZUHUR</span>
+<b id="dhuhrTime">--:--</b>
+</div>
+
+<div class="prayerItem" id="asrBox">
+<span>ASAR</span>
+<b id="asrTime">--:--</b>
+</div>
+
+<div class="prayerItem" id="maghribBox">
+<span>MAGRIB</span>
+<b id="maghribTime">--:--</b>
+</div>
+
+<div class="prayerItem" id="ishaBox">
+<span>ISYA</span>
+<b id="ishaTime">--:--</b>
+</div>
+
+</div>
+
+  </div>
 
 
 <!-- MUSIC PLAYER -->
@@ -1244,6 +1661,643 @@ Logout
 </div>
 
 <div id="overlay" class="overlayMenu"></div>
+
+<script>
+
+/* =========================
+   CUACA REALTIME
+========================= */
+
+const weatherMini =
+document.getElementById("weatherMini");
+
+const weatherIcon =
+document.getElementById("weatherIcon");
+
+const weatherTemp =
+document.getElementById("weatherTemp");
+
+const weatherStatus =
+document.getElementById("weatherStatus");
+
+
+function getWeatherIcon(code){
+
+if(code === 0){
+return "wb_sunny";
+}
+
+if(code <= 2){
+return "partly_cloudy_day";
+}
+
+if(code === 3){
+return "cloud";
+}
+
+if(code >= 45 && code <= 48){
+return "foggy";
+}
+
+if(code >= 51 && code <= 67){
+return "rainy";
+}
+
+if(code >= 71 && code <= 77){
+return "ac_unit";
+}
+
+if(code >= 80 && code <= 82){
+return "rainy";
+}
+
+if(code >= 95){
+return "thunderstorm";
+}
+
+return "cloud";
+
+}
+
+
+function getWeatherText(code){
+
+if(code === 0){
+return "Cerah";
+}
+
+if(code <= 2){
+return "Berawan";
+}
+
+if(code === 3){
+return "Mendung";
+}
+
+if(code >= 45 && code <= 48){
+return "Berkabut";
+}
+
+if(code >= 51 && code <= 67){
+return "Hujan";
+}
+
+if(code >= 71 && code <= 77){
+return "Bersalju";
+}
+
+if(code >= 80 && code <= 82){
+return "Hujan";
+}
+
+if(code >= 95){
+return "Badai";
+}
+
+return "Cuaca";
+
+}
+
+
+async function loadWeather(lat,lon){
+
+try{
+
+const response =
+await fetch(
+`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`
+);
+
+const data =
+await response.json();
+
+const current =
+data.current;
+
+weatherTemp.textContent =
+Math.round(current.temperature_2m)+"°C";
+
+weatherIcon.textContent =
+getWeatherIcon(current.weather_code);
+
+weatherStatus.textContent =
+getWeatherText(current.weather_code);
+
+weatherMini.classList.add("online");
+
+}catch(error){
+
+weatherStatus.textContent =
+"Offline";
+
+weatherMini.classList.remove("online");
+
+}
+
+}
+
+
+function initWeather(){
+
+if(!navigator.geolocation){
+
+weatherStatus.textContent =
+"Lokasi mati";
+
+return;
+
+}
+
+navigator.geolocation.getCurrentPosition(
+
+(position)=>{
+
+const lat =
+position.coords.latitude;
+
+const lon =
+position.coords.longitude;
+
+loadWeather(lat,lon);
+
+setInterval(()=>{
+
+loadWeather(lat,lon);
+
+},600000);
+
+},
+
+()=>{
+
+weatherStatus.textContent =
+"Izin lokasi";
+
+}
+
+);
+
+}
+
+initWeather();
+
+
+/* =========================
+   JADWAL SHALAT REALTIME
+========================= */
+
+const prayerData = {
+
+Subuh:null,
+Zuhur:null,
+Asar:null,
+Magrib:null,
+Isya:null
+
+};
+
+let lastPrayerNotification = "";
+
+
+function getPrayerIcon(prayer){
+
+const icons={
+
+Subuh:"wb_twilight",
+
+Zuhur:"wb_sunny",
+
+Asar:"partly_cloudy_day",
+
+Magrib:"nightlight",
+
+Isya:"dark_mode"
+
+};
+
+return icons[prayer] || "mosque";
+
+}
+
+
+async function loadPrayerSchedule(lat,lon){
+
+try{
+
+const now = new Date();
+
+const date =
+
+String(now.getDate()).padStart(2,"0")+
+
+"-"+
+
+String(now.getMonth()+1).padStart(2,"0")+
+
+"-"+
+
+now.getFullYear();
+
+
+const response =
+await fetch(
+
+`https://api.aladhan.com/v1/timings/${date}?latitude=${lat}&longitude=${lon}&method=20`
+
+);
+
+
+const result =
+await response.json();
+
+
+const timings =
+result.data.timings;
+
+
+prayerData.Subuh =
+timings.Fajr;
+
+prayerData.Zuhur =
+timings.Dhuhr;
+
+prayerData.Asar =
+timings.Asr;
+
+prayerData.Magrib =
+timings.Maghrib;
+
+prayerData.Isya =
+timings.Isha;
+
+
+document.getElementById("fajrTime").textContent =
+timings.Fajr;
+
+document.getElementById("dhuhrTime").textContent =
+timings.Dhuhr;
+
+document.getElementById("asrTime").textContent =
+timings.Asr;
+
+document.getElementById("maghribTime").textContent =
+timings.Maghrib;
+
+document.getElementById("ishaTime").textContent =
+timings.Isha;
+
+
+updatePrayerRealtime();
+
+}catch(error){
+
+document.getElementById("prayerLabel").textContent =
+"Gagal memuat jadwal";
+
+}
+
+}
+
+
+function timeToSeconds(time){
+
+const clean =
+String(time).split(" ")[0];
+
+const parts =
+clean.split(":");
+
+return (
+
+Number(parts[0])*3600+
+
+Number(parts[1])*60+
+
+Number(parts[2] || 0)
+
+);
+
+}
+
+
+function formatCountdown(seconds){
+
+if(seconds < 0){
+
+return "00:00:00";
+
+}
+
+const hours =
+Math.floor(seconds/3600);
+
+const minutes =
+Math.floor((seconds%3600)/60);
+
+const secs =
+Math.floor(seconds%60);
+
+return
+
+String(hours).padStart(2,"0")+":"+
+
+String(minutes).padStart(2,"0")+":"+
+
+String(secs).padStart(2,"0");
+
+}
+
+
+function updatePrayerRealtime(){
+
+const now =
+new Date();
+
+
+const currentSeconds =
+
+now.getHours()*3600+
+
+now.getMinutes()*60+
+
+now.getSeconds();
+
+
+const prayers = [
+
+{
+name:"Subuh",
+time:prayerData.Subuh,
+box:"fajrBox"
+},
+
+{
+name:"Zuhur",
+time:prayerData.Zuhur,
+box:"dhuhrBox"
+},
+
+{
+name:"Asar",
+time:prayerData.Asar,
+box:"asrBox"
+},
+
+{
+name:"Magrib",
+time:prayerData.Magrib,
+box:"maghribBox"
+},
+
+{
+name:"Isya",
+time:prayerData.Isya,
+box:"ishaBox"
+}
+
+];
+
+
+if(!prayerData.Subuh){
+
+return;
+
+}
+
+
+document.querySelectorAll(".prayerItem")
+.forEach(box=>{
+
+box.classList.remove("active");
+
+});
+
+
+let nextPrayer = null;
+
+
+for(const prayer of prayers){
+
+const prayerSeconds =
+timeToSeconds(prayer.time);
+
+if(currentSeconds < prayerSeconds){
+
+nextPrayer = prayer;
+
+break;
+
+}
+
+}
+
+
+if(!nextPrayer){
+
+nextPrayer = prayers[0];
+
+const secondsUntilTomorrow =
+
+(24*3600-currentSeconds)+
+timeToSeconds(nextPrayer.time);
+
+
+document.getElementById("nextPrayer")
+.textContent =
+"Berikutnya: "+nextPrayer.name;
+
+document.getElementById("prayerTime")
+.textContent =
+nextPrayer.time;
+
+document.getElementById("prayerCountdown")
+.textContent =
+"Menuju waktu shalat "+formatCountdown(secondsUntilTomorrow);
+
+document.getElementById("prayerIcon")
+.innerHTML =
+
+`<span class="material-symbols-outlined">
+${getPrayerIcon(nextPrayer.name)}
+</span>`;
+
+document.getElementById(nextPrayer.box)
+.classList.add("active");
+
+}else{
+
+const prayerSeconds =
+timeToSeconds(nextPrayer.time);
+
+
+const remaining =
+prayerSeconds-currentSeconds;
+
+
+document.getElementById("nextPrayer")
+.textContent =
+"Berikutnya: "+nextPrayer.name;
+
+document.getElementById("prayerTime")
+.textContent =
+nextPrayer.time;
+
+document.getElementById("prayerCountdown")
+.textContent =
+"Menuju waktu shalat "+formatCountdown(remaining);
+
+document.getElementById("prayerIcon")
+.innerHTML =
+
+`<span class="material-symbols-outlined">
+${getPrayerIcon(nextPrayer.name)}
+</span>`;
+
+document.getElementById(nextPrayer.box)
+.classList.add("active");
+
+}
+
+
+/* NOTIFIKASI WAKTU SHALAT */
+
+prayers.forEach(prayer=>{
+
+const prayerSeconds =
+timeToSeconds(prayer.time);
+
+
+if(
+
+Math.abs(
+currentSeconds-prayerSeconds
+)<=1
+
+){
+
+const notificationKey =
+
+now.toDateString()+"-"+prayer.name;
+
+
+if(lastPrayerNotification !== notificationKey){
+
+lastPrayerNotification =
+notificationKey;
+
+
+document.getElementById("prayerLabel")
+.textContent =
+"WAKTU SHALAT TIBA";
+
+document.getElementById("nextPrayer")
+.textContent =
+"Sudah masuk waktu "+prayer.name;
+
+document.getElementById("prayerTime")
+.textContent =
+prayer.time;
+
+
+if("Notification" in window){
+
+if(Notification.permission === "granted"){
+
+new Notification(
+"Waktu Shalat "+prayer.name,
+{
+
+body:
+"Sekarang pukul "+prayer.time,
+
+icon:""
+
+}
+
+);
+
+}else if(Notification.permission === "default"){
+
+Notification.requestPermission();
+
+}
+
+}
+
+
+if(navigator.vibrate){
+
+navigator.vibrate(
+[200,100,200]
+);
+
+}
+
+}
+
+}
+
+});
+
+}
+
+
+function initPrayerSchedule(){
+
+if(!navigator.geolocation){
+
+document.getElementById("prayerLabel").textContent =
+"Lokasi tidak tersedia";
+
+return;
+
+}
+
+
+navigator.geolocation.getCurrentPosition(
+
+(position)=>{
+
+const lat =
+position.coords.latitude;
+
+const lon =
+position.coords.longitude;
+
+
+loadPrayerSchedule(lat,lon);
+
+
+setInterval(()=>{
+
+updatePrayerRealtime();
+
+},1000);
+
+
+setInterval(()=>{
+
+loadPrayerSchedule(lat,lon);
+
+},3600000);
+
+},
+
+()=>{
+
+document.getElementById("prayerLabel").textContent =
+"Izin lokasi diperlukan";
+
+}
+
+);
+
+}
+
+
+initPrayerSchedule();
+
+</script>
 
 
 <script>
