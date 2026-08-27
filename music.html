@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>DEVONAX MUSIC</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+:root{
+--bg:#070707;
+--card:#121212;
+--card2:#181818;
+--red:#ff2020;
+--red2:#ff5555;
+--text:#fff;
+--muted:#999;
+--border:#333;
+}
+
+body{
+min-height:100vh;
+background:var(--bg);
+color:var(--text);
+padding:18px 18px 35px;
+overflow-x:hidden;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+background:
+radial-gradient(circle at top left,#ff00001c,transparent 35%),
+radial-gradient(circle at bottom right,#ff000015,transparent 35%);
+}
+
+.grid{
+position:fixed;
+inset:0;
+opacity:.035;
+pointer-events:none;
+z-index:-1;
+background-image:
+linear-gradient(#ff0000 1px,transparent 1px),
+linear-gradient(90deg,#ff0000 1px,transparent 1px);
+background-size:40px 40px;
+}
+
+/* HEADER */
+
+header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:22px;
+}
+
+.backBtn,
+.headerIcon{
+width:50px;
+height:50px;
+border-radius:16px;
+border:1px solid #333;
+background:rgba(22,22,22,.8);
+backdrop-filter:blur(12px);
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+cursor:pointer;
+transition:.25s;
+}
+
+.backBtn:hover,
+.headerIcon:hover{
+border-color:var(--red);
+box-shadow:0 0 18px rgba(255,0,0,.3);
+transform:translateY(-2px);
+}
+
+.backBtn span,
+.headerIcon span{
+font-size:28px;
+}
+
+.logo{
+font-size:20px;
+font-weight:800;
+letter-spacing:4px;
+text-shadow:0 0 10px rgba(255,255,255,.2);
+}
+
+/* SEARCH */
+
+.searchBox{
+position:relative;
+margin-bottom:18px;
+}
+
+.searchBox > span{
+position:absolute;
+left:16px;
+top:50%;
+transform:translateY(-50%);
+font-size:25px;
+color:var(--red2);
+}
+
+#searchInput{
+width:100%;
+height:58px;
+padding:0 18px 0 52px;
+border-radius:18px;
+border:1px solid #333;
+outline:none;
+background:rgba(20,20,20,.88);
+backdrop-filter:blur(12px);
+color:white;
+font-size:14px;
+font-family:'Orbitron',sans-serif;
+transition:.25s;
+}
+
+#searchInput:focus{
+border-color:var(--red);
+box-shadow:0 0 20px rgba(255,0,0,.12);
+}
+
+/* PLAYER */
+
+.playerCard{
+position:relative;
+overflow:hidden;
+padding:20px;
+border-radius:25px;
+background:
+linear-gradient(145deg,rgba(45,0,0,.45),rgba(18,18,18,.96));
+border:1px solid #4a2222;
+box-shadow:0 0 28px rgba(255,0,0,.12);
+margin-bottom:20px;
+}
+
+.playerCard::after{
+content:"";
+position:absolute;
+width:180px;
+height:180px;
+border-radius:50%;
+background:#ff000018;
+filter:blur(20px);
+right:-70px;
+top:-70px;
+pointer-events:none;
+}
+
+.nowPlaying{
+position:relative;
+z-index:2;
+font-size:13px;
+letter-spacing:2px;
+color:var(--red2);
+margin-bottom:18px;
+}
+
+.coverWrap{
+width:190px;
+height:190px;
+max-width:70vw;
+max-height:70vw;
+margin:0 auto 22px;
+position:relative;
+border-radius:26px;
+padding:4px;
+background:linear-gradient(135deg,#ff2020,#600,#ff5555);
+box-shadow:0 0 28px rgba(255,0,0,.35);
+}
+
+.coverWrap.playing{
+animation:coverPulse 2.5s linear infinite;
+}
+
+@keyframes coverPulse{
+0%,100%{
+transform:scale(1);
+}
+50%{
+transform:scale(1.025);
+}
+}
+
+.cover{
+width:100%;
+height:100%;
+border-radius:23px;
+background:#151515;
+overflow:hidden;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.cover img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:none;
+}
+
+.cover span{
+font-size:76px;
+color:var(--red);
+}
+
+.songInfo{
+text-align:center;
+position:relative;
+z-index:2;
+}
+
+#currentTitle{
+font-size:18px;
+font-weight:800;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+#currentArtist{
+margin-top:9px;
+font-size:13px;
+color:#aaa;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+/* PROGRESS */
+
+.progressArea{
+margin-top:24px;
+}
+
+.timeRow{
+display:flex;
+justify-content:space-between;
+font-size:12px;
+color:#aaa;
+margin-bottom:10px;
+}
+
+.progressTrack{
+position:relative;
+height:7px;
+background:#2a2a2a;
+border-radius:20px;
+cursor:pointer;
+overflow:hidden;
+}
+
+.progressFill{
+position:absolute;
+left:0;
+top:0;
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#ff2020,#ff7777);
+box-shadow:0 0 10px red;
+border-radius:20px;
+}
+
+.progressInput{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+opacity:0;
+cursor:pointer;
+}
+
+/* CONTROLS */
+
+.controls{
+margin-top:25px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:17px;
+}
+
+.controlBtn{
+width:52px;
+height:52px;
+border:1px solid #3a3a3a;
+background:#191919;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+cursor:pointer;
+transition:.25s;
+}
+
+.controlBtn:hover{
+border-color:var(--red);
+color:var(--red2);
+transform:scale(1.06);
+}
+
+.controlBtn span{
+font-size:28px;
+}
+
+.playBtn{
+width:68px;
+height:68px;
+border:none;
+background:var(--red);
+box-shadow:0 0 24px rgba(255,0,0,.45);
+}
+
+.playBtn:hover{
+background:#ff3939;
+color:white;
+}
+
+/* EXTRA */
+
+.extraControls{
+margin-top:20px;
+display:flex;
+justify-content:space-between;
+gap:10px;
+}
+
+.extraBtn{
+flex:1;
+height:46px;
+border-radius:15px;
+border:1px solid #333;
+background:rgba(20,20,20,.85);
+color:#bbb;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+font-size:11px;
+font-family:'Orbitron',sans-serif;
+cursor:pointer;
+transition:.25s;
+}
+
+.extraBtn span{
+font-size:21px;
+}
+
+.extraBtn:hover,
+.extraBtn.active{
+color:#ff5555;
+border-color:#8a2222;
+background:#260000;
+}
+
+/* VOLUME */
+
+.volumeBox{
+margin-top:18px;
+display:flex;
+align-items:center;
+gap:12px;
+padding:13px 15px;
+border-radius:16px;
+background:#111;
+border:1px solid #292929;
+}
+
+.volumeBox span{
+color:var(--red2);
+font-size:24px;
+}
+
+#volumeSlider{
+flex:1;
+accent-color:#ff2020;
+cursor:pointer;
+}
+
+/* PLAYLIST */
+
+.sectionTitle{
+font-size:15px;
+letter-spacing:3px;
+color:#ff5555;
+margin:24px 0 14px;
+}
+
+.resultInfo{
+font-size:12px;
+color:#888;
+margin-bottom:12px;
+}
+
+.playlist{
+display:flex;
+flex-direction:column;
+gap:11px;
+}
+
+.songItem{
+display:flex;
+align-items:center;
+gap:13px;
+padding:12px;
+border-radius:19px;
+background:#121212;
+border:1px solid #2b2b2b;
+cursor:pointer;
+transition:.25s;
+}
+
+.songItem:hover,
+.songItem.active{
+border-color:#8a2222;
+background:#1b1010;
+box-shadow:0 0 15px rgba(255,0,0,.1);
+}
+
+.songThumb{
+width:58px;
+height:58px;
+min-width:58px;
+border-radius:15px;
+background:#240000;
+border:1px solid #650000;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+}
+
+.songThumb img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:none;
+}
+
+.songThumb span{
+font-size:29px;
+color:#ff3030;
+}
+
+.songData{
+min-width:0;
+flex:1;
+}
+
+.songData h3{
+font-size:13px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.songData p{
+margin-top:7px;
+font-size:11px;
+color:#999;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.songDuration{
+font-size:11px;
+color:#ff7777;
+margin-top:5px;
+}
+
+.songPlay{
+width:43px;
+height:43px;
+min-width:43px;
+border:none;
+border-radius:50%;
+background:#260000;
+color:#ff5555;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+}
+
+.songPlay span{
+font-size:24px;
+}
+
+.empty{
+padding:25px;
+text-align:center;
+border:1px dashed #333;
+border-radius:18px;
+font-size:12px;
+color:#888;
+}
+
+.footerNote{
+margin-top:18px;
+text-align:center;
+font-size:10px;
+color:#666;
+line-height:1.7;
+}
+
+@media(max-width:430px){
+body{
+padding:16px 14px 30px;
+}
+
+.logo{
+font-size:17px;
+letter-spacing:3px;
+}
+
+.coverWrap{
+width:175px;
+height:175px;
+}
+
+.controls{
+gap:12px;
+}
+
+.controlBtn{
+width:48px;
+height:48px;
+}
+
+.playBtn{
+width:64px;
+height:64px;
+}
+
+.extraBtn{
+font-size:10px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<header>
+<button class="backBtn" onclick="history.back()" aria-label="Kembali">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+
+<div class="logo">MUSIC</div>
+
+<div class="headerIcon">
+<span class="material-symbols-outlined">graphic_eq</span>
+</div>
+</header>
+
+<div class="searchBox">
+<span class="material-symbols-outlined">search</span>
+<input
+id="searchInput"
+type="text"
+placeholder="Cari lagu atau artis..."
+autocomplete="off">
+</div>
+
+<!-- MUSIC PLAYER -->
+
+<div class="playerCard">
+
+<div class="nowPlaying">NOW PLAYING • MAX 01:00</div>
+
+<div class="coverWrap" id="coverWrap">
+<div class="cover">
+<img id="currentCover" alt="Cover lagu">
+<span id="defaultCoverIcon" class="material-symbols-outlined">
+music_note
+</span>
+</div>
+</div>
+
+<div class="songInfo">
+<h2 id="currentTitle">Pilih Lagu</h2>
+<p id="currentArtist">DEVONAX MUSIC PLAYER</p>
+</div>
+
+<div class="progressArea">
+
+<div class="timeRow">
+<span id="currentTime">00:00</span>
+<span id="durationTime">01:00</span>
+</div>
+
+<div class="progressTrack">
+<div class="progressFill" id="progressFill"></div>
+<input
+class="progressInput"
+id="progressSlider"
+type="range"
+min="0"
+max="60"
+value="0">
+</div>
+
+</div>
+
+<div class="controls">
+
+<button class="controlBtn" id="prevBtn">
+<span class="material-symbols-outlined">skip_previous</span>
+</button>
+
+<button class="controlBtn" id="back10Btn">
+<span class="material-symbols-outlined">replay_10</span>
+</button>
+
+<button class="controlBtn playBtn" id="playBtn">
+<span class="material-symbols-outlined" id="playIcon">
+play_arrow
+</span>
+</button>
+
+<button class="controlBtn" id="forward10Btn">
+<span class="material-symbols-outlined">forward_10</span>
+</button>
+
+<button class="controlBtn" id="nextBtn">
+<span class="material-symbols-outlined">skip_next</span>
+</button>
+
+</div>
+
+<div class="extraControls">
+
+<button class="extraBtn active" id="repeatBtn">
+<span class="material-symbols-outlined">repeat</span>
+REPEAT
+</button>
+
+<button class="extraBtn" id="downloadBtn">
+<span class="material-symbols-outlined">download</span>
+UNDUH
+</button>
+
+</div>
+
+<div class="volumeBox">
+<span class="material-symbols-outlined" id="volumeIcon">volume_up</span>
+<input
+id="volumeSlider"
+type="range"
+min="0"
+max="100"
+value="80">
+</div>
+
+</div>
+
+<div class="sectionTitle">MUSIC LIBRARY</div>
+<div class="resultInfo" id="resultInfo">Memuat playlist...</div>
+
+<div class="playlist" id="playlist"></div>
+
+<div class="footerNote">
+Semua lagu pada player ini dibatasi maksimal 01:00.<br>
+Gunakan audio yang memang kamu miliki hak atau izin untuk digunakan.
+</div>
+
+<audio id="audio" preload="metadata"></audio>
+
+<script>
+
+/*
+========================================
+DEVONAX MUSIC PLAYER
+1 FILE MUSIC.HTML
+========================================
+
+GANTI src DENGAN FILE AUDIO KAMU SENDIRI.
+
+Jika ingin memakai file lokal:
+src:"../music/namafile.mp3"
+
+Jika ingin memakai URL audio:
+src:"https://domain-kamu.com/audio.mp3"
+
+Setiap lagu otomatis berhenti/mengulang
+pada maksimal 60 detik.
+*/
+
+
+const songs=[
+
+{
+id:1,
+title:"Devonax Night",
+artist:"DEVONAX",
+src:"https://cdn.pixabay.com/download/audio/2022/10/25/audio_4a93c5f8b2.mp3?filename=future-design-121085.mp3",
+cover:"",
+duration:60
+},
+
+{
+id:2,
+title:"Cyber Red",
+artist:"DANZZJB",
+src:"https://cdn.pixabay.com/download/audio/2022/11/17/audio_5b7c5a0f91.mp3?filename=cyberpunk-moonlight-sonata-126131.mp3",
+cover:"",
+duration:60
+},
+
+{
+id:3,
+title:"Digital Silence",
+artist:"DEVONAX MUSIC",
+src:"https://cdn.pixabay.com/download/audio/2022/03/15/audio_8cb74982df.mp3?filename=futuristic-beat-146661.mp3",
+cover:"",
+duration:60
+},
+
+{
+id:4,
+title:"Red Horizon",
+artist:"PROJECT",
+src:"https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=ambient-piano-amp-strings-10711.mp3",
+cover:"",
+duration:60
+}
+
+];
+
+
+const audio=document.getElementById("audio");
+
+const playlist=document.getElementById("playlist");
+const searchInput=document.getElementById("searchInput");
+
+const currentTitle=document.getElementById("currentTitle");
+const currentArtist=document.getElementById("currentArtist");
+
+const currentCover=document.getElementById("currentCover");
+const defaultCoverIcon=document.getElementById("defaultCoverIcon");
+
+const playBtn=document.getElementById("playBtn");
+const playIcon=document.getElementById("playIcon");
+
+const progressSlider=document.getElementById("progressSlider");
+const progressFill=document.getElementById("progressFill");
+
+const currentTimeEl=document.getElementById("currentTime");
+const durationTime=document.getElementById("durationTime");
+
+const repeatBtn=document.getElementById("repeatBtn");
+const downloadBtn=document.getElementById("downloadBtn");
+
+const volumeSlider=document.getElementById("volumeSlider");
+const volumeIcon=document.getElementById("volumeIcon");
+
+const coverWrap=document.getElementById("coverWrap");
+const resultInfo=document.getElementById("resultInfo");
+
+
+let currentIndex=0;
+let repeat=true;
+let filteredSongs=[...songs];
+
+const MAX_DURATION=60;
+
+
+/* FORMAT WAKTU */
+
+function formatTime(seconds){
+
+seconds=Math.floor(seconds||0);
+
+const min=Math.floor(seconds/60);
+const sec=seconds%60;
+
+return String(min).padStart(2,"0")+":"+
+String(sec).padStart(2,"0");
+
+}
+
+
+/* SIMPAN STATE */
+
+function savePlayerState(){
+
+const currentSong=songs[currentIndex];
+
+if(!currentSong) return;
+
+const state={
+
+songId:currentSong.id,
+
+title:currentSong.title,
+
+name:currentSong.title,
+
+artist:currentSong.artist,
+
+src:currentSong.src,
+
+cover:currentSong.cover,
+
+currentTime:Math.min(audio.currentTime||0,MAX_DURATION),
+
+volume:audio.volume,
+
+repeat:repeat,
+
+updatedAt:Date.now()
+
+};
+
+localStorage.setItem(
+"devonaxCurrentMusic",
+JSON.stringify(state)
+);
+
+}
+
+
+/* RENDER PLAYLIST */
+
+function renderPlaylist(list=filteredSongs){
+
+playlist.innerHTML="";
+
+resultInfo.textContent=
+list.length+
+" lagu ditemukan • Durasi maksimal 01:00";
+
+if(list.length===0){
+
+playlist.innerHTML=`
+<div class="empty">
+Tidak ada lagu atau artis yang cocok.
+</div>
+`;
+
+return;
+
+}
+
+
+list.forEach(song=>{
+
+const realIndex=
+songs.findIndex(item=>item.id===song.id);
+
+const item=document.createElement("div");
+
+item.className="songItem";
+
+if(realIndex===currentIndex){
+item.classList.add("active");
+}
+
+item.innerHTML=`
+
+<div class="songThumb">
+
+${
+song.cover
+?
+`<img src="${song.cover}" style="display:block">`
+:
+`<span class="material-symbols-outlined">music_note</span>`
+}
+
+</div>
+
+<div class="songData">
+
+<h3>${escapeHtml(song.title)}</h3>
+
+<p>${escapeHtml(song.artist)}</p>
+
+<div class="songDuration">
+<span class="material-symbols-outlined"
+style="font-size:14px;vertical-align:-2px">
+timer
+</span>
+01:00
+</div>
+
+</div>
+
+<button class="songPlay">
+
+<span class="material-symbols-outlined">
+${realIndex===currentIndex && !audio.paused
+? "pause"
+: "play_arrow"}
+</span>
+
+</button>
+
+`;
+
+
+item.onclick=()=>{
+
+if(realIndex===currentIndex){
+
+if(audio.paused){
+audio.play().catch(()=>{});
+}else{
+audio.pause();
+}
+
+}else{
+
+loadSong(realIndex,true);
+
+}
+
+};
+
+
+playlist.appendChild(item);
+
+});
+
+}
+
+
+/* ESCAPE TEXT */
+
+function escapeHtml(text){
+
+return String(text||"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* LOAD SONG */
+
+function loadSong(index,autoPlay=false,startAt=0){
+
+if(index<0){
+index=songs.length-1;
+}
+
+if(index>=songs.length){
+index=0;
+}
+
+currentIndex=index;
+
+const song=songs[currentIndex];
+
+audio.pause();
+
+audio.src=song.src;
+
+audio.currentTime=0;
+
+currentTitle.textContent=song.title;
+currentArtist.textContent=song.artist;
+
+if(song.cover){
+
+currentCover.src=song.cover;
+currentCover.style.display="block";
+
+defaultCoverIcon.style.display="none";
+
+}else{
+
+currentCover.removeAttribute("src");
+currentCover.style.display="none";
+
+defaultCoverIcon.style.display="block";
+
+}
+
+progressSlider.value=0;
+progressFill.style.width="0%";
+
+currentTimeEl.textContent="00:00";
+durationTime.textContent="01:00";
+
+audio.onloadedmetadata=()=>{
+
+const allowedDuration=
+Math.min(
+audio.duration || MAX_DURATION,
+MAX_DURATION
+);
+
+progressSlider.max=allowedDuration;
+
+durationTime.textContent=
+formatTime(allowedDuration);
+
+if(startAt>0){
+
+audio.currentTime=
+Math.min(startAt,allowedDuration-0.1);
+
+}
+
+};
+
+
+renderPlaylist();
+savePlayerState();
+
+
+if(autoPlay){
+
+audio.play()
+.then(()=>{
+
+savePlayerState();
+
+})
+.catch(err=>{
+
+console.log("Audio membutuhkan interaksi user:",err);
+
+});
+
+}
+
+}
+
+
+/* PLAY PAUSE */
+
+playBtn.onclick=()=>{
+
+if(!audio.src){
+
+loadSong(currentIndex,true);
+
+return;
+
+}
+
+if(audio.paused){
+
+audio.play().catch(err=>{
+console.log(err);
+});
+
+}else{
+
+audio.pause();
+
+}
+
+};
+
+
+/* PREVIOUS */
+
+document.getElementById("prevBtn").onclick=()=>{
+
+loadSong(currentIndex-1,true);
+
+};
+
+
+/* NEXT */
+
+document.getElementById("nextBtn").onclick=()=>{
+
+loadSong(currentIndex+1,true);
+
+};
+
+
+/* REPLAY 10 */
+
+document.getElementById("back10Btn").onclick=()=>{
+
+audio.currentTime=
+Math.max(0,audio.currentTime-10);
+
+savePlayerState();
+
+};
+
+
+/* FORWARD 10 */
+
+document.getElementById("forward10Btn").onclick=()=>{
+
+const limit=
+Math.min(
+audio.duration || MAX_DURATION,
+MAX_DURATION
+);
+
+audio.currentTime=
+Math.min(limit,audio.currentTime+10);
+
+savePlayerState();
+
+};
+
+
+/* REPEAT */
+
+repeatBtn.onclick=()=>{
+
+repeat=!repeat;
+
+repeatBtn.classList.toggle("active",repeat);
+
+savePlayerState();
+
+};
+
+
+/* UPDATE PROGRESS */
+
+audio.addEventListener("timeupdate",()=>{
+
+const limit=
+Math.min(
+audio.duration || MAX_DURATION,
+MAX_DURATION
+);
+
+if(audio.currentTime>=MAX_DURATION){
+
+if(repeat){
+
+audio.currentTime=0;
+
+audio.play().catch(()=>{});
+
+}else{
+
+audio.pause();
+
+}
+
+return;
+
+}
+
+const time=
+Math.min(audio.currentTime,limit);
+
+progressSlider.value=time;
+
+const percent=
+(time/limit)*100;
+
+progressFill.style.width=
+Math.min(100,percent)+"%";
+
+currentTimeEl.textContent=
+formatTime(time);
+
+savePlayerState();
+
+});
+
+
+/* MAX 1 MENIT */
+
+audio.addEventListener("timeupdate",()=>{
+
+if(audio.currentTime>=MAX_DURATION){
+
+if(repeat){
+
+audio.currentTime=0;
+audio.play().catch(()=>{});
+
+}else{
+
+audio.pause();
+
+}
+
+}
+
+});
+
+
+/* SAAT AUDIO ASLI HABIS */
+
+audio.addEventListener("ended",()=>{
+
+if(repeat){
+
+audio.currentTime=0;
+
+audio.play().catch(()=>{});
+
+}else{
+
+loadSong(currentIndex+1,true);
+
+}
+
+});
+
+
+/* PROGRESS MANUAL */
+
+progressSlider.addEventListener("input",()=>{
+
+const value=Number(progressSlider.value);
+
+audio.currentTime=value;
+
+const max=Number(progressSlider.max)||MAX_DURATION;
+
+progressFill.style.width=
+(value/max*100)+"%";
+
+currentTimeEl.textContent=
+formatTime(value);
+
+});
+
+
+/* PLAY STATUS */
+
+audio.addEventListener("play",()=>{
+
+playIcon.textContent="pause";
+
+coverWrap.classList.add("playing");
+
+renderPlaylist();
+
+savePlayerState();
+
+});
+
+
+audio.addEventListener("pause",()=>{
+
+playIcon.textContent="play_arrow";
+
+coverWrap.classList.remove("playing");
+
+renderPlaylist();
+
+savePlayerState();
+
+});
+
+
+/* VOLUME */
+
+volumeSlider.oninput=()=>{
+
+audio.volume=
+Number(volumeSlider.value)/100;
+
+if(audio.volume===0){
+
+volumeIcon.textContent="volume_off";
+
+}else if(audio.volume<0.5){
+
+volumeIcon.textContent="volume_down";
+
+}else{
+
+volumeIcon.textContent="volume_up";
+
+}
+
+savePlayerState();
+
+};
+
+
+/* SEARCH */
+
+searchInput.addEventListener("input",()=>{
+
+const query=
+searchInput.value
+.toLowerCase()
+.trim();
+
+filteredSongs=
+songs.filter(song=>{
+
+return(
+song.title.toLowerCase().includes(query) ||
+song.artist.toLowerCase().includes(query)
+);
+
+});
+
+renderPlaylist();
+
+});
+
+
+/* DOWNLOAD */
+
+downloadBtn.onclick=()=>{
+
+const song=songs[currentIndex];
+
+if(!song || !song.src){
+
+alert("File lagu belum tersedia.");
+
+return;
+
+}
+
+/*
+Download hanya dilakukan jika server sumber
+mengizinkan file tersebut diunduh.
+*/
+
+const link=document.createElement("a");
+
+link.href=song.src;
+
+link.download=
+song.title.replace(/[^\w\s-]/g,"")+".mp3";
+
+link.target="_blank";
+
+document.body.appendChild(link);
+
+link.click();
+
+link.remove();
+
+};
+
+
+/* SIMPAN SEBELUM PINDAH HALAMAN */
+
+window.addEventListener("beforeunload",()=>{
+
+savePlayerState();
+
+});
+
+
+/* LOAD LAGU TERAKHIR */
+
+function restoreLastMusic(){
+
+const saved=
+localStorage.getItem("devonaxCurrentMusic");
+
+const savedVolume=
+Number(
+localStorage.getItem("devonaxMusicVolume")
+);
+
+if(savedVolume>=0 && savedVolume<=1){
+
+audio.volume=savedVolume;
+
+volumeSlider.value=savedVolume*100;
+
+}
+
+
+if(!saved){
+
+loadSong(0,false);
+
+return;
+
+}
+
+try{
+
+const state=JSON.parse(saved);
+
+const index=
+songs.findIndex(song=>
+song.id===state.songId
+);
+
+currentIndex=
+index>=0 ? index : 0;
+
+repeat=
+state.repeat!==undefined
+? state.repeat
+: true;
+
+repeatBtn.classList.toggle("active",repeat);
+
+if(state.volume!==undefined){
+
+audio.volume=
+Math.max(0,Math.min(1,Number(state.volume)));
+
+volumeSlider.value=
+audio.volume*100;
+
+}
+
+loadSong(
+currentIndex,
+false,
+Number(state.currentTime||0)
+);
+
+}catch(err){
+
+console.log("Restore music error",err);
+
+loadSong(0,false);
+
+}
+
+}
+
+
+volumeSlider.addEventListener("change",()=>{
+
+localStorage.setItem(
+"devonaxMusicVolume",
+String(audio.volume)
+);
+
+});
+
+
+restoreLastMusic();
+
+</script>
+
+</body>
+  </html>
