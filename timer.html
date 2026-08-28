@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>DEVONAX Timer</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Orbitron,sans-serif;
+}
+
+body{
+background:#070707;
+color:#fff;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at top,#ff000020,transparent 55%),
+radial-gradient(circle at bottom,#ff000010,transparent 45%);
+z-index:-1;
+}
+
+header{
+height:65px;
+display:flex;
+align-items:center;
+gap:15px;
+padding:0 18px;
+background:#111;
+border-bottom:1px solid #262626;
+}
+
+.back{
+width:44px;
+height:44px;
+border-radius:14px;
+background:#1a1a1a;
+display:flex;
+justify-content:center;
+align-items:center;
+cursor:pointer;
+}
+
+.back span{
+font-size:28px;
+color:#ff3030;
+}
+
+header h2{
+font-size:17px;
+letter-spacing:2px;
+}
+
+.container{
+padding:20px;
+}
+
+.card{
+background:#111;
+border:1px solid #262626;
+border-radius:22px;
+padding:20px;
+}
+
+.circle{
+width:240px;
+height:240px;
+margin:auto;
+border-radius:50%;
+border:8px solid #262626;
+border-top:8px solid #ff3030;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+}
+
+#timer{
+font-size:34px;
+font-weight:800;
+letter-spacing:2px;
+}
+
+#status{
+margin-top:8px;
+font-size:12px;
+color:#999;
+}
+
+.inputs{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin-top:25px;
+}
+
+.inputs input{
+height:55px;
+background:#181818;
+border:1px solid #333;
+border-radius:15px;
+color:#fff;
+font-size:20px;
+text-align:center;
+outline:none;
+}
+
+.quick{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+margin-top:15px;
+}
+
+.quick button{
+height:50px;
+background:#222;
+border:none;
+border-radius:14px;
+color:#fff;
+font-weight:700;
+cursor:pointer;
+}
+
+.controls{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+margin-top:18px;
+}
+
+.controls button{
+height:55px;
+border:none;
+border-radius:15px;
+font-weight:700;
+cursor:pointer;
+color:#fff;
+}
+
+.start{background:#00a651;}
+.pause{background:#ff9800;}
+.resume{background:#0099ff;}
+.reset{background:#d50000;}
+
+#alert{
+display:none;
+margin-top:20px;
+padding:16px;
+background:#ff2020;
+border-radius:16px;
+text-align:center;
+font-weight:700;
+font-size:18px;
+animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+0%{opacity:.5;}
+50%{opacity:1;}
+100%{opacity:.5;}
+}
+
+.footer{
+margin-top:18px;
+text-align:center;
+font-size:11px;
+color:#888;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="back" onclick="history.back()">
+<span class="material-symbols-outlined">
+arrow_back
+</span>
+</div>
+
+<h2>DEVONAX TIMER</h2>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<div class="circle">
+
+<div id="timer">
+00:00:00
+</div>
+
+<div id="status">
+READY
+</div>
+
+</div>
+
+<div class="inputs">
+
+<input id="hour" type="number" min="0" max="99" placeholder="HH">
+
+<input id="minute" type="number" min="0" max="59" placeholder="MM">
+
+<input id="second" type="number" min="0" max="59" placeholder="SS">
+
+</div>
+
+<div class="quick">
+
+<button id="add1">
++1 MENIT
+</button>
+
+<button id="add5">
++5 MENIT
+</button>
+
+</div>
+
+<div class="controls">
+
+<button class="start" id="startBtn">
+START
+</button>
+
+<button class="pause" id="pauseBtn">
+PAUSE
+</button>
+
+<button class="resume" id="resumeBtn">
+RESUME
+</button>
+
+<button class="reset" id="resetBtn">
+RESET
+</button>
+
+</div>
+
+<div id="alert">
+TIME'S UP!
+</div>
+
+<div class="footer">
+DEVONAX Productivity Timer
+</div>
+
+  </div>
+
+<script>
+
+let total=0;
+let left=0;
+let interval=null;
+let paused=false;
+
+const timer=document.getElementById("timer");
+const statusTxt=document.getElementById("status");
+const alertBox=document.getElementById("alert");
+
+function format(sec){
+
+let h=Math.floor(sec/3600);
+let m=Math.floor((sec%3600)/60);
+let s=sec%60;
+
+return String(h).padStart(2,"0")+":"+
+String(m).padStart(2,"0")+":"+
+String(s).padStart(2,"0");
+
+}
+
+function update(){
+
+timer.innerHTML=format(left);
+
+}
+
+update();
+
+add1.onclick=()=>{
+
+minute.value=(parseInt(minute.value||0)+1);
+
+};
+
+add5.onclick=()=>{
+
+minute.value=(parseInt(minute.value||0)+5);
+
+};
+
+startBtn.onclick=()=>{
+
+clearInterval(interval);
+
+let h=parseInt(hour.value)||0;
+let m=parseInt(minute.value)||0;
+let s=parseInt(second.value)||0;
+
+total=h*3600+m*60+s;
+
+if(total<=0){
+
+alert("Masukkan waktu.");
+
+return;
+
+}
+
+left=total;
+
+paused=false;
+
+statusTxt.innerHTML="RUNNING";
+
+alertBox.style.display="none";
+
+update();
+
+interval=setInterval(runTimer,1000);
+
+};
+
+pauseBtn.onclick=()=>{
+
+if(interval){
+
+clearInterval(interval);
+
+paused=true;
+
+statusTxt.innerHTML="PAUSED";
+
+}
+
+};
+
+resumeBtn.onclick=()=>{
+
+if(paused){
+
+paused=false;
+
+statusTxt.innerHTML="RUNNING";
+
+interval=setInterval(runTimer,1000);
+
+}
+
+};
+
+resetBtn.onclick=()=>{
+
+clearInterval(interval);
+
+left=0;
+total=0;
+
+hour.value="";
+minute.value="";
+second.value="";
+
+statusTxt.innerHTML="READY";
+
+alertBox.style.display="none";
+
+timer.innerHTML="00:00:00";
+
+};
+
+function runTimer(){
+
+left--;
+
+update();
+
+if(left<=0){
+
+clearInterval(interval);
+
+finishTimer();
+
+}
+
+}
+
+function finishTimer(){
+
+statusTxt.innerHTML="FINISHED";
+
+alertBox.style.display="block";
+
+playAlarm();
+
+speakAlarm();
+
+showNotification();
+
+if(navigator.vibrate){
+
+navigator.vibrate([600,300,600,300,600,300,1000]);
+
+}
+
+}
+
+function playAlarm(){
+
+const ctx=new(window.AudioContext||window.webkitAudioContext)();
+
+let count=0;
+
+const alarm=setInterval(()=>{
+
+const osc=ctx.createOscillator();
+const gain=ctx.createGain();
+
+osc.type="square";
+osc.frequency.value=900;
+
+osc.connect(gain);
+gain.connect(ctx.destination);
+
+gain.gain.value=.25;
+
+osc.start();
+
+gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.45);
+
+osc.stop(ctx.currentTime+.45);
+
+count++;
+
+if(count>=10){
+
+clearInterval(alarm);
+
+}
+
+},500);
+
+}
+
+function speakAlarm(){
+
+if("speechSynthesis" in window){
+
+const msg=new SpeechSynthesisUtterance(
+
+"Waktu telah habis."
+
+);
+
+msg.lang="id-ID";
+
+speechSynthesis.cancel();
+
+speechSynthesis.speak(msg);
+
+}
+
+}
+
+async function showNotification(){
+
+if(!("Notification" in window)) return;
+
+if(Notification.permission==="default"){
+
+await Notification.requestPermission();
+
+}
+
+if(Notification.permission==="granted"){
+
+new Notification("DEVONAX TIMER",{
+
+body:"Waktu telah habis.",
+
+icon:""
+
+});
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
