@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>DEVONAX Calculator</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Orbitron,sans-serif;
+}
+
+body{
+background:#070707;
+color:#fff;
+overflow:hidden;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at top,#ff000025,transparent 55%),
+radial-gradient(circle at bottom,#ff000015,transparent 45%);
+z-index:-1;
+}
+
+header{
+height:65px;
+display:flex;
+align-items:center;
+gap:15px;
+padding:0 18px;
+background:#111;
+border-bottom:1px solid #252525;
+}
+
+.back{
+width:45px;
+height:45px;
+border-radius:15px;
+background:#1a1a1a;
+display:flex;
+justify-content:center;
+align-items:center;
+cursor:pointer;
+}
+
+.back span{
+font-size:28px;
+color:#ff3030;
+}
+
+header h2{
+font-size:17px;
+letter-spacing:2px;
+}
+
+.container{
+padding:18px;
+}
+
+.display{
+
+background:#111;
+border:1px solid #282828;
+border-radius:22px;
+padding:18px;
+margin-bottom:18px;
+
+}
+
+#history{
+
+height:25px;
+font-size:12px;
+color:#888;
+text-align:right;
+overflow:hidden;
+
+}
+
+#screen{
+
+height:60px;
+font-size:32px;
+font-weight:700;
+display:flex;
+justify-content:flex-end;
+align-items:center;
+word-break:break-all;
+
+}
+
+.keys{
+
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:10px;
+
+}
+
+button{
+
+height:60px;
+border:none;
+border-radius:16px;
+background:#1b1b1b;
+color:#fff;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+transition:.2s;
+
+}
+
+button:active{
+
+transform:scale(.95);
+
+}
+
+.operator{
+
+background:#c50000;
+
+}
+
+.equal{
+
+background:#00a651;
+
+}
+
+.function{
+
+background:#292929;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="back" onclick="history.back()">
+
+<span class="material-symbols-outlined">
+arrow_back
+</span>
+
+</div>
+
+<h2>DEVONAX CALCULATOR</h2>
+
+</header>
+
+<div class="container">
+
+<div class="display">
+
+<div id="history"></div>
+
+<div id="screen">0</div>
+
+</div>
+
+<div class="keys">
+
+<button class="function">AC</button>
+<button class="function">DEL</button>
+<button class="function">(</button>
+<button class="function">)</button>
+<button class="operator">÷</button>
+
+<button class="function">√</button>
+<button class="function">x²</button>
+<button class="function">%</button>
+<button>7</button>
+<button class="operator">×</button>
+
+<button class="function">sin</button>
+<button class="function">cos</button>
+<button class="function">tan</button>
+<button>8</button>
+<button class="operator">-</button>
+
+<button class="function">π</button>
+<button class="function">log</button>
+<button class="function">ln</button>
+<button>9</button>
+<button class="operator">+</button>
+
+<button>4</button>
+<button>5</button>
+<button>6</button>
+<button>1</button>
+<button>2</button>
+
+<button>3</button>
+<button>0</button>
+<button>.</button>
+<button class="equal">=</button>
+
+  </div>
+
+<script>
+
+const screen=document.getElementById("screen");
+const historyBox=document.getElementById("history");
+
+let expression="";
+
+document.querySelectorAll(".keys button").forEach(btn=>{
+
+btn.onclick=()=>{
+
+if(navigator.vibrate) navigator.vibrate(15);
+
+const value=btn.innerText;
+
+switch(value){
+
+case "AC":
+expression="";
+screen.innerHTML="0";
+historyBox.innerHTML="";
+return;
+
+case "DEL":
+expression=expression.slice(0,-1);
+screen.innerHTML=expression||"0";
+return;
+
+case "=":
+calculate();
+return;
+
+case "×":
+expression+="*";
+screen.innerHTML=screen.innerHTML==="0"?"":screen.innerHTML;
+screen.innerHTML+="×";
+return;
+
+case "÷":
+expression+="/";
+screen.innerHTML=screen.innerHTML==="0"?"":screen.innerHTML;
+screen.innerHTML+="÷";
+return;
+
+case "π":
+expression+="Math.PI";
+screen.innerHTML+="π";
+return;
+
+case "√":
+expression+="Math.sqrt(";
+screen.innerHTML+="√(";
+return;
+
+case "x²":
+expression+="**2";
+screen.innerHTML+="²";
+return;
+
+case "sin":
+expression+="Math.sin(";
+screen.innerHTML+="sin(";
+return;
+
+case "cos":
+expression+="Math.cos(";
+screen.innerHTML+="cos(";
+return;
+
+case "tan":
+expression+="Math.tan(";
+screen.innerHTML+="tan(";
+return;
+
+case "log":
+expression+="Math.log10(";
+screen.innerHTML+="log(";
+return;
+
+case "ln":
+expression+="Math.log(";
+screen.innerHTML+="ln(";
+return;
+
+default:
+
+if(screen.innerHTML==="0")
+screen.innerHTML="";
+
+expression+=value;
+screen.innerHTML+=value;
+
+}
+
+};
+
+});
+
+function calculate(){
+
+try{
+
+const result=eval(expression);
+
+historyBox.innerHTML=screen.innerHTML+" =";
+
+screen.innerHTML=result;
+
+expression=result.toString();
+
+}catch{
+
+screen.innerHTML="Error";
+
+expression="";
+
+}
+
+}
+
+screen.ondblclick=()=>{
+
+navigator.clipboard.writeText(screen.innerHTML);
+
+alert("Hasil berhasil disalin.");
+
+};
+
+</script>
+
+</body>
+</html>
