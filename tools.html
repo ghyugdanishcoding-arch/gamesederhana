@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>DEVONAX Tools</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+body{
+background:#070707;
+color:#fff;
+overflow-x:hidden;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at top,#ff000018,transparent 60%),
+radial-gradient(circle at bottom,#ff202010,transparent 45%);
+pointer-events:none;
+z-index:-1;
+}
+
+header{
+
+height:70px;
+display:flex;
+align-items:center;
+gap:15px;
+padding:0 18px;
+background:#111;
+border-bottom:1px solid #232323;
+
+}
+
+.back{
+
+width:48px;
+height:48px;
+background:#191919;
+border-radius:16px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+
+}
+
+.back span{
+
+font-size:30px;
+color:#ff3030;
+
+}
+
+.title{
+
+flex:1;
+
+}
+
+.title h2{
+
+font-size:21px;
+letter-spacing:2px;
+
+}
+
+.title p{
+
+font-size:10px;
+color:#888;
+margin-top:3px;
+
+}
+
+.searchBox{
+
+padding:20px;
+
+}
+
+.search{
+
+height:58px;
+background:#121212;
+border:1px solid #292929;
+border-radius:18px;
+display:flex;
+align-items:center;
+padding:0 18px;
+
+}
+
+.search span{
+
+color:#ff3030;
+font-size:28px;
+margin-right:10px;
+
+}
+
+.search input{
+
+flex:1;
+background:none;
+border:none;
+outline:none;
+color:#fff;
+font-size:14px;
+
+}
+
+.container{
+
+padding:0 20px 25px;
+
+}
+
+.category{
+
+margin-bottom:28px;
+
+}
+
+.categoryTitle{
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:15px;
+
+}
+
+.categoryTitle h3{
+
+font-size:15px;
+letter-spacing:1px;
+
+}
+
+.badge{
+
+padding:6px 12px;
+border-radius:30px;
+background:#181818;
+border:1px solid #303030;
+font-size:10px;
+color:#ff4040;
+
+}
+
+.grid{
+
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+
+}
+
+.tool{
+
+background:#111;
+border:1px solid #252525;
+border-radius:22px;
+padding:18px;
+transition:.25s;
+cursor:pointer;
+
+}
+
+.tool:active{
+
+transform:scale(.96);
+
+}
+
+.tool:hover{
+
+border-color:#ff3030;
+box-shadow:0 0 18px rgba(255,40,40,.15);
+
+}
+
+.icon{
+
+width:58px;
+height:58px;
+border-radius:18px;
+background:linear-gradient(#ff3030,#a70000);
+display:flex;
+align-items:center;
+justify-content:center;
+margin-bottom:15px;
+
+}
+
+.icon span{
+
+font-size:32px;
+color:#fff;
+
+}
+
+.tool h4{
+
+font-size:13px;
+
+}
+
+.tool p{
+
+margin-top:8px;
+font-size:10px;
+color:#888;
+line-height:17px;
+
+}
+
+.new{
+
+display:inline-block;
+margin-top:10px;
+padding:5px 10px;
+background:#ff3030;
+border-radius:30px;
+font-size:9px;
+font-weight:700;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="back" onclick="history.back()">
+
+<span class="material-symbols-outlined">
+
+arrow_back
+
+</span>
+
+</div>
+
+<div class="title">
+
+<h2>DEVONAX TOOLS</h2>
+
+<p>All In One Utility</p>
+
+</div>
+
+</header>
+
+<div class="searchBox">
+
+<div class="search">
+
+<span class="material-symbols-outlined">
+
+search
+
+</span>
+
+<input
+id="searchInput"
+type="text"
+placeholder="Cari tools...">
+
+</div>
+
+</div>
+
+<div class="container">
+
+<div class="category">
+
+<div class="categoryTitle">
+
+<h3>SEARCH TOOLS</h3>
+
+<div class="badge">
+
+10 TOOLS
+
+</div>
+
+</div>
+
+<div class="grid">
+
+<div class="tool" data-name="Web Search">
+
+<div class="icon">
+
+<span class="material-symbols-outlined">
+
+travel_explore
+
+</span>
+
+</div>
+
+<h4>Web Search</h4>
+
+<p>Pencarian website tercepat.</p>
+
+<div class="new">
+
+NEW
+
+</div>
+
+</div>
+
+<div class="tool" data-name="Wikipedia">
+
+<div class="icon">
+
+<span class="material-symbols-outlined">
+
+menu_book
+
+</span>
+
+</div>
+
+<h4>Wikipedia</h4>
+
+<p>Ensiklopedia online.</p>
+
+</div>
+
+<div class="tool" data-name="Pinterest">
+
+<div class="icon">
+
+<span class="material-symbols-outlined">
+
+image_search
+
+</span>
+
+</div>
+
+<h4>Pinterest</h4>
+
+<p>Cari inspirasi gambar.</p>
+
+</div>
+
+<div class="tool" data-name="YouTube">
+
+<div class="icon">
+
+<span class="material-symbols-outlined">
+
+play_circle
+
+</span>
+
+</div>
+
+<h4>YouTube</h4>
+
+<p>Pencarian video.</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="category">
+
+<div class="categoryTitle">
+
+<h3>UTILITY TOOLS</h3>
+
+<div class="badge">
+
+20 TOOLS
+
+</div>
+
+</div>
+
+<div class="grid">
+
+<div class="tool" data-name="QR Generator">
+
+<div class="icon">
+
+<span class="material-symbols-outlined">
+
+qr_code_2
+
+</span>
+
+</div>
+
+<h4>QR Generator</h4>
+
+<p>Buat QR Code instan.</p>
+
+</div>
+
+<div class="tool" data-name="Translate">
+
+<div class="icon">
+
+<span class="material-symbols-outlined">
+
+translate
+
+</span>
+
+</div>
+
+<h4>Translate</h4>
+
+<p>Terjemahkan bahasa.</p>
+
+</div>
+
+<div class="tool" data-name="Password Generator">
+
+<div class="icon">
+
+<span class="material-symbols-outlined">
+
+password
+
+</span>
+
+</div>
+
+<h4>Password</h4>
+
+<p>Generator password kuat.</p>
+
+</div>
+
+<div class="tool" data-name="UUID Generator">
+
+<div class="icon">
+
+<span class="material-symbols-outlined">
+
+fingerprint
+
+</span>
+
+</div>
+
+<h4>UUID</h4>
+
+<p>Generate UUID.</p>
+
+</div>
+
+</div>
+
+  </div>
+
+<div class="category">
+
+<div class="categoryTitle">
+
+<h3>MEDIA TOOLS</h3>
+
+<div class="badge">
+12 TOOLS
+</div>
+
+</div>
+
+<div class="grid">
+
+<div class="tool" data-name="Remove Background">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+imagesmode
+</span>
+</div>
+
+<h4>Remove BG</h4>
+
+<p>Hapus background foto.</p>
+
+</div>
+
+<div class="tool" data-name="Screenshot Web">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+photo_camera
+</span>
+</div>
+
+<h4>Screenshot</h4>
+
+<p>Screenshot website.</p>
+
+</div>
+
+<div class="tool" data-name="Spotify Search">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+music_note
+</span>
+</div>
+
+<h4>Spotify</h4>
+
+<p>Cari lagu Spotify.</p>
+
+</div>
+
+<div class="tool" data-name="Lirik Lagu">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+lyrics
+</span>
+</div>
+
+<h4>Lirik Lagu</h4>
+
+<p>Cari lirik musik.</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="category">
+
+<div class="categoryTitle">
+
+<h3>INTERNET TOOLS</h3>
+
+<div class="badge">
+15 TOOLS
+</div>
+
+</div>
+
+<div class="grid">
+
+<div class="tool" data-name="IP Lookup">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+language
+</span>
+</div>
+
+<h4>IP Lookup</h4>
+
+<p>Informasi alamat IP.</p>
+
+</div>
+
+<div class="tool" data-name="DNS Lookup">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+dns
+</span>
+</div>
+
+<h4>DNS Lookup</h4>
+
+<p>Cek DNS domain.</p>
+
+</div>
+
+<div class="tool" data-name="HTTP Headers">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+http
+</span>
+</div>
+
+<h4>HTTP Header</h4>
+
+<p>Lihat response header.</p>
+
+</div>
+
+<div class="tool" data-name="Short URL">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+link
+</span>
+</div>
+
+<h4>Short URL</h4>
+
+<p>Perpendek URL.</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="category">
+
+<div class="categoryTitle">
+
+<h3>INFORMATION</h3>
+
+<div class="badge">
+18 TOOLS
+</div>
+
+</div>
+
+<div class="grid">
+
+<div class="tool" data-name="Cuaca">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+partly_cloudy_day
+</span>
+</div>
+
+<h4>Cuaca</h4>
+
+<p>Informasi cuaca.</p>
+
+</div>
+
+<div class="tool" data-name="Gempa BMKG">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+earthquake
+</span>
+</div>
+
+<h4>Gempa BMKG</h4>
+
+<p>Gempa terbaru.</p>
+
+</div>
+
+<div class="tool" data-name="Crypto Price">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+currency_bitcoin
+</span>
+</div>
+
+<h4>Crypto</h4>
+
+<p>Harga cryptocurrency.</p>
+
+</div>
+
+<div class="tool" data-name="Kurs">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+payments
+</span>
+</div>
+
+<h4>Kurs</h4>
+
+<p>Kurs mata uang.</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="category">
+
+<div class="categoryTitle">
+
+<h3>FUN TOOLS</h3>
+
+<div class="badge">
+20 TOOLS
+</div>
+
+</div>
+
+<div class="grid">
+
+<div class="tool" data-name="Random Quote">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+format_quote
+</span>
+</div>
+
+<h4>Quotes</h4>
+
+<p>Motivasi harian.</p>
+
+</div>
+
+<div class="tool" data-name="Random Facts">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+psychology
+</span>
+</div>
+
+<h4>Facts</h4>
+
+<p>Fakta unik.</p>
+
+</div>
+
+<div class="tool" data-name="Pokemon">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+sports_esports
+</span>
+</div>
+
+<h4>Pokemon</h4>
+
+<p>Database Pokemon.</p>
+
+</div>
+
+<div class="tool" data-name="Random Waifu">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+favorite
+</span>
+</div>
+
+<h4>Random Waifu</h4>
+
+<p>Waifu acak.</p>
+
+</div>
+
+</div>
+
+  </div>
+
+<div class="category">
+
+<div class="categoryTitle">
+
+<h3>DEVELOPER TOOLS</h3>
+
+<div class="badge">15 TOOLS</div>
+
+</div>
+
+<div class="grid">
+
+<div class="tool" data-name="HTML Editor" onclick="location.href='html-editor.html'">
+<div class="icon"><span class="material-symbols-outlined">code</span></div>
+<h4>HTML Editor</h4>
+<p>Editor HTML CSS JS.</p>
+</div>
+
+<div class="tool" data-name="Base64" onclick="location.href='base64.html'">
+<div class="icon"><span class="material-symbols-outlined">data_object</span></div>
+<h4>Base64</h4>
+<p>Encode & Decode.</p>
+</div>
+
+<div class="tool" data-name="Hash Text" onclick="location.href='hash.html'">
+<div class="icon"><span class="material-symbols-outlined">lock</span></div>
+<h4>Hash Text</h4>
+<p>MD5 SHA Generator.</p>
+</div>
+
+<div class="tool" data-name="Binary" onclick="location.href='binary.html'">
+<div class="icon"><span class="material-symbols-outlined">memory</span></div>
+<h4>Binary</h4>
+<p>Binary Converter.</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="category">
+
+<div class="categoryTitle">
+
+<h3>ISLAMIC TOOLS</h3>
+
+<div class="badge">8 TOOLS</div>
+
+</div>
+
+<div class="grid">
+
+<div class="tool" data-name="Al Quran" onclick="location.href='alquran.html'">
+<div class="icon"><span class="material-symbols-outlined">menu_book</span></div>
+<h4>Al-Quran</h4>
+<p>Baca Al-Quran.</p>
+</div>
+
+<div class="tool" data-name="Asmaul Husna" onclick="location.href='asmaulhusna.html'">
+<div class="icon"><span class="material-symbols-outlined">auto_stories</span></div>
+<h4>Asmaul Husna</h4>
+<p>99 Nama Allah.</p>
+</div>
+
+<div class="tool" data-name="Hijriah" onclick="location.href='hijriah.html'">
+<div class="icon"><span class="material-symbols-outlined">calendar_month</span></div>
+<h4>Hijriah</h4>
+<p>Tanggal Hijriah.</p>
+</div>
+
+<div class="tool" data-name="Doa" onclick="location.href='doa.html'">
+<div class="icon"><span class="material-symbols-outlined">volunteer_activism</span></div>
+<h4>Doa Harian</h4>
+<p>Kumpulan doa.</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="category">
+
+<div class="categoryTitle">
+
+<h3>SOCIAL TOOLS</h3>
+
+<div class="badge">10 TOOLS</div>
+
+</div>
+
+<div class="grid">
+
+<div class="tool" data-name="Instagram" onclick="location.href='instagram.html'">
+<div class="icon"><span class="material-symbols-outlined">photo_library</span></div>
+<h4>Instagram</h4>
+<p>Profile Search.</p>
+</div>
+
+<div class="tool" data-name="TikTok" onclick="location.href='tiktok.html'">
+<div class="icon"><span class="material-symbols-outlined">smart_display</span></div>
+<h4>TikTok</h4>
+<p>Profile Search.</p>
+</div>
+
+<div class="tool" data-name="GitHub" onclick="location.href='github.html'">
+<div class="icon"><span class="material-symbols-outlined">terminal</span></div>
+<h4>GitHub</h4>
+<p>User Search.</p>
+</div>
+
+<div class="tool" data-name="Play Store" onclick="location.href='playstore.html'">
+<div class="icon"><span class="material-symbols-outlined">shop</span></div>
+<h4>Play Store</h4>
+<p>Search App.</p>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const searchInput=document.getElementById("searchInput");
+
+searchInput.addEventListener("keyup",()=>{
+
+const keyword=searchInput.value.toLowerCase();
+
+document.querySelectorAll(".tool").forEach(tool=>{
+
+const name=tool.dataset.name.toLowerCase();
+
+tool.style.display=name.includes(keyword)?"block":"none";
+
+});
+
+});
+
+</script>
+
+</div>
+
+</body>
+  </html>
