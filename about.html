@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>About | DEVONAX</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+:root{
+--bg:#070707;
+--card:#141414;
+--red:#ff2020;
+--text:#ffffff;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+overflow-x:hidden;
+padding:25px 18px 40px;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at top,#ff000018,transparent 35%),
+radial-gradient(circle at bottom,#ff000015,transparent 35%);
+pointer-events:none;
+}
+
+.grid{
+position:fixed;
+inset:0;
+opacity:.04;
+background-image:
+linear-gradient(#ff0000 1px,transparent 1px),
+linear-gradient(90deg,#ff0000 1px,transparent 1px);
+background-size:40px 40px;
+pointer-events:none;
+}
+
+.logo{
+width:140px;
+height:140px;
+margin:10px auto;
+border-radius:50%;
+overflow:hidden;
+border:2px solid var(--red);
+box-shadow:0 0 25px rgba(255,0,0,.4);
+animation:glow 2s infinite alternate;
+}
+
+.logo img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+@keyframes glow{
+
+100%{
+box-shadow:
+0 0 45px rgba(255,0,0,.65);
+}
+
+}
+
+h1{
+margin-top:20px;
+text-align:center;
+font-size:28px;
+letter-spacing:5px;
+}
+
+.desc{
+margin:18px auto;
+max-width:500px;
+text-align:center;
+font-size:12px;
+line-height:22px;
+color:#cfcfcf;
+}
+
+.card{
+background:var(--card);
+border:1px solid #303030;
+border-radius:22px;
+padding:18px;
+margin-top:15px;
+display:flex;
+align-items:center;
+gap:16px;
+transition:.25s;
+}
+
+.card:hover{
+border-color:var(--red);
+box-shadow:0 0 18px rgba(255,0,0,.2);
+}
+
+.icon{
+width:55px;
+height:55px;
+border-radius:16px;
+background:#240000;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.icon span{
+font-size:32px;
+color:var(--red);
+}
+
+.card h3{
+font-size:15px;
+margin-bottom:5px;
+}
+
+.card p{
+font-size:11px;
+color:#a9a9a9;
+line-height:18px;
+}
+
+.version{
+margin-top:28px;
+text-align:center;
+font-size:12px;
+color:#888;
+letter-spacing:2px;
+}
+
+.btn{
+margin-top:25px;
+width:100%;
+height:55px;
+border:none;
+border-radius:18px;
+background:linear-gradient(180deg,#ff4040,#a50000);
+color:#fff;
+font-size:15px;
+font-weight:700;
+letter-spacing:2px;
+cursor:pointer;
+transition:.25s;
+}
+
+.btn:active{
+transform:scale(.98);
+}
+
+.footer{
+margin-top:25px;
+text-align:center;
+font-size:11px;
+color:#666;
+line-height:22px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<div class="logo">
+<img src="img/file_000000007a60720897a751a9567ffb6e.png">
+</div>
+
+<h1>ABOUT DEVOXTRASH</h1>
+
+<p class="desc">
+DEVOXTR4SH merupakan platform premium dengan sistem modern berbasis Firebase Realtime Database yang menghadirkan performa tinggi, keamanan maksimal, dan tampilan futuristik untuk pengalaman pengguna yang lebih baik.
+</p>
+
+<div class="card">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+security
+</span>
+</div>
+
+<div>
+<h3>Security</h3>
+<p>Keamanan akun menggunakan sistem autentikasi modern dan penyimpanan data realtime.</p>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+bolt
+</span>
+</div>
+
+<div>
+<h3>Performance</h3>
+<p>Ringan, cepat, stabil, dan dioptimalkan untuk berbagai perangkat.</p>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+cloud_done
+</span>
+</div>
+
+<div>
+<h3>Realtime Database</h3>
+<p>Sinkronisasi data secara realtime menggunakan Firebase Database.</p>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+groups
+</span>
+</div>
+
+<div>
+<h3>User Management</h3>
+<p>Mendukung sistem Role Developer, Owner, Reseller, Admin, dan User.</p>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="icon">
+<span class="material-symbols-outlined">
+devices
+</span>
+</div>
+
+<div>
+<h3>Cross Platform</h3>
+<p>Dapat digunakan melalui Android maupun browser dengan tampilan responsif.</p>
+</div>
+
+</div>
+
+<div class="version">
+VERSION 2.0.0
+</div>
+
+<button class="btn" onclick="history.back()">
+BACK
+</button>
+
+<div class="footer">
+© 2026 DEVOXTR4SH<br>
+Powered by Danzz ganteng
+</div>
+
+</body>
+  </html>
