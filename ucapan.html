@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DEVONAX | Ucapan</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Orbitron,sans-serif}
+
+body{
+background:#070707;
+color:#fff;
+padding:18px;
+}
+
+body:before{
+content:"";
+position:fixed;
+inset:0;
+background:
+linear-gradient(#ff000010 1px,transparent 1px),
+linear-gradient(90deg,#ff000010 1px,transparent 1px);
+background-size:40px 40px;
+pointer-events:none;
+}
+
+header{
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:25px;
+}
+
+.back{
+width:48px;
+height:48px;
+border-radius:15px;
+background:#131313;
+border:1px solid #333;
+display:flex;
+justify-content:center;
+align-items:center;
+cursor:pointer;
+}
+
+.back span{
+color:#ff3030;
+font-size:28px;
+}
+
+h2{
+font-size:22px;
+}
+
+small{
+color:#888;
+}
+
+.card{
+margin-top:20px;
+background:#111;
+border:1px solid #333;
+border-radius:22px;
+padding:22px;
+box-shadow:0 0 20px rgba(255,0,0,.08);
+}
+
+.quote{
+font-size:15px;
+line-height:1.8;
+color:#eee;
+min-height:120px;
+}
+
+.author{
+margin-top:15px;
+color:#ff5555;
+font-size:13px;
+}
+
+.buttons{
+margin-top:25px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+button{
+height:48px;
+border:none;
+border-radius:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.refresh{
+background:#ff2020;
+color:#fff;
+}
+
+.copy{
+background:#1c1c1c;
+color:#fff;
+border:1px solid #444;
+}
+
+.loading{
+text-align:center;
+padding:60px;
+color:#aaa;
+}
+
+.toast{
+position:fixed;
+left:50%;
+bottom:25px;
+transform:translateX(-50%);
+background:#ff2020;
+padding:12px 22px;
+border-radius:30px;
+display:none;
+}
+</style>
+
+</head>
+<body>
+
+<header>
+
+<div class="back" onclick="history.back()">
+<span class="material-symbols-outlined">arrow_back</span>
+</div>
+
+<div>
+<h2>UCAPAN</h2>
+<small>DEVONAX GREETING</small>
+</div>
+
+</header>
+
+<div class="card">
+
+<div id="quote" class="loading">
+Mengambil ucapan...
+</div>
+
+<div id="author" class="author"></div>
+
+<div class="buttons">
+
+<button class="refresh" onclick="loadQuote()">
+Ucapan Baru
+</button>
+
+<button class="copy" onclick="copyQuote()">
+Salin
+</button>
+
+</div>
+
+</div>
+
+<div id="toast" class="toast">
+Ucapan berhasil disalin
+</div>
+
+<script>
+
+let currentQuote="";
+
+async function loadQuote(){
+
+quote.innerHTML="Mengambil ucapan...";
+author.innerHTML="";
+
+try{
+
+const r=await fetch("https://dummyjson.com/quotes/random");
+
+const d=await r.json();
+
+currentQuote=d.quote;
+
+quote.innerHTML=d.quote;
+
+author.innerHTML="— "+d.author;
+
+}catch{
+
+quote.innerHTML="Gagal mengambil ucapan dari server.";
+
+}
+
+}
+
+function copyQuote(){
+
+if(!currentQuote)return;
+
+navigator.clipboard.writeText(currentQuote);
+
+toast.style.display="block";
+
+setTimeout(()=>{
+
+toast.style.display="none";
+
+},1800);
+
+}
+
+loadQuote();
+
+</script>
+
+</body>
+  </html>
