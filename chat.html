@@ -1,0 +1,2824 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+<title>DEVONAX GLOBAL CHAT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+:root{
+--bg:#070707;
+--card:#121212;
+--card2:#171717;
+--card3:#1c1c1c;
+--red:#ff2020;
+--red2:#ff5555;
+--text:#fff;
+--muted:#8d8d8d;
+--border:#303030;
+--safe-bottom:env(safe-area-inset-bottom,0px);
+}
+
+html,
+body{
+width:100%;
+height:100%;
+background:var(--bg);
+color:var(--text);
+font-family:"Orbitron",sans-serif;
+overflow:hidden;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+background:
+radial-gradient(circle at top left,#ff000014,transparent 35%),
+radial-gradient(circle at bottom right,#ff000014,transparent 35%);
+}
+
+.grid{
+position:fixed;
+inset:0;
+pointer-events:none;
+opacity:.035;
+background-image:
+linear-gradient(#ff0000 1px,transparent 1px),
+linear-gradient(90deg,#ff0000 1px,transparent 1px);
+background-size:40px 40px;
+z-index:0;
+}
+
+/* APP */
+
+.app{
+position:fixed;
+inset:0;
+display:flex;
+flex-direction:column;
+z-index:1;
+}
+
+/* HEADER */
+
+header{
+height:76px;
+padding:14px 16px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+flex-shrink:0;
+background:rgba(7,7,7,.96);
+border-bottom:1px solid #222;
+}
+
+.topBtn{
+width:48px;
+height:48px;
+border:none;
+border-radius:16px;
+background:#151515;
+border:1px solid #333;
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+}
+
+.topBtn:active{
+transform:scale(.95);
+}
+
+.topBtn span{
+font-size:27px;
+}
+
+.topTitle{
+flex:1;
+min-width:0;
+text-align:center;
+}
+
+.topTitle h1{
+font-size:16px;
+letter-spacing:2px;
+}
+
+.topTitle p{
+margin-top:5px;
+font-size:9px;
+color:var(--red2);
+letter-spacing:1px;
+}
+
+.headerForum{
+width:48px;
+height:48px;
+border-radius:16px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#220000;
+border:1px solid #700;
+color:var(--red2);
+}
+
+.headerForum span{
+font-size:27px;
+}
+
+/* TABS */
+
+.tabs{
+height:66px;
+padding:10px 14px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:9px;
+flex-shrink:0;
+background:#0a0a0a;
+border-bottom:1px solid #202020;
+}
+
+.tabBtn{
+border:1px solid #2c2c2c;
+border-radius:16px;
+background:#141414;
+color:#888;
+font-family:"Orbitron",sans-serif;
+font-size:10px;
+letter-spacing:1px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:7px;
+cursor:pointer;
+}
+
+.tabBtn span{
+font-size:21px;
+}
+
+.tabBtn.active{
+color:#ff6666;
+background:#220000;
+border-color:#750000;
+box-shadow:0 0 16px rgba(255,0,0,.08);
+}
+
+/* PANELS */
+
+.panel{
+display:none;
+flex:1;
+min-height:0;
+overflow:hidden;
+}
+
+.panel.active{
+display:flex;
+flex-direction:column;
+}
+
+/* CHAT */
+
+#chatPanel{
+position:relative;
+}
+
+.messages{
+flex:1;
+min-height:0;
+overflow-y:auto;
+padding:14px 14px 18px;
+scroll-behavior:smooth;
+-webkit-overflow-scrolling:touch;
+}
+
+.messages::-webkit-scrollbar{
+width:0;
+}
+
+.loadingBox,
+.emptyBox{
+margin:auto;
+max-width:340px;
+padding:22px;
+text-align:center;
+border-radius:20px;
+background:#111;
+border:1px solid #252525;
+color:#999;
+font-size:11px;
+line-height:1.7;
+}
+
+.dateSeparator{
+display:flex;
+align-items:center;
+justify-content:center;
+margin:14px 0 18px;
+}
+
+.dateSeparator span{
+padding:7px 13px;
+border-radius:15px;
+background:#171717;
+border:1px solid #292929;
+font-size:9px;
+letter-spacing:1px;
+color:#999;
+}
+
+/* MESSAGE */
+
+.messageRow{
+display:flex;
+gap:10px;
+margin-bottom:14px;
+align-items:flex-start;
+}
+
+.messageAvatar{
+width:42px;
+height:42px;
+min-width:42px;
+border-radius:50%;
+overflow:hidden;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#181818;
+border:1px solid #383838;
+color:#aaa;
+}
+
+.messageAvatar img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:none;
+}
+
+.messageAvatar span{
+font-size:27px;
+}
+
+.messageBody{
+flex:1;
+min-width:0;
+}
+
+.messageTop{
+display:flex;
+align-items:center;
+gap:7px;
+margin-bottom:6px;
+flex-wrap:wrap;
+}
+
+.messageName{
+font-size:11px;
+color:#ff6666;
+font-weight:700;
+word-break:break-word;
+}
+
+.messageRole{
+padding:3px 7px;
+border-radius:9px;
+background:#210000;
+border:1px solid #550000;
+font-size:7px;
+color:#ff7777;
+letter-spacing:.5px;
+}
+
+.messageTime{
+font-family:Arial,sans-serif;
+font-size:10px;
+color:#666;
+}
+
+.messageBubble{
+position:relative;
+display:inline-block;
+max-width:100%;
+padding:12px 13px;
+border-radius:5px 17px 17px 17px;
+background:#161616;
+border:1px solid #292929;
+font-family:Arial,sans-serif;
+font-size:14px;
+line-height:1.5;
+color:#e7e7e7;
+word-break:break-word;
+}
+
+.messageBubble.pinned{
+border-color:#8b0000;
+background:#1d0c0c;
+}
+
+.pinMark{
+display:flex;
+align-items:center;
+gap:5px;
+margin-bottom:7px;
+font-family:"Orbitron",sans-serif;
+font-size:8px;
+letter-spacing:1px;
+color:#ff6666;
+}
+
+.pinMark span{
+font-size:15px;
+}
+
+.messageImageBox{
+margin-top:9px;
+width:190px;
+height:190px;
+max-width:100%;
+border-radius:14px;
+overflow:hidden;
+background:#0d0d0d;
+border:1px solid #353535;
+cursor:pointer;
+position:relative;
+}
+
+.messageImageBox img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
+
+.imagePreviewHint{
+position:absolute;
+right:8px;
+bottom:8px;
+width:34px;
+height:34px;
+border-radius:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(0,0,0,.7);
+border:1px solid rgba(255,255,255,.18);
+}
+
+.imagePreviewHint span{
+font-size:19px;
+}
+
+.messageActions{
+display:flex;
+gap:7px;
+margin-top:7px;
+}
+
+.messageAction{
+height:29px;
+padding:0 10px;
+border:none;
+border-radius:10px;
+background:#171717;
+border:1px solid #2d2d2d;
+color:#888;
+font-family:"Orbitron",sans-serif;
+font-size:8px;
+display:flex;
+align-items:center;
+gap:4px;
+cursor:pointer;
+}
+
+.messageAction span{
+font-size:15px;
+}
+
+.messageAction.delete{
+color:#ff5555;
+}
+
+.replyBox{
+margin-bottom:8px;
+padding:8px 10px;
+border-left:2px solid #ff3030;
+border-radius:5px 10px 10px 5px;
+background:#101010;
+font-family:Arial,sans-serif;
+}
+
+.replyName{
+font-family:"Orbitron",sans-serif;
+font-size:9px;
+color:#ff6666;
+margin-bottom:4px;
+}
+
+.replyText{
+font-size:12px;
+color:#aaa;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+max-width:220px;
+}
+
+/* PINNED */
+
+.pinnedBar{
+display:none;
+margin:10px 14px 0;
+padding:11px 13px;
+border-radius:16px;
+background:#1a0b0b;
+border:1px solid #550000;
+align-items:center;
+gap:10px;
+cursor:pointer;
+}
+
+.pinnedBar.show{
+display:flex;
+}
+
+.pinnedBar > span{
+color:#ff5555;
+font-size:22px;
+}
+
+.pinnedText{
+flex:1;
+min-width:0;
+}
+
+.pinnedText b{
+display:block;
+font-size:9px;
+color:#ff7777;
+margin-bottom:5px;
+}
+
+.pinnedText p{
+font-family:Arial,sans-serif;
+font-size:11px;
+color:#aaa;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+/* INPUT AREA */
+
+.inputArea{
+flex-shrink:0;
+padding:10px 12px calc(12px + var(--safe-bottom));
+background:#0a0a0a;
+border-top:1px solid #242424;
+}
+
+.replyComposer{
+display:none;
+align-items:center;
+gap:9px;
+padding:9px 11px;
+margin-bottom:9px;
+border-radius:14px;
+background:#151515;
+border:1px solid #333;
+}
+
+.replyComposer.show{
+display:flex;
+}
+
+.replyComposer span{
+color:#ff5555;
+font-size:20px;
+}
+
+.replyComposerText{
+flex:1;
+min-width:0;
+}
+
+.replyComposerText b{
+display:block;
+font-size:9px;
+color:#ff6666;
+margin-bottom:4px;
+}
+
+.replyComposerText p{
+font-family:Arial,sans-serif;
+font-size:11px;
+color:#aaa;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.cancelReply{
+border:none;
+background:none;
+color:#888;
+cursor:pointer;
+}
+
+.cancelReply span{
+font-size:21px;
+}
+
+.selectedImage{
+display:none;
+align-items:center;
+gap:9px;
+padding:8px;
+margin-bottom:9px;
+border-radius:14px;
+background:#151515;
+border:1px solid #333;
+}
+
+.selectedImage.show{
+display:flex;
+}
+
+.selectedThumb{
+width:40px;
+height:40px;
+border-radius:9px;
+object-fit:cover;
+border:1px solid #444;
+}
+
+.selectedImageName{
+flex:1;
+min-width:0;
+font-family:Arial,sans-serif;
+font-size:12px;
+color:#bbb;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.removeImage{
+width:34px;
+height:34px;
+border:none;
+border-radius:10px;
+background:#250000;
+color:#ff5555;
+cursor:pointer;
+}
+
+.removeImage span{
+font-size:20px;
+}
+
+.inputRow{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.attachBtn,
+.sendBtn{
+width:48px;
+height:48px;
+border:none;
+border-radius:16px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+flex-shrink:0;
+}
+
+.attachBtn{
+background:#181818;
+border:1px solid #333;
+color:#aaa;
+}
+
+.sendBtn{
+background:#ff2020;
+color:#fff;
+box-shadow:0 0 14px rgba(255,0,0,.2);
+}
+
+.attachBtn span,
+.sendBtn span{
+font-size:24px;
+}
+
+.messageInput{
+height:48px;
+flex:1;
+min-width:0;
+border:none;
+outline:none;
+border-radius:16px;
+background:#161616;
+border:1px solid #303030;
+padding:0 14px;
+font-family:Arial,sans-serif;
+font-size:14px;
+color:#fff;
+}
+
+.messageInput::placeholder{
+color:#666;
+}
+
+/* RULES / CMD */
+
+.scrollPanel{
+overflow-y:auto;
+padding:16px 14px 28px;
+}
+
+.scrollPanel::-webkit-scrollbar{
+width:0;
+}
+
+.infoCard{
+background:#121212;
+border:1px solid #303030;
+border-radius:22px;
+padding:16px;
+margin-bottom:14px;
+}
+
+.infoHead{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:15px;
+}
+
+.infoHeadIcon{
+width:46px;
+height:46px;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#220000;
+border:1px solid #650000;
+color:#ff5555;
+}
+
+.infoHeadIcon span{
+font-size:26px;
+}
+
+.infoHead h3{
+font-size:13px;
+letter-spacing:1px;
+}
+
+.infoHead p{
+margin-top:5px;
+font-size:9px;
+color:#777;
+}
+
+.ruleItem,
+.cmdItem{
+padding:13px 0;
+border-bottom:1px solid #242424;
+}
+
+.ruleItem:last-child,
+.cmdItem:last-child{
+border-bottom:none;
+}
+
+.ruleTop,
+.cmdTop{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.ruleTop span,
+.cmdTop span{
+color:#ff5555;
+font-size:21px;
+}
+
+.ruleTop b,
+.cmdTop b{
+font-size:11px;
+}
+
+.ruleItem p,
+.cmdItem p{
+margin:8px 0 0 31px;
+font-family:Arial,sans-serif;
+font-size:12px;
+line-height:1.5;
+color:#999;
+}
+
+.cmdCode{
+color:#ff6666 !important;
+font-family:"Orbitron",sans-serif !important;
+font-size:11px !important;
+}
+
+.cmdBadge{
+margin-left:auto;
+padding:4px 7px;
+border-radius:8px;
+background:#1b1b1b;
+border:1px solid #333;
+font-size:7px;
+color:#888;
+}
+
+.cmdBadge.mod{
+background:#220000;
+border-color:#650000;
+color:#ff7777;
+}
+
+/* IMAGE MODAL */
+
+.imageModal{
+position:fixed;
+inset:0;
+display:none;
+z-index:9999;
+background:rgba(0,0,0,.97);
+padding:18px;
+flex-direction:column;
+}
+
+.imageModal.show{
+display:flex;
+}
+
+.imageModalHeader{
+height:58px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+flex-shrink:0;
+}
+
+.imageModalTitle{
+font-size:12px;
+color:#ddd;
+}
+
+.closePreview{
+width:48px;
+height:48px;
+border:none;
+border-radius:15px;
+background:#181818;
+border:1px solid #333;
+color:#fff;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.closePreview span{
+font-size:25px;
+}
+
+.fullImageWrap{
+flex:1;
+min-height:0;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.fullImageWrap img{
+max-width:100%;
+max-height:100%;
+object-fit:contain;
+border-radius:14px;
+}
+
+/* TOAST */
+
+.toast{
+position:fixed;
+left:50%;
+bottom:95px;
+transform:translate(-50%,30px);
+opacity:0;
+pointer-events:none;
+z-index:10000;
+max-width:90%;
+padding:12px 16px;
+border-radius:15px;
+background:#181818;
+border:1px solid #444;
+font-family:Arial,sans-serif;
+font-size:13px;
+color:#eee;
+transition:.25s;
+}
+
+.toast.show{
+opacity:1;
+transform:translate(-50%,0);
+}
+
+@media(max-width:430px){
+.topTitle h1{
+font-size:14px;
+}
+
+.messageImageBox{
+width:170px;
+height:170px;
+}
+
+.tabs{
+padding-left:10px;
+padding-right:10px;
+}
+
+.messages{
+padding-left:11px;
+padding-right:11px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<div class="app">
+
+<header>
+
+<button class="topBtn" id="backBtn">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+
+<div class="topTitle">
+<h1>GLOBAL CHAT</h1>
+<p id="onlineStatus">CONNECTING...</p>
+</div>
+
+<div class="headerForum">
+<span class="material-symbols-outlined">forum</span>
+</div>
+
+</header>
+
+<div class="tabs">
+
+<button class="tabBtn active" data-tab="chatPanel">
+<span class="material-symbols-outlined">forum</span>
+CHAT
+</button>
+
+<button class="tabBtn" data-tab="rulesPanel">
+<span class="material-symbols-outlined">gavel</span>
+RULES
+</button>
+
+<button class="tabBtn" data-tab="cmdPanel">
+<span class="material-symbols-outlined">terminal</span>
+CMD
+</button>
+
+</div>
+
+
+<!-- CHAT -->
+
+<section class="panel active" id="chatPanel">
+
+<div class="pinnedBar" id="pinnedBar">
+<span class="material-symbols-outlined">push_pin</span>
+<div class="pinnedText">
+<b>PESAN DIPIN</b>
+<p id="pinnedPreview">Belum ada pesan dipin</p>
+</div>
+</div>
+
+<div class="messages" id="messages">
+<div class="loadingBox">Menghubungkan ke Global Chat...</div>
+</div>
+
+<div class="inputArea">
+
+<div class="replyComposer" id="replyComposer">
+
+<span class="material-symbols-outlined">reply</span>
+
+<div class="replyComposerText">
+<b id="replyComposerName">Membalas pesan</b>
+<p id="replyComposerText">...</p>
+</div>
+
+<button class="cancelReply" id="cancelReply">
+<span class="material-symbols-outlined">close</span>
+</button>
+
+</div>
+
+<div class="selectedImage" id="selectedImage">
+
+<img id="selectedThumb" class="selectedThumb">
+
+<div class="selectedImageName" id="selectedImageName">
+Foto dipilih
+</div>
+
+<button class="removeImage" id="removeImage">
+<span class="material-symbols-outlined">close</span>
+</button>
+
+</div>
+
+<div class="inputRow">
+
+<input type="file" id="imageInput" accept="image/*" hidden>
+
+<button class="attachBtn" id="attachBtn">
+<span class="material-symbols-outlined">image</span>
+</button>
+
+<input
+id="messageInput"
+class="messageInput"
+type="text"
+maxlength="1000"
+placeholder="Ketik pesan...">
+
+<button class="sendBtn" id="sendBtn">
+<span class="material-symbols-outlined">send</span>
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- RULES -->
+
+<section class="panel" id="rulesPanel">
+
+<div class="scrollPanel">
+
+<div class="infoCard">
+
+<div class="infoHead">
+
+<div class="infoHeadIcon">
+<span class="material-symbols-outlined">gavel</span>
+</div>
+
+<div>
+<h3>GLOBAL CHAT RULES</h3>
+<p>Jaga chat tetap aman dan nyaman.</p>
+</div>
+
+</div>
+
+<div class="ruleItem">
+<div class="ruleTop">
+<span class="material-symbols-outlined">block</span>
+<b>Dilarang Spam</b>
+</div>
+<p>Jangan mengirim pesan berulang, flood, atau spam.</p>
+</div>
+
+<div class="ruleItem">
+<div class="ruleTop">
+<span class="material-symbols-outlined">sentiment_satisfied</span>
+<b>Gunakan Bahasa yang Baik</b>
+</div>
+<p>Hormati seluruh pengguna Global Chat.</p>
+</div>
+
+<div class="ruleItem">
+<div class="ruleTop">
+<span class="material-symbols-outlined">image</span>
+<b>Foto Aman</b>
+</div>
+<p>Jangan mengirim gambar yang melanggar aturan platform.</p>
+</div>
+
+<div class="ruleItem">
+<div class="ruleTop">
+<span class="material-symbols-outlined">warning</span>
+<b>Ikuti Moderator</b>
+</div>
+<p>Owner dan Developer berhak melakukan moderasi chat.</p>
+</div>
+
+<div class="ruleItem">
+<div class="ruleTop">
+<span class="material-symbols-outlined">lock</span>
+<b>Ban Bersifat Permanen</b>
+</div>
+<p>Jika diban, kamu tidak dapat mengirim pesan sampai dibuka kembali.</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- COMMAND -->
+
+<section class="panel" id="cmdPanel">
+
+<div class="scrollPanel">
+
+<div class="infoCard">
+
+<div class="infoHead">
+<div class="infoHeadIcon">
+<span class="material-symbols-outlined">terminal</span>
+</div>
+
+<div>
+<h3>USER COMMANDS</h3>
+<p>Bisa digunakan semua user.</p>
+</div>
+</div>
+
+<div class="cmdItem">
+<div class="cmdTop">
+<span class="material-symbols-outlined">waving_hand</span>
+<b class="cmdCode">/me</b>
+<span class="cmdBadge">USER</span>
+</div>
+<p>Menampilkan status singkat tentang dirimu.</p>
+</div>
+
+<div class="cmdItem">
+<div class="cmdTop">
+<span class="material-symbols-outlined">mood</span>
+<b class="cmdCode">/random</b>
+<span class="cmdBadge">USER</span>
+</div>
+<p>Mengirim pesan random agar chat lebih seru.</p>
+</div>
+
+<div class="cmdItem">
+<div class="cmdTop">
+<span class="material-symbols-outlined">info</span>
+<b class="cmdCode">/help</b>
+<span class="cmdBadge">USER</span>
+</div>
+<p>Menampilkan bantuan command.</p>
+</div>
+
+<div class="cmdItem">
+<div class="cmdTop">
+<span class="material-symbols-outlined">delete</span>
+<b class="cmdCode">/del</b>
+<span class="cmdBadge">USER</span>
+</div>
+<p>Hapus pesan sendiri dengan membalas pesan tersebut.</p>
+</div>
+
+</div>
+
+
+<div class="infoCard">
+
+<div class="infoHead">
+<div class="infoHeadIcon">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+</div>
+
+<div>
+<h3>MODERATOR COMMANDS</h3>
+<p>Khusus Developer & Owner.</p>
+</div>
+</div>
+
+<div class="cmdItem">
+<div class="cmdTop">
+<span class="material-symbols-outlined">push_pin</span>
+<b class="cmdCode">/pin</b>
+<span class="cmdBadge mod">MOD</span>
+</div>
+<p>Balas pesan lalu ketik /pin untuk pin pesan.</p>
+</div>
+
+<div class="cmdItem">
+<div class="cmdTop">
+<span class="material-symbols-outlined">timer</span>
+<b class="cmdCode">/setcd 5</b>
+<span class="cmdBadge mod">MOD</span>
+</div>
+<p>Mengatur cooldown Global Chat dalam detik.</p>
+</div>
+
+<div class="cmdItem">
+<div class="cmdTop">
+<span class="material-symbols-outlined">person_off</span>
+<b class="cmdCode">/ban @username</b>
+<span class="cmdBadge mod">MOD</span>
+</div>
+<p>Ban user dari Global Chat.</p>
+</div>
+
+<div class="cmdItem">
+<div class="cmdTop">
+<span class="material-symbols-outlined">person_add</span>
+<b class="cmdCode">/unban @username</b>
+<span class="cmdBadge mod">MOD</span>
+</div>
+<p>Membuka kembali ban user.</p>
+</div>
+
+<div class="cmdItem">
+<div class="cmdTop">
+<span class="material-symbols-outlined">campaign</span>
+<b class="cmdCode">/all pesan</b>
+<span class="cmdBadge mod">MOD</span>
+</div>
+<p>Mengirim pengumuman untuk seluruh user.</p>
+</div>
+
+<div class="cmdItem">
+<div class="cmdTop">
+<span class="material-symbols-outlined">delete_sweep</span>
+<b class="cmdCode">/clear</b>
+<span class="cmdBadge mod">MOD</span>
+</div>
+<p>Membersihkan seluruh pesan Global Chat.</p>
+</div>
+
+<div class="cmdItem">
+<div class="cmdTop">
+<span class="material-symbols-outlined">warning</span>
+<b class="cmdCode">/warn @username pesan</b>
+<span class="cmdBadge mod">MOD</span>
+</div>
+<p>Mengirim peringatan moderasi kepada user.</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+
+<!-- FULL IMAGE -->
+
+<div class="imageModal" id="imageModal">
+
+<div class="imageModalHeader">
+
+<div class="imageModalTitle" id="imageModalTitle">
+PREVIEW FOTO
+</div>
+
+<button class="closePreview" id="closePreview">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+
+</div>
+
+<div class="fullImageWrap">
+<img id="fullImage">
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+get,
+set,
+push,
+update,
+remove,
+onValue,
+query,
+limitToLast,
+runTransaction
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+
+const firebaseConfig={
+apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+authDomain:"project-coding-gabut.firebaseapp.com",
+databaseURL:"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+projectId:"project-coding-gabut",
+storageBucket:"project-coding-gabut.firebasestorage.app",
+messagingSenderId:"234910334669",
+appId:"1:234910334669:web:5203c9e9ce22a596f2b384"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getDatabase(app);
+
+
+/* ELEMENTS */
+
+const messagesEl=document.getElementById("messages");
+const messageInput=document.getElementById("messageInput");
+const imageInput=document.getElementById("imageInput");
+const selectedImage=document.getElementById("selectedImage");
+const selectedThumb=document.getElementById("selectedThumb");
+const selectedImageName=document.getElementById("selectedImageName");
+const replyComposer=document.getElementById("replyComposer");
+const pinnedBar=document.getElementById("pinnedBar");
+const toast=document.getElementById("toast");
+
+
+let currentUser=null;
+let currentProfile=null;
+let selectedFile=null;
+let replyMessage=null;
+let cooldownSeconds=3;
+let lastSendTime=0;
+let currentMessages={};
+let chatStarted=false;
+
+
+/* HELPERS */
+
+function showToast(text){
+
+toast.textContent=text;
+toast.classList.add("show");
+
+clearTimeout(window.toastTimer);
+
+window.toastTimer=setTimeout(()=>{
+toast.classList.remove("show");
+},2500);
+
+}
+
+function escapeHTML(value){
+
+return String(value || "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+function isModerator(){
+
+const role=String(
+currentProfile?.role || ""
+).toLowerCase();
+
+return role==="developer" || role==="owner";
+
+}
+
+function getDateLabel(timestamp){
+
+const date=new Date(timestamp);
+const today=new Date();
+
+const todayStart=new Date(
+today.getFullYear(),
+today.getMonth(),
+today.getDate()
+).getTime();
+
+const messageStart=new Date(
+date.getFullYear(),
+date.getMonth(),
+date.getDate()
+).getTime();
+
+const diffDays=Math.round(
+(todayStart-messageStart)/86400000
+);
+
+if(diffDays===0) return "SEKARANG";
+if(diffDays===1) return "KEMARIN";
+
+return date.toLocaleDateString("id-ID",{
+day:"numeric",
+month:"long",
+year:"numeric"
+}).toUpperCase();
+
+}
+
+function formatTime(timestamp){
+
+return new Date(timestamp).toLocaleTimeString(
+"id-ID",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+}
+
+function scrollToBottom(force=false){
+
+if(force){
+
+setTimeout(()=>{
+messagesEl.scrollTop=messagesEl.scrollHeight;
+},60);
+
+return;
+
+}
+
+const distance=
+messagesEl.scrollHeight-
+messagesEl.scrollTop-
+messagesEl.clientHeight;
+
+if(distance<180){
+
+setTimeout(()=>{
+messagesEl.scrollTop=messagesEl.scrollHeight;
+},60);
+
+}
+
+}
+
+function getProfilePhoto(data){
+
+return data?.profileImage ||
+data?.photoURL ||
+data?.avatar ||
+"";
+
+}
+
+function getUsername(data){
+
+return data?.username ||
+data?.name ||
+data?.displayName ||
+"Unknown";
+
+}
+
+
+/* TABS */
+
+document.querySelectorAll(".tabBtn").forEach(btn=>{
+
+btn.onclick=()=>{
+
+document.querySelectorAll(".tabBtn")
+.forEach(x=>x.classList.remove("active"));
+
+document.querySelectorAll(".panel")
+.forEach(x=>x.classList.remove("active"));
+
+btn.classList.add("active");
+
+document.getElementById(
+btn.dataset.tab
+).classList.add("active");
+
+};
+
+});
+
+
+/* BACK */
+
+document.getElementById("backBtn").onclick=()=>{
+
+if(history.length>1){
+
+history.back();
+
+}else{
+
+location.href="dashboard.html";
+
+}
+
+};
+
+
+/* KEYBOARD FOLLOW */
+
+if(window.visualViewport){
+
+const updateViewport=()=>{
+
+const viewport=window.visualViewport;
+
+const keyboardHeight=
+window.innerHeight-
+viewport.height-
+viewport.offsetTop;
+
+document.documentElement.style.setProperty(
+"--keyboard-offset",
+Math.max(0,keyboardHeight)+"px"
+);
+
+};
+
+visualViewport.addEventListener(
+"resize",
+updateViewport
+);
+
+visualViewport.addEventListener(
+"scroll",
+updateViewport
+);
+
+}
+
+
+/* IMAGE PICKER */
+
+document.getElementById("attachBtn").onclick=()=>{
+
+imageInput.click();
+
+};
+
+imageInput.onchange=()=>{
+
+const file=imageInput.files[0];
+
+if(!file) return;
+
+if(!file.type.startsWith("image/")){
+
+showToast("Pilih file gambar.");
+
+return;
+
+}
+
+if(file.size>5*1024*1024){
+
+showToast("Ukuran foto maksimal 5MB.");
+
+imageInput.value="";
+
+return;
+
+}
+
+selectedFile=file;
+
+selectedThumb.src=
+URL.createObjectURL(file);
+
+selectedImageName.textContent=
+file.name;
+
+selectedImage.classList.add("show");
+
+};
+
+document.getElementById("removeImage").onclick=()=>{
+
+selectedFile=null;
+imageInput.value="";
+selectedThumb.removeAttribute("src");
+selectedImage.classList.remove("show");
+
+};
+
+
+/* REPLY */
+
+document.getElementById("cancelReply").onclick=()=>{
+
+replyMessage=null;
+replyComposer.classList.remove("show");
+
+};
+
+function setReply(message){
+
+replyMessage=message;
+
+document.getElementById("replyComposerName")
+.textContent=
+"Balas "+getUsername(message);
+
+document.getElementById("replyComposerText")
+.textContent=
+message.text ||
+(message.image ? "📷 Foto" : "Pesan");
+
+replyComposer.classList.add("show");
+
+messageInput.focus();
+
+}
+
+
+/* FULL IMAGE */
+
+function openImagePreview(src,name="PREVIEW FOTO"){
+
+document.getElementById("fullImage").src=src;
+
+document.getElementById("imageModalTitle")
+.textContent=name;
+
+document.getElementById("imageModal")
+.classList.add("show");
+
+}
+
+document.getElementById("closePreview").onclick=()=>{
+
+document.getElementById("imageModal")
+.classList.remove("show");
+
+document.getElementById("fullImage")
+.removeAttribute("src");
+
+};
+
+
+/* IMAGE COMPRESS */
+
+function compressImage(file){
+
+return new Promise((resolve,reject)=>{
+
+const reader=new FileReader();
+
+reader.onload=e=>{
+
+const img=new Image();
+
+img.onload=()=>{
+
+const max=1200;
+
+let width=img.width;
+let height=img.height;
+
+if(width>max || height>max){
+
+if(width>height){
+
+height=Math.round(height*(max/width));
+width=max;
+
+}else{
+
+width=Math.round(width*(max/height));
+height=max;
+
+}
+
+}
+
+const canvas=document.createElement("canvas");
+
+canvas.width=width;
+canvas.height=height;
+
+const ctx=canvas.getContext("2d");
+
+ctx.drawImage(
+img,
+0,
+0,
+width,
+height
+);
+
+resolve(
+canvas.toDataURL(
+"image/jpeg",
+.82
+)
+);
+
+};
+
+img.onerror=reject;
+img.src=e.target.result;
+
+};
+
+reader.onerror=reject;
+
+reader.readAsDataURL(file);
+
+});
+
+}
+
+
+/* COMMANDS */
+
+async function findUserByUsername(username){
+
+const usersSnap=await get(ref(db,"users"));
+
+if(!usersSnap.exists()) return null;
+
+let result=null;
+
+usersSnap.forEach(child=>{
+
+const data=child.val();
+
+if(
+String(
+data.username || ""
+).toLowerCase()===
+username.toLowerCase()
+){
+
+result={
+uid:child.key,
+data
+};
+
+}
+
+});
+
+return result;
+
+}
+
+async function handleCommand(rawText){
+
+const text=rawText.trim();
+
+const command=text.split(/\s+/)[0].toLowerCase();
+
+const args=text
+.slice(command.length)
+.trim();
+
+if(command==="/help"){
+
+showToast(
+"Gunakan tab CMD untuk melihat semua command."
+);
+
+return true;
+
+}
+
+if(command==="/random"){
+
+const randomMessages=[
+"⚡ DEVONAX MODE ON!",
+"🔥 Global Chat sedang ramai!",
+"🚀 Keep coding and stay awesome!",
+"💀 Jangan lupa baca rules!",
+"⚡ Pesan random dari DEVONAX!"
+];
+
+const randomText=
+randomMessages[
+Math.floor(
+Math.random()*randomMessages.length
+)
+];
+
+await pushMessage({
+text:randomText,
+systemCommand:"random"
+});
+
+return true;
+
+}
+
+if(command==="/me"){
+
+await pushMessage({
+text:"👋 "+getUsername(currentProfile)+" sedang aktif di Global Chat.",
+systemCommand:"me"
+});
+
+return true;
+
+}
+
+if(command==="/del"){
+
+if(!replyMessage){
+
+showToast(
+"Balas pesan sendiri lalu ketik /del."
+);
+
+return true;
+
+}
+
+if(
+replyMessage.uid !== currentUser.uid &&
+!isModerator()
+){
+
+showToast(
+"Kamu hanya dapat menghapus pesan sendiri."
+);
+
+return true;
+
+}
+
+await remove(
+ref(db,"globalChat/"+replyMessage.id)
+);
+
+replyMessage=null;
+
+replyComposer.classList.remove("show");
+
+showToast("Pesan dihapus.");
+
+return true;
+
+}
+
+if(!isModerator()){
+
+return false;
+
+}
+
+
+/* /pin */
+
+if(command==="/pin"){
+
+if(!replyMessage){
+
+showToast(
+"Balas pesan yang ingin dipin terlebih dahulu."
+);
+
+return true;
+
+}
+
+await set(
+ref(db,"globalChatPinned"),
+{
+messageId:replyMessage.id,
+text:replyMessage.text || "📷 Foto",
+username:getUsername(replyMessage),
+timestamp:Date.now()
+}
+);
+
+showToast("Pesan berhasil dipin.");
+
+return true;
+
+}
+
+
+/* /setcd */
+
+if(command==="/setcd"){
+
+const seconds=parseInt(args);
+
+if(
+isNaN(seconds) ||
+seconds<1 ||
+seconds>120
+){
+
+showToast(
+"Gunakan contoh: /setcd 5"
+);
+
+return true;
+
+}
+
+await set(
+ref(db,"globalChatSettings/cooldown"),
+seconds
+);
+
+showToast(
+"Cooldown diatur "+seconds+" detik."
+);
+
+return true;
+
+}
+
+
+/* /all */
+
+if(command==="/all"){
+
+if(!args){
+
+showToast(
+"Gunakan: /all pesan"
+);
+
+return true;
+
+}
+
+await pushMessage({
+text:"📢 [ALL USERS] "+args,
+announcement:true
+});
+
+return true;
+
+}
+
+
+/* /ban */
+
+if(command==="/ban"){
+
+const target=args.split(/\s+/)[0]
+.replace("@","");
+
+if(!target){
+
+showToast(
+"Gunakan: /ban @username"
+);
+
+return true;
+
+}
+
+const userFound=
+await findUserByUsername(target);
+
+if(!userFound){
+
+showToast("User tidak ditemukan.");
+
+return true;
+
+}
+
+if(userFound.uid===currentUser.uid){
+
+showToast(
+"Kamu tidak dapat ban diri sendiri."
+);
+
+return true;
+
+}
+
+await set(
+ref(db,"globalChatBans/"+userFound.uid),
+{
+banned:true,
+username:getUsername(userFound.data),
+by:getUsername(currentProfile),
+byUid:currentUser.uid,
+timestamp:Date.now()
+}
+);
+
+showToast(
+userFound.data.username+" berhasil diban."
+);
+
+return true;
+
+}
+
+
+/* /unban */
+
+if(command==="/unban"){
+
+const target=args.split(/\s+/)[0]
+.replace("@","");
+
+if(!target){
+
+showToast(
+"Gunakan: /unban @username"
+);
+
+return true;
+
+}
+
+const userFound=
+await findUserByUsername(target);
+
+if(!userFound){
+
+showToast("User tidak ditemukan.");
+
+return true;
+
+}
+
+await remove(
+ref(db,"globalChatBans/"+userFound.uid)
+);
+
+showToast(
+userFound.data.username+" berhasil di-unban."
+);
+
+return true;
+
+}
+
+
+/* /clear */
+
+if(command==="/clear"){
+
+const ok=confirm(
+"Hapus seluruh pesan Global Chat?"
+);
+
+if(!ok) return true;
+
+await remove(ref(db,"globalChat"));
+
+showToast(
+"Global Chat dibersihkan."
+);
+
+return true;
+
+}
+
+
+/* /warn */
+
+if(command==="/warn"){
+
+const parts=args.split(/\s+/);
+
+const username=
+(parts.shift() || "")
+.replace("@","");
+
+const reason=parts.join(" ");
+
+if(!username || !reason){
+
+showToast(
+"Gunakan: /warn @username pesan"
+);
+
+return true;
+
+}
+
+const found=
+await findUserByUsername(username);
+
+if(!found){
+
+showToast("User tidak ditemukan.");
+
+return true;
+
+}
+
+await push(
+ref(db,"globalChatWarnings/"+found.uid),
+{
+message:reason,
+from:getUsername(currentProfile),
+timestamp:Date.now()
+}
+);
+
+await pushMessage({
+text:"⚠️ Peringatan untuk @"+username+": "+reason,
+announcement:true
+});
+
+return true;
+
+}
+
+showToast(
+"Command tidak tersedia."
+);
+
+return true;
+
+}
+
+
+/* SEND MESSAGE */
+
+async function pushMessage(extra={}){
+
+const chatRef=ref(db,"globalChat");
+
+const image=
+extra.image || "";
+
+const data={
+uid:currentUser.uid,
+username:getUsername(currentProfile),
+role:currentProfile.role || "User",
+profileImage:getProfilePhoto(currentProfile),
+text:extra.text || "",
+image:image,
+timestamp:Date.now(),
+replyTo:extra.replyTo || null,
+announcement:!!extra.announcement,
+systemCommand:extra.systemCommand || ""
+};
+
+await push(chatRef,data);
+
+lastSendTime=Date.now();
+
+}
+
+async function sendMessage(){
+
+if(!currentUser || !currentProfile) return;
+
+const text=messageInput.value.trim();
+
+if(!text && !selectedFile){
+
+return;
+
+}
+
+
+/* BAN CHECK */
+
+const banSnap=
+await get(
+ref(db,"globalChatBans/"+currentUser.uid)
+);
+
+if(banSnap.exists()){
+
+showToast(
+"Kamu telah diban dari Global Chat."
+);
+
+return;
+
+}
+
+
+/* COOLDOWN */
+
+const elapsed=
+Date.now()-lastSendTime;
+
+const wait=
+cooldownSeconds*1000-elapsed;
+
+if(wait>0){
+
+showToast(
+"Tunggu "+Math.ceil(wait/1000)+" detik."
+);
+
+return;
+
+}
+
+
+/* COMMAND */
+
+if(
+text.startsWith("/")
+){
+
+const handled=
+await handleCommand(text);
+
+if(handled){
+
+messageInput.value="";
+
+return;
+
+}
+
+}
+
+
+/* IMAGE */
+
+let imageData="";
+
+if(selectedFile){
+
+showToast("Memproses foto...");
+
+try{
+
+imageData=
+await compressImage(selectedFile);
+
+}catch(error){
+
+console.error(error);
+
+showToast("Gagal memproses foto.");
+
+return;
+
+}
+
+}
+
+
+/* REPLY DATA */
+
+const replyData=
+replyMessage ? {
+id:replyMessage.id,
+uid:replyMessage.uid,
+username:getUsername(replyMessage),
+text:
+replyMessage.text ||
+(replyMessage.image ? "📷 Foto" : "")
+} : null;
+
+
+try{
+
+await pushMessage({
+text,
+image:imageData,
+replyTo:replyData
+});
+
+messageInput.value="";
+
+selectedFile=null;
+
+imageInput.value="";
+
+selectedImage.classList.remove("show");
+
+selectedThumb.removeAttribute("src");
+
+replyMessage=null;
+
+replyComposer.classList.remove("show");
+
+scrollToBottom(true);
+
+}catch(error){
+
+console.error(error);
+
+showToast("Gagal mengirim pesan.");
+
+}
+
+}
+
+document.getElementById("sendBtn")
+.onclick=sendMessage;
+
+messageInput.addEventListener(
+"keydown",
+e=>{
+
+if(
+e.key==="Enter" &&
+!e.shiftKey
+){
+
+e.preventDefault();
+
+sendMessage();
+
+}
+
+}
+);
+
+
+/* MESSAGE RENDER */
+
+function createMessageElement(id,data){
+
+const row=document.createElement("div");
+
+row.className="messageRow";
+
+const photo=getProfilePhoto(data);
+
+const username=getUsername(data);
+
+const role=data.role || "User";
+
+const avatar=document.createElement("div");
+
+avatar.className="messageAvatar";
+
+if(photo){
+
+const img=document.createElement("img");
+
+img.src=photo;
+
+img.style.display="block";
+
+avatar.appendChild(img);
+
+}else{
+
+const icon=document.createElement("span");
+
+icon.className="material-symbols-outlined";
+
+icon.textContent="account_circle";
+
+avatar.appendChild(icon);
+
+}
+
+const body=document.createElement("div");
+
+body.className="messageBody";
+
+
+const top=document.createElement("div");
+
+top.className="messageTop";
+
+top.innerHTML=`
+<b class="messageName">${escapeHTML(username)}</b>
+<span class="messageRole">${escapeHTML(role)}</span>
+<span class="messageTime">${formatTime(data.timestamp)}</span>
+`;
+
+const bubble=document.createElement("div");
+
+bubble.className=
+"messageBubble"+(
+data.pinned ? " pinned" : ""
+);
+
+if(data.pinned){
+
+const pin=document.createElement("div");
+
+pin.className="pinMark";
+
+pin.innerHTML=`
+<span class="material-symbols-outlined">push_pin</span>
+PINNED
+`;
+
+bubble.appendChild(pin);
+
+}
+
+
+/* REPLY VIEW */
+
+if(data.replyTo){
+
+const reply=document.createElement("div");
+
+reply.className="replyBox";
+
+reply.innerHTML=`
+<div class="replyName">
+↪ ${escapeHTML(data.replyTo.username || "User")}
+</div>
+<div class="replyText">
+${escapeHTML(data.replyTo.text || "Pesan")}
+</div>
+`;
+
+bubble.appendChild(reply);
+
+}
+
+
+/* TEXT */
+
+if(data.text){
+
+const text=document.createElement("div");
+
+text.textContent=data.text;
+
+bubble.appendChild(text);
+
+}
+
+
+/* IMAGE */
+
+if(data.image){
+
+const imageBox=
+document.createElement("div");
+
+imageBox.className=
+"messageImageBox";
+
+const img=document.createElement("img");
+
+img.src=data.image;
+
+const hint=document.createElement("div");
+
+hint.className="imagePreviewHint";
+
+hint.innerHTML=`
+<span class="material-symbols-outlined">
+fullscreen
+</span>
+`;
+
+imageBox.appendChild(img);
+
+imageBox.appendChild(hint);
+
+imageBox.onclick=()=>{
+
+openImagePreview(
+data.image,
+username
+);
+
+};
+
+bubble.appendChild(imageBox);
+
+}
+
+const actions=document.createElement("div");
+
+actions.className="messageActions";
+
+
+const replyBtn=document.createElement("button");
+
+replyBtn.className="messageAction";
+
+replyBtn.innerHTML=`
+<span class="material-symbols-outlined">reply</span>
+Balas
+`;
+
+replyBtn.onclick=()=>{
+
+setReply({
+...data,
+id
+});
+
+};
+
+actions.appendChild(replyBtn);
+
+
+/* DELETE */
+
+if(
+data.uid===currentUser?.uid ||
+isModerator()
+){
+
+const deleteBtn=
+document.createElement("button");
+
+deleteBtn.className=
+"messageAction delete";
+
+deleteBtn.innerHTML=`
+<span class="material-symbols-outlined">delete</span>
+Hapus
+`;
+
+deleteBtn.onclick=async()=>{
+
+const own=
+data.uid===currentUser.uid;
+
+if(!own && !isModerator()) return;
+
+const ok=confirm(
+"Yakin hapus pesan ini untuk semua orang?"
+);
+
+if(!ok) return;
+
+try{
+
+await remove(
+ref(db,"globalChat/"+id)
+);
+
+showToast("Pesan dihapus.");
+
+}catch(error){
+
+showToast("Gagal menghapus pesan.");
+
+}
+
+};
+
+actions.appendChild(deleteBtn);
+
+}
+
+
+/* MOD PIN */
+
+if(isModerator()){
+
+const pinBtn=
+document.createElement("button");
+
+pinBtn.className="messageAction";
+
+pinBtn.innerHTML=`
+<span class="material-symbols-outlined">push_pin</span>
+Pin
+`;
+
+pinBtn.onclick=async()=>{
+
+await set(
+ref(db,"globalChatPinned"),
+{
+messageId:id,
+text:data.text || "📷 Foto",
+username,
+timestamp:data.timestamp
+}
+);
+
+showToast("Pesan dipin.");
+
+};
+
+actions.appendChild(pinBtn);
+
+}
+
+body.appendChild(top);
+
+body.appendChild(bubble);
+
+body.appendChild(actions);
+
+row.appendChild(avatar);
+
+row.appendChild(body);
+
+return row;
+
+}
+
+
+/* RENDER CHAT */
+
+function renderMessages(data){
+
+currentMessages=data || {};
+
+messagesEl.innerHTML="";
+
+const entries=
+Object.entries(currentMessages)
+.sort(
+(a,b)=>
+Number(a[1].timestamp||0)-
+Number(b[1].timestamp||0)
+);
+
+if(!entries.length){
+
+messagesEl.innerHTML=`
+<div class="emptyBox">
+<span class="material-symbols-outlined"
+style="font-size:34px;color:#ff4444">
+forum
+</span>
+<br><br>
+Belum ada pesan.<br>
+Jadilah yang pertama memulai percakapan.
+</div>
+`;
+
+return;
+
+}
+
+let lastLabel="";
+
+entries.forEach(([id,data])=>{
+
+const label=
+getDateLabel(
+Number(data.timestamp || Date.now())
+);
+
+if(label!==lastLabel){
+
+lastLabel=label;
+
+const separator=
+document.createElement("div");
+
+separator.className="dateSeparator";
+
+separator.innerHTML=`
+<span>${label}</span>
+`;
+
+messagesEl.appendChild(separator);
+
+}
+
+messagesEl.appendChild(
+createMessageElement(id,data)
+);
+
+});
+
+if(!chatStarted){
+
+chatStarted=true;
+
+scrollToBottom(true);
+
+}else{
+
+scrollToBottom(false);
+
+}
+
+}
+
+
+/* PINNED MESSAGE */
+
+onValue(
+ref(db,"globalChatPinned"),
+snap=>{
+
+if(!snap.exists()){
+
+pinnedBar.classList.remove("show");
+
+return;
+
+}
+
+const data=snap.val();
+
+pinnedBar.classList.add("show");
+
+document.getElementById("pinnedPreview")
+.textContent=
+(data.username || "User")+": "+
+(data.text || "📷 Foto");
+
+pinnedBar.onclick=()=>{
+
+const target=
+document.querySelector(
+`[data-message-id="${data.messageId}"]`
+);
+
+if(target){
+
+target.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+}
+
+};
+
+}
+);
+
+
+/* SETTINGS */
+
+onValue(
+ref(db,"globalChatSettings/cooldown"),
+snap=>{
+
+const value=
+Number(snap.val());
+
+cooldownSeconds=
+value>0 ? value : 3;
+
+}
+);
+
+
+/* CHAT REALTIME */
+
+onValue(
+query(
+ref(db,"globalChat"),
+limitToLast(300)
+),
+snap=>{
+
+renderMessages(
+snap.exists() ?
+snap.val() :
+{}
+);
+
+document.getElementById("onlineStatus")
+.textContent="REALTIME CONNECTED";
+
+},
+error=>{
+
+console.error(error);
+
+document.getElementById("onlineStatus")
+.textContent="CONNECTION ERROR";
+
+}
+);
+
+
+/* AUTH */
+
+onAuthStateChanged(
+auth,
+async user=>{
+
+if(!user){
+
+location.replace("login.html");
+
+return;
+
+}
+
+currentUser=user;
+
+const userSnap=
+await get(
+ref(db,"users/"+user.uid)
+);
+
+if(!userSnap.exists()){
+
+location.replace("setup.html");
+
+return;
+
+}
+
+currentProfile={
+uid:user.uid,
+...userSnap.val(),
+username:
+userSnap.val().username ||
+user.email.split("@")[0]
+};
+
+
+/* REALTIME PROFILE */
+
+onValue(
+ref(db,"users/"+user.uid),
+snap=>{
+
+if(snap.exists()){
+
+currentProfile={
+uid:user.uid,
+...snap.val(),
+username:
+snap.val().username ||
+user.email.split("@")[0]
+};
+
+}
+
+}
+);
+
+
+/* BAN STATUS */
+
+onValue(
+ref(db,"globalChatBans/"+user.uid),
+snap=>{
+
+if(snap.exists()){
+
+messageInput.placeholder=
+"Kamu telah diban dari Global Chat";
+
+messageInput.disabled=true;
+
+document.getElementById("sendBtn")
+.disabled=true;
+
+}else{
+
+messageInput.placeholder=
+"Ketik pesan...";
+
+messageInput.disabled=false;
+
+document.getElementById("sendBtn")
+.disabled=false;
+
+}
+
+}
+);
+
+}
+);
+
+</script>
+
+</body>
+  </html>
