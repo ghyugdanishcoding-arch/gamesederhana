@@ -1,0 +1,3813 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+<title>DEVONAX GLOBAL CHAT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Orbitron',sans-serif;
+}
+
+:root{
+    --bg:#070707;
+    --card:#121212;
+    --card2:#171717;
+    --red:#ff2020;
+    --redSoft:#ff5555;
+    --border:#2d2d2d;
+    --text:#fff;
+    --muted:#8d8d8d;
+}
+
+html,
+body{
+    width:100%;
+    min-height:100%;
+    background:var(--bg);
+    color:var(--text);
+    overflow:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+    radial-gradient(circle at top left,
+    rgba(255,0,0,.08),transparent 35%),
+    radial-gradient(circle at bottom right,
+    rgba(255,0,0,.06),transparent 35%);
+}
+
+.grid{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.035;
+    background-image:
+    linear-gradient(#ff0000 1px,transparent 1px),
+    linear-gradient(90deg,#ff0000 1px,transparent 1px);
+    background-size:40px 40px;
+}
+
+/* APP */
+
+.app{
+    position:relative;
+    height:100dvh;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    z-index:1;
+}
+
+/* HEADER */
+
+header{
+    min-height:72px;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:rgba(7,7,7,.95);
+    border-bottom:1px solid #222;
+    backdrop-filter:blur(14px);
+}
+
+.backBtn{
+    width:45px;
+    height:45px;
+    flex:none;
+    border-radius:15px;
+    border:1px solid #333;
+    background:#141414;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+.backBtn span{
+    font-size:25px;
+}
+
+.chatHeadIcon{
+    width:45px;
+    height:45px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#220000;
+    border:1px solid #650000;
+    color:var(--red);
+}
+
+.chatHeadIcon span{
+    font-size:27px;
+}
+
+.headerText{
+    flex:1;
+    min-width:0;
+}
+
+.headerText h1{
+    font-size:15px;
+    letter-spacing:1.5px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.headerText p{
+    margin-top:6px;
+    font-size:10px;
+    color:#999;
+}
+
+.onlineDot{
+    display:inline-block;
+    width:7px;
+    height:7px;
+    margin-right:5px;
+    border-radius:50%;
+    background:#46ff8d;
+    box-shadow:0 0 10px #46ff8d;
+}
+
+/* TABS */
+
+.tabs{
+    min-height:62px;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:10px 14px;
+    overflow-x:auto;
+    background:#0b0b0b;
+    border-bottom:1px solid #222;
+}
+
+.tabs::-webkit-scrollbar{
+    display:none;
+}
+
+.tab{
+    min-width:100px;
+    height:42px;
+    border-radius:14px;
+    border:1px solid #292929;
+    background:#151515;
+    color:#888;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    cursor:pointer;
+    font-size:10px;
+    letter-spacing:.8px;
+}
+
+.tab span{
+    font-size:20px;
+}
+
+.tab.active{
+    color:#ff6666;
+    background:#220000;
+    border-color:#700;
+}
+
+/* CONTENT */
+
+.pageContent{
+    flex:1;
+    min-height:0;
+    position:relative;
+}
+
+.panel{
+    display:none;
+    height:100%;
+    overflow:auto;
+}
+
+.panel.active{
+    display:block;
+}
+
+.panel::-webkit-scrollbar{
+    width:0;
+}
+
+/* CHAT */
+
+#chatPanel{
+    overflow:hidden;
+}
+
+.chatArea{
+    height:100%;
+    overflow-y:auto;
+    padding:16px 14px 12px;
+    scroll-behavior:smooth;
+}
+
+.chatArea::-webkit-scrollbar{
+    width:0;
+}
+
+.dateDivider{
+    display:flex;
+    justify-content:center;
+    margin:12px 0 18px;
+}
+
+.dateDivider span{
+    padding:7px 13px;
+    border-radius:20px;
+    background:#171717;
+    border:1px solid #292929;
+    color:#aaa;
+    font-size:9px;
+}
+
+/* PIN */
+
+.pinnedBox{
+    display:none;
+    margin-bottom:15px;
+    padding:13px;
+    border-radius:17px;
+    background:#210000;
+    border:1px solid #650000;
+}
+
+.pinnedBox.show{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.pinnedBox > span{
+    color:#ff4444;
+    font-size:23px;
+}
+
+.pinnedContent{
+    min-width:0;
+    flex:1;
+}
+
+.pinnedContent b{
+    display:block;
+    color:#ff6666;
+    font-size:11px;
+    margin-bottom:5px;
+}
+
+.pinnedContent p{
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    font-family:Arial,sans-serif;
+    color:#ddd;
+    font-size:12px;
+}
+
+.unpinBtn{
+    width:34px;
+    height:34px;
+    flex:none;
+    border:none;
+    border-radius:11px;
+    background:#310000;
+    color:#ff7777;
+    cursor:pointer;
+}
+
+/* MESSAGE */
+
+.message{
+    display:flex;
+    gap:10px;
+    margin-bottom:16px;
+    align-items:flex-start;
+}
+
+.messageAvatar{
+    width:42px;
+    height:42px;
+    min-width:42px;
+    border-radius:50%;
+    overflow:hidden;
+    background:#191919;
+    border:1px solid #343434;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#ff5555;
+}
+
+.messageAvatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.messageAvatar span{
+    font-size:25px;
+}
+
+.messageBody{
+    flex:1;
+    min-width:0;
+}
+
+.messageTop{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:6px;
+}
+
+.messageName{
+    max-width:65%;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    font-size:11px;
+    color:#ff6666;
+}
+
+.roleBadge{
+    padding:3px 7px;
+    border-radius:8px;
+    background:#191919;
+    border:1px solid #333;
+    color:#aaa;
+    font-size:7px;
+}
+
+.roleBadge.owner{
+    color:#ffd466;
+    border-color:#6d4f00;
+    background:#241a00;
+}
+
+.roleBadge.developer{
+    color:#ff7777;
+    border-color:#700;
+    background:#250000;
+}
+
+.messageTime{
+    margin-left:auto;
+    color:#666;
+    font-size:8px;
+    white-space:nowrap;
+}
+
+.messageBubble{
+    position:relative;
+    padding:11px 13px;
+    border-radius:4px 16px 16px 16px;
+    background:#161616;
+    border:1px solid #2a2a2a;
+    overflow:hidden;
+}
+
+.messageBubble.own{
+    background:#1d0808;
+    border-color:#4c1515;
+}
+
+.messageText{
+    font-family:Arial,sans-serif;
+    font-size:13px;
+    line-height:1.5;
+    color:#e8e8e8;
+    word-break:break-word;
+}
+
+.systemMessage{
+    margin:8px 0 16px;
+    padding:10px 13px;
+    border-radius:14px;
+    text-align:center;
+    background:#121212;
+    border:1px solid #282828;
+    color:#aaa;
+    font-size:10px;
+    line-height:1.5;
+}
+
+.allMessage{
+    border-color:#750000;
+    box-shadow:0 0 15px rgba(255,0,0,.08);
+}
+
+/* REPLY */
+
+.replyPreview{
+    display:flex;
+    gap:8px;
+    align-items:flex-start;
+    padding:9px;
+    margin-bottom:9px;
+    border-radius:11px;
+    background:#101010;
+    border-left:3px solid #ff3030;
+}
+
+.replyPreview span{
+    font-size:18px;
+    color:#ff5555;
+}
+
+.replyPreview div{
+    min-width:0;
+}
+
+.replyPreview b,
+.replyPreview p{
+    display:block;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.replyPreview b{
+    font-size:10px;
+    color:#ff6666;
+    margin-bottom:4px;
+}
+
+.replyPreview p{
+    font-family:Arial,sans-serif;
+    font-size:11px;
+    color:#aaa;
+}
+
+/* IMAGE MESSAGE */
+
+.imageMessage{
+    margin-top:9px;
+}
+
+.imageSquare{
+    width:150px;
+    height:150px;
+    max-width:100%;
+    border-radius:14px;
+    overflow:hidden;
+    background:#0d0d0d;
+    border:1px solid #333;
+    position:relative;
+}
+
+.imageSquare img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.previewImageBtn{
+    width:100%;
+    height:35px;
+    margin-top:8px;
+    border-radius:10px;
+    border:1px solid #444;
+    background:#202020;
+    color:#ddd;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    cursor:pointer;
+    font-size:9px;
+}
+
+.previewImageBtn span{
+    font-size:17px;
+}
+
+/* ACTIONS */
+
+.messageActions{
+    display:flex;
+    gap:8px;
+    margin-top:8px;
+}
+
+.msgAction{
+    height:30px;
+    padding:0 10px;
+    border:none;
+    border-radius:10px;
+    background:#181818;
+    color:#888;
+    display:flex;
+    align-items:center;
+    gap:5px;
+    font-size:8px;
+    cursor:pointer;
+}
+
+.msgAction span{
+    font-size:16px;
+}
+
+.msgAction.delete{
+    color:#ff6666;
+}
+
+/* EMPTY */
+
+.emptyChat{
+    min-height:55%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:#666;
+    text-align:center;
+    padding:25px;
+}
+
+.emptyChat span{
+    font-size:55px;
+    color:#3a3a3a;
+}
+
+.emptyChat h3{
+    margin-top:13px;
+    color:#aaa;
+    font-size:13px;
+}
+
+.emptyChat p{
+    margin-top:8px;
+    font-family:Arial,sans-serif;
+    font-size:12px;
+}
+
+/* RULES + CMD */
+
+.infoPanel{
+    padding:16px 14px 35px;
+}
+
+.infoCard{
+    margin-bottom:14px;
+    padding:17px;
+    border-radius:20px;
+    background:#121212;
+    border:1px solid #303030;
+}
+
+.infoTitle{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:14px;
+    color:#ff5555;
+}
+
+.infoTitle span{
+    font-size:24px;
+}
+
+.infoTitle h2{
+    font-size:13px;
+    letter-spacing:1px;
+}
+
+.ruleItem,
+.commandItem{
+    padding:13px 0;
+    border-bottom:1px solid #252525;
+}
+
+.ruleItem:last-child,
+.commandItem:last-child{
+    border-bottom:none;
+}
+
+.ruleItem{
+    display:flex;
+    gap:10px;
+}
+
+.ruleItem > span{
+    color:#ff4444;
+    font-size:20px;
+}
+
+.ruleItem b,
+.commandItem b{
+    display:block;
+    font-size:10px;
+    color:#eee;
+}
+
+.ruleItem p,
+.commandItem p{
+    margin-top:6px;
+    font-family:Arial,sans-serif;
+    font-size:11px;
+    color:#999;
+    line-height:1.45;
+}
+
+.commandItem{
+    display:flex;
+    gap:11px;
+}
+
+.commandIcon{
+    width:35px;
+    height:35px;
+    min-width:35px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:11px;
+    background:#1b1b1b;
+    color:#ff5555;
+}
+
+.commandIcon span{
+    font-size:20px;
+}
+
+.commandItem code{
+    font-family:monospace;
+    color:#ff7777;
+    font-size:11px;
+}
+
+/* COMPOSER */
+
+.composerWrap{
+    background:#0b0b0b;
+    border-top:1px solid #252525;
+    padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+}
+
+.replyBar{
+    display:none;
+    align-items:center;
+    gap:10px;
+    margin-bottom:9px;
+    padding:10px 12px;
+    border-radius:14px;
+    background:#151515;
+    border-left:3px solid #ff3030;
+}
+
+.replyBar.show{
+    display:flex;
+}
+
+.replyBar > span{
+    color:#ff5555;
+}
+
+.replyBarContent{
+    flex:1;
+    min-width:0;
+}
+
+.replyBarContent b,
+.replyBarContent p{
+    display:block;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.replyBarContent b{
+    font-size:9px;
+    color:#ff6666;
+}
+
+.replyBarContent p{
+    margin-top:4px;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    color:#999;
+}
+
+.cancelReply{
+    border:none;
+    background:transparent;
+    color:#999;
+    cursor:pointer;
+}
+
+.inputRow{
+    display:flex;
+    align-items:flex-end;
+    gap:8px;
+}
+
+.inputBtn{
+    width:44px;
+    height:44px;
+    flex:none;
+    border:none;
+    border-radius:14px;
+    background:#171717;
+    border:1px solid #303030;
+    color:#aaa;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+.inputBtn span{
+    font-size:23px;
+}
+
+.inputBox{
+    flex:1;
+    min-width:0;
+    min-height:44px;
+    max-height:110px;
+    overflow-y:auto;
+    padding:12px 13px;
+    border-radius:15px;
+    background:#151515;
+    border:1px solid #333;
+    color:white;
+    outline:none;
+    font-family:Arial,sans-serif;
+    font-size:13px;
+    line-height:1.4;
+}
+
+.inputBox:empty:before{
+    content:attr(data-placeholder);
+    color:#666;
+}
+
+.sendBtn{
+    width:48px;
+    height:44px;
+    flex:none;
+    border:none;
+    border-radius:15px;
+    background:var(--red);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+.sendBtn:disabled{
+    opacity:.45;
+}
+
+.sendBtn span{
+    font-size:23px;
+}
+
+/* SELECTED IMAGE */
+
+.selectedImageBox{
+    display:none;
+    align-items:center;
+    gap:10px;
+    margin-bottom:9px;
+    padding:9px;
+    border-radius:14px;
+    background:#151515;
+    border:1px solid #333;
+}
+
+.selectedImageBox.show{
+    display:flex;
+}
+
+.selectedImageThumb{
+    width:42px;
+    height:42px;
+    min-width:42px;
+    border-radius:8px;
+    overflow:hidden;
+    background:#222;
+}
+
+.selectedImageThumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.selectedImageInfo{
+    flex:1;
+    min-width:0;
+}
+
+.selectedImageInfo b{
+    display:block;
+    font-size:10px;
+    color:#ddd;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.selectedImageInfo p{
+    margin-top:4px;
+    font-size:9px;
+    color:#777;
+}
+
+.removeImageBtn{
+    width:35px;
+    height:35px;
+    border:none;
+    border-radius:10px;
+    background:#211010;
+    color:#ff6666;
+    cursor:pointer;
+}
+
+/* IMAGE MODAL */
+
+.imageModal{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.96);
+    z-index:5000;
+    padding:20px;
+}
+
+.imageModal.show{
+    display:flex;
+}
+
+.imageModal img{
+    max-width:100%;
+    max-height:80vh;
+    object-fit:contain;
+    border-radius:10px;
+}
+
+.closePreview{
+    position:absolute;
+    top:18px;
+    left:18px;
+    width:48px;
+    height:48px;
+    border:none;
+    border-radius:15px;
+    background:#171717;
+    color:white;
+    cursor:pointer;
+}
+
+.closePreview span{
+    font-size:27px;
+}
+
+/* MODAL MENU */
+
+.actionModal{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:flex-end;
+    background:rgba(0,0,0,.65);
+    z-index:4000;
+}
+
+.actionModal.show{
+    display:flex;
+}
+
+.actionSheet{
+    width:100%;
+    padding:18px 14px calc(18px + env(safe-area-inset-bottom));
+    background:#111;
+    border-radius:25px 25px 0 0;
+    border-top:1px solid #333;
+}
+
+.actionSheet h3{
+    margin:5px 7px 14px;
+    font-size:13px;
+}
+
+.modAction{
+    width:100%;
+    height:52px;
+    margin-top:8px;
+    padding:0 15px;
+    border:none;
+    border-radius:15px;
+    background:#181818;
+    color:#ddd;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+    font-family:'Orbitron',sans-serif;
+    font-size:10px;
+    text-align:left;
+}
+
+.modAction span{
+    color:#ff5555;
+}
+
+.modAction.danger{
+    color:#ff7777;
+    background:#240707;
+    border:1px solid #5a1515;
+}
+
+@media(max-width:430px){
+
+    .messageName{
+        max-width:58%;
+    }
+
+    .tab{
+        min-width:94px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<div class="app">
+
+<header>
+
+<button class="backBtn"
+onclick="location.href='dashboard/dashboard.html'">
+<span class="material-symbols-outlined">
+arrow_back
+</span>
+</button>
+
+<div class="chatHeadIcon">
+<span class="material-symbols-outlined">forum</span>
+</div>
+
+<div class="headerText">
+<h1>GLOBAL CHAT</h1>
+<p>
+<span class="onlineDot"></span>
+<span id="onlineText">Realtime Chat</span>
+</p>
+</div>
+
+</header>
+
+
+<div class="tabs">
+
+<button class="tab active" data-tab="chatPanel">
+<span class="material-symbols-outlined">forum</span>
+CHAT
+</button>
+
+<button class="tab" data-tab="rulesPanel">
+<span class="material-symbols-outlined">gavel</span>
+RULES
+</button>
+
+<button class="tab" data-tab="cmdPanel">
+<span class="material-symbols-outlined">terminal</span>
+CMD
+</button>
+
+</div>
+
+
+<div class="pageContent">
+
+<!-- CHAT -->
+
+<section class="panel active" id="chatPanel">
+
+<div class="chatArea" id="chatArea">
+
+<div class="pinnedBox" id="pinnedBox">
+
+<span class="material-symbols-outlined">push_pin</span>
+
+<div class="pinnedContent">
+<b id="pinnedUser">PINNED MESSAGE</b>
+<p id="pinnedText">Belum ada pesan yang dipin.</p>
+</div>
+
+<button class="unpinBtn"
+id="unpinBtn"
+title="Lepas pin">
+<span class="material-symbols-outlined">close</span>
+</button>
+
+</div>
+
+<div id="messages">
+
+<div class="emptyChat">
+<span class="material-symbols-outlined">forum</span>
+<h3>MEMUAT GLOBAL CHAT</h3>
+<p>Menunggu pesan realtime...</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- RULES -->
+
+<section class="panel" id="rulesPanel">
+
+<div class="infoPanel">
+
+<div class="infoCard">
+
+<div class="infoTitle">
+<span class="material-symbols-outlined">gavel</span>
+<h2>GLOBAL CHAT RULES</h2>
+</div>
+
+<div class="ruleItem">
+<span class="material-symbols-outlined">verified</span>
+<div>
+<b>HORMATI SEMUA USER</b>
+<p>Jangan melakukan penghinaan, ancaman, atau spam kepada user lain.</p>
+</div>
+</div>
+
+<div class="ruleItem">
+<span class="material-symbols-outlined">block</span>
+<div>
+<b>DILARANG SPAM</b>
+<p>Pesan berulang dapat menyebabkan warning atau mute.</p>
+</div>
+</div>
+
+<div class="ruleItem">
+<span class="material-symbols-outlined">image</span>
+<div>
+<b>GUNAKAN FOTO DENGAN BIJAK</b>
+<p>Gunakan fitur kirim gambar sesuai aturan komunitas.</p>
+</div>
+</div>
+
+<div class="ruleItem">
+<span class="material-symbols-outlined">shield</span>
+<div>
+<b>IKUTI MODERASI</b>
+<p>Owner dan Developer dapat melakukan moderasi sesuai hierarchy sistem.</p>
+</div>
+</div>
+
+</div>
+
+<div class="infoCard">
+
+<div class="infoTitle">
+<span class="material-symbols-outlined">info</span>
+<h2>HIERARCHY</h2>
+</div>
+
+<div class="commandItem">
+<div class="commandIcon">
+<span class="material-symbols-outlined">workspace_premium</span>
+</div>
+<div>
+<b>OWNER</b>
+<p>Akses moderasi tertinggi.</p>
+</div>
+</div>
+
+<div class="commandItem">
+<div class="commandIcon">
+<span class="material-symbols-outlined">code</span>
+</div>
+<div>
+<b>DEVELOPER</b>
+<p>Dapat moderasi User, tetapi tidak dapat moderasi Owner atau Developer lain.</p>
+</div>
+</div>
+
+<div class="commandItem">
+<div class="commandIcon">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<b>USER</b>
+<p>Menggunakan command umum dan fitur global chat.</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- COMMAND -->
+
+<section class="panel" id="cmdPanel">
+
+<div class="infoPanel">
+
+<div class="infoCard">
+
+<div class="infoTitle">
+<span class="material-symbols-outlined">person</span>
+<h2>COMMAND USER</h2>
+</div>
+
+<div class="commandItem">
+<div class="commandIcon">
+<span class="material-symbols-outlined">help</span>
+</div>
+<div>
+<b><code>/help</code></b>
+<p>Menampilkan bantuan command.</p>
+</div>
+</div>
+
+<div class="commandItem">
+<div class="commandIcon">
+<span class="material-symbols-outlined">casino</span>
+</div>
+<div>
+<b><code>/roll</code></b>
+<p>Mengacak angka dari 1 sampai 100.</p>
+</div>
+</div>
+
+<div class="commandItem">
+<div class="commandIcon">
+<span class="material-symbols-outlined">face</span>
+</div>
+<div>
+<b><code>/me pesan</code></b>
+<p>Mengirim status aksi.</p>
+</div>
+</div>
+
+<div class="commandItem">
+<div class="commandIcon">
+<span class="material-symbols-outlined">attach_money</span>
+</div>
+<div>
+<b><code>/coin</code></b>
+<p>Lempar koin secara acak.</p>
+</div>
+</div>
+
+</div>
+
+
+<div class="infoCard">
+
+<div class="infoTitle">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+<h2>DEVELOPER / OWNER</h2>
+</div>
+
+<div class="commandItem">
+<div class="commandIcon">
+<span class="material-symbols-outlined">push_pin</span>
+</div>
+<div>
+<b><code>/pin</code></b>
+<p>Balas pesan terlebih dahulu, lalu kirim /pin.</p>
+</div>
+</div>
+
+<div class="commandItem">
+<div class="commandIcon">
+<span class="material-symbols-outlined">timer</span>
+</div>
+<div>
+<b><code>/setcd 5</code></b>
+<p>Mengatur cooldown global chat dalam detik.</p>
+</div>
+</div>
+
+<div class="commandItem">
+<div class="commandIcon">
+<span class="material-symbols-outlined">block</span>
+</div>
+<div>
+<b><code>/ban @username</code></b>
+<p>Memblokir user dari global chat secara permanen.</p>
+</div>
+</div>
+
+<div class="commandItem">
+<div class="commandIcon">
+<span class="material-symbols-outlined">lock_open</span>
+</div>
+<div>
+<b><code>/unban @username</code></b>
+<p>Membuka blokir user dari global chat.</p>
+</div>
+</div>
+
+<div class="commandItem">
+<div class="commandIcon">
+<span class="material-symbols-outlined">volume_off</span>
+</div>
+<div>
+<b><code>/mute @username 10</code></b>
+<p>Mute user biasa selama jumlah menit tertentu.</p>
+</div>
+</div>
+
+<div class="commandItem">
+<div class="commandIcon">
+<span class="material-symbols-outlined">volume_up</span>
+</div>
+<div>
+<b><code>/unmute @username</code></b>
+<p>Membuka mute user.</p>
+</div>
+</div>
+
+<div class="commandItem">
+<div class="commandIcon">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<div>
+<b><code>/warn @username</code></b>
+<p>Memberikan warning kepada user biasa.</p>
+</div>
+</div>
+
+<div class="commandItem">
+<div class="commandIcon">
+<span class="material-symbols-outlined">group</span>
+</div>
+<div>
+<b><code>/all pesan</code></b>
+<p>Mengirim pengumuman/tag untuk seluruh user global chat.</p>
+</div>
+</div>
+
+<div class="commandItem">
+<div class="commandIcon">
+<span class="material-symbols-outlined">delete_sweep</span>
+</div>
+<div>
+<b><code>/clear</code></b>
+<p>Owner dapat menghapus seluruh pesan global chat.</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+
+<!-- INPUT -->
+
+<div class="composerWrap" id="composerWrap">
+
+<div class="replyBar" id="replyBar">
+
+<span class="material-symbols-outlined">reply</span>
+
+<div class="replyBarContent">
+<b id="replyName">Membalas pesan</b>
+<p id="replyText">...</p>
+</div>
+
+<button class="cancelReply" id="cancelReply">
+<span class="material-symbols-outlined">close</span>
+</button>
+
+</div>
+
+
+<div class="selectedImageBox" id="selectedImageBox">
+
+<div class="selectedImageThumb">
+<img id="selectedImageThumb">
+</div>
+
+<div class="selectedImageInfo">
+<b id="selectedImageName">image.jpg</b>
+<p>Foto siap dikirim</p>
+</div>
+
+<button class="removeImageBtn"
+id="removeImageBtn">
+<span class="material-symbols-outlined">close</span>
+</button>
+
+</div>
+
+
+<div class="inputRow">
+
+<input type="file"
+id="imageInput"
+accept="image/*"
+hidden>
+
+<button class="inputBtn"
+id="imageBtn">
+<span class="material-symbols-outlined">
+add_photo_alternate
+</span>
+</button>
+
+<div id="messageInput"
+class="inputBox"
+contenteditable="true"
+data-placeholder="Tulis pesan..."></div>
+
+<button class="sendBtn"
+id="sendBtn">
+<span class="material-symbols-outlined">
+send
+</span>
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- IMAGE PREVIEW -->
+
+<div class="imageModal" id="imageModal">
+
+<button class="closePreview"
+id="closePreview">
+<span class="material-symbols-outlined">
+arrow_back
+</span>
+</button>
+
+<img id="fullPreviewImage">
+
+</div>
+
+
+<!-- MODERATION ACTION -->
+
+<div class="actionModal" id="actionModal">
+
+<div class="actionSheet">
+
+<h3 id="actionTitle">PILIH AKSI</h3>
+
+<button class="modAction"
+id="replyAction">
+<span class="material-symbols-outlined">reply</span>
+Balas Pesan
+</button>
+
+<button class="modAction"
+id="pinAction">
+<span class="material-symbols-outlined">push_pin</span>
+Pin Pesan
+</button>
+
+<button class="modAction"
+id="warnAction">
+<span class="material-symbols-outlined">warning</span>
+Warn User
+</button>
+
+<button class="modAction"
+id="muteAction">
+<span class="material-symbols-outlined">volume_off</span>
+Mute User
+</button>
+
+<button class="modAction danger"
+id="banAction">
+<span class="material-symbols-outlined">block</span>
+Ban User
+</button>
+
+<button class="modAction danger"
+id="deleteAction">
+<span class="material-symbols-outlined">delete</span>
+Hapus Pesan
+</button>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+get,
+set,
+push,
+onValue,
+update,
+remove,
+query,
+orderByChild
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+
+const firebaseConfig={
+
+apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+
+authDomain:"project-coding-gabut.firebaseapp.com",
+
+databaseURL:
+"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+projectId:"project-coding-gabut",
+
+storageBucket:
+"project-coding-gabut.firebasestorage.app",
+
+messagingSenderId:"234910334669",
+
+appId:
+"1:234910334669:web:5203c9e9ce22a596f2b384"
+
+};
+
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getDatabase(app);
+
+
+/* ELEMENT */
+
+const chatArea=document.getElementById("chatArea");
+const messages=document.getElementById("messages");
+const messageInput=document.getElementById("messageInput");
+const sendBtn=document.getElementById("sendBtn");
+
+const imageInput=document.getElementById("imageInput");
+const imageBtn=document.getElementById("imageBtn");
+
+const selectedImageBox=
+document.getElementById("selectedImageBox");
+
+const selectedImageThumb=
+document.getElementById("selectedImageThumb");
+
+const selectedImageName=
+document.getElementById("selectedImageName");
+
+const removeImageBtn=
+document.getElementById("removeImageBtn");
+
+const replyBar=document.getElementById("replyBar");
+const replyName=document.getElementById("replyName");
+const replyText=document.getElementById("replyText");
+
+const pinnedBox=document.getElementById("pinnedBox");
+
+const imageModal=document.getElementById("imageModal");
+const fullPreviewImage=
+document.getElementById("fullPreviewImage");
+
+
+/* STATE */
+
+let currentUser=null;
+let currentUserData={};
+
+let selectedImage=null;
+
+let selectedImageData="";
+
+let replyingMessage=null;
+
+let actionMessage=null;
+
+let allMessages={};
+
+let chatSettings={
+cooldown:0
+};
+
+
+/* ROLE */
+
+function normalizeRole(role){
+
+return String(role || "user")
+.toLowerCase()
+.trim();
+
+}
+
+function isOwner(role){
+
+return normalizeRole(role)==="owner";
+
+}
+
+function isDeveloper(role){
+
+return normalizeRole(role)==="developer";
+
+}
+
+function isStaff(role){
+
+return isOwner(role) ||
+isDeveloper(role);
+
+}
+
+function canModerate(actor,target){
+
+const actorRole=
+normalizeRole(actor.role);
+
+const targetRole=
+normalizeRole(target.role);
+
+
+if(actor.uid===target.uid){
+return false;
+}
+
+
+if(actorRole==="owner"){
+
+return targetRole!=="owner";
+
+}
+
+
+if(actorRole==="developer"){
+
+return !(
+targetRole==="owner" ||
+targetRole==="developer"
+);
+
+}
+
+
+return false;
+
+}
+
+
+/* TABS */
+
+document.querySelectorAll(".tab")
+.forEach(tab=>{
+
+tab.onclick=()=>{
+
+document.querySelectorAll(".tab")
+.forEach(t=>t.classList.remove("active"));
+
+document.querySelectorAll(".panel")
+.forEach(p=>p.classList.remove("active"));
+
+tab.classList.add("active");
+
+document.getElementById(
+tab.dataset.tab
+).classList.add("active");
+
+};
+
+});
+
+
+/* DATE */
+
+function dateLabel(timestamp){
+
+const d=new Date(timestamp);
+
+const today=new Date();
+
+today.setHours(0,0,0,0);
+
+const yesterday=new Date(today);
+
+yesterday.setDate(
+yesterday.getDate()-1
+);
+
+const target=new Date(d);
+
+target.setHours(0,0,0,0);
+
+
+if(target.getTime()===today.getTime()){
+
+return "SEKARANG";
+
+}
+
+
+if(target.getTime()===yesterday.getTime()){
+
+return "KEMARIN";
+
+}
+
+
+return d.toLocaleDateString(
+"id-ID",
+{
+day:"numeric",
+month:"long",
+year:"numeric"
+}
+).toUpperCase();
+
+}
+
+
+function formatTime(timestamp){
+
+return new Date(timestamp)
+.toLocaleTimeString(
+"id-ID",
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+}
+
+
+/* IMAGE COMPRESS */
+
+function compressImage(file){
+
+return new Promise((resolve,reject)=>{
+
+const reader=new FileReader();
+
+reader.onload=e=>{
+
+const img=new Image();
+
+img.onload=()=>{
+
+const max=1000;
+
+let w=img.width;
+let h=img.height;
+
+
+if(w>max || h>max){
+
+if(w>h){
+
+h=h*(max/w);
+w=max;
+
+}else{
+
+w=w*(max/h);
+h=max;
+
+}
+
+}
+
+
+const canvas=
+document.createElement("canvas");
+
+canvas.width=w;
+canvas.height=h;
+
+const ctx=canvas.getContext("2d");
+
+ctx.drawImage(img,0,0,w,h);
+
+resolve(
+canvas.toDataURL(
+"image/jpeg",
+0.78
+)
+);
+
+};
+
+
+img.onerror=reject;
+
+img.src=e.target.result;
+
+};
+
+
+reader.onerror=reject;
+
+reader.readAsDataURL(file);
+
+});
+
+}
+
+
+/* IMAGE SELECT */
+
+imageBtn.onclick=()=>{
+
+imageInput.click();
+
+};
+
+
+imageInput.onchange=async()=>{
+
+const file=imageInput.files[0];
+
+if(!file) return;
+
+
+if(file.size>8*1024*1024){
+
+alert("Ukuran foto maksimal 8MB.");
+
+return;
+
+}
+
+
+selectedImage=file;
+
+selectedImageName.textContent=file.name;
+
+selectedImageData=
+await compressImage(file);
+
+selectedImageThumb.src=
+selectedImageData;
+
+selectedImageBox.classList.add("show");
+
+};
+
+
+removeImageBtn.onclick=()=>{
+
+selectedImage=null;
+
+selectedImageData="";
+
+imageInput.value="";
+
+selectedImageBox.classList.remove("show");
+
+};
+
+
+/* REPLY */
+
+function setReply(message){
+
+replyingMessage=message;
+
+replyName.textContent=
+message.username || "Unknown";
+
+replyText.textContent=
+message.message ||
+(message.image ? "📷 Foto" : "...");
+
+replyBar.classList.add("show");
+
+messageInput.focus();
+
+}
+
+
+function clearReply(){
+
+replyingMessage=null;
+
+replyBar.classList.remove("show");
+
+}
+
+
+document.getElementById("cancelReply")
+.onclick=clearReply;
+
+
+/* PINNED */
+
+onValue(
+ref(db,"globalChatPinned"),
+snap=>{
+
+if(!snap.exists()){
+
+pinnedBox.classList.remove("show");
+
+return;
+
+}
+
+
+const pin=snap.val();
+
+document.getElementById("pinnedUser")
+.textContent=
+"PIN • "+(pin.username || "UNKNOWN");
+
+document.getElementById("pinnedText")
+.textContent=
+pin.message ||
+(pin.image ? "📷 Foto" : "Pesan");
+
+pinnedBox.classList.add("show");
+
+}
+);
+
+
+document.getElementById("unpinBtn")
+.onclick=async()=>{
+
+if(!isStaff(currentUserData.role)){
+
+alert("Hanya Developer atau Owner.");
+
+return;
+
+}
+
+
+if(!confirm("Lepas pin pesan?")) return;
+
+await remove(
+ref(db,"globalChatPinned")
+);
+
+};
+
+
+/* SETTINGS */
+
+onValue(
+ref(db,"globalChatSettings"),
+snap=>{
+
+if(snap.exists()){
+
+chatSettings={
+...chatSettings,
+...snap.val()
+};
+
+}
+
+}
+);
+
+
+/* BANNED CHECK */
+
+async function getBanData(uid){
+
+const snap=await get(
+ref(db,"globalChatModeration/banned/"+uid)
+);
+
+return snap.exists() ?
+snap.val() :
+null;
+
+}
+
+
+async function getMuteData(uid){
+
+const snap=await get(
+ref(db,"globalChatModeration/muted/"+uid)
+);
+
+return snap.exists() ?
+snap.val() :
+null;
+
+}
+
+
+/* USER LOOKUP */
+
+async function findUser(username){
+
+const target=
+String(username || "")
+.replace(/^@/,"")
+.toLowerCase()
+.trim();
+
+
+const snap=await get(
+ref(db,"users")
+);
+
+
+if(!snap.exists()) return null;
+
+
+let found=null;
+
+
+snap.forEach(child=>{
+
+const d=child.val();
+
+const name=
+String(
+d.username ||
+""
+).toLowerCase();
+
+
+if(name===target){
+
+found={
+uid:child.key,
+...d
+};
+
+}
+
+});
+
+
+return found;
+
+}
+
+
+/* COMMAND */
+
+async function executeCommand(text){
+
+const parts=text.trim().split(/\s+/);
+
+const command=
+parts[0].toLowerCase();
+
+const argument=
+parts.slice(1).join(" ");
+
+
+if(command==="/help"){
+
+return {
+type:"system",
+message:
+"Command: /help, /roll, /coin, /me"
+};
+
+}
+
+
+if(command==="/roll"){
+
+return {
+type:"message",
+message:
+"🎲 Mengacak angka: "+
+(Math.floor(Math.random()*100)+1)
+};
+
+}
+
+
+if(command==="/coin"){
+
+return {
+type:"message",
+message:
+"🪙 "+
+(Math.random()>0.5 ?
+"HEADS" :
+"TAILS")
+};
+
+}
+
+
+if(command==="/me"){
+
+if(!argument){
+
+alert("Gunakan: /me pesan");
+
+return {cancel:true};
+
+}
+
+
+return {
+type:"message",
+message:
+"✦ "+currentUserData.username+
+" "+argument
+};
+
+}
+
+
+if(command==="/pin"){
+
+if(!isStaff(currentUserData.role)){
+
+alert("Command ini hanya Developer & Owner.");
+
+return {cancel:true};
+
+}
+
+
+if(!replyingMessage){
+
+alert(
+"Balas pesan terlebih dahulu lalu kirim /pin."
+);
+
+return {cancel:true};
+
+}
+
+
+await set(
+ref(db,"globalChatPinned"),
+{
+messageId:replyingMessage.id,
+username:replyingMessage.username,
+message:replyingMessage.message || "",
+image:replyingMessage.image || "",
+pinnedBy:currentUser.uid,
+time:Date.now()
+}
+);
+
+
+clearReply();
+
+return {
+cancel:true
+};
+
+}
+
+
+if(command==="/setcd"){
+
+if(!isStaff(currentUserData.role)){
+
+alert("Hanya Developer & Owner.");
+
+return {cancel:true};
+
+}
+
+
+const seconds=
+Number(parts[1]);
+
+
+if(
+isNaN(seconds) ||
+seconds<0 ||
+seconds>3600
+){
+
+alert(
+"Gunakan: /setcd jumlahDetik"
+);
+
+return {cancel:true};
+
+}
+
+
+await update(
+ref(db,"globalChatSettings"),
+{
+cooldown:seconds
+}
+);
+
+
+alert(
+"Cooldown diatur ke "+
+seconds+" detik."
+);
+
+return {cancel:true};
+
+}
+
+
+if(command==="/all"){
+
+if(!isStaff(currentUserData.role)){
+
+alert(
+"Hanya Developer & Owner."
+);
+
+return {cancel:true};
+
+}
+
+
+if(!argument){
+
+alert(
+"Gunakan: /all pesan"
+);
+
+return {cancel:true};
+
+}
+
+
+return {
+type:"all",
+message:
+"📢 @ALL\n"+argument
+};
+
+}
+
+
+if(command==="/ban"){
+
+if(!isStaff(currentUserData.role)){
+
+alert(
+"Hanya Developer & Owner."
+);
+
+return {cancel:true};
+
+}
+
+
+const target=
+await findUser(parts[1]);
+
+
+if(!target){
+
+alert("User tidak ditemukan.");
+
+return {cancel:true};
+
+}
+
+
+if(!canModerate(
+currentUserData,
+target
+)){
+
+alert(
+"Kamu tidak memiliki izin untuk ban user ini."
+);
+
+return {cancel:true};
+
+}
+
+
+await set(
+ref(
+db,
+"globalChatModeration/banned/"+target.uid
+),
+{
+by:currentUser.uid,
+reason:"Banned oleh "+currentUserData.username,
+time:Date.now(),
+permanent:true
+}
+);
+
+
+return {
+type:"system",
+message:
+"⛔ @"+target.username+
+" telah dibanned dari Global Chat."
+};
+
+}
+
+
+if(command==="/unban"){
+
+if(!isStaff(currentUserData.role)){
+
+alert(
+"Hanya Developer & Owner."
+);
+
+return {cancel:true};
+
+}
+
+
+const target=
+await findUser(parts[1]);
+
+
+if(!target){
+
+alert("User tidak ditemukan.");
+
+return {cancel:true};
+
+}
+
+
+await remove(
+ref(
+db,
+"globalChatModeration/banned/"+target.uid
+)
+);
+
+
+return {
+type:"system",
+message:
+"🔓 @"+target.username+
+" telah di-unban."
+};
+
+}
+
+
+if(command==="/mute"){
+
+if(!isStaff(currentUserData.role)){
+
+alert(
+"Hanya Developer & Owner."
+);
+
+return {cancel:true};
+
+}
+
+
+const target=
+await findUser(parts[1]);
+
+const minutes=
+Number(parts[2] || 10);
+
+
+if(!target){
+
+alert("User tidak ditemukan.");
+
+return {cancel:true};
+
+}
+
+
+if(
+!canModerate(
+currentUserData,
+target
+)
+){
+
+alert(
+"Kamu tidak dapat mute user ini."
+);
+
+return {cancel:true};
+
+}
+
+
+const until=
+Date.now()+
+(minutes*60*1000);
+
+
+await set(
+ref(
+db,
+"globalChatModeration/muted/"+target.uid
+),
+{
+by:currentUser.uid,
+time:Date.now(),
+until
+}
+);
+
+
+return {
+type:"system",
+message:
+"🔇 @"+target.username+
+" dimute selama "+
+minutes+" menit."
+};
+
+}
+
+
+if(command==="/unmute"){
+
+if(!isStaff(currentUserData.role)){
+
+alert(
+"Hanya Developer & Owner."
+);
+
+return {cancel:true};
+
+}
+
+
+const target=
+await findUser(parts[1]);
+
+
+if(!target){
+
+alert("User tidak ditemukan.");
+
+return {cancel:true};
+
+}
+
+
+if(
+!canModerate(
+currentUserData,
+target
+)
+){
+
+alert(
+"Kamu tidak dapat mengubah mute user ini."
+);
+
+return {cancel:true};
+
+}
+
+
+await remove(
+ref(
+db,
+"globalChatModeration/muted/"+target.uid
+)
+);
+
+
+return {
+type:"system",
+message:
+"🔊 @"+target.username+
+" telah di-unmute."
+};
+
+}
+
+
+if(command==="/warn"){
+
+if(!isStaff(currentUserData.role)){
+
+alert(
+"Hanya Developer & Owner."
+);
+
+return {cancel:true};
+
+}
+
+
+const target=
+await findUser(parts[1]);
+
+
+if(!target){
+
+alert("User tidak ditemukan.");
+
+return {cancel:true};
+
+}
+
+
+if(
+!canModerate(
+currentUserData,
+target
+)
+){
+
+alert(
+"Kamu tidak dapat warn user ini."
+);
+
+return {cancel:true};
+
+}
+
+
+const warningRef=
+push(
+ref(
+db,
+"globalChatModeration/warnings/"+target.uid
+)
+);
+
+
+await set(
+warningRef,
+{
+by:currentUser.uid,
+time:Date.now()
+}
+);
+
+
+return {
+type:"system",
+message:
+"⚠️ @"+target.username+
+" menerima warning."
+};
+
+}
+
+
+if(command==="/clear"){
+
+if(!isOwner(currentUserData.role)){
+
+alert(
+"/clear hanya untuk Owner."
+);
+
+return {cancel:true};
+
+}
+
+
+if(!confirm(
+"Hapus seluruh pesan Global Chat?"
+)){
+
+return {cancel:true};
+
+}
+
+
+await remove(
+ref(db,"globalChat")
+);
+
+return {cancel:true};
+
+}
+
+
+return null;
+
+}
+
+
+/* SEND */
+
+async function sendMessage(){
+
+if(!currentUser) return;
+
+
+let text=
+messageInput.innerText
+.trim();
+
+
+if(!text && !selectedImageData){
+
+return;
+
+}
+
+
+/* BAN + MUTE */
+
+if(!isStaff(currentUserData.role)){
+
+const ban=
+await getBanData(currentUser.uid);
+
+
+if(ban){
+
+alert(
+"Kamu telah dibanned dari Global Chat."
+);
+
+return;
+
+}
+
+
+const mute=
+await getMuteData(currentUser.uid);
+
+
+if(
+mute &&
+Number(mute.until)>Date.now()
+){
+
+const mins=Math.ceil(
+(Number(mute.until)-Date.now())
+/60000
+);
+
+alert(
+"Kamu sedang mute sekitar "+
+mins+" menit."
+);
+
+return;
+
+}
+
+
+if(
+mute &&
+Number(mute.until)<=Date.now()
+){
+
+await remove(
+ref(
+db,
+"globalChatModeration/muted/"+currentUser.uid
+)
+);
+
+}
+
+}
+
+
+/* COOLDOWN */
+
+if(
+!isStaff(currentUserData.role) &&
+Number(chatSettings.cooldown)>0
+){
+
+const lastTime=
+Number(
+currentUserData.lastChatTime || 0
+);
+
+const wait=
+Number(chatSettings.cooldown)*1000;
+
+const diff=
+Date.now()-lastTime;
+
+
+if(diff<wait){
+
+const remain=
+Math.ceil(
+(wait-diff)/1000
+);
+
+alert(
+"Tunggu "+remain+
+" detik sebelum mengirim lagi."
+);
+
+return;
+
+}
+
+}
+
+
+/* COMMAND */
+
+let commandResult=null;
+
+if(text.startsWith("/")){
+
+commandResult=
+await executeCommand(text);
+
+
+if(commandResult?.cancel){
+
+messageInput.innerHTML="";
+
+return;
+
+}
+
+
+if(commandResult){
+
+text=commandResult.message;
+
+}
+
+}
+
+
+const newRef=
+push(ref(db,"globalChat"));
+
+
+const payload={
+
+uid:currentUser.uid,
+
+username:
+currentUserData.username,
+
+role:
+currentUserData.role || "User",
+
+profileImage:
+currentUserData.profileImage ||
+currentUserData.photoURL ||
+currentUserData.avatar ||
+"",
+
+message:text,
+
+image:selectedImageData || "",
+
+imageName:
+selectedImage ?
+selectedImage.name :
+"",
+
+timestamp:Date.now(),
+
+type:
+commandResult?.type ||
+"message"
+
+};
+
+
+/* REPLY */
+
+if(replyingMessage){
+
+payload.replyTo={
+
+id:replyingMessage.id,
+
+username:
+replyingMessage.username ||
+"Unknown",
+
+message:
+replyingMessage.message ||
+(replyingMessage.image ?
+"📷 Foto" :
+"")
+
+};
+
+}
+
+
+/* SAVE */
+
+await set(
+newRef,
+payload
+);
+
+
+await update(
+ref(
+db,
+"users/"+currentUser.uid
+),
+{
+lastChatTime:Date.now()
+}
+);
+
+
+/* RESET */
+
+messageInput.innerHTML="";
+
+selectedImage=null;
+
+selectedImageData="";
+
+imageInput.value="";
+
+selectedImageBox.classList.remove("show");
+
+clearReply();
+
+setTimeout(()=>{
+
+chatArea.scrollTop=
+chatArea.scrollHeight;
+
+},80);
+
+}
+
+
+sendBtn.onclick=sendMessage;
+
+
+/* ENTER */
+
+messageInput.addEventListener(
+"keydown",
+e=>{
+
+if(
+e.key==="Enter" &&
+!e.shiftKey
+){
+
+e.preventDefault();
+
+sendMessage();
+
+}
+
+}
+);
+
+
+/* INPUT HEIGHT */
+
+messageInput.addEventListener(
+"input",
+()=>{
+
+messageInput.style.height="auto";
+
+}
+);
+
+
+/* KEYBOARD VISUAL VIEWPORT */
+
+if(window.visualViewport){
+
+const viewport=
+window.visualViewport;
+
+const app=document.querySelector(".app");
+
+const updateViewport=()=>{
+
+app.style.height=
+viewport.height+"px";
+
+};
+
+
+viewport.addEventListener(
+"resize",
+updateViewport
+);
+
+viewport.addEventListener(
+"scroll",
+updateViewport
+);
+
+}
+
+
+/* MESSAGE RENDER */
+
+function escapeHtml(text){
+
+const div=
+document.createElement("div");
+
+div.textContent=text || "";
+
+return div.innerHTML;
+
+}
+
+
+function createAvatar(data){
+
+if(data.profileImage){
+
+return `
+<img
+src="${data.profileImage}"
+alt="Profile"
+>`;
+
+}
+
+
+return `
+<span class="material-symbols-outlined">
+person
+</span>`;
+
+}
+
+
+function createMessageElement(
+id,
+data
+){
+
+const el=
+document.createElement("div");
+
+el.className=
+data.type==="system" ?
+"systemMessage" :
+"message";
+
+
+el.dataset.id=id;
+
+
+/* SYSTEM */
+
+if(data.type==="system"){
+
+el.textContent=data.message || "";
+
+return el;
+
+}
+
+
+if(data.type==="all"){
+
+el.classList.add("allMessage");
+
+}
+
+
+const own=
+data.uid===currentUser?.uid;
+
+
+const safeName=
+escapeHtml(data.username);
+
+
+const safeMessage=
+escapeHtml(data.message);
+
+
+const roleClass=
+normalizeRole(data.role);
+
+
+const replyHtml=
+data.replyTo ?
+`
+<div class="replyPreview">
+
+<span class="material-symbols-outlined">
+reply
+</span>
+
+<div>
+<b>
+${escapeHtml(
+data.replyTo.username
+)}
+</b>
+
+<p>
+${escapeHtml(
+data.replyTo.message
+)}
+</p>
+</div>
+
+</div>
+`
+:"";
+
+
+const imageHtml=
+data.image ?
+`
+<div class="imageMessage">
+
+<div class="imageSquare">
+<img
+src="${data.image}"
+alt="Foto chat"
+>
+</div>
+
+<button
+class="previewImageBtn"
+data-preview="${id}"
+>
+<span class="material-symbols-outlined">
+fullscreen
+</span>
+PREVIEW FULL
+</button>
+
+</div>
+`
+:"";
+
+
+let actions=`
+<button
+class="msgAction"
+data-reply="${id}"
+>
+<span class="material-symbols-outlined">
+reply
+</span>
+BALAS
+</button>
+`;
+
+
+if(own){
+
+actions+=`
+<button
+class="msgAction delete"
+data-delete="${id}"
+>
+<span class="material-symbols-outlined">
+delete
+</span>
+HAPUS
+</button>
+`;
+
+}
+
+
+if(
+isStaff(currentUserData.role) &&
+!own
+){
+
+actions+=`
+<button
+class="msgAction"
+data-action="${id}"
+>
+<span class="material-symbols-outlined">
+more_horiz
+</span>
+AKSI
+</button>
+`;
+
+}
+
+
+el.innerHTML=`
+
+<div class="messageAvatar">
+${createAvatar(data)}
+</div>
+
+<div class="messageBody">
+
+<div class="messageTop">
+
+<b class="messageName">
+${safeName}
+</b>
+
+<span class="roleBadge ${roleClass}">
+${escapeHtml(
+data.role || "User"
+)}
+</span>
+
+<span class="messageTime">
+${formatTime(
+data.timestamp
+)}
+</span>
+
+</div>
+
+<div class="messageBubble ${own ? "own" : ""}">
+
+${replyHtml}
+
+${safeMessage ?
+`
+<div class="messageText">
+${safeMessage.replace(
+/\n/g,
+"<br>"
+)}
+</div>
+`
+:""}
+
+${imageHtml}
+
+</div>
+
+<div class="messageActions">
+${actions}
+</div>
+
+</div>
+`;
+
+
+return el;
+
+}
+
+
+/* RENDER */
+
+function renderMessages(){
+
+messages.innerHTML="";
+
+
+const list=
+Object.entries(allMessages)
+.sort(
+(a,b)=>
+Number(a[1].timestamp)-
+Number(b[1].timestamp)
+);
+
+
+if(!list.length){
+
+messages.innerHTML=`
+<div class="emptyChat">
+
+<span class="material-symbols-outlined">
+forum
+</span>
+
+<h3>BELUM ADA PESAN</h3>
+
+<p>
+Mulai percakapan pertama di Global Chat.
+</p>
+
+</div>
+`;
+
+return;
+
+}
+
+
+let lastDate="";
+
+
+list.forEach(
+([id,data])=>{
+
+const label=
+dateLabel(
+data.timestamp || Date.now()
+);
+
+
+if(label!==lastDate){
+
+const divider=
+document.createElement("div");
+
+divider.className=
+"dateDivider";
+
+divider.innerHTML=
+`<span>${label}</span>`;
+
+messages.appendChild(divider);
+
+lastDate=label;
+
+}
+
+
+data.id=id;
+
+messages.appendChild(
+createMessageElement(
+id,
+data
+)
+);
+
+}
+);
+
+
+attachMessageEvents();
+
+}
+
+
+/* EVENTS */
+
+function attachMessageEvents(){
+
+document.querySelectorAll("[data-reply]")
+.forEach(btn=>{
+
+btn.onclick=()=>{
+
+const id=
+btn.dataset.reply;
+
+const data=
+allMessages[id];
+
+if(!data) return;
+
+setReply({
+id,
+...data
+});
+
+};
+
+});
+
+
+document.querySelectorAll("[data-delete]")
+.forEach(btn=>{
+
+btn.onclick=async()=>{
+
+const id=
+btn.dataset.delete;
+
+const data=
+allMessages[id];
+
+if(
+!data ||
+data.uid!==currentUser.uid
+){
+
+return;
+
+}
+
+
+if(!confirm(
+"Hapus pesan ini untuk semua orang?"
+)){
+
+return;
+
+}
+
+
+await remove(
+ref(
+db,
+"globalChat/"+id
+)
+);
+
+};
+
+});
+
+
+document.querySelectorAll("[data-preview]")
+.forEach(btn=>{
+
+btn.onclick=()=>{
+
+const data=
+allMessages[
+btn.dataset.preview
+];
+
+if(!data?.image) return;
+
+fullPreviewImage.src=
+data.image;
+
+imageModal.classList.add("show");
+
+};
+
+});
+
+
+document.querySelectorAll("[data-action]")
+.forEach(btn=>{
+
+const id=
+btn.dataset.action;
+
+btn.onclick=()=>{
+
+const data=
+allMessages[id];
+
+if(!data) return;
+
+actionMessage={
+id,
+...data
+};
+
+document.getElementById(
+"actionTitle"
+).textContent=
+"AKSI @"+
+(data.username || "USER");
+
+document.getElementById(
+"actionModal"
+).classList.add("show");
+
+};
+
+});
+
+}
+
+
+document.getElementById("closePreview")
+.onclick=()=>{
+
+imageModal.classList.remove("show");
+
+};
+
+
+imageModal.onclick=e=>{
+
+if(e.target===imageModal){
+
+imageModal.classList.remove("show");
+
+}
+
+};
+
+
+/* MODERATION SHEET */
+
+const actionModal=
+document.getElementById("actionModal");
+
+
+actionModal.onclick=e=>{
+
+if(e.target===actionModal){
+
+actionModal.classList.remove("show");
+
+}
+
+};
+
+
+function closeActionModal(){
+
+actionModal.classList.remove("show");
+
+actionMessage=null;
+
+}
+
+
+document.getElementById("replyAction")
+.onclick=()=>{
+
+if(!actionMessage) return;
+
+setReply(actionMessage);
+
+closeActionModal();
+
+};
+
+
+document.getElementById("deleteAction")
+.onclick=async()=>{
+
+if(!actionMessage) return;
+
+const target={
+uid:actionMessage.uid,
+role:actionMessage.role
+};
+
+
+if(
+actionMessage.uid!==currentUser.uid &&
+!canModerate(
+currentUserData,
+target
+)
+){
+
+alert(
+"Tidak bisa menghapus pesan user dengan role ini."
+);
+
+return;
+
+}
+
+
+await remove(
+ref(
+db,
+"globalChat/"+actionMessage.id
+)
+);
+
+closeActionModal();
+
+};
+
+
+document.getElementById("pinAction")
+.onclick=async()=>{
+
+if(!actionMessage) return;
+
+
+await set(
+ref(db,"globalChatPinned"),
+{
+messageId:actionMessage.id,
+username:actionMessage.username,
+message:actionMessage.message || "",
+image:actionMessage.image || "",
+pinnedBy:currentUser.uid,
+time:Date.now()
+}
+);
+
+
+closeActionModal();
+
+};
+
+
+document.getElementById("warnAction")
+.onclick=async()=>{
+
+if(!actionMessage) return;
+
+
+const target={
+uid:actionMessage.uid,
+role:actionMessage.role
+};
+
+
+if(
+!canModerate(
+currentUserData,
+target
+)
+){
+
+alert(
+"Kamu tidak bisa warn user ini."
+);
+
+return;
+
+}
+
+
+await set(
+push(
+ref(
+db,
+"globalChatModeration/warnings/"+
+target.uid
+)
+),
+{
+by:currentUser.uid,
+time:Date.now()
+}
+);
+
+
+alert(
+"Warning berhasil diberikan."
+);
+
+closeActionModal();
+
+};
+
+
+document.getElementById("muteAction")
+.onclick=async()=>{
+
+if(!actionMessage) return;
+
+
+const target={
+uid:actionMessage.uid,
+role:actionMessage.role
+};
+
+
+if(
+!canModerate(
+currentUserData,
+target
+)
+){
+
+alert(
+"Kamu tidak bisa mute user ini."
+);
+
+return;
+
+}
+
+
+const input=
+prompt(
+"Masukkan durasi mute dalam menit:",
+"10"
+);
+
+
+if(input===null) return;
+
+
+const minutes=
+Number(input);
+
+
+if(
+isNaN(minutes) ||
+minutes<=0
+){
+
+alert("Durasi tidak valid.");
+
+return;
+
+}
+
+
+await set(
+ref(
+db,
+"globalChatModeration/muted/"+
+target.uid
+),
+{
+by:currentUser.uid,
+time:Date.now(),
+until:
+Date.now()+
+minutes*60000
+}
+);
+
+
+closeActionModal();
+
+};
+
+
+document.getElementById("banAction")
+.onclick=async()=>{
+
+if(!actionMessage) return;
+
+
+const target={
+uid:actionMessage.uid,
+role:actionMessage.role
+};
+
+
+if(
+!canModerate(
+currentUserData,
+target
+)
+){
+
+alert(
+"Kamu tidak bisa ban user ini."
+);
+
+return;
+
+}
+
+
+if(!confirm(
+"Ban @"+
+actionMessage.username+
+" dari Global Chat?"
+)){
+
+return;
+
+}
+
+
+await set(
+ref(
+db,
+"globalChatModeration/banned/"+
+target.uid
+),
+{
+by:currentUser.uid,
+time:Date.now(),
+permanent:true
+}
+);
+
+
+closeActionModal();
+
+};
+
+
+/* CHAT REALTIME */
+
+onValue(
+ref(db,"globalChat"),
+snap=>{
+
+allMessages={};
+
+
+if(snap.exists()){
+
+snap.forEach(child=>{
+
+allMessages[
+child.key
+]={
+id:child.key,
+...child.val()
+};
+
+});
+
+}
+
+
+const nearBottom=
+chatArea.scrollHeight-
+chatArea.scrollTop-
+chatArea.clientHeight
+<250;
+
+
+renderMessages();
+
+
+if(nearBottom){
+
+setTimeout(()=>{
+
+chatArea.scrollTop=
+chatArea.scrollHeight;
+
+},40);
+
+}
+
+}
+);
+
+
+/* ONLINE COUNT */
+
+onValue(
+ref(db,"online"),
+snap=>{
+
+let count=0;
+
+if(snap.exists()){
+
+count=
+Object.keys(
+snap.val()
+).length;
+
+}
+
+
+document.getElementById(
+"onlineText"
+).textContent=
+count+
+" user online • Realtime";
+
+}
+);
+
+
+/* LOGIN */
+
+onAuthStateChanged(
+auth,
+async user=>{
+
+if(!user){
+
+location.replace(
+"login.html"
+);
+
+return;
+
+}
+
+
+currentUser=user;
+
+
+const snap=
+await get(
+ref(
+db,
+"users/"+user.uid
+)
+);
+
+
+if(!snap.exists()){
+
+location.replace(
+"setup.html"
+);
+
+return;
+
+}
+
+
+currentUserData={
+uid:user.uid,
+...snap.val()
+};
+
+
+if(
+!currentUserData.username
+){
+
+currentUserData.username=
+user.email ?
+user.email.split("@")[0] :
+"User";
+
+}
+
+
+/* BAN CHECK */
+
+if(
+!isStaff(
+currentUserData.role
+)
+){
+
+const ban=
+await getBanData(
+user.uid
+);
+
+
+if(ban){
+
+messageInput.contentEditable=
+"false";
+
+sendBtn.disabled=true;
+
+messageInput.innerText=
+"Kamu telah dibanned dari Global Chat.";
+
+}
+
+}
+
+}
+);
+
+</script>
+
+</body>
+  </html>
