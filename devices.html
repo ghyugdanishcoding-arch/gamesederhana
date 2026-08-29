@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DEVICES · DEVONAX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Orbitron', sans-serif;
+        }
+        :root {
+            --bg: #070707;
+            --card: #121212;
+            --red: #ff2020;
+            --red-soft: #ff5555;
+            --text: #fff;
+            --muted: #999;
+            --border: #2a2a2a;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            padding: 18px 18px 100px;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at top left, #ff000018, transparent 35%), radial-gradient(circle at bottom right, #ff000018, transparent 35%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .grid {
+            position: fixed;
+            inset: 0;
+            opacity: .04;
+            background-image: linear-gradient(#ff0000 1px, transparent 1px), linear-gradient(90deg, #ff0000 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        .back-btn,
+        .info-btn {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 16px;
+            background: #161616;
+            border: 1px solid #333;
+            cursor: pointer;
+            transition: .25s;
+        }
+        .back-btn:hover,
+        .info-btn:hover {
+            border-color: var(--red);
+            box-shadow: 0 0 15px rgba(255, 0, 0, .4);
+        }
+        .back-btn span,
+        .info-btn span {
+            font-size: 28px;
+        }
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: #d8d8d8;
+            text-shadow: 0 0 8px rgba(255, 255, 255, .25);
+        }
+        .logo span {
+            color: var(--red);
+        }
+        .card {
+            background: var(--card);
+            border: 1px solid #333;
+            border-radius: 22px;
+            padding: 18px;
+            margin-bottom: 18px;
+            position: relative;
+            z-index: 2;
+        }
+        .title {
+            font-size: 13px;
+            letter-spacing: 3px;
+            color: #ff5555;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .title .material-symbols-outlined {
+            font-size: 20px;
+        }
+        .device-item {
+            background: #171717;
+            border: 1px solid #2d2d2d;
+            border-radius: 18px;
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: .25s;
+        }
+        .device-item:hover {
+            border-color: var(--red);
+            transform: translateX(4px);
+            box-shadow: 0 0 20px rgba(255, 0, 0, .08);
+        }
+        .device-item .device-icon {
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            border-radius: 14px;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #333;
+        }
+        .device-item .device-icon span {
+            font-size: 28px;
+            color: var(--red);
+        }
+        .device-item .device-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .device-item .device-info h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #e0e0e0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .device-item .device-info p {
+            font-size: 11px;
+            color: #888;
+            margin-top: 4px;
+            font-family: Arial, sans-serif;
+        }
+        .device-item .device-info .status {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-top: 6px;
+        }
+        .device-item .device-info .status.online {
+            background: #1a3a1a;
+            color: #46ff8d;
+            border: 1px solid #46ff8d;
+        }
+        .device-item .device-info .status.offline {
+            background: #3a1a1a;
+            color: #ff5555;
+            border: 1px solid #ff5555;
+        }
+        .device-item .device-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .device-item .device-actions button {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            background: #1a1a1a;
+            color: #888;
+            cursor: pointer;
+            transition: .25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .device-item .device-actions button:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+        .device-item .device-actions button.delete:hover {
+            border-color: #ff2020;
+            color: #ff2020;
+            background: #2a0000;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #555;
+        }
+        .empty-state span {
+            font-size: 56px;
+            color: #333;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .empty-state p {
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+        }
+        .bottom-nav {
+            position: fixed;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            height: 68px;
+            background: #121212;
+            border: 1px solid #333;
+            border-radius: 35px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+        .bottom-nav a {
+            color: #888;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: .25s;
+        }
+        .bottom-nav a.active {
+            color: #ff2020;
+        }
+        .bottom-nav a:hover {
+            color: #fff;
+        }
+        .bottom-nav span {
+            font-size: 30px;
+        }
+        .toast {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 16px;
+            padding: 12px 24px;
+            color: #fff;
+            font-size: 12px;
+            z-index: 999;
+            display: none;
+            font-family: Arial, sans-serif;
+            backdrop-filter: blur(10px);
+        }
+        .toast.show {
+            display: block;
+            animation: fadeInUp 0.3s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        .drawer {
+            position: fixed;
+            top: 0;
+            left: -310px;
+            width: 300px;
+            height: 100%;
+            background: #111;
+            border-right: 1px solid #333;
+            transition: .3s;
+            z-index: 999;
+            overflow: auto;
+        }
+        .drawer.show {
+            left: 0;
+        }
+        .overlay-menu {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .55);
+            display: none;
+            z-index: 998;
+        }
+        .overlay-menu.show {
+            display: block;
+        }
+        .drawer-header {
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid #222;
+        }
+        .drawer-avatar {
+            width: 65px;
+            height: 65px;
+            min-width: 65px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(180deg, #ff3030, #700);
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .drawer-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+        .drawer-avatar span {
+            font-size: 34px;
+        }
+        #drawerName {
+            font-size: 18px;
+        }
+        #drawerRole {
+            margin-top: 7px;
+            font-size: 12px;
+            color: #ff6666;
+        }
+        .drawer-menu {
+            padding: 12px;
+        }
+        .drawer-item {
+            height: 58px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 0 18px;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .drawer-item:hover {
+            background: #1b1b1b;
+        }
+        .drawer-item span {
+            font-size: 26px;
+            color: #ff3030;
+        }
+        .drawer-item.logout {
+            margin-top: 25px;
+            background: #220000;
+            border: 1px solid #600;
+            color: #ff7777;
+        }
+        .uid-display {
+            background: #0d0d0d;
+            border-radius: 14px;
+            padding: 12px 16px;
+            border: 1px solid #222;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .uid-display code {
+            font-family: monospace;
+            font-size: 12px;
+            color: #46ff8d;
+            word-break: break-all;
+        }
+        .uid-display .copy-btn {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 22px;
+            transition: .25s;
+            padding: 4px;
+        }
+        .uid-display .copy-btn:hover {
+            color: #fff;
+        }
+        @media(max-width:430px) {
+            body {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+            .device-item {
+                padding: 14px 12px;
+            }
+            .device-item .device-icon {
+                width: 40px;
+                height: 40px;
+                min-width: 40px;
+            }
+            .device-item .device-icon span {
+                font-size: 22px;
+            }
+            .device-item .device-info h3 {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid"></div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="back-btn" id="backBtn">
+            <span class="material-symbols-outlined">arrow_back</span>
+        </div>
+        <div class="logo">DEVICE<span>S</span></div>
+        <div class="info-btn" id="infoBtn">
+            <span class="material-symbols-outlined">info</span>
+        </div>
+    </header>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- DEVICE LIST -->
+    <div class="card">
+        <div class="title"><span class="material-symbols-outlined">devices</span> CONNECTED DEVICES</div>
+        <div id="deviceList">
+            <div class="empty-state">
+                <span class="material-symbols-outlined">devices_off</span>
+                <p>No devices connected yet.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" id="navHome">
+            <span class="material-symbols-outlined">home</span>
+        </a>
+        <a href="devices.html" class="active" id="navDevices">
+            <span class="material-symbols-outlined">devices</span>
+        </a>
+        <a href="control.html" id="navControl">
+            <span class="material-symbols-outlined">gamepad</span>
+        </a>
+        <a href="settings.html" id="navSettings">
+            <span class="material-symbols-outlined">settings</span>
+        </a>
+    </nav>
+
+    <!-- DRAWER -->
+    <div id="drawer" class="drawer">
+        <div class="drawer-header">
+            <div class="drawer-avatar" id="drawerProfileBtn">
+                <img id="drawerProfileImage">
+                <span id="drawerProfileIcon" class="material-symbols-outlined">person</span>
+            </div>
+            <div>
+                <h2 id="drawerName">Loading...</h2>
+                <p id="drawerRole">User</p>
+            </div>
+        </div>
+        <div class="drawer-menu">
+            <div class="drawer-item" onclick="location.href='dashboard.html'">
+                <span class="material-symbols-outlined">dashboard</span> Dashboard
+            </div>
+            <div class="drawer-item" onclick="location.href='devices.html'">
+                <span class="material-symbols-outlined">devices</span> Devices
+            </div>
+            <div class="drawer-item" onclick="location.href='control.html'">
+                <span class="material-symbols-outlined">gamepad</span> Control
+            </div>
+            <div class="drawer-item" onclick="location.href='settings.html'">
+                <span class="material-symbols-outlined">settings</span> Settings
+            </div>
+            <div class="drawer-item" style="flex-direction:column;align-items:stretch;height:auto;padding:14px 18px;gap:6px;">
+                <div style="display:flex;align-items:center;gap:18px;width:100%;">
+                    <span class="material-symbols-outlined">info</span>
+                    <span style="flex:1;">DEVICE UID</span>
+                </div>
+                <div class="uid-display">
+                    <code id="uidDisplay">Loading...</code>
+                    <button class="copy-btn" id="copyUidBtn" title="Copy UID">
+                        <span class="material-symbols-outlined">content_copy</span>
+                    </button>
+                </div>
+            </div>
+            <div class="drawer-item logout" id="logoutBtn">
+                <span class="material-symbols-outlined">logout</span> Logout
+            </div>
+        </div>
+    </div>
+    <div id="overlay" class="overlay-menu"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+        import { getDatabase, ref, onValue, remove, get, set, onDisconnect } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+            authDomain: "project-coding-gabut.firebaseapp.com",
+            databaseURL: "https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "project-coding-gabut",
+            storageBucket: "project-coding-gabut.firebasestorage.app",
+            messagingSenderId: "234910334669",
+            appId: "1:234910334669:web:5203c9e9ce22a596f2b384"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        let currentUser = null;
+        let currentUid = null;
+
+        // Toast
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        // Drawer
+        const drawer = document.getElementById('drawer');
+        const overlay = document.getElementById('overlay');
+        document.getElementById('infoBtn').onclick = () => {
+            drawer.classList.add('show');
+            overlay.classList.add('show');
+        };
+        overlay.onclick = () => {
+            drawer.classList.remove('show');
+            overlay.classList.remove('show');
+        };
+
+        // Back button
+        document.getElementById('backBtn').onclick = () => {
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                location.href = 'dashboard.html';
+            }
+        };
+
+        // Copy UID
+        document.getElementById('copyUidBtn').onclick = () => {
+            const uid = document.getElementById('uidDisplay').textContent;
+            if (uid && uid !== 'Loading...') {
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(uid).then(() => showToast('✅ UID copied!'));
+                } else {
+                    const ta = document.createElement('textarea');
+                    ta.value = uid;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    ta.remove();
+                    showToast('✅ UID copied!');
+                }
+            }
+        };
+
+        // Auth
+        onAuthStateChanged(auth, async user => {
+            if (!user) { location.replace('../login.html'); return; }
+            currentUser = user;
+            const snap = await get(ref(db, 'users/' + user.uid));
+            if (!snap.exists()) { location.replace('../setup.html'); return; }
+            const d = snap.val();
+            if (d.expiredAt && Date.now() >= Number(d.expiredAt)) {
+                alert('Akun expired!');
+                await signOut(auth);
+                location.replace('../login.html');
+                return;
+            }
+            // Set drawer info
+            document.getElementById('drawerName').textContent = d.username || user.email.split('@')[0];
+            document.getElementById('drawerRole').textContent = d.role || 'User';
+            if (d.profileImage || d.photoURL) {
+                const img = d.profileImage || d.photoURL;
+                document.getElementById('drawerProfileImage').src = img;
+                document.getElementById('drawerProfileImage').style.display = 'block';
+                document.getElementById('drawerProfileIcon').style.display = 'none';
+            }
+            // UID = user.uid + '_device'
+            currentUid = user.uid + '_device';
+            document.getElementById('uidDisplay').textContent = currentUid;
+
+            // Online status
+            const onlineRef = ref(db, 'online/' + user.uid);
+            await set(onlineRef, { username: d.username || 'User', role: d.role || 'User', time: Date.now() });
+            onDisconnect(onlineRef).remove();
+
+            // Load devices from 'online' path (all connected users)
+            loadDevices();
+        });
+
+        // Load devices
+        function loadDevices() {
+            const onlineRef = ref(db, 'online');
+            onValue(onlineRef, snap => {
+                const container = document.getElementById('deviceList');
+                if (!snap.exists()) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <span class="material-symbols-outlined">devices_off</span>
+                            <p>No devices connected yet.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                const data = snap.val();
+                const keys = Object.keys(data);
+                if (keys.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <span class="material-symbols-outlined">devices_off</span>
+                            <p>No devices connected.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                let html = '';
+                keys.forEach(key => {
+                    const device = data[key];
+                    const isOnline = (Date.now() - device.time) < 60000; // 1 min
+                    const statusClass = isOnline ? 'online' : 'offline';
+                    const statusText = isOnline ? '● ONLINE' : '● OFFLINE';
+                    const username = device.username || key;
+                    const role = device.role || 'User';
+                    // Gunakan key sebagai UID (bisa dijadikan deviceId)
+                    html += `
+                        <div class="device-item" data-uid="${key}">
+                            <div class="device-icon">
+                                <span class="material-symbols-outlined">smartphone</span>
+                            </div>
+                            <div class="device-info">
+                                <h3>${username}</h3>
+                                <p>${role} · ${key.substring(0, 12)}...</p>
+                                <span class="status ${statusClass}">${statusText}</span>
+                            </div>
+                            <div class="device-actions">
+                                <button class="delete" data-uid="${key}" title="Remove device">
+                                    <span class="material-symbols-outlined">delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+
+                // Click on device item -> go to control.html?device={uid}
+                container.querySelectorAll('.device-item').forEach(el => {
+                    el.addEventListener('click', function(e) {
+                        // Jangan trigger jika klik tombol delete
+                        if (e.target.closest('.delete')) return;
+                        const uid = this.dataset.uid;
+                        if (uid) {
+                            location.href = `control.html?device=${uid}`;
+                        }
+                    });
+                });
+
+                // Delete button
+                container.querySelectorAll('.delete').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const uid = this.dataset.uid;
+                        if (!uid) return;
+                        if (confirm(`Hapus device ${uid}?`)) {
+                            // Hapus dari online
+                            remove(ref(db, 'online/' + uid)).then(() => {
+                                showToast('✅ Device removed');
+                            }).catch(err => {
+                                showToast('❌ Gagal hapus: ' + err.message);
+                            });
+                        }
+                    });
+                });
+            });
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').onclick = async () => {
+            if (!confirm('Logout?')) return;
+            if (currentUser) {
+                await set(ref(db, 'online/' + currentUser.uid), null);
+            }
+            await signOut(auth);
+            location.replace('login.html');
+        };
+
+        // Navigasi bottom nav tetap di halaman devices
+        // Home -> dashboard, Control -> control.html (tanpa device? nanti bisa redirect ke devices dulu)
+        document.getElementById('navHome').onclick = (e) => {
+            e.preventDefault();
+            location.href = 'dashboard.html';
+        };
+        document.getElementById('navControl').onclick = (e) => {
+            e.preventDefault();
+            // Jika belum pilih device, arahkan ke devices dulu
+            location.href = 'devices.html';
+        };
+        document.getElementById('navSettings').onclick = (e) => {
+            e.preventDefault();
+            location.href = 'change-password.html';
+        };
+
+        console.log('🔥 DEVICES PAGE READY');
+    </script>
+</body>
+  </html>
