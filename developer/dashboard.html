@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>DEVONAX DASHBOARD</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Orbitron',sans-serif;
+}
+
+:root{
+--bg:#070707;
+--card:#121212;
+--red:#ff2020;
+--red-soft:#ff5555;
+--text:#fff;
+--muted:#999;
+--border:#2a2a2a;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+overflow-x:hidden;
+padding:18px 18px 100px;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at top left,#ff000018,transparent 35%),
+radial-gradient(circle at bottom right,#ff000018,transparent 35%);
+pointer-events:none;
+}
+
+.grid{
+position:fixed;
+inset:0;
+opacity:.04;
+background-image:
+linear-gradient(#ff0000 1px,transparent 1px),
+linear-gradient(90deg,#ff0000 1px,transparent 1px);
+background-size:40px 40px;
+pointer-events:none;
+z-index:-1;
+}
+
+/* HEADER */
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.menu,
+.profile{
+width:50px;
+height:50px;
+display:flex;
+justify-content:center;
+align-items:center;
+border-radius:16px;
+background:#161616;
+border:1px solid #333;
+cursor:pointer;
+transition:.25s;
+}
+
+.menu:hover,
+.profile:hover{
+border-color:var(--red);
+box-shadow:0 0 15px rgba(255,0,0,.4);
+}
+
+.menu span,
+.profile span{
+font-size:28px;
+}
+
+.logo{
+font-size:24px;
+font-weight:800;
+letter-spacing:5px;
+color:#d8d8d8;
+text-shadow:0 0 8px rgba(255,255,255,.25);
+}
+
+/* BANNER */
+
+.banner{
+position:relative;
+height:200px;
+border-radius:24px;
+overflow:hidden;
+border:1px solid #333;
+margin-bottom:22px;
+box-shadow:0 0 20px rgba(255,0,0,.15);
+touch-action:pan-y;
+user-select:none;
+}
+
+.slide{
+position:absolute;
+inset:0;
+opacity:0;
+transition:opacity .8s;
+}
+
+.slide.active{
+opacity:1;
+}
+
+.slide img{
+width:100%;
+height:100%;
+object-fit:cover;
+filter:brightness(.45);
+}
+
+.caption{
+position:absolute;
+left:18px;
+bottom:18px;
+z-index:2;
+}
+
+.caption h2{
+font-size:17px;
+font-weight:700;
+letter-spacing:1.3px;
+line-height:1.35;
+}
+
+.caption p{
+margin-top:7px;
+font-size:11px;
+letter-spacing:.6px;
+color:#e2e2e2;
+}
+
+.dotBox{
+position:absolute;
+left:50%;
+bottom:14px;
+transform:translateX(-50%);
+display:flex;
+gap:8px;
+z-index:3;
+}
+
+.bannerDot{
+width:10px;
+height:10px;
+border-radius:50%;
+background:#777;
+transition:.3s;
+}
+
+.bannerDot.active{
+background:var(--red);
+box-shadow:0 0 12px red;
+}
+
+/* CARD */
+
+.card{
+background:var(--card);
+border:1px solid #333;
+border-radius:22px;
+padding:18px;
+margin-bottom:18px;
+box-shadow:0 0 15px rgba(255,0,0,.08);
+}
+
+.title{
+font-size:15px;
+letter-spacing:3px;
+color:#ff5555;
+margin-bottom:15px;
+}
+
+/* PROFILE */
+
+.profileCard{
+display:flex;
+align-items:center;
+gap:16px;
+}
+
+.avatar{
+width:74px;
+height:74px;
+min-width:74px;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(180deg,#ff3030,#700);
+box-shadow:0 0 18px red;
+overflow:hidden;
+position:relative;
+cursor:pointer;
+transition:.25s;
+}
+
+.avatar:hover{
+transform:scale(1.05);
+}
+
+.avatar.empty{
+background:#161616;
+border:2px dashed #ff5555;
+box-shadow:0 0 18px rgba(255,0,0,.25);
+}
+
+.avatar img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:none;
+}
+
+.avatar span{
+font-size:34px;
+}
+
+.info{
+min-width:0;
+flex:1;
+}
+
+.nameWeatherRow{
+display:flex;
+align-items:center;
+gap:10px;
+min-width:0;
+}
+
+.info h2{
+font-size:21px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+min-width:0;
+}
+
+.weatherGlass{
+display:flex;
+align-items:center;
+gap:6px;
+padding:7px 10px;
+border-radius:14px;
+background:rgba(255,255,255,.06);
+border:1px solid rgba(255,255,255,.12);
+white-space:nowrap;
+flex-shrink:0;
+}
+
+.weatherGlass .material-symbols-outlined{
+font-size:22px;
+color:#ffcc55;
+}
+
+#weatherTemp{
+font-size:13px;
+font-weight:700;
+}
+
+.weatherIndicator{
+width:6px;
+height:6px;
+border-radius:50%;
+background:#777;
+}
+
+.weatherIndicator.online{
+background:#46ff8d;
+box-shadow:0 0 10px #46ff8d;
+}
+
+.role{
+display:inline-block;
+margin-top:9px;
+padding:6px 13px;
+border-radius:20px;
+background:#2a0000;
+border:1px solid #600;
+font-size:12px;
+color:#ff7777;
+}
+
+.expired{
+margin-top:10px;
+font-size:12px;
+color:#aaa;
+}
+
+/* PRAYER */
+
+.prayerCard{
+overflow:hidden;
+}
+
+.prayerHeader{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+margin-bottom:16px;
+}
+
+.prayerHeaderLeft{
+display:flex;
+align-items:center;
+gap:12px;
+min-width:0;
+}
+
+.prayerHeaderIcon{
+width:48px;
+height:48px;
+border-radius:16px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#220000;
+border:1px solid #650000;
+color:#ff4040;
+}
+
+.prayerHeaderIcon span{
+font-size:27px;
+}
+
+.prayerHeaderText h3{
+font-size:15px;
+letter-spacing:1.4px;
+}
+
+.prayerHeaderText p{
+margin-top:5px;
+font-size:11px;
+color:#999;
+}
+
+.prayerLive{
+display:flex;
+align-items:center;
+gap:6px;
+font-size:10px;
+color:#ff6666;
+}
+
+.prayerLive i{
+width:7px;
+height:7px;
+display:block;
+border-radius:50%;
+background:#ff3030;
+animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+0%,100%{
+opacity:.4;
+transform:scale(.8);
+}
+50%{
+opacity:1;
+transform:scale(1.2);
+}
+}
+
+.prayerNext{
+padding:14px;
+border-radius:18px;
+background:#181818;
+border:1px solid #333;
+margin-bottom:14px;
+}
+
+.prayerNextTop{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+}
+
+.prayerNextLabel{
+font-size:11px;
+color:#aaa;
+}
+
+#nextPrayerName{
+font-size:17px;
+color:#ff6666;
+}
+
+#prayerCountdown{
+margin-top:8px;
+font-size:13px;
+color:#eee;
+}
+
+.prayerGrid{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:8px;
+}
+
+.prayerItem{
+padding:12px 6px;
+border-radius:16px;
+background:#171717;
+border:1px solid #292929;
+text-align:center;
+}
+
+.prayerItem.active{
+border-color:#ff3030;
+background:#220000;
+}
+
+.prayerItem.done{
+opacity:.5;
+}
+
+.prayerItem span{
+display:block;
+font-size:11px;
+color:#aaa;
+margin-bottom:8px;
+}
+
+.prayerItem b{
+font-size:12px;
+}
+
+.prayerLocation{
+margin-top:13px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:7px;
+font-size:10px;
+color:#888;
+}
+
+/* MUSIC */
+
+.musicPlayer{
+display:flex;
+align-items:center;
+gap:14px;
+background:#181818;
+border:1px solid #333;
+border-radius:20px;
+padding:12px;
+}
+
+.musicCover{
+width:58px;
+height:58px;
+min-width:58px;
+border-radius:14px;
+background:#220000;
+border:1px solid #600;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+}
+
+.musicCover img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:none;
+}
+
+.musicCover span{
+font-size:28px;
+color:#ff3030;
+}
+
+.musicInfo{
+flex:1;
+min-width:0;
+}
+
+.musicInfo h3,
+.musicInfo p{
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.musicInfo h3{
+font-size:14px;
+}
+
+.musicInfo p{
+margin-top:7px;
+font-size:11px;
+color:#999;
+}
+
+.musicBtn{
+width:46px;
+height:46px;
+border:none;
+border-radius:50%;
+background:#ff2020;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+}
+
+/* GLOBAL CHAT - TANPA AVATAR */
+
+.globalChatBox{
+background:#181818;
+border:1px solid #333;
+border-radius:22px;
+padding:16px;
+}
+
+.globalChatTop{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:16px;
+}
+
+.globalChatTitle{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.globalChatTitle > span{
+width:46px;
+height:46px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#2a0000;
+border:1px solid #600;
+border-radius:15px;
+color:#ff3030;
+}
+
+.globalChatTitle h3{
+font-size:15px;
+}
+
+.globalChatTitle p{
+margin-top:5px;
+font-size:11px;
+color:#999;
+}
+
+.chatLive{
+font-size:10px;
+color:#ff5050;
+}
+
+.globalChatMessage{
+padding:15px;
+background:#111;
+border:1px solid #292929;
+border-radius:17px;
+min-height:72px;
+display:flex;
+align-items:center;
+}
+
+.chatContent{
+width:100%;
+min-width:0;
+}
+
+.chatContent b{
+display:block;
+font-size:13px;
+color:#ff5555;
+margin-bottom:8px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.chatContent p{
+display:block;
+font-family:Arial,sans-serif;
+font-size:13px;
+color:#d5d5d5;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.openChatBtn{
+margin-top:14px;
+width:100%;
+height:50px;
+border-radius:15px;
+background:#220000;
+border:1px solid #650000;
+color:#ff5555;
+font-family:'Orbitron',sans-serif;
+font-size:12px;
+font-weight:bold;
+letter-spacing:2px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+cursor:pointer;
+}
+
+/* QUICK ACTION */
+
+.menuGrid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+}
+
+.item{
+height:112px;
+background:#171717;
+border:1px solid #2d2d2d;
+border-radius:20px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+cursor:pointer;
+transition:.25s;
+}
+
+.item:hover{
+transform:translateY(-4px);
+border-color:#ff3030;
+}
+
+.item span{
+font-size:32px;
+color:#ff3030;
+}
+
+.item p{
+margin-top:10px;
+font-size:10px;
+color:#e0e0e0;
+text-align:center;
+}
+
+/* DRAWER */
+
+.drawer{
+position:fixed;
+top:0;
+left:-310px;
+width:300px;
+height:100%;
+background:#111;
+border-right:1px solid #333;
+transition:.3s;
+z-index:999;
+overflow:auto;
+}
+
+.drawer.show{
+left:0;
+}
+
+.overlayMenu{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.55);
+display:none;
+z-index:998;
+}
+
+.overlayMenu.show{
+display:block;
+}
+
+.drawerHeader{
+padding:25px;
+display:flex;
+align-items:center;
+gap:15px;
+border-bottom:1px solid #222;
+}
+
+.drawerAvatar{
+width:65px;
+height:65px;
+min-width:65px;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(180deg,#ff3030,#700);
+overflow:hidden;
+cursor:pointer;
+}
+
+.drawerAvatar img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:none;
+}
+
+.drawerAvatar span{
+font-size:34px;
+}
+
+#drawerName{
+font-size:18px;
+}
+
+#drawerRole{
+margin-top:7px;
+font-size:12px;
+color:#ff6666;
+}
+
+.drawerMenu{
+padding:12px;
+}
+
+.drawerItem{
+height:58px;
+display:flex;
+align-items:center;
+gap:18px;
+padding:0 18px;
+border-radius:16px;
+margin-bottom:10px;
+cursor:pointer;
+font-size:13px;
+}
+
+.drawerItem:hover{
+background:#1b1b1b;
+}
+
+.drawerItem span{
+font-size:26px;
+color:#ff3030;
+}
+
+.logout{
+margin-top:25px;
+background:#220000;
+border:1px solid #600;
+color:#ff7777;
+}
+
+/* BOTTOM NAV */
+
+.bottomNav{
+position:fixed;
+left:15px;
+right:15px;
+bottom:15px;
+height:68px;
+background:#121212;
+border:1px solid #333;
+border-radius:35px;
+display:flex;
+justify-content:space-around;
+align-items:center;
+z-index:100;
+}
+
+.bottomNav a{
+color:#888;
+text-decoration:none;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.bottomNav a.active{
+color:#ff2020;
+}
+
+.bottomNav span{
+font-size:30px;
+}
+
+@media(max-width:430px){
+
+body{
+padding-left:14px;
+padding-right:14px;
+}
+
+.logo{
+font-size:20px;
+letter-spacing:3px;
+}
+
+.menuGrid{
+gap:9px;
+}
+
+.item{
+height:102px;
+}
+
+.prayerGrid{
+gap:5px;
+}
+
+.prayerItem{
+padding:10px 2px;
+}
+
+.prayerItem span{
+font-size:9px;
+}
+
+.prayerItem b{
+font-size:10px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<header>
+
+<div class="menu" id="menuBtn">
+<span class="material-symbols-outlined">menu</span>
+</div>
+
+<div class="logo">PROJECT</div>
+
+<!-- HANYA ICON USER -->
+<div class="profile" id="headerProfileBtn">
+<span class="material-symbols-outlined">person</span>
+</div>
+
+</header>
+
+
+<!-- BANNER -->
+
+<div class="banner">
+
+<div class="slide active">
+
+<img id="banner1"
+src="../img/file_00000000970881fab2104a47bc5bb145.png">
+
+<div class="caption">
+<h2 id="bannerTitle1">Devoxtr4sh New Updates メ</h2>
+<p id="bannerText1">Credit by @Danzzgntng</p>
+</div>
+
+</div>
+
+<div class="slide">
+
+<img id="banner2"
+src="../img/file_0000000027d881faae9ff57773d2be86.png">
+
+<div class="caption">
+<h2 id="bannerTitle2">Devonax Team</h2>
+<p id="bannerText2">Stay silence</p>
+</div>
+
+</div>
+
+<div class="dotBox">
+<div class="bannerDot active"></div>
+<div class="bannerDot"></div>
+</div>
+
+</div>
+
+
+<!-- PROFILE -->
+
+<div class="card">
+
+<div class="title">WELCOME BACK,</div>
+
+<div class="profileCard">
+
+<div class="avatar empty" id="dashboardProfileBtn">
+
+<img id="profileImage">
+
+<span id="profileIcon"
+class="material-symbols-outlined">
+person
+</span>
+
+</div>
+
+<div class="info">
+
+<div class="nameWeatherRow">
+
+<h2 id="username">Loading...</h2>
+
+<div class="weatherGlass">
+
+<span id="weatherIcon"
+class="material-symbols-outlined">
+thermostat
+</span>
+
+<span id="weatherTemp">--°C</span>
+
+<i id="weatherIndicator"
+class="weatherIndicator"></i>
+
+</div>
+
+</div>
+
+<div class="role" id="role">Loading...</div>
+
+<div class="expired" id="expired">
+Expired : -
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- JADWAL SHOLAT -->
+
+<div class="card prayerCard">
+
+<div class="prayerHeader">
+
+<div class="prayerHeaderLeft">
+
+<div class="prayerHeaderIcon">
+<span class="material-symbols-outlined">mosque</span>
+</div>
+
+<div class="prayerHeaderText">
+<h3>JADWAL SHOLAT</h3>
+<p id="prayerStatus">Memuat jadwal realtime...</p>
+</div>
+
+</div>
+
+<div class="prayerLive">
+<i></i> LIVE
+</div>
+
+</div>
+
+<div class="prayerNext">
+
+<div class="prayerNextTop">
+<span class="prayerNextLabel">WAKTU BERIKUTNYA</span>
+<b id="nextPrayerName">Loading...</b>
+</div>
+
+<div id="prayerCountdown">
+Menyiapkan countdown...
+</div>
+
+</div>
+
+<div class="prayerGrid">
+
+<div class="prayerItem" id="prayer-fajr">
+<span>SUBUH</span>
+<b id="time-fajr">--:--</b>
+</div>
+
+<div class="prayerItem" id="prayer-dhuhr">
+<span>DZUHUR</span>
+<b id="time-dhuhr">--:--</b>
+</div>
+
+<div class="prayerItem" id="prayer-asr">
+<span>ASHAR</span>
+<b id="time-asr">--:--</b>
+</div>
+
+<div class="prayerItem" id="prayer-maghrib">
+<span>MAGRIB</span>
+<b id="time-maghrib">--:--</b>
+</div>
+
+<div class="prayerItem" id="prayer-isha">
+<span>ISYA</span>
+<b id="time-isha">--:--</b>
+</div>
+
+</div>
+
+<div class="prayerLocation">
+<span class="material-symbols-outlined">location_on</span>
+<span id="prayerLocationText">Mendeteksi lokasi...</span>
+</div>
+
+</div>
+
+
+<!-- MUSIC -->
+
+<div class="card">
+
+<div class="title">NOW PLAYING</div>
+
+<div class="musicPlayer">
+
+<div class="musicCover">
+
+<img id="musicCover">
+
+<span id="musicDefaultIcon"
+class="material-symbols-outlined">
+music_note
+</span>
+
+</div>
+
+<div class="musicInfo">
+
+<h3 id="musicTitle">Belum ada lagu</h3>
+
+<p id="musicArtist">
+Pilih lagu di Music Player
+</p>
+
+</div>
+
+<button class="musicBtn" id="musicBtn">
+
+<span id="musicBtnIcon"
+class="material-symbols-outlined">
+play_arrow
+</span>
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- GLOBAL CHAT -->
+
+<div class="card">
+
+<div class="globalChatBox">
+
+<div class="globalChatTop">
+
+<div class="globalChatTitle">
+
+<span class="material-symbols-outlined">forum</span>
+
+<div>
+<h3>GLOBAL CHAT</h3>
+<p id="chatStatus">Realtime Chat</p>
+</div>
+
+</div>
+
+<div class="chatLive">● LIVE</div>
+
+</div>
+
+<!-- HANYA NAMA USER DAN PESAN -->
+
+<div class="globalChatMessage">
+
+<div class="chatContent">
+
+<b id="chatUsername">GLOBAL CHAT</b>
+
+<p id="latestChat">
+Belum ada pesan...
+</p>
+
+</div>
+
+</div>
+
+<button class="openChatBtn"
+onclick="location.href='../chat.html'">
+
+<span class="material-symbols-outlined">chat</span>
+
+BUKA CHAT
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- QUICK ACTIONS -->
+
+<div class="card">
+
+<div class="title">QUICK ACTIONS</div>
+
+<div class="menuGrid">
+
+<div class="item" onclick="location.href='../channel.html'">
+<span class="material-symbols-outlined">campaign</span>
+<p>Info Channel</p>
+</div>
+
+<div class="item" onclick="location.href='../badak.html'">
+<span class="material-symbols-outlined">shield</span>
+<p>Badak WA</p>
+</div>
+
+<div class="item" onclick="location.href='../ucapan.html'">
+<span class="material-symbols-outlined">cake</span>
+<p>Ucapan</p>
+</div>
+
+<div class="item" onclick="location.href='../store.html'">
+<span class="material-symbols-outlined">shopping_bag</span>
+<p>Store</p>
+</div>
+
+<div class="item" onclick="location.href='../support.html'">
+<span class="material-symbols-outlined">code</span>
+<p>Support</p>
+</div>
+
+<div class="item" onclick="location.href='../tools.html'">
+<span class="material-symbols-outlined">build</span>
+<p>Tools</p>
+</div>
+
+<div class="item" onclick="location.href='../timer.html'">
+<span class="material-symbols-outlined">timer</span>
+<p>Timer</p>
+</div>
+
+<div class="item" onclick="location.href='../kalkulator.html'">
+<span class="material-symbols-outlined">calculate</span>
+<p>Kalkulator</p>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottomNav">
+
+<a href="dashboard.html" class="active">
+<span class="material-symbols-outlined">home</span>
+</a>
+
+<a href="users.html">
+<span class="material-symbols-outlined">groups</span>
+</a>
+
+<a href="../devices.html">
+<span class="material-symbols-outlined">devices</span>
+</a>
+
+<a href="../change-password.html">
+<span class="material-symbols-outlined">settings</span>
+</a>
+
+</nav>
+
+
+<!-- DRAWER -->
+
+<div id="drawer" class="drawer">
+
+<div class="drawerHeader">
+
+<div class="drawerAvatar" id="drawerProfileBtn">
+
+<img id="drawerProfileImage">
+
+<span id="drawerProfileIcon"
+class="material-symbols-outlined">
+person
+</span>
+
+</div>
+
+<div>
+
+<h2 id="drawerName">Loading...</h2>
+
+<p id="drawerRole">User</p>
+
+</div>
+
+</div>
+
+<div class="drawerMenu">
+
+<div class="drawerItem"
+onclick="location.href='dashboard.html'">
+<span class="material-symbols-outlined">dashboard</span>
+Dashboard
+</div>
+
+<div class="drawerItem"
+onclick="location.href='create-user.html'">
+<span class="material-symbols-outlined">person_add</span>
+Create User
+</div>
+
+<div class="drawerItem"
+onclick="location.href='users.html'">
+<span class="material-symbols-outlined">groups</span>
+Manage Users
+</div>
+
+<div class="drawerItem"
+onclick="location.href='../profil.html'">
+<span class="material-symbols-outlined">account_circle</span>
+Profil Saya
+</div>
+
+<div class="drawerItem"
+onclick="location.href='../support.html'">
+<span class="material-symbols-outlined">code</span>
+Support
+</div>
+
+<div class="drawerItem"
+onclick="location.href='../music.html'">
+<span class="material-symbols-outlined">music_note</span>
+Music Player
+</div>
+
+<div class="drawerItem"
+onclick="location.href='../jadwal-sholat.html'">
+<span class="material-symbols-outlined">mosque</span>
+Jadwal Sholat
+</div>
+
+<div class="drawerItem"
+onclick="location.href='../tools.html'">
+<span class="material-symbols-outlined">build</span>
+Tools
+</div>
+
+<div class="drawerItem"
+onclick="location.href='../change-password.html'">
+<span class="material-symbols-outlined">settings</span>
+Settings
+</div>
+
+<div class="drawerItem logout"
+id="logoutBtn">
+
+<span class="material-symbols-outlined">logout</span>
+
+Logout
+
+</div>
+
+</div>
+
+</div>
+
+<div id="overlay" class="overlayMenu"></div>
+
+
+<script>
+
+/* DRAWER */
+
+const drawer=document.getElementById("drawer");
+const overlay=document.getElementById("overlay");
+
+document.getElementById("menuBtn").onclick=()=>{
+
+drawer.classList.add("show");
+overlay.classList.add("show");
+
+};
+
+overlay.onclick=()=>{
+
+drawer.classList.remove("show");
+overlay.classList.remove("show");
+
+};
+
+
+/* PROFILE */
+
+function openProfile(){
+location.href="../profil.html";
+}
+
+document.getElementById("headerProfileBtn").onclick=openProfile;
+document.getElementById("dashboardProfileBtn").onclick=openProfile;
+document.getElementById("drawerProfileBtn").onclick=openProfile;
+
+
+/* BANNER */
+
+const slides=document.querySelectorAll(".slide");
+const dots=document.querySelectorAll(".bannerDot");
+
+let current=0;
+
+function showSlide(index){
+
+slides[current].classList.remove("active");
+dots[current].classList.remove("active");
+
+current=index;
+
+if(current<0) current=slides.length-1;
+if(current>=slides.length) current=0;
+
+slides[current].classList.add("active");
+dots[current].classList.add("active");
+
+}
+
+setInterval(()=>{
+showSlide(current+1);
+},5000);
+
+
+/* MUSIC */
+
+const dashboardAudio=new Audio();
+
+function loadMusic(){
+
+const savedMusic=
+localStorage.getItem("devonaxCurrentMusic");
+
+if(!savedMusic) return;
+
+try{
+
+const music=JSON.parse(savedMusic);
+
+document.getElementById("musicTitle").textContent=
+music.title || music.name || "Tanpa Judul";
+
+document.getElementById("musicArtist").textContent=
+music.artist || "DEVONAX MUSIC";
+
+if(music.cover){
+
+const cover=document.getElementById("musicCover");
+
+cover.src=music.cover;
+cover.style.display="block";
+
+document.getElementById("musicDefaultIcon")
+.style.display="none";
+
+}
+
+if(music.src){
+dashboardAudio.src=music.src;
+}
+
+}catch(error){
+console.log(error);
+}
+
+}
+
+loadMusic();
+
+document.getElementById("musicBtn").onclick=()=>{
+
+if(!dashboardAudio.src){
+
+location.href="../music.html";
+return;
+
+}
+
+if(dashboardAudio.paused){
+dashboardAudio.play();
+}else{
+dashboardAudio.pause();
+}
+
+};
+
+dashboardAudio.onplay=()=>{
+document.getElementById("musicBtnIcon").textContent="pause";
+};
+
+dashboardAudio.onpause=()=>{
+document.getElementById("musicBtnIcon").textContent="play_arrow";
+};
+
+
+/* WEATHER */
+
+function getWeatherIcon(code,isDay){
+
+if(code===0){
+return isDay ? "wb_sunny" : "clear_night";
+}
+
+if([1,2,3].includes(code)){
+return "partly_cloudy_day";
+}
+
+if([45,48].includes(code)){
+return "foggy";
+}
+
+if([61,63,65,80,81,82].includes(code)){
+return "rainy";
+}
+
+if([95,96,99].includes(code)){
+return "thunderstorm";
+}
+
+return "thermostat";
+
+}
+
+async function loadWeather(lat,lon){
+
+try{
+
+const res=await fetch(
+`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&timezone=auto`
+);
+
+const data=await res.json();
+
+if(!data.current) return;
+
+document.getElementById("weatherTemp").textContent=
+Math.round(data.current.temperature_2m)+"°C";
+
+document.getElementById("weatherIcon").textContent=
+getWeatherIcon(
+data.current.weather_code,
+data.current.is_day===1
+);
+
+document.getElementById("weatherIndicator")
+.classList.add("online");
+
+}catch(error){
+
+console.log("Weather error",error);
+
+}
+
+}
+
+
+/* PRAYER */
+
+let prayerTimes={};
+
+const prayerMap=[
+["Fajr","fajr","SUBUH"],
+["Dhuhr","dhuhr","DZUHUR"],
+["Asr","asr","ASHAR"],
+["Maghrib","maghrib","MAGRIB"],
+["Isha","isha","ISYA"]
+];
+
+function cleanTime(value){
+
+return value ?
+value.split(" ")[0] :
+"--:--";
+
+}
+
+async function loadPrayer(lat,lon){
+
+try{
+
+const timestamp=Math.floor(Date.now()/1000);
+
+const response=await fetch(
+`https://api.aladhan.com/v1/timings/${timestamp}?latitude=${lat}&longitude=${lon}&method=20`
+);
+
+const result=await response.json();
+
+if(!result.data) return;
+
+prayerTimes=result.data.timings;
+
+prayerMap.forEach(item=>{
+
+document.getElementById("time-"+item[1])
+.textContent=
+cleanTime(prayerTimes[item[0]]);
+
+});
+
+document.getElementById("prayerStatus").textContent=
+"Jadwal hari ini • Realtime";
+
+updatePrayer();
+
+}catch(error){
+
+document.getElementById("prayerStatus").textContent=
+"Gagal memuat jadwal";
+
+}
+
+}
+
+function getPrayerDate(time){
+
+const [hour,minute]=time.split(":").map(Number);
+
+const now=new Date();
+
+return new Date(
+now.getFullYear(),
+now.getMonth(),
+now.getDate(),
+hour,
+minute
+);
+
+}
+
+function updatePrayer(){
+
+if(!prayerTimes.Fajr) return;
+
+const now=new Date();
+
+let next=null;
+let nextDate=null;
+
+document.querySelectorAll(".prayerItem")
+.forEach(el=>{
+el.classList.remove("active","done");
+});
+
+for(const item of prayerMap){
+
+const time=cleanTime(prayerTimes[item[0]]);
+const date=getPrayerDate(time);
+
+const element=document.getElementById(
+"prayer-"+item[1]
+);
+
+if(now>=date){
+
+element.classList.add("done");
+
+}else if(!next){
+
+next=item;
+nextDate=date;
+
+element.classList.add("active");
+
+}
+
+}
+
+if(!next){
+
+next=prayerMap[0];
+
+nextDate=getPrayerDate(
+cleanTime(prayerTimes.Fajr)
+);
+
+nextDate.setDate(
+nextDate.getDate()+1
+);
+
+}
+
+document.getElementById("nextPrayerName")
+.textContent=next[2];
+
+const diff=nextDate-now;
+
+const h=Math.floor(diff/3600000);
+const m=Math.floor((diff%3600000)/60000);
+const s=Math.floor((diff%60000)/1000);
+
+document.getElementById("prayerCountdown")
+.textContent=
+`Menuju ${next[2]}: ${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+
+}
+
+function initLocation(){
+
+if(!navigator.geolocation){
+
+loadWeather(-6.2088,106.8456);
+loadPrayer(-6.2088,106.8456);
+
+document.getElementById("prayerLocationText")
+.textContent="Jakarta, Indonesia";
+
+return;
+
+}
+
+navigator.geolocation.getCurrentPosition(
+
+position=>{
+
+const lat=position.coords.latitude;
+const lon=position.coords.longitude;
+
+loadWeather(lat,lon);
+loadPrayer(lat,lon);
+
+document.getElementById("prayerLocationText")
+.textContent="Lokasi Saat Ini";
+
+},
+
+()=>{
+
+loadWeather(-6.2088,106.8456);
+loadPrayer(-6.2088,106.8456);
+
+document.getElementById("prayerLocationText")
+.textContent="Jakarta, Indonesia";
+
+}
+
+);
+
+}
+
+initLocation();
+
+setInterval(updatePrayer,1000);
+
+</script>
+
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged,
+signOut
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+get,
+onValue,
+set,
+onDisconnect
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+
+const firebaseConfig={
+
+apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+
+authDomain:"project-coding-gabut.firebaseapp.com",
+
+databaseURL:
+"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+projectId:"project-coding-gabut",
+
+storageBucket:
+"project-coding-gabut.firebasestorage.app",
+
+messagingSenderId:"234910334669",
+
+appId:
+"1:234910334669:web:5203c9e9ce22a596f2b384"
+
+};
+
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getDatabase(app);
+
+let currentUser=null;
+
+
+/* BANNER REALTIME */
+
+onValue(ref(db,"banner/1"),snap=>{
+
+if(!snap.exists()) return;
+
+const d=snap.val();
+
+if(d.image){
+document.getElementById("banner1").src=d.image;
+}
+
+if(d.title){
+document.getElementById("bannerTitle1").textContent=d.title;
+}
+
+if(d.text){
+document.getElementById("bannerText1").textContent=d.text;
+}
+
+});
+
+
+onValue(ref(db,"banner/2"),snap=>{
+
+if(!snap.exists()) return;
+
+const d=snap.val();
+
+if(d.image){
+document.getElementById("banner2").src=d.image;
+}
+
+if(d.title){
+document.getElementById("bannerTitle2").textContent=d.title;
+}
+
+if(d.text){
+document.getElementById("bannerText2").textContent=d.text;
+}
+
+});
+
+
+/* GLOBAL CHAT - HANYA NAMA + PESAN */
+
+onValue(ref(db,"globalChat"),snap=>{
+
+const usernameEl=
+document.getElementById("chatUsername");
+
+const messageEl=
+document.getElementById("latestChat");
+
+const statusEl=
+document.getElementById("chatStatus");
+
+
+if(!snap.exists()){
+
+usernameEl.textContent="GLOBAL CHAT";
+messageEl.textContent="Belum ada pesan...";
+statusEl.textContent="Belum ada aktivitas";
+
+return;
+
+}
+
+
+let latest=null;
+
+
+snap.forEach(child=>{
+
+const data=child.val();
+
+const timestamp=
+Number(
+data.timestamp ||
+data.time ||
+data.createdAt ||
+0
+);
+
+if(!latest || timestamp>=latest.timestamp){
+
+latest={
+...data,
+timestamp
+};
+
+}
+
+});
+
+
+if(!latest){
+
+usernameEl.textContent="GLOBAL CHAT";
+messageEl.textContent="Belum ada pesan...";
+statusEl.textContent="Belum ada aktivitas";
+
+return;
+
+}
+
+
+const username=
+latest.username ||
+latest.name ||
+latest.sender ||
+"Unknown";
+
+
+const message=
+latest.message ||
+latest.text ||
+latest.chat ||
+(latest.image
+? "📷 Mengirim sebuah foto"
+: "Belum ada pesan...");
+
+
+usernameEl.textContent=username;
+messageEl.textContent=message;
+
+statusEl.textContent=
+"Pesan terbaru • Realtime";
+
+});
+
+
+/* LOGIN */
+
+onAuthStateChanged(auth,async user=>{
+
+if(!user){
+
+location.replace("../login.html");
+return;
+
+}
+
+currentUser=user;
+
+
+const firstSnap=
+await get(
+ref(db,"users/"+user.uid)
+);
+
+
+if(!firstSnap.exists()){
+
+location.replace("../setup.html");
+return;
+
+}
+
+
+/* USER DATA REALTIME */
+
+onValue(
+ref(db,"users/"+user.uid),
+async snap=>{
+
+if(!snap.exists()) return;
+
+const d=snap.val();
+
+const expiredTime=
+Number(d.expiredAt || 0);
+
+
+if(
+expiredTime &&
+Date.now()>=expiredTime
+){
+
+alert("Durasi akun telah habis!");
+
+await set(
+ref(db,"online/"+user.uid),
+null
+);
+
+await signOut(auth);
+
+location.replace("../login.html");
+
+return;
+
+}
+
+
+const username=
+d.username ||
+user.email.split("@")[0];
+
+const role=
+d.role || "User";
+
+const profilePhoto=
+d.profileImage ||
+d.photoURL ||
+d.avatar ||
+"";
+
+
+/* TEXT */
+
+document.getElementById("username")
+.textContent=username;
+
+document.getElementById("drawerName")
+.textContent=username;
+
+document.getElementById("role")
+.textContent=role;
+
+document.getElementById("drawerRole")
+.textContent=role;
+
+document.getElementById("expired")
+.textContent=
+"Expired : "+(d.expired || "Permanen");
+
+
+/* PROFILE AVATAR */
+
+const profileImage=
+document.getElementById("profileImage");
+
+const profileIcon=
+document.getElementById("profileIcon");
+
+const drawerImage=
+document.getElementById("drawerProfileImage");
+
+const drawerIcon=
+document.getElementById("drawerProfileIcon");
+
+const avatarBox=
+document.getElementById("dashboardProfileBtn");
+
+
+if(profilePhoto){
+
+profileImage.src=profilePhoto;
+profileImage.style.display="block";
+
+profileIcon.style.display="none";
+
+drawerImage.src=profilePhoto;
+drawerImage.style.display="block";
+
+drawerIcon.style.display="none";
+
+avatarBox.classList.remove("empty");
+
+}else{
+
+profileImage.removeAttribute("src");
+profileImage.style.display="none";
+
+profileIcon.style.display="block";
+profileIcon.textContent="person";
+
+drawerImage.removeAttribute("src");
+drawerImage.style.display="none";
+
+drawerIcon.style.display="block";
+drawerIcon.textContent="person";
+
+avatarBox.classList.add("empty");
+
+}
+
+
+/* ONLINE STATUS */
+
+const onlineRef=
+ref(db,"online/"+user.uid);
+
+
+await set(onlineRef,{
+
+username:username,
+role:role,
+profileImage:profilePhoto,
+time:Date.now()
+
+});
+
+
+onDisconnect(onlineRef).remove();
+
+}
+
+);
+
+});
+
+
+/* LOGOUT */
+
+document.getElementById("logoutBtn").onclick=
+async()=>{
+
+if(!confirm("Logout dari DEVONAX?")) return;
+
+
+if(currentUser){
+
+await set(
+ref(db,"online/"+currentUser.uid),
+null
+);
+
+}
+
+
+await signOut(auth);
+
+location.replace("../login.html");
+
+};
+
+</script>
+
+</body>
+  </html>
