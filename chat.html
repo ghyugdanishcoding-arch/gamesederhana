@@ -1,0 +1,3613 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+
+<title>DEVONAX | Global Chat</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Poppins,sans-serif;
+  -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+  --bg:#070707;
+  --card:#111;
+  --card2:#181818;
+  --card3:#202020;
+  --red:#ff2020;
+  --red2:#8c1010;
+  --redSoft:#ff7070;
+  --border:#2d2d2d;
+  --text:#fff;
+  --sub:#888;
+  --green:#63ff8c;
+  --yellow:#ffc94d;
+  --blue:#58a6ff;
+}
+
+html,
+body{
+  width:100%;
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
+  overflow:hidden;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 0 0,#ff000018,transparent 35%),
+    radial-gradient(circle at 100% 100%,#ff000012,transparent 35%);
+}
+
+.grid{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.035;
+  background-image:
+    linear-gradient(#ff2020 1px,transparent 1px),
+    linear-gradient(90deg,#ff2020 1px,transparent 1px);
+  background-size:40px 40px;
+}
+
+/* HEADER */
+
+header{
+  height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 14px;
+  background:#0e0e0e;
+  border-bottom:1px solid #242424;
+  position:relative;
+  z-index:20;
+}
+
+.iconBtn{
+  width:48px;
+  height:48px;
+  border:1px solid #333;
+  border-radius:16px;
+  background:#171717;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.iconBtn span{
+  color:var(--red);
+  font-size:25px;
+}
+
+.logo{
+  text-align:center;
+}
+
+.logo h2{
+  font-family:Orbitron,sans-serif;
+  font-size:15px;
+  letter-spacing:2px;
+}
+
+.logo p{
+  color:#777;
+  font-size:8px;
+  margin-top:3px;
+  letter-spacing:.5px;
+}
+
+.headerStatus{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:-7px;
+  background:#0e0e0e;
+  border:1px solid #282828;
+  border-radius:20px;
+  padding:2px 8px;
+  font-size:7px;
+  color:var(--green);
+  white-space:nowrap;
+}
+
+.headerStatus::before{
+  content:"";
+  display:inline-block;
+  width:5px;
+  height:5px;
+  background:var(--green);
+  border-radius:50%;
+  margin-right:4px;
+}
+
+/* MAIN */
+
+.main{
+  height:calc(100vh - 72px);
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  z-index:2;
+}
+
+.tabs{
+  display:flex;
+  gap:7px;
+  margin-bottom:10px;
+}
+
+.tabBtn{
+  flex:1;
+  height:44px;
+  border:1px solid #303030;
+  border-radius:14px;
+  background:#151515;
+  color:#777;
+  font-family:Orbitron,sans-serif;
+  font-size:9px;
+  cursor:pointer;
+}
+
+.tabBtn.active{
+  color:#fff;
+  background:#2b0000;
+  border-color:var(--red);
+}
+
+.tabBtn span{
+  font-size:17px;
+  vertical-align:middle;
+}
+
+.page{
+  display:none;
+  flex:1;
+  min-height:0;
+}
+
+.page.active{
+  display:flex;
+  flex-direction:column;
+}
+
+/* CHAT */
+
+.chatTop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:8px;
+  padding:0 4px;
+}
+
+.chatInfo{
+  font-size:9px;
+  color:#777;
+}
+
+.chatInfo b{
+  color:#ddd;
+}
+
+.lockBadge{
+  display:none;
+  align-items:center;
+  gap:5px;
+  padding:6px 9px;
+  border-radius:10px;
+  background:#2a0909;
+  border:1px solid #672020;
+  color:#ff7777;
+  font-size:8px;
+  font-family:Orbitron,sans-serif;
+}
+
+.lockBadge.show{
+  display:flex;
+}
+
+.lockBadge span{
+  font-size:15px;
+}
+
+.pinnedBox{
+  display:none;
+  padding:10px 12px;
+  margin-bottom:8px;
+  border-radius:15px;
+  background:#1c1510;
+  border:1px solid #684c14;
+  cursor:pointer;
+}
+
+.pinnedTitle{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:var(--yellow);
+  font-family:Orbitron,sans-serif;
+  font-size:8px;
+  margin-bottom:5px;
+}
+
+.pinnedTitle span{
+  font-size:16px;
+}
+
+.pinnedText{
+  color:#d2c49d;
+  font-size:10px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.chatBox{
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  padding:11px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+}
+
+.chatBox::-webkit-scrollbar{
+  width:4px;
+}
+
+.chatBox::-webkit-scrollbar-thumb{
+  background:var(--red);
+  border-radius:20px;
+}
+
+/* MESSAGE */
+
+.messageWrap{
+  display:flex;
+  gap:7px;
+  max-width:94%;
+  animation:show .18s ease;
+}
+
+.messageWrap.me{
+  align-self:flex-end;
+  flex-direction:row-reverse;
+}
+
+.avatar{
+  width:34px;
+  height:34px;
+  flex:none;
+  border-radius:11px;
+  object-fit:cover;
+  background:
+    linear-gradient(135deg,#390000,#161616);
+  border:1px solid #3a3a3a;
+}
+
+.messageContent{
+  min-width:0;
+}
+
+.bubble{
+  min-width:100px;
+  padding:9px 10px;
+  background:#191919;
+  border:1px solid #303030;
+  border-radius:16px;
+  position:relative;
+}
+
+.me .bubble{
+  background:#2b0000;
+  border-color:#7d2020;
+}
+
+@keyframes show{
+  from{
+    opacity:0;
+    transform:translateY(6px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+.nameRow{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:6px;
+}
+
+.username{
+  color:#ff7777;
+  font-size:10px;
+  font-weight:700;
+}
+
+.role{
+  padding:3px 6px;
+  border-radius:7px;
+  background:#272727;
+  border:1px solid #393939;
+  font-family:Orbitron,sans-serif;
+  font-size:6px;
+  color:#aaa;
+}
+
+.role.owner{
+  color:#ffb4b4;
+  background:#390000;
+  border-color:#702020;
+}
+
+.role.developer{
+  color:#72b9ff;
+  background:#061a30;
+  border-color:#164c7b;
+}
+
+.msg{
+  color:#eee;
+  font-size:12px;
+  line-height:1.55;
+  word-break:break-word;
+}
+
+.time{
+  margin-top:6px;
+  text-align:right;
+  color:#666;
+  font-size:8px;
+}
+
+/* REPLY */
+
+.replyMessage{
+  padding:7px 8px;
+  margin-bottom:7px;
+  background:#101010;
+  border-left:3px solid var(--red);
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.replyName{
+  color:#ff7777;
+  font-size:8px;
+  font-weight:700;
+}
+
+.replyText{
+  color:#999;
+  font-size:9px;
+  margin-top:2px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* IMAGE */
+
+.imageWrap{
+  position:relative;
+  margin-top:7px;
+  width:min(280px,100%);
+}
+
+.chatImage{
+  display:block;
+  width:100%;
+  max-height:350px;
+  object-fit:cover;
+  border-radius:12px;
+  border:1px solid #333;
+  cursor:pointer;
+}
+
+.imageActions{
+  position:absolute;
+  right:7px;
+  bottom:7px;
+  display:flex;
+  gap:5px;
+}
+
+.imageAction{
+  width:31px;
+  height:31px;
+  border:1px solid #555;
+  border-radius:10px;
+  background:#000b;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  backdrop-filter:blur(5px);
+}
+
+.imageAction span{
+  font-size:17px;
+}
+
+.imageAction.replyIcon{
+  color:#ff7777;
+}
+
+/* BOT */
+
+.botBubble{
+  width:100%;
+  padding:10px 11px;
+  border-radius:15px;
+  background:#17120a;
+  border:1px solid #624600;
+}
+
+.botTitle{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:var(--yellow);
+  font-family:Orbitron,sans-serif;
+  font-size:8px;
+  margin-bottom:5px;
+}
+
+.botTitle span{
+  font-size:17px;
+}
+
+.botText{
+  color:#d1c29a;
+  line-height:1.5;
+  font-size:10px;
+}
+
+/* REPLY BOX */
+
+.replyBox{
+  display:none;
+  margin-top:8px;
+  padding:9px;
+  background:#1c1c1c;
+  border-left:4px solid var(--red);
+  border-radius:13px;
+}
+
+.replyBox.show{
+  display:block;
+}
+
+.replyHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.replyUser{
+  color:#ff7777;
+  font-size:10px;
+  font-weight:700;
+}
+
+.replyCancel{
+  width:25px;
+  height:25px;
+  border:0;
+  border-radius:8px;
+  background:#2b1111;
+  color:#ff7777;
+  cursor:pointer;
+}
+
+.replyPreview{
+  color:#999;
+  font-size:9px;
+  margin-top:3px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* STATUS */
+
+.statusBox{
+  display:none;
+  margin-top:8px;
+  padding:9px;
+  border-radius:12px;
+  background:#211111;
+  border:1px solid #552020;
+  color:#ff8888;
+  font-size:9px;
+  text-align:center;
+}
+
+.statusBox.show{
+  display:block;
+}
+
+/* INPUT */
+
+.inputArea{
+  display:flex;
+  gap:7px;
+  align-items:center;
+  margin-top:9px;
+}
+
+.attachBtn,
+.sendBtn{
+  width:50px;
+  height:50px;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.attachBtn{
+  border:1px solid #333;
+  background:#191919;
+  color:#fff;
+}
+
+.attachBtn span{
+  font-size:23px;
+}
+
+.sendBtn{
+  border:0;
+  background:var(--red);
+  color:#fff;
+}
+
+.sendBtn span{
+  font-size:23px;
+}
+
+.messageInput{
+  flex:1;
+  min-width:0;
+  height:50px;
+  padding:0 14px;
+  background:#171717;
+  border:1px solid #333;
+  border-radius:15px;
+  outline:none;
+  color:#fff;
+  font-size:12px;
+}
+
+.messageInput:focus{
+  border-color:var(--red);
+}
+
+.messageInput:disabled,
+.sendBtn:disabled,
+.attachBtn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+/* IMAGE PREVIEW */
+
+.previewBox{
+  display:none;
+  align-items:center;
+  gap:9px;
+  margin-top:8px;
+  padding:7px;
+  background:#151515;
+  border:1px solid #333;
+  border-radius:13px;
+}
+
+.previewBox.show{
+  display:flex;
+}
+
+.previewBox img{
+  width:46px;
+  height:46px;
+  border-radius:9px;
+  object-fit:cover;
+}
+
+.previewText{
+  flex:1;
+  min-width:0;
+  color:#aaa;
+  font-size:9px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.removePreview{
+  width:30px;
+  height:30px;
+  border:0;
+  border-radius:8px;
+  background:#2b1111;
+  color:var(--red);
+  cursor:pointer;
+}
+
+/* FULL IMAGE */
+
+.imageViewer{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  background:#000;
+  flex-direction:column;
+}
+
+.imageViewer.show{
+  display:flex;
+}
+
+.viewerHeader{
+  height:65px;
+  flex:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 12px;
+  background:#080808;
+  border-bottom:1px solid #222;
+}
+
+.viewerBack{
+  width:45px;
+  height:45px;
+  border:1px solid #333;
+  border-radius:14px;
+  background:#171717;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.viewerBack span{
+  color:#fff;
+}
+
+.viewerTitle{
+  font-family:Orbitron,sans-serif;
+  font-size:10px;
+  letter-spacing:1px;
+}
+
+.viewerBody{
+  flex:1;
+  min-height:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:auto;
+  padding:10px;
+}
+
+.viewerBody img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  border-radius:8px;
+}
+
+/* SCROLL PAGES */
+
+.scrollPage{
+  overflow-y:auto;
+  min-height:0;
+  padding-right:2px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:15px;
+  margin-bottom:10px;
+}
+
+.cardTitle{
+  display:flex;
+  gap:7px;
+  align-items:center;
+  font-family:Orbitron,sans-serif;
+  font-size:10px;
+  margin-bottom:11px;
+}
+
+.cardTitle span{
+  color:var(--red);
+  font-size:19px;
+}
+
+.rule{
+  display:flex;
+  gap:9px;
+  padding:9px 0;
+  border-bottom:1px solid #242424;
+  color:#ccc;
+  font-size:10px;
+  line-height:1.5;
+}
+
+.rule:last-child{
+  border-bottom:0;
+}
+
+.num{
+  min-width:22px;
+  height:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:7px;
+  background:#202020;
+  color:#ff7777;
+  font-family:Orbitron,sans-serif;
+  font-size:7px;
+}
+
+.command{
+  padding:10px;
+  background:#101010;
+  border:1px solid #2e2e2e;
+  border-radius:10px;
+  margin-top:7px;
+}
+
+.command b{
+  color:#ff7777;
+  font-family:monospace;
+  font-size:10px;
+}
+
+.command p{
+  color:#888;
+  font-size:9px;
+  margin-top:3px;
+}
+
+.loading{
+  margin:auto;
+  text-align:center;
+  color:#777;
+  font-size:10px;
+}
+
+/* LOCK NOTICE */
+
+.lockScreen{
+  display:none;
+  position:absolute;
+  inset:0;
+  z-index:50;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+}
+
+.lockScreen.show{
+  display:flex;
+}
+
+.lockCard{
+  padding:14px 18px;
+  background:#160808;
+  border:1px solid #5c2020;
+  border-radius:16px;
+  text-align:center;
+}
+
+.lockCard span{
+  color:#ff5555;
+  font-size:28px;
+}
+
+.lockCard p{
+  margin-top:4px;
+  color:#ff9999;
+  font-size:9px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<header>
+
+  <button id="backBtn" class="iconBtn">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+
+  <div class="logo">
+    <h2>DEVONAX CHAT</h2>
+    <p>PROFESSIONAL GLOBAL CHAT</p>
+  </div>
+
+  <button id="clearBtn" class="iconBtn">
+    <span class="material-symbols-outlined">delete</span>
+  </button>
+
+  <div class="headerStatus">REALTIME ONLINE</div>
+
+</header>
+
+<div class="main">
+
+  <div class="tabs">
+
+    <button class="tabBtn active" data-tab="chat">
+      <span class="material-symbols-outlined">forum</span>
+      CHAT
+    </button>
+
+    <button class="tabBtn" data-tab="rules">
+      <span class="material-symbols-outlined">gavel</span>
+      RULES
+    </button>
+
+    <button class="tabBtn" data-tab="commands">
+      <span class="material-symbols-outlined">terminal</span>
+      CMD
+    </button>
+
+  </div>
+
+  <!-- CHAT -->
+
+  <div id="chatPage" class="page active">
+
+    <div class="chatTop">
+
+      <div class="chatInfo">
+        Global Chat • <b id="onlineText">Online --</b>
+      </div>
+
+      <div id="lockBadge" class="lockBadge">
+        <span class="material-symbols-outlined">lock</span>
+        GLOBAL LOCKED
+      </div>
+
+    </div>
+
+    <div id="pinnedBox" class="pinnedBox">
+
+      <div class="pinnedTitle">
+        <span class="material-symbols-outlined">push_pin</span>
+        PINNED MESSAGE
+      </div>
+
+      <div id="pinnedText" class="pinnedText"></div>
+
+    </div>
+
+    <div id="chatBox" class="chatBox">
+      <div class="loading">
+        Menghubungkan ke Global Chat...
+      </div>
+    </div>
+
+    <div id="replyBox" class="replyBox">
+
+      <div class="replyHeader">
+
+        <div id="replyUser" class="replyUser"></div>
+
+        <button id="cancelReply" class="replyCancel">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+
+      </div>
+
+      <div id="replyText" class="replyPreview"></div>
+
+    </div>
+
+    <div id="statusBox" class="statusBox"></div>
+
+    <div id="previewBox" class="previewBox">
+
+      <img id="previewImage" alt="Preview">
+
+      <div id="previewText" class="previewText">
+        Foto dipilih
+      </div>
+
+      <button id="removePreview" class="removePreview">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
+    </div>
+
+    <div class="inputArea">
+
+      <input
+        id="imageInput"
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/gif"
+        hidden
+      >
+
+      <button id="attachBtn" class="attachBtn">
+        <span class="material-symbols-outlined">image</span>
+      </button>
+
+      <input
+        id="messageInput"
+        class="messageInput"
+        type="text"
+        maxlength="300"
+        autocomplete="off"
+        placeholder="Tulis pesan atau /help..."
+      >
+
+      <button id="sendBtn" class="sendBtn">
+        <span class="material-symbols-outlined">send</span>
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- RULES -->
+
+  <div id="rulesPage" class="page scrollPage">
+
+    <div class="card">
+
+      <div class="cardTitle">
+        <span class="material-symbols-outlined">check_circle</span>
+        DIPERBOLEHKAN
+      </div>
+
+      <div class="rule">
+        <div class="num">1</div>
+        <div>Diskusi seputar project, fitur, bug, update, dan komunitas DEVONAX.</div>
+      </div>
+
+      <div class="rule">
+        <div class="num">2</div>
+        <div>Tanya jawab dan berbagi informasi yang bermanfaat.</div>
+      </div>
+
+      <div class="rule">
+        <div class="num">3</div>
+        <div>Gunakan bahasa yang sopan dan tidak menyerang pengguna lain.</div>
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="cardTitle">
+        <span class="material-symbols-outlined">block</span>
+        DILARANG
+      </div>
+
+      <div class="rule">
+        <div class="num">1</div>
+        <div>Nomor WhatsApp/telepon, kontak pribadi, atau ajakan pindah chat.</div>
+      </div>
+
+      <div class="rule">
+        <div class="num">2</div>
+        <div>URL, domain, shortlink, invite link, dan promosi eksternal.</div>
+      </div>
+
+      <div class="rule">
+        <div class="num">3</div>
+        <div>Open order, ready stock, jualan, harga, transaksi, atau iklan.</div>
+      </div>
+
+      <div class="rule">
+        <div class="num">4</div>
+        <div>Promosi APK, layanan, project, atau brand kompetitor.</div>
+      </div>
+
+      <div class="rule">
+        <div class="num">5</div>
+        <div>Judi, gambling, spam, crypto, trading, pulsa, rekrut tim, dan sejenisnya.</div>
+      </div>
+
+      <div class="rule">
+        <div class="num">6</div>
+        <div>Hinaan, pelecehan, provokasi, ancaman, dan bahasa kasar.</div>
+      </div>
+
+      <div class="rule">
+        <div class="num">7</div>
+        <div>Spam pesan berulang atau mengganggu aktivitas Global Chat.</div>
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="cardTitle">
+        <span class="material-symbols-outlined">shield</span>
+        SISTEM MODERASI
+      </div>
+
+      <div class="rule">
+        <div class="num">1</div>
+        <div>Pelanggaran otomatis diblokir oleh Moderation Bot.</div>
+      </div>
+
+      <div class="rule">
+        <div class="num">2</div>
+        <div>Warn ke-3 otomatis memberikan mute Global Chat selama 7 hari.</div>
+      </div>
+
+      <div class="rule">
+        <div class="num">3</div>
+        <div>Developer dan Owner kebal sistem moderasi otomatis.</div>
+      </div>
+
+      <div class="rule">
+        <div class="num">4</div>
+        <div>Developer tidak dapat memoderasi Owner.</div>
+      </div>
+
+      <div class="rule">
+        <div class="num">5</div>
+        <div>Owner tidak dapat memoderasi Developer.</div>
+      </div>
+
+      <div class="rule">
+        <div class="num">6</div>
+        <div>Saat Global Chat di-lock, hanya Developer dan Owner yang dapat mengirim.</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- COMMANDS -->
+
+  <div id="commandsPage" class="page scrollPage">
+
+    <div class="card">
+
+      <div class="cardTitle">
+        <span class="material-symbols-outlined">person</span>
+        COMMAND USER
+      </div>
+
+      <div class="command">
+        <b>/help</b>
+        <p>Menampilkan daftar command.</p>
+      </div>
+
+      <div class="command">
+        <b>/rules</b>
+        <p>Membuka halaman aturan Global Chat.</p>
+      </div>
+
+      <div class="command">
+        <b>/me teks</b>
+        <p>Mengirim status aksi.</p>
+      </div>
+
+      <div class="command">
+        <b>/roll</b>
+        <p>Random angka 1 sampai 100.</p>
+      </div>
+
+      <div class="command">
+        <b>/flip</b>
+        <p>Lempar koin HEAD/TAIL.</p>
+      </div>
+
+      <div class="command">
+        <b>/online</b>
+        <p>Melihat jumlah user online.</p>
+      </div>
+
+      <div class="command">
+        <b>/status</b>
+        <p>Melihat status Global Chat.</p>
+      </div>
+
+      <div class="command">
+        <b>/clear</b>
+        <p>Membersihkan tampilan chat di perangkat sendiri.</p>
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="cardTitle">
+        <span class="material-symbols-outlined">admin_panel_settings</span>
+        COMMAND DEVELOPER / OWNER
+      </div>
+
+      <div class="command">
+        <b>/pin</b>
+        <p>Balas pesan lalu gunakan /pin.</p>
+      </div>
+
+      <div class="command">
+        <b>/unpin</b>
+        <p>Menghapus pinned message.</p>
+      </div>
+
+      <div class="command">
+        <b>/lock</b>
+        <p>Mengunci Global Chat untuk semua role selain Developer & Owner.</p>
+      </div>
+
+      <div class="command">
+        <b>/unlock</b>
+        <p>Membuka kembali Global Chat.</p>
+      </div>
+
+      <div class="command">
+        <b>/setcd 3</b>
+        <p>Mengatur cooldown Global Chat 0-3600 detik.</p>
+      </div>
+
+      <div class="command">
+        <b>/slowmode 5</b>
+        <p>Alias untuk mengatur cooldown chat.</p>
+      </div>
+
+      <div class="command">
+        <b>/mute @user</b>
+        <p>Mute user selama 7 hari.</p>
+      </div>
+
+      <div class="command">
+        <b>/unmute @user</b>
+        <p>Membuka mute user.</p>
+      </div>
+
+      <div class="command">
+        <b>/ban @user</b>
+        <p>Ban permanen dari Global Chat.</p>
+      </div>
+
+      <div class="command">
+        <b>/unban @user</b>
+        <p>Membuka ban Global Chat.</p>
+      </div>
+
+      <div class="command">
+        <b>/warn @user alasan</b>
+        <p>Memberikan warn manual.</p>
+      </div>
+
+      <div class="command">
+        <b>/all pesan</b>
+        <p>Mengirim pengumuman Global.</p>
+      </div>
+
+      <div class="command">
+        <b>/clearall</b>
+        <p>Menghapus seluruh pesan Global Chat.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- FULL IMAGE VIEWER -->
+
+<div id="imageViewer" class="imageViewer">
+
+  <div class="viewerHeader">
+
+    <button id="viewerBack" class="viewerBack">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+
+    <div class="viewerTitle">
+      IMAGE PREVIEW
+    </div>
+
+  </div>
+
+  <div class="viewerBody">
+    <img id="viewerImage" alt="Full Preview">
+  </div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+  getDatabase,
+  ref,
+  push,
+  get,
+  set,
+  update,
+  remove,
+  query,
+  limitToLast,
+  onChildAdded,
+  onValue
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+
+/* =========================
+   FIREBASE
+========================= */
+
+const firebaseConfig={
+  apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+  authDomain:"project-coding-gabut.firebaseapp.com",
+  databaseURL:"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"project-coding-gabut",
+  storageBucket:"project-coding-gabut.firebasestorage.app",
+  messagingSenderId:"234910334669",
+  appId:"1:234910334669:web:5203c9e9ce22a596f2b384"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getDatabase(app);
+
+
+/* =========================
+   ELEMENT
+========================= */
+
+const chatBox=document.getElementById("chatBox");
+const input=document.getElementById("messageInput");
+const sendBtn=document.getElementById("sendBtn");
+const attachBtn=document.getElementById("attachBtn");
+const imageInput=document.getElementById("imageInput");
+const statusBox=document.getElementById("statusBox");
+
+const replyBox=document.getElementById("replyBox");
+const replyUser=document.getElementById("replyUser");
+const replyText=document.getElementById("replyText");
+
+const previewBox=document.getElementById("previewBox");
+const previewImage=document.getElementById("previewImage");
+const previewText=document.getElementById("previewText");
+
+const imageViewer=document.getElementById("imageViewer");
+const viewerImage=document.getElementById("viewerImage");
+
+
+/* =========================
+   STATE
+========================= */
+
+let myUid="";
+let myName="User";
+let myRole="Member";
+let myAvatar="";
+
+let replyData=null;
+let selectedImage=null;
+
+let globalCooldown=3;
+let cooldownUntil=0;
+let cooldownTimer=null;
+
+let warnCount=0;
+let mutedUntil=0;
+let banned=false;
+
+let globalLocked=false;
+
+let chatLoaded=false;
+
+
+/* =========================
+   ROLE
+========================= */
+
+function roleName(role){
+  return String(role||"member")
+    .toLowerCase()
+    .trim();
+}
+
+function isStaff(role=myRole){
+  const r=roleName(role);
+  return r==="developer" || r==="owner";
+}
+
+function isDeveloper(role=myRole){
+  return roleName(role)==="developer";
+}
+
+function isOwner(role=myRole){
+  return roleName(role)==="owner";
+}
+
+
+/*
+  Developer tidak dapat moderasi Owner.
+  Owner tidak dapat moderasi Developer.
+*/
+function canModerateTarget(targetRole){
+
+  if(!isStaff()) return false;
+
+  if(isDeveloper() && isOwner(targetRole)){
+    return false;
+  }
+
+  if(isOwner() && isDeveloper(targetRole)){
+    return false;
+  }
+
+  return true;
+}
+
+
+/* =========================
+   ESCAPE
+========================= */
+
+function escapeHtml(value){
+
+  return String(value??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+/* =========================
+   TABS
+========================= */
+
+document.querySelectorAll(".tabBtn").forEach(btn=>{
+
+  btn.onclick=()=>{
+
+    const tab=btn.dataset.tab;
+
+    document
+      .querySelectorAll(".tabBtn")
+      .forEach(x=>x.classList.remove("active"));
+
+    document
+      .querySelectorAll(".page")
+      .forEach(x=>x.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    document
+      .getElementById(tab+"Page")
+      .classList.add("active");
+
+  };
+
+});
+
+
+/* =========================
+   BACK
+========================= */
+
+document.getElementById("backBtn").onclick=()=>{
+  history.back();
+};
+
+
+/* =========================
+   REPLY
+========================= */
+
+function setReply(data){
+
+  if(!data || data.type==="moderation"){
+    return;
+  }
+
+  replyData={
+    uid:data.uid||"",
+    username:data.username||"Unknown",
+    message:data.message||"[Foto]",
+    image:data.image||null
+  };
+
+  replyUser.textContent=
+    "Membalas @"+replyData.username;
+
+  replyText.textContent=
+    replyData.image && !replyData.message
+      ? "📷 Foto"
+      : replyData.message||"📷 Foto";
+
+  replyBox.classList.add("show");
+
+  input.focus();
+}
+
+
+function cancelReply(){
+
+  replyData=null;
+  replyBox.classList.remove("show");
+
+}
+
+
+document.getElementById("cancelReply")
+  .onclick=cancelReply;
+
+
+/* =========================
+   IMAGE VIEWER
+========================= */
+
+function openImage(src){
+
+  if(!src) return;
+
+  viewerImage.src=src;
+  imageViewer.classList.add("show");
+
+}
+
+
+function closeImage(){
+
+  viewerImage.src="";
+  imageViewer.classList.remove("show");
+
+}
+
+
+document.getElementById("viewerBack")
+  .onclick=closeImage;
+
+
+/* =========================
+   AUTH
+========================= */
+
+onAuthStateChanged(auth,async user=>{
+
+  if(!user){
+
+    location.href="../login.html";
+    return;
+
+  }
+
+  myUid=user.uid;
+
+  try{
+
+    const snap=await get(
+      ref(db,"users/"+myUid)
+    );
+
+    if(snap.exists()){
+
+      const d=snap.val();
+
+      myName=
+        d.username||
+        user.email?.split("@")[0]||
+        "User";
+
+      myRole=d.role||"Member";
+
+      myAvatar=
+        d.photoURL||
+        d.photo||
+        d.avatar||
+        "";
+
+    }
+
+    await loadModeration();
+
+    loadSettings();
+
+    loadGlobalLock();
+
+    loadPinned();
+
+    loadOnline();
+
+    loadChat();
+
+  }catch(err){
+
+    console.error(err);
+
+    showStatus(
+      "Gagal memuat data akun.",
+      true
+    );
+
+  }
+
+});
+
+
+/* =========================
+   MODERATION STATUS
+========================= */
+
+async function loadModeration(){
+
+  const snap=await get(
+    ref(db,"globalChatModeration/"+myUid)
+  );
+
+  if(!snap.exists()){
+
+    if(isStaff()){
+
+      warnCount=0;
+      mutedUntil=0;
+      banned=false;
+
+    }
+
+    return;
+  }
+
+  const d=snap.val();
+
+  warnCount=Number(d.warns||0);
+  mutedUntil=Number(d.mutedUntil||0);
+  banned=Boolean(d.banned);
+
+  /*
+    STAFF KEBAL TOTAL
+  */
+
+  if(isStaff()){
+
+    warnCount=0;
+    mutedUntil=0;
+    banned=false;
+
+    enableChat();
+
+    return;
+
+  }
+
+  if(banned){
+
+    disableChat(
+      "⛔ Kamu telah diban permanen dari Global Chat."
+    );
+
+    return;
+  }
+
+  if(mutedUntil>Date.now()){
+
+    updateMuteStatus();
+
+    return;
+
+  }
+
+}
+
+
+/* =========================
+   MODERATION UI
+========================= */
+
+function disableChat(message){
+
+  input.disabled=true;
+  sendBtn.disabled=true;
+  attachBtn.disabled=true;
+
+  statusBox.classList.add("show");
+  statusBox.textContent=message;
+
+}
+
+
+function enableChat(){
+
+  if(
+    !isStaff() &&
+    (
+      banned ||
+      mutedUntil>Date.now() ||
+      globalLocked
+    )
+  ){
+
+    return;
+
+  }
+
+  input.disabled=false;
+  sendBtn.disabled=false;
+  attachBtn.disabled=false;
+
+  statusBox.classList.remove("show");
+
+}
+
+
+function showStatus(message,error=false){
+
+  statusBox.classList.add("show");
+  statusBox.textContent=message;
+
+}
+
+
+function updateMuteStatus(){
+
+  if(isStaff()){
+
+    enableChat();
+    return;
+
+  }
+
+  if(mutedUntil<=Date.now()){
+
+    enableChat();
+    return;
+
+  }
+
+  const left=
+    mutedUntil-Date.now();
+
+  const days=
+    Math.ceil(left/(24*60*60*1000));
+
+  disableChat(
+    "🔇 Kamu sedang mute. Sisa sekitar "+days+" hari."
+  );
+
+}
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+function loadSettings(){
+
+  onValue(
+    ref(db,"globalChatSettings/cooldown"),
+    snap=>{
+
+      const value=Number(snap.val());
+
+      if(
+        Number.isFinite(value) &&
+        value>=0 &&
+        value<=3600
+      ){
+
+        globalCooldown=value;
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================
+   GLOBAL LOCK
+========================= */
+
+function loadGlobalLock(){
+
+  onValue(
+    ref(db,"globalChatSettings/locked"),
+    snap=>{
+
+      globalLocked=Boolean(snap.val());
+
+      const badge=
+        document.getElementById("lockBadge");
+
+      if(globalLocked){
+
+        badge.classList.add("show");
+
+        if(!isStaff()){
+
+          disableChat(
+            "🔒 Global Chat sedang dikunci oleh Staff."
+          );
+
+        }
+
+      }else{
+
+        badge.classList.remove("show");
+
+        if(
+          !banned &&
+          mutedUntil<=Date.now()
+        ){
+
+          enableChat();
+
+        }
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================
+   PIN
+========================= */
+
+function loadPinned(){
+
+  onValue(
+    ref(db,"globalChatPinned"),
+    snap=>{
+
+      const box=
+        document.getElementById("pinnedBox");
+
+      const text=
+        document.getElementById("pinnedText");
+
+      if(!snap.exists()){
+
+        box.style.display="none";
+        return;
+
+      }
+
+      const d=snap.val();
+
+      text.textContent=
+        "@"+(d.username||"Unknown")+
+        ": "+
+        (d.message||"📷 Foto");
+
+      box.style.display="block";
+
+    }
+  );
+
+}
+
+
+/* =========================
+   ONLINE
+========================= */
+
+function loadOnline(){
+
+  onValue(
+    ref(db,"online"),
+    snap=>{
+
+      const total=
+        snap.exists()
+          ? Object.keys(snap.val()||{}).length
+          : 0;
+
+      document.getElementById("onlineText")
+        .textContent="Online "+total;
+
+    }
+  );
+
+}
+
+
+/* =========================
+   CHAT
+========================= */
+
+function loadChat(){
+
+  if(chatLoaded) return;
+
+  chatLoaded=true;
+
+  chatBox.innerHTML="";
+
+  const q=query(
+    ref(db,"globalChat"),
+    limitToLast(150)
+  );
+
+  onChildAdded(q,snap=>{
+
+    const d=snap.val();
+
+    if(
+      d.type==="moderation" ||
+      d.type==="announcement" ||
+      d.type==="system"
+    ){
+
+      renderBot(d);
+      return;
+
+    }
+
+    renderMessage(d,snap.key);
+
+  });
+
+}
+
+
+/* =========================
+   BOT
+========================= */
+
+function renderBot(d){
+
+  const el=document.createElement("div");
+
+  el.className="botBubble";
+
+  let title="SYSTEM BOT";
+  let icon="smart_toy";
+
+  if(d.type==="announcement"){
+
+    title="GLOBAL ANNOUNCEMENT";
+    icon="campaign";
+
+  }
+
+  if(d.type==="moderation"){
+
+    title="MODERATION BOT";
+    icon="shield";
+
+  }
+
+  el.innerHTML=`
+
+    <div class="botTitle">
+
+      <span class="material-symbols-outlined">
+        ${icon}
+      </span>
+
+      ${title}
+
+    </div>
+
+    <div class="botText">
+      ${escapeHtml(d.message||"")}
+    </div>
+
+  `;
+
+  chatBox.appendChild(el);
+
+  scrollChat();
+
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+function renderMessage(d,key){
+
+  const wrap=document.createElement("div");
+
+  wrap.className=
+    "messageWrap"+
+    (d.uid===myUid ? " me":"");
+
+  const avatar=document.createElement("img");
+
+  avatar.className="avatar";
+
+  avatar.src=
+    d.avatar||
+    "data:image/svg+xml;charset=UTF-8,"+
+    encodeURIComponent(`
+      <svg xmlns="http://www.w3.org/2000/svg"
+        width="100"
+        height="100">
+        <rect width="100"
+          height="100"
+          fill="#180000"/>
+        <text
+          x="50"
+          y="58"
+          text-anchor="middle"
+          fill="#ff5555"
+          font-size="38">
+          ${String(d.username||"U")
+            .charAt(0)
+            .toUpperCase()}
+        </text>
+      </svg>
+    `);
+
+  const content=document.createElement("div");
+
+  content.className="messageContent";
+
+  const bubble=document.createElement("div");
+
+  bubble.className="bubble";
+
+  const roleClass=
+    roleName(d.role)==="owner"
+      ? "owner"
+      : roleName(d.role)==="developer"
+        ? "developer"
+        : "";
+
+  const time=d.time
+    ? new Date(d.time)
+        .toLocaleTimeString(
+          "id-ID",
+          {
+            hour:"2-digit",
+            minute:"2-digit"
+          }
+        )
+    : "--:--";
+
+
+  let html=`
+
+    <div class="nameRow">
+
+      <div class="username">
+        @${escapeHtml(d.username||"Unknown")}
+      </div>
+
+      <div class="role ${roleClass}">
+        ${escapeHtml(d.role||"Member")}
+      </div>
+
+    </div>
+  `;
+
+
+  /* REPLY */
+
+  if(d.reply){
+
+    html+=`
+
+      <div class="replyMessage">
+
+        <div class="replyName">
+          @${escapeHtml(
+            d.reply.username||"Unknown"
+          )}
+        </div>
+
+        <div class="replyText">
+          ${escapeHtml(
+            d.reply.message||
+            (d.reply.image?"📷 Foto":"")
+          )}
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* MESSAGE */
+
+  if(d.message){
+
+    html+=`
+
+      <div class="msg">
+        ${escapeHtml(d.message)}
+      </div>
+
+    `;
+
+  }
+
+
+  /* IMAGE */
+
+  if(d.image){
+
+    html+=`
+
+      <div class="imageWrap">
+
+        <img
+          class="chatImage"
+          src="${escapeHtml(d.image)}"
+          alt="Foto chat"
+        >
+
+        <div class="imageActions">
+
+          <button
+            class="imageAction replyIcon"
+            title="Balas foto"
+            type="button"
+          >
+
+            <span class="material-symbols-outlined">
+              reply
+            </span>
+
+          </button>
+
+          <button
+            class="imageAction previewIcon"
+            title="Full preview"
+            type="button"
+          >
+
+            <span class="material-symbols-outlined">
+              open_in_full
+            </span>
+
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  html+=`
+
+    <div class="time">
+      ${time}
+    </div>
+
+  `;
+
+  bubble.innerHTML=html;
+
+  /*
+    Klik bubble = reply
+  */
+
+  bubble.onclick=e=>{
+
+    if(
+      e.target.closest(".imageAction") ||
+      e.target.closest(".chatImage")
+    ){
+
+      return;
+
+    }
+
+    setReply(d);
+
+  };
+
+
+  /*
+    Klik image = full preview
+  */
+
+  const image=bubble.querySelector(".chatImage");
+
+  if(image){
+
+    image.onclick=e=>{
+
+      e.stopPropagation();
+
+      openImage(d.image);
+
+    };
+
+  }
+
+
+  /*
+    Tombol reply foto
+  */
+
+  const replyButton=
+    bubble.querySelector(".replyIcon");
+
+  if(replyButton){
+
+    replyButton.onclick=e=>{
+
+      e.stopPropagation();
+
+      setReply(d);
+
+    };
+
+  }
+
+
+  /*
+    Tombol full preview
+  */
+
+  const previewButton=
+    bubble.querySelector(".previewIcon");
+
+  if(previewButton){
+
+    previewButton.onclick=e=>{
+
+      e.stopPropagation();
+
+      openImage(d.image);
+
+    };
+
+  }
+
+
+  content.appendChild(bubble);
+
+  wrap.appendChild(avatar);
+
+  wrap.appendChild(content);
+
+  chatBox.appendChild(wrap);
+
+  scrollChat();
+
+}
+
+
+/* =========================
+   SCROLL
+========================= */
+
+function scrollChat(){
+
+  setTimeout(()=>{
+
+    chatBox.scrollTop=
+      chatBox.scrollHeight;
+
+  },50);
+
+}
+
+
+/* =========================
+   IMAGE SELECT
+========================= */
+
+attachBtn.onclick=()=>{
+
+  if(input.disabled) return;
+
+  imageInput.click();
+
+};
+
+
+imageInput.onchange=()=>{
+
+  const file=imageInput.files?.[0];
+
+  if(!file) return;
+
+  if(!file.type.startsWith("image/")){
+
+    alert("File harus berupa gambar.");
+    imageInput.value="";
+    return;
+
+  }
+
+  if(file.size>700*1024){
+
+    alert("Ukuran foto maksimal 700 KB.");
+    imageInput.value="";
+    return;
+
+  }
+
+  const reader=new FileReader();
+
+  reader.onload=()=>{
+
+    selectedImage=reader.result;
+
+    previewImage.src=selectedImage;
+
+    previewText.textContent=
+      file.name;
+
+    previewBox.classList.add("show");
+
+  };
+
+  reader.readAsDataURL(file);
+
+};
+
+
+document.getElementById("removePreview")
+  .onclick=()=>{
+
+    selectedImage=null;
+    imageInput.value="";
+    previewImage.src="";
+
+    previewBox.classList.remove("show");
+
+  };
+
+
+/* =========================
+   COOLDOWN
+========================= */
+
+function startCooldown(){
+
+  if(isStaff()) return;
+
+  if(globalCooldown<=0) return;
+
+  cooldownUntil=
+    Date.now()+
+    globalCooldown*1000;
+
+  input.disabled=true;
+  sendBtn.disabled=true;
+  attachBtn.disabled=true;
+
+  statusBox.classList.add("show");
+
+  function updateCooldown(){
+
+    const left=Math.ceil(
+      (cooldownUntil-Date.now())/1000
+    );
+
+    if(left<=0){
+
+      clearInterval(cooldownTimer);
+
+      cooldownTimer=null;
+
+      cooldownUntil=0;
+
+      if(
+        !banned &&
+        mutedUntil<=Date.now() &&
+        !globalLocked
+      ){
+
+        enableChat();
+
+      }
+
+      return;
+
+    }
+
+    statusBox.textContent=
+      "⏱️ Cooldown aktif. Tunggu "+
+      left+
+      " detik.";
+
+  }
+
+  updateCooldown();
+
+  cooldownTimer=
+    setInterval(updateCooldown,500);
+
+}
+
+
+/* =========================
+   MODERATION FILTER
+========================= */
+
+function detectViolation(text){
+
+  const t=
+    String(text||"")
+      .toLowerCase()
+      .trim();
+
+  if(!t) return null;
+
+
+  /* PHONE / WHATSAPP */
+
+  if(
+    /(?:\+?62|0)\s*8[\d\s.\-]{7,14}/i.test(t) ||
+    /\bwa[\s.-]?(me|link)\b/i.test(t)
+  ){
+
+    return "Nomor WhatsApp/telepon atau kontak tidak diperbolehkan.";
+
+  }
+
+
+  /* URL / DOMAIN */
+
+  if(
+    /(https?:\/\/|www\.)/i.test(t) ||
+    /\b[a-z0-9-]+\.(com|net|org|id|co|xyz|site|link|online|store|app|dev|io|me|gg)\b/i.test(t) ||
+    /\b(bit\.ly|tinyurl\.com|t\.me|discord\.gg)\b/i.test(t)
+  ){
+
+    return "URL, domain, invite link, atau shortlink tidak diperbolehkan.";
+
+  }
+
+
+  /* PROMOTION */
+
+  if(
+    /\b(open\s*order|ready\s*stock|pre\s*order|reseller|dropship|jual|jualan|jualin|buy\s*now|order\s*now|wa\s*me|pm\s*me|dm\s*me|chat\s*me|hubungi\s*saya|minat\s*pm)\b/i.test(t)
+  ){
+
+    return "Promosi, jualan, atau ajakan transaksi tidak diperbolehkan.";
+
+  }
+
+
+  /* PRICE */
+
+  if(
+    /\brp[\s.]?\d+/i.test(t) ||
+    /\bidr[\s.]?\d+/i.test(t) ||
+    /\b\d+\s*(k|rb|ribu|jt|juta)\b/i.test(t) ||
+    /\b\d{1,3}(?:[.,]\d{3})+(?:[.,]\d+)?\b/.test(t)
+  ){
+
+    return "Penyebutan harga atau nominal transaksi tidak diperbolehkan.";
+
+  }
+
+
+  /* GAMBLING / OFFTOPIC */
+
+  if(
+    /\b(slot|judi|casino|kasino|togel|betting|bet|jackpot|gacor|pulsa|kuota|crypto|kripto|bitcoin|trading|forex|rekrut\s*team|join\s*team|spam\s*iklan)\b/i.test(t)
+  ){
+
+    return "Konten off-topic, gambling, transaksi, atau spam tidak diperbolehkan.";
+
+  }
+
+
+  /* COMPETITOR APK */
+
+  if(
+    /\b(wa\s*mod|gbwhatsapp|gb\s*wa|fmwhatsapp|yowhatsapp|whatsapp\s*plus|whatsapp\s*gold)\b/i.test(t)
+  ){
+
+    return "Promosi APK/modifikasi atau brand kompetitor tidak diperbolehkan.";
+
+  }
+
+
+  /* INSULT */
+
+  if(
+    /\b(bangsat|kontol|memek|ngentot|jembut|tolol|goblok|idiot|bego|bodoh|anjing|babi|asu|fuck|fucking|bitch|asshole)\b/i.test(t)
+  ){
+
+    return "Bahasa kasar, hinaan, atau pelecehan tidak diperbolehkan.";
+
+  }
+
+
+  /* REPEATED CHARACTERS / SPAM */
+
+  if(
+    /(.)\1{7,}/i.test(t)
+  ){
+
+    return "Spam karakter berulang tidak diperbolehkan.";
+
+  }
+
+
+  /* EXCESSIVE CAPS */
+
+  const letters=
+    t.replace(/[^a-z]/gi,"");
+
+  const upper=
+    t.replace(/[^A-Z]/g,"");
+
+  if(
+    letters.length>=15 &&
+    upper.length/letters.length>.8
+  ){
+
+    return "Penggunaan huruf kapital berlebihan tidak diperbolehkan.";
+
+  }
+
+
+  return null;
+
+}
+
+
+/* =========================
+   AUTO WARNING
+========================= */
+
+async function addAutoWarning(reason){
+
+  /*
+    STAFF KEBAL TOTAL
+  */
+
+  if(isStaff()) return;
+
+
+  warnCount++;
+
+
+  let muteNow=false;
+
+  if(warnCount>=3){
+
+    muteNow=true;
+
+    mutedUntil=
+      Date.now()+
+      7*24*60*60*1000;
+
+  }
+
+
+  await update(
+    ref(db,"globalChatModeration/"+myUid),
+    {
+      warns:warnCount,
+      mutedUntil:
+        muteNow
+          ? mutedUntil
+          : 0,
+      lastReason:reason,
+      lastViolation:Date.now()
+    }
+  );
+
+
+  let notice=
+    "Pesan @"+
+    myName+
+    " diblokir. "+
+    "Alasan: "+
+    reason+
+    " Warn "+
+    warnCount+
+    "/3.";
+
+
+  if(muteNow){
+
+    notice+=
+      " User otomatis mute selama 7 hari.";
+
+  }
+
+
+  await botNotice(
+    notice,
+    "moderation"
+  );
+
+
+  if(muteNow){
+
+    disableChat(
+      "🔇 Kamu otomatis mute selama 7 hari."
+    );
+
+  }
+
+}
+
+
+/* =========================
+   FIND USER
+========================= */
+
+async function findUser(username){
+
+  const target=
+    String(username||"")
+      .replace(/^@/,"")
+      .trim()
+      .toLowerCase();
+
+  if(!target) return null;
+
+  const snap=
+    await get(ref(db,"users"));
+
+  if(!snap.exists()) return null;
+
+  const users=snap.val();
+
+  for(const uid in users){
+
+    const u=users[uid]||{};
+
+    const name=
+      String(u.username||"")
+        .trim()
+        .toLowerCase();
+
+    if(name===target){
+
+      return{
+        uid,
+        username:u.username||target,
+        role:u.role||"Member"
+      };
+
+    }
+
+  }
+
+  return null;
+
+}
+
+
+/* =========================
+   BOT NOTICE
+========================= */
+
+async function botNotice(
+  message,
+  type="moderation"
+){
+
+  await push(
+    ref(db,"globalChat"),
+    {
+      type,
+      message,
+      time:Date.now()
+    }
+  );
+
+}
+
+
+/* =========================
+   USER COMMANDS
+========================= */
+
+async function handleUserCommand(text){
+
+  const lower=
+    text.toLowerCase().trim();
+
+
+  if(lower==="/help"){
+
+    await botNotice(
+      "@"+myName+
+      " | User commands: /help, /rules, /me, /roll, /flip, /online, /status, /clear"
+    );
+
+    return true;
+
+  }
+
+
+  if(lower==="/rules"){
+
+    document
+      .querySelector('[data-tab="rules"]')
+      .click();
+
+    return true;
+
+  }
+
+
+  if(lower==="/clear"){
+
+    chatBox.innerHTML="";
+
+    return true;
+
+  }
+
+
+  if(lower==="/roll"){
+
+    const number=
+      Math.floor(Math.random()*100)+1;
+
+    await push(
+      ref(db,"globalChat"),
+      {
+        type:"action",
+        uid:myUid,
+        username:myName,
+        role:myRole,
+        avatar:myAvatar,
+        message:
+          "🎲 mendapatkan angka "+number,
+        time:Date.now()
+      }
+    );
+
+    return true;
+
+  }
+
+
+  if(lower==="/flip"){
+
+    const result=
+      Math.random()>.5
+        ? "HEAD"
+        : "TAIL";
+
+    await push(
+      ref(db,"globalChat"),
+      {
+        type:"action",
+        uid:myUid,
+        username:myName,
+        role:myRole,
+        avatar:myAvatar,
+        message:
+          "🪙 hasil lempar koin: "+result,
+        time:Date.now()
+      }
+    );
+
+    return true;
+
+  }
+
+
+  if(lower==="/online"){
+
+    const snap=
+      await get(ref(db,"online"));
+
+    const total=
+      snap.exists()
+        ? Object.keys(snap.val()||{}).length
+        : 0;
+
+    await botNotice(
+      "👥 User online terdeteksi: "+total
+    );
+
+    return true;
+
+  }
+
+
+  if(lower==="/status"){
+
+    await botNotice(
+      "🛰️ Global Chat: "+
+      (globalLocked
+        ? "LOCKED 🔒"
+        : "ONLINE 🟢")+
+      " | Cooldown: "+
+      globalCooldown+
+      " detik."
+    );
+
+    return true;
+
+  }
+
+
+  if(lower.startsWith("/me ")){
+
+    const action=
+      text.slice(4).trim();
+
+    if(action){
+
+      const violation=
+        detectViolation(action);
+
+      if(violation){
+
+        await addAutoWarning(violation);
+
+        return true;
+
+      }
+
+      await push(
+        ref(db,"globalChat"),
+        {
+          uid:myUid,
+          username:myName,
+          role:myRole,
+          avatar:myAvatar,
+          message:
+            "✨ "+myName+" "+action,
+          time:Date.now()
+        }
+      );
+
+    }
+
+    return true;
+
+  }
+
+
+  return false;
+
+}
+
+
+/* =========================
+   STAFF COMMANDS
+========================= */
+
+async function handleStaffCommand(text){
+
+  if(!isStaff()) return false;
+
+  const lower=
+    text.toLowerCase().trim();
+
+
+  /* PIN */
+
+  if(lower==="/pin"){
+
+    if(!replyData){
+
+      alert(
+        "Balas pesan terlebih dahulu lalu ketik /pin."
+      );
+
+      return true;
+
+    }
+
+    await set(
+      ref(db,"globalChatPinned"),
+      {
+        ...replyData,
+        pinnedBy:myName,
+        pinnedRole:myRole,
+        time:Date.now()
+      }
+    );
+
+    await botNotice(
+      "📌 Pesan @"+
+      replyData.username+
+      " telah di-pin oleh @"+
+      myName+"."
+    );
+
+    return true;
+
+  }
+
+
+  /* UNPIN */
+
+  if(lower==="/unpin"){
+
+    await remove(
+      ref(db,"globalChatPinned")
+    );
+
+    await botNotice(
+      "📌 Pinned message dihapus oleh @"+
+      myName+"."
+    );
+
+    return true;
+
+  }
+
+
+  /* LOCK */
+
+  if(lower==="/lock"){
+
+    await set(
+      ref(db,"globalChatSettings/locked"),
+      true
+    );
+
+    await botNotice(
+      "🔒 Global Chat dikunci oleh @"+
+      myName+
+      ". Hanya Developer dan Owner yang dapat mengirim."
+    );
+
+    return true;
+
+  }
+
+
+  /* UNLOCK */
+
+  if(lower==="/unlock"){
+
+    await set(
+      ref(db,"globalChatSettings/locked"),
+      false
+    );
+
+    await botNotice(
+      "🔓 Global Chat dibuka kembali oleh @"+
+      myName+"."
+    );
+
+    return true;
+
+  }
+
+
+  /* SET CD */
+
+  if(
+    lower.startsWith("/setcd ") ||
+    lower.startsWith("/slowmode ")
+  ){
+
+    const seconds=
+      Number(
+        text.split(/\s+/)[1]
+      );
+
+    if(
+      !Number.isInteger(seconds) ||
+      seconds<0 ||
+      seconds>3600
+    ){
+
+      alert(
+        "Gunakan /setcd 3 atau /slowmode 3. Nilai 0-3600."
+      );
+
+      return true;
+
+    }
+
+    await set(
+      ref(db,"globalChatSettings/cooldown"),
+      seconds
+    );
+
+    await botNotice(
+      "⏱️ Cooldown Global Chat diubah menjadi "+
+      seconds+
+      " detik oleh @"+
+      myName+"."
+    );
+
+    return true;
+
+  }
+
+
+  /* ALL */
+
+  if(lower.startsWith("/all ")){
+
+    const message=
+      text.slice(5).trim();
+
+    if(!message){
+
+      alert("Gunakan: /all pesan");
+      return true;
+
+    }
+
+    await botNotice(
+      "📢 PENGUMUMAN DARI @"+
+      myName+
+      ": "+
+      message,
+      "announcement"
+    );
+
+    return true;
+
+  }
+
+
+  /* CLEAR ALL */
+
+  if(lower==="/clearall"){
+
+    if(
+      !confirm(
+        "Hapus seluruh Global Chat?"
+      )
+    ){
+
+      return true;
+
+    }
+
+    await remove(
+      ref(db,"globalChat")
+    );
+
+    chatBox.innerHTML="";
+
+    await botNotice(
+      "🧹 Global Chat telah dibersihkan oleh @"+
+      myName+".",
+      "system"
+    );
+
+    return true;
+
+  }
+
+
+  /* TARGET COMMAND */
+
+  const parts=
+    text.trim().split(/\s+/);
+
+  const command=
+    parts[0].toLowerCase();
+
+  if(
+    ![
+      "/mute",
+      "/unmute",
+      "/ban",
+      "/unban",
+      "/warn"
+    ].includes(command)
+  ){
+
+    return false;
+
+  }
+
+
+  const username=parts[1];
+
+  if(!username){
+
+    alert("Target user belum diisi.");
+    return true;
+
+  }
+
+
+  const target=
+    await findUser(username);
+
+  if(!target){
+
+    alert("User tidak ditemukan.");
+    return true;
+
+  }
+
+
+  if(target.uid===myUid){
+
+    alert(
+      "Kamu tidak dapat memoderasi diri sendiri."
+    );
+
+    return true;
+
+  }
+
+
+  /*
+    DEVELOPER <-> OWNER PROTECTION
+  */
+
+  if(!canModerateTarget(target.role)){
+
+    alert(
+      "Developer tidak dapat memoderasi Owner dan Owner tidak dapat memoderasi Developer."
+    );
+
+    return true;
+
+  }
+
+
+  /* MUTE */
+
+  if(command==="/mute"){
+
+    await update(
+      ref(
+        db,
+        "globalChatModeration/"+target.uid
+      ),
+      {
+        mutedUntil:
+          Date.now()+
+          7*24*60*60*1000,
+
+        mutedBy:myName,
+        mutedAt:Date.now()
+      }
+    );
+
+    await botNotice(
+      "🔇 @"+
+      target.username+
+      " telah di-mute selama 7 hari oleh @"+
+      myName+"."
+    );
+
+    return true;
+
+  }
+
+
+  /* UNMUTE */
+
+  if(command==="/unmute"){
+
+    await update(
+      ref(
+        db,
+        "globalChatModeration/"+target.uid
+      ),
+      {
+        mutedUntil:0,
+        unmutedBy:myName,
+        unmutedAt:Date.now()
+      }
+    );
+
+    await botNotice(
+      "🔊 @"+
+      target.username+
+      " telah di-unmute oleh @"+
+      myName+"."
+    );
+
+    return true;
+
+  }
+
+
+  /* BAN */
+
+  if(command==="/ban"){
+
+    await update(
+      ref(
+        db,
+        "globalChatModeration/"+target.uid
+      ),
+      {
+        banned:true,
+        bannedBy:myName,
+        bannedAt:Date.now(),
+        mutedUntil:0
+      }
+    );
+
+    await botNotice(
+      "⛔ @"+
+      target.username+
+      " telah diban permanen dari Global Chat oleh @"+
+      myName+"."
+    );
+
+    return true;
+
+  }
+
+
+  /* UNBAN */
+
+  if(command==="/unban"){
+
+    await update(
+      ref(
+        db,
+        "globalChatModeration/"+target.uid
+      ),
+      {
+        banned:false,
+        unbannedBy:myName,
+        unbannedAt:Date.now()
+      }
+    );
+
+    await botNotice(
+      "✅ Ban @"+
+      target.username+
+      " telah dibuka oleh @"+
+      myName+"."
+    );
+
+    return true;
+
+  }
+
+
+  /* WARN */
+
+  if(command==="/warn"){
+
+    const reason=
+      parts.slice(2).join(" ")||
+      "Pelanggaran aturan Global Chat.";
+
+    const modSnap=
+      await get(
+        ref(
+          db,
+          "globalChatModeration/"+target.uid
+        )
+      );
+
+    const old=
+      modSnap.exists()
+        ? modSnap.val()
+        : {};
+
+    const warns=
+      Number(old.warns||0)+1;
+
+    const updateData={
+      warns,
+      lastReason:reason,
+      lastViolation:Date.now(),
+      warnedBy:myName
+    };
+
+    if(warns>=3){
+
+      updateData.mutedUntil=
+        Date.now()+
+        7*24*60*60*1000;
+
+    }
+
+    await update(
+      ref(
+        db,
+        "globalChatModeration/"+target.uid
+      ),
+      updateData
+    );
+
+    let notice=
+      "⚠️ @"+
+      target.username+
+      " mendapat warn "+
+      warns+
+      "/3. Alasan: "+
+      reason;
+
+    if(warns>=3){
+
+      notice+=
+        " User otomatis mute selama 7 hari.";
+
+    }
+
+    await botNotice(notice);
+
+    return true;
+
+  }
+
+
+  return false;
+
+}
+
+
+/* =========================
+   SEND
+========================= */
+
+async function sendMessage(){
+
+  const text=
+    input.value.trim();
+
+
+  if(!text && !selectedImage){
+    return;
+  }
+
+
+  /* BAN */
+
+  if(banned && !isStaff()){
+
+    disableChat(
+      "⛔ Kamu telah diban dari Global Chat."
+    );
+
+    return;
+
+  }
+
+
+  /* MUTE */
+
+  if(
+    !isStaff() &&
+    mutedUntil>Date.now()
+  ){
+
+    updateMuteStatus();
+
+    return;
+
+  }
+
+
+  /* LOCK */
+
+  if(
+    globalLocked &&
+    !isStaff()
+  ){
+
+    disableChat(
+      "🔒 Global Chat sedang dikunci oleh Staff."
+    );
+
+    return;
+
+  }
+
+
+  /* COOLDOWN */
+
+  if(
+    !isStaff() &&
+    Date.now()<cooldownUntil
+  ){
+
+    return;
+
+  }
+
+
+  sendBtn.disabled=true;
+
+
+  try{
+
+    /* COMMAND */
+
+    if(text.startsWith("/")){
+
+      const staffCommand=
+        await handleStaffCommand(text);
+
+      if(staffCommand){
+
+        input.value="";
+        sendBtn.disabled=false;
+
+        cancelReply();
+
+        return;
+
+      }
+
+
+      const userCommand=
+        await handleUserCommand(text);
+
+      if(userCommand){
+
+        input.value="";
+        sendBtn.disabled=false;
+
+        cancelReply();
+
+        if(!isStaff()){
+
+          startCooldown();
+
+        }
+
+        return;
+
+      }
+
+    }
+
+
+    /* AUTO MODERATION */
+
+    if(
+      !isStaff() &&
+      text
+    ){
+
+      const violation=
+        detectViolation(text);
+
+      if(violation){
+
+        await addAutoWarning(
+          violation
+        );
+
+        input.value="";
+
+        cancelReply();
+
+        if(
+          !banned &&
+          mutedUntil<=Date.now() &&
+          !globalLocked
+        ){
+
+          sendBtn.disabled=false;
+
+        }
+
+        return;
+
+      }
+
+    }
+
+
+    /* NORMAL MESSAGE */
+
+    await push(
+      ref(db,"globalChat"),
+      {
+        uid:myUid,
+        username:myName,
+        role:myRole,
+        avatar:myAvatar||null,
+
+        message:text,
+
+        image:
+          selectedImage||
+          null,
+
+        reply:
+          replyData||
+          null,
+
+        time:Date.now()
+      }
+    );
+
+
+    input.value="";
+
+    selectedImage=null;
+
+    imageInput.value="";
+
+    previewImage.src="";
+
+    previewBox.classList.remove("show");
+
+    cancelReply();
+
+
+    if(isStaff()){
+
+      sendBtn.disabled=false;
+
+    }else{
+
+      startCooldown();
+
+    }
+
+
+  }catch(err){
+
+    console.error(err);
+
+    alert(
+      "Gagal mengirim pesan."
+    );
+
+    if(!input.disabled){
+
+      sendBtn.disabled=false;
+
+    }
+
+  }
+
+}
+
+
+sendBtn.onclick=sendMessage;
+
+
+input.addEventListener(
+  "keydown",
+  e=>{
+
+    if(
+      e.key==="Enter" &&
+      !e.shiftKey
+    ){
+
+      e.preventDefault();
+
+      sendMessage();
+
+    }
+
+  }
+);
+
+
+/* =========================
+   HEADER CLEAR
+========================= */
+
+document.getElementById("clearBtn")
+  .onclick=async()=>{
+
+    if(!isStaff()){
+
+      alert(
+        "Hanya Developer atau Owner."
+      );
+
+      return;
+
+    }
+
+
+    if(
+      !confirm(
+        "Hapus seluruh Global Chat?"
+      )
+    ){
+
+      return;
+
+    }
+
+
+    try{
+
+      await remove(
+        ref(db,"globalChat")
+      );
+
+      chatBox.innerHTML="";
+
+      await botNotice(
+        "🧹 Global Chat dibersihkan oleh @"+
+        myName+".",
+        "system"
+      );
+
+    }catch(err){
+
+      console.error(err);
+
+      alert(
+        "Gagal menghapus chat."
+      );
+
+    }
+
+  };
+
+
+/* =========================
+   IMAGE VIEWER BACK
+========================= */
+
+document.addEventListener(
+  "keydown",
+  e=>{
+
+    if(
+      e.key==="Escape" &&
+      imageViewer.classList.contains("show")
+    ){
+
+      closeImage();
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>
