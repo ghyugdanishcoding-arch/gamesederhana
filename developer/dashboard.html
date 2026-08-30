@@ -1,0 +1,4798 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#070b12">
+<title>DEVONAX DASHBOARD</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1,GRAD@-25..200,opsz@20..48,wght@300..700" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Orbitron',sans-serif;
+}
+
+:root{
+    --bg:#06080c;
+    --card:#10141b;
+    --card2:#151a22;
+    --red:#ff2020;
+    --red2:#ff5555;
+    --blue:#209cff;
+    --blue2:#58b8ff;
+    --cyan:#28d7ff;
+    --green:#3dff8a;
+    --yellow:#ffd84d;
+    --purple:#b36cff;
+    --text:#fff;
+    --muted:#8e96a3;
+    --border:rgba(255,255,255,.10);
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:
+        radial-gradient(circle at 10% 0%,rgba(255,32,32,.08),transparent 28%),
+        radial-gradient(circle at 90% 10%,rgba(32,156,255,.10),transparent 30%),
+        radial-gradient(circle at 50% 100%,rgba(32,156,255,.045),transparent 35%),
+        var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+    padding:18px 18px 105px;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-1;
+    background:
+        linear-gradient(135deg,rgba(255,255,255,.012),transparent 45%),
+        radial-gradient(circle at center,transparent 30%,rgba(0,0,0,.28));
+}
+
+.grid{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    pointer-events:none;
+    opacity:.035;
+    background-image:
+        linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
+    background-size:40px 40px;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.menu,
+.profile,
+.notificationBtn{
+    width:48px;
+    height:48px;
+    min-width:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:15px;
+    border:1px solid var(--border);
+    background:rgba(18,22,29,.88);
+    color:#fff;
+    cursor:pointer;
+    transition:.25s ease;
+    position:relative;
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
+}
+
+.menu:hover,
+.profile:hover,
+.notificationBtn:hover{
+    border-color:var(--blue);
+    color:var(--blue2);
+    box-shadow:0 0 20px rgba(32,156,255,.20);
+    transform:translateY(-1px);
+}
+
+.menu span,
+.profile span,
+.notificationBtn span{
+    font-size:27px;
+}
+
+.logo{
+    flex:1;
+    text-align:center;
+    font-size:21px;
+    font-weight:800;
+    letter-spacing:4px;
+    color:#eee;
+    text-shadow:0 0 20px rgba(32,156,255,.12);
+}
+
+.headerRight{
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+.notificationBadge{
+    position:absolute;
+    top:-5px;
+    right:-5px;
+    min-width:19px;
+    height:19px;
+    padding:0 5px;
+    border-radius:20px;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:var(--red);
+    border:2px solid var(--bg);
+    font-family:Arial,sans-serif;
+    font-size:9px;
+    box-shadow:0 0 12px rgba(255,32,32,.45);
+}
+
+/* =========================================================
+   NOTIFICATION
+========================================================= */
+
+.notificationPanel{
+    position:fixed;
+    top:76px;
+    right:18px;
+    width:min(380px,calc(100vw - 36px));
+    max-height:70vh;
+    z-index:3000;
+    display:none;
+    overflow:hidden;
+    padding:14px;
+    border:1px solid rgba(32,156,255,.25);
+    border-radius:22px;
+    background:rgba(10,15,23,.94);
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+    box-shadow:
+        0 18px 45px rgba(0,0,0,.7),
+        0 0 35px rgba(32,156,255,.08);
+}
+
+.notificationPanel.show{
+    display:block;
+    animation:popup .2s ease;
+}
+
+@keyframes popup{
+    from{
+        opacity:0;
+        transform:translateY(-8px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.notificationHead{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:12px;
+}
+
+.notificationHead h3{
+    font-size:12px;
+    letter-spacing:1px;
+}
+
+.markReadBtn{
+    border:none;
+    background:none;
+    color:var(--blue2);
+    font-size:8px;
+    cursor:pointer;
+}
+
+.notificationList{
+    max-height:55vh;
+    overflow:auto;
+}
+
+.notificationItem{
+    padding:13px;
+    margin-bottom:9px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:16px;
+    background:rgba(255,255,255,.035);
+}
+
+.notificationItem.unread{
+    background:rgba(32,156,255,.08);
+    border-color:rgba(32,156,255,.25);
+}
+
+.notificationItemTop{
+    display:flex;
+    gap:10px;
+}
+
+.notificationItemTop > span{
+    font-size:21px;
+    color:var(--blue2);
+}
+
+.notificationItem h4{
+    font-size:10px;
+    line-height:1.5;
+}
+
+.notificationItem p{
+    margin-top:6px;
+    color:#bbb;
+    font-family:Arial,sans-serif;
+    font-size:12px;
+    line-height:1.5;
+}
+
+.notificationTime{
+    display:block;
+    margin-top:8px;
+    color:#777;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+}
+
+.emptyNotification{
+    padding:35px 10px;
+    color:#777;
+    text-align:center;
+    font-size:10px;
+}
+
+/* =========================================================
+   BANNER / NEWS
+========================================================= */
+
+.banner{
+    position:relative;
+    height:210px;
+    margin-bottom:20px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.11);
+    border-radius:24px;
+    background:#0d1015;
+    touch-action:pan-y;
+    box-shadow:
+        0 0 25px rgba(255,32,32,.08),
+        0 15px 40px rgba(0,0,0,.25);
+}
+
+.slide{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    pointer-events:none;
+    transform:translateX(15px);
+    transition:.35s ease;
+}
+
+.slide.active{
+    opacity:1;
+    pointer-events:auto;
+    transform:translateX(0);
+}
+
+.slide img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    user-select:none;
+    -webkit-user-drag:none;
+    filter:brightness(.43) saturate(1.1);
+}
+
+.slide::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(90deg,rgba(0,0,0,.55),transparent 70%),
+        linear-gradient(0deg,rgba(0,0,0,.62),transparent 55%);
+    pointer-events:none;
+}
+
+.caption{
+    position:absolute;
+    left:19px;
+    right:65px;
+    bottom:19px;
+    z-index:3;
+}
+
+.caption h2{
+    font-size:16px;
+    line-height:1.45;
+    letter-spacing:1px;
+}
+
+.caption p{
+    margin-top:6px;
+    color:#e1e1e1;
+    font-size:9px;
+    line-height:1.5;
+}
+
+/* GLASSMORPH NEWS BIRU */
+.newsBadge{
+    position:absolute;
+    top:13px;
+    right:13px;
+    z-index:30;
+
+    display:flex;
+    align-items:center;
+    gap:7px;
+
+    padding:8px 12px;
+
+    border:1px solid rgba(93,190,255,.42);
+    border-radius:12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(32,156,255,.34),
+            rgba(0,105,190,.16)
+        );
+
+    color:#dff4ff;
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.15),
+        0 0 22px rgba(32,156,255,.18);
+
+    font-size:8px;
+    font-weight:700;
+    letter-spacing:1.3px;
+}
+
+.newsBadge::before{
+    content:"";
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#57c5ff;
+    box-shadow:0 0 10px #57c5ff;
+}
+
+.bannerControl{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:40;
+
+    width:30px;
+    height:40px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(0,0,0,.40);
+    color:#fff;
+    cursor:pointer;
+    transition:.2s;
+    backdrop-filter:blur(8px);
+}
+
+.bannerControl:hover{
+    background:rgba(32,156,255,.75);
+    border-color:var(--blue);
+    box-shadow:0 0 15px rgba(32,156,255,.25);
+}
+
+.bannerControl span{
+    font-size:20px;
+}
+
+.bannerPrev{
+    left:7px;
+    border-radius:11px;
+}
+
+.bannerNext{
+    right:7px;
+    border-radius:11px;
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card{
+    padding:18px;
+    margin-bottom:18px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:22px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,24,32,.96),
+            rgba(12,15,20,.96)
+        );
+    box-shadow:
+        0 0 18px rgba(0,0,0,.3),
+        inset 0 1px 0 rgba(255,255,255,.015);
+}
+
+.title{
+    margin-bottom:15px;
+    color:#ff6262;
+    font-size:14px;
+    letter-spacing:2.5px;
+}
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profileCard{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.avatar{
+    width:72px;
+    height:72px;
+    min-width:72px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    border-radius:50%;
+    background:linear-gradient(180deg,#ff3030,#710000);
+    cursor:pointer;
+    box-shadow:0 0 20px rgba(255,32,32,.16);
+}
+
+.avatar.empty{
+    border:2px dashed #ff5555;
+    background:#181818;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:none;
+}
+
+.avatar span{
+    font-size:32px;
+}
+
+.info{
+    flex:1;
+    min-width:0;
+}
+
+.nameWeatherRow{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.info h2{
+    flex:1;
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:15px;
+}
+
+.weatherGlass{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    flex-shrink:0;
+    padding:7px 9px;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:13px;
+    background:rgba(255,255,255,.045);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+}
+
+.weatherGlass span{
+    font-size:19px;
+    transition:.3s ease;
+}
+
+/* WARNA ICON CUACA */
+.weather-icon-sunny{
+    color:#ffd84d;
+    text-shadow:0 0 12px rgba(255,216,77,.45);
+}
+
+.weather-icon-cloudy{
+    color:#9ed7ff;
+    text-shadow:0 0 12px rgba(158,215,255,.30);
+}
+
+.weather-icon-fog{
+    color:#c5d4df;
+}
+
+.weather-icon-rain{
+    color:#38b9ff;
+    text-shadow:0 0 12px rgba(56,185,255,.45);
+}
+
+.weather-icon-snow{
+    color:#dff8ff;
+    text-shadow:0 0 12px rgba(223,248,255,.4);
+}
+
+.weather-icon-storm{
+    color:#b68cff;
+    text-shadow:0 0 14px rgba(182,140,255,.55);
+}
+
+#weatherTemp{
+    font-size:10px;
+    color:#e8f6ff;
+}
+
+.weatherIndicator{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#777;
+}
+
+.weatherIndicator.online{
+    background:#3dff8a;
+    box-shadow:0 0 8px #3dff8a;
+}
+
+.role{
+    display:inline-flex;
+    align-items:center;
+    margin-top:9px;
+    padding:6px 12px;
+    border:1px solid;
+    border-radius:20px;
+    font-size:9px;
+}
+
+.role-developer{
+    color:#e5b5ff;
+    background:#321044;
+    border-color:#8c44bf;
+}
+
+.role-owner{
+    color:#aad8ff;
+    background:#092846;
+    border-color:#2586df;
+}
+
+.role-vip{
+    color:#ffe891;
+    background:#493a08;
+    border-color:#d6ae22;
+}
+
+.role-reseller{
+    color:#a9ffd1;
+    background:#093d25;
+    border-color:#27b867;
+}
+
+.role-member{
+    color:#ddd;
+    background:#252525;
+    border-color:#666;
+}
+
+.role-default{
+    color:#ffaaaa;
+    background:#350c0c;
+    border-color:#8a2929;
+}
+
+.expired{
+    margin-top:9px;
+    color:#aaa;
+    font-size:10px;
+}
+
+/* =========================================================
+   STORY
+========================================================= */
+
+.storyHeader{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+}
+
+.storyHeader .title{
+    margin:0;
+}
+
+.viewAllStory{
+    border:none;
+    background:none;
+    color:#6dc5ff;
+    font-size:8px;
+    cursor:pointer;
+}
+
+.storyList{
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    padding:3px 1px 8px;
+    scrollbar-width:none;
+}
+
+.storyList::-webkit-scrollbar{
+    display:none;
+}
+
+.storyItem{
+    width:66px;
+    flex:none;
+    text-align:center;
+    cursor:pointer;
+}
+
+.storyAvatarWrap{
+    width:61px;
+    height:61px;
+    margin:auto;
+    padding:3px;
+    border-radius:50%;
+    background:linear-gradient(
+        135deg,
+        #ff2020,
+        #780000,
+        #209cff
+    );
+}
+
+.storyItem.add .storyAvatarWrap{
+    padding:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#191919;
+    border:1px dashed #ff5555;
+}
+
+.storyAvatar{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+    border:2px solid #121212;
+    border-radius:50%;
+    background:#222;
+}
+
+.storyAddIcon{
+    color:#ff5555;
+    font-size:26px;
+}
+
+.storyName{
+    display:block;
+    margin-top:7px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    color:#ddd;
+    font-size:8px;
+}
+
+/* =========================================================
+   MUSIC
+========================================================= */
+
+.musicPlayer{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:20px;
+    background:#151a21;
+}
+
+.musicCover{
+    width:57px;
+    height:57px;
+    min-width:57px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    border:1px solid rgba(32,156,255,.28);
+    border-radius:14px;
+    background:#0b1e2c;
+}
+
+.musicCover img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:none;
+}
+
+.musicCover span{
+    color:#35b3ff;
+    font-size:27px;
+}
+
+.musicInfo{
+    flex:1;
+    min-width:0;
+}
+
+.musicInfo h3,
+.musicInfo p{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.musicInfo h3{
+    font-size:11px;
+}
+
+.musicInfo p{
+    margin-top:7px;
+    color:#999;
+    font-size:8px;
+}
+
+.musicAction{
+    display:flex;
+    gap:8px;
+}
+
+.musicBtn,
+.musicPageBtn{
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    cursor:pointer;
+}
+
+.musicBtn{
+    border:none;
+    background:linear-gradient(135deg,#ff2020,#b90000);
+    color:#fff;
+    box-shadow:0 0 15px rgba(255,32,32,.18);
+}
+
+.musicPageBtn{
+    border:1px solid #33404c;
+    background:#202731;
+    color:#fff;
+}
+
+/* =========================================================
+   JADWAL SHOLAT - REDESIGN
+========================================================= */
+
+.prayerBox{
+    overflow:hidden;
+    border:1px solid rgba(32,156,255,.16);
+    border-radius:20px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(19,27,37,.98),
+            rgba(12,17,24,.98)
+        );
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.025),
+        0 8px 25px rgba(0,0,0,.18);
+}
+
+.prayerTop{
+    padding:15px;
+    border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.prayerTopMain{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.prayerTopLeft{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    min-width:0;
+}
+
+.prayerTopLeft > span{
+    width:43px;
+    height:43px;
+    min-width:43px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(32,156,255,.25);
+    border-radius:13px;
+    background:rgba(32,156,255,.10);
+    color:#52b9ff;
+    font-size:23px;
+    box-shadow:0 0 18px rgba(32,156,255,.08);
+}
+
+.prayerTop h3{
+    font-size:10px;
+    letter-spacing:.8px;
+}
+
+.prayerLocation{
+    margin-top:5px;
+    color:#888;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.prayerDate{
+    flex-shrink:0;
+    padding:7px 9px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:10px;
+    background:rgba(255,255,255,.035);
+    color:#75c6ff;
+    font-size:7px;
+    text-align:right;
+}
+
+.prayerRealtime{
+    margin-top:13px;
+    padding-top:12px;
+    border-top:1px solid rgba(255,255,255,.07);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.clockBlock{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.clockBlock > span{
+    color:#7dcaff;
+    font-size:19px;
+}
+
+.hpClock{
+    color:#fff;
+    font-size:18px;
+    letter-spacing:1px;
+}
+
+.nextPrayerInfo{
+    min-width:125px;
+    padding:8px 10px;
+    border:1px solid rgba(32,156,255,.15);
+    border-radius:11px;
+    background:rgba(32,156,255,.06);
+    color:#aaa;
+    text-align:right;
+    font-size:8px;
+    line-height:1.65;
+}
+
+.nextPrayerInfo b{
+    color:#55baff;
+}
+
+/* GRID SHOLAT BARU */
+.prayerTimes{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:7px;
+    padding:10px;
+}
+
+.prayerTime{
+    position:relative;
+    min-width:0;
+    min-height:79px;
+    padding:10px 4px 8px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+
+    border:1px solid rgba(255,255,255,.065);
+    border-radius:14px;
+    background:rgba(255,255,255,.025);
+
+    transition:.25s ease;
+}
+
+.prayerTimeIcon{
+    width:28px;
+    height:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:5px;
+    border-radius:9px;
+    background:rgba(255,255,255,.045);
+    color:#8f9ba7;
+}
+
+.prayerTimeIcon span{
+    font-size:17px;
+}
+
+.prayerTime b{
+    display:block;
+    color:#8e98a4;
+    font-size:6px;
+    letter-spacing:.3px;
+}
+
+.prayerTime > span{
+    display:block;
+    margin-top:5px;
+    color:#fff;
+    font-size:10px;
+    font-weight:700;
+}
+
+.prayerTime.next{
+    border-color:rgba(32,156,255,.48);
+    background:
+        linear-gradient(
+            180deg,
+            rgba(32,156,255,.17),
+            rgba(32,156,255,.055)
+        );
+    box-shadow:
+        0 0 18px rgba(32,156,255,.10),
+        inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.prayerTime.next .prayerTimeIcon{
+    color:#65c5ff;
+    background:rgba(32,156,255,.13);
+}
+
+.prayerTime.next b{
+    color:#65c5ff;
+}
+
+.prayerTime.next > span{
+    color:#70c8ff;
+}
+
+.prayerNextLabel{
+    position:absolute;
+    top:5px;
+    right:5px;
+    left:5px;
+    display:block;
+    color:#64c5ff;
+    font-size:5px;
+    letter-spacing:.4px;
+}
+
+.prayerLoading{
+    grid-column:1/-1;
+    padding:22px;
+    text-align:center;
+    color:#777;
+    font-size:9px;
+}
+
+/* =========================================================
+   GLOBAL CHAT
+========================================================= */
+
+.globalChatBox{
+    padding:16px;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:20px;
+    background:#151a21;
+}
+
+.globalChatTop{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:15px;
+}
+
+.globalChatTitle{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.globalChatTitle > span{
+    width:45px;
+    height:45px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(32,156,255,.25);
+    border-radius:14px;
+    background:rgba(32,156,255,.09);
+    color:#4bb5ff;
+}
+
+.globalChatTitle h3{
+    font-size:14px;
+}
+
+.globalChatTitle p{
+    margin-top:5px;
+    color:#999;
+    font-size:9px;
+}
+
+.chatLive{
+    color:#ff5050;
+    font-size:9px;
+}
+
+.globalChatMessage{
+    display:flex;
+    align-items:center;
+    min-height:70px;
+    padding:14px;
+    border:1px solid #292929;
+    border-radius:16px;
+    background:#11151a;
+}
+
+.chatContent{
+    width:100%;
+    min-width:0;
+}
+
+.chatContent b{
+    display:block;
+    margin-bottom:8px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    color:#ff5555;
+    font-size:11px;
+}
+
+.chatContent b.moderation{
+    color:#ffb3b3;
+}
+
+.chatContent p{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    color:#ddd;
+    font-family:Arial,sans-serif;
+    font-size:12px;
+}
+
+.openChatBtn{
+    width:100%;
+    height:49px;
+    margin-top:13px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    border:1px solid rgba(32,156,255,.25);
+    border-radius:15px;
+    background:rgba(32,156,255,.08);
+    color:#64c4ff;
+    font-size:10px;
+    letter-spacing:1.5px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.openChatBtn:hover{
+    background:rgba(32,156,255,.16);
+    border-color:var(--blue);
+}
+
+/* =========================================================
+   QUICK ACTION
+========================================================= */
+
+.menuGrid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:11px;
+}
+
+.item{
+    height:106px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(255,255,255,.075);
+    border-radius:19px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(24,29,37,.95),
+            rgba(17,20,26,.95)
+        );
+    cursor:pointer;
+    transition:.2s;
+}
+
+.item:hover{
+    transform:translateY(-3px);
+    border-color:rgba(32,156,255,.55);
+    box-shadow:0 8px 20px rgba(32,156,255,.08);
+}
+
+.item span{
+    color:#46b5ff;
+    font-size:30px;
+    transition:.2s;
+}
+
+.item:hover span{
+    color:#76caff;
+    text-shadow:0 0 15px rgba(70,181,255,.35);
+}
+
+.item p{
+    margin-top:9px;
+    color:#ddd;
+    text-align:center;
+    font-size:8px;
+}
+
+/* =========================================================
+   DRAWER
+========================================================= */
+
+.drawer{
+    position:fixed;
+    top:0;
+    left:-310px;
+    width:300px;
+    height:100%;
+    z-index:4000;
+    overflow:auto;
+    border-right:1px solid rgba(32,156,255,.15);
+    background:#0c1016;
+    transition:.3s;
+    box-shadow:10px 0 40px rgba(0,0,0,.35);
+}
+
+.drawer.show{
+    left:0;
+}
+
+.overlayMenu{
+    position:fixed;
+    inset:0;
+    z-index:3999;
+    display:none;
+    background:rgba(0,0,0,.65);
+    backdrop-filter:blur(3px);
+}
+
+.overlayMenu.show{
+    display:block;
+}
+
+.drawerHeader{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:24px;
+    border-bottom:1px solid #222;
+}
+
+.drawerAvatar{
+    width:64px;
+    height:64px;
+    min-width:64px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    border-radius:50%;
+    background:linear-gradient(180deg,#ff3030,#700);
+    cursor:pointer;
+}
+
+.drawerAvatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:none;
+}
+
+.drawerAvatar span{
+    font-size:32px;
+}
+
+#drawerName{
+    max-width:165px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:14px;
+}
+
+#drawerRole{
+    margin-top:7px;
+    color:#ff6666;
+    font-size:9px;
+}
+
+.drawerMenu{
+    padding:12px;
+}
+
+.drawerItem{
+    height:56px;
+    display:flex;
+    align-items:center;
+    gap:17px;
+    padding:0 17px;
+    margin-bottom:8px;
+    border-radius:16px;
+    font-size:11px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.drawerItem:hover{
+    background:rgba(32,156,255,.07);
+    color:#fff;
+}
+
+.drawerItem span{
+    color:#45b4ff;
+    font-size:25px;
+}
+
+.logout{
+    margin-top:20px;
+    border:1px solid #600;
+    background:#220000;
+    color:#ff7777;
+}
+
+.logout span{
+    color:#ff5555;
+}
+
+/* =========================================================
+   BOTTOM NAV
+========================================================= */
+
+.bottomNav{
+    position:fixed;
+    left:15px;
+    right:15px;
+    bottom:15px;
+    height:67px;
+    z-index:1000;
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:35px;
+    background:rgba(14,18,24,.90);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.035);
+}
+
+.bottomNav a{
+    width:50px;
+    height:50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#69727d;
+    text-decoration:none;
+    border-radius:18px;
+    transition:.2s;
+}
+
+.bottomNav a.active{
+    color:#56baff;
+    background:rgba(32,156,255,.09);
+}
+
+.bottomNav a:hover{
+    color:#7bcaff;
+}
+
+.bottomNav span{
+    font-size:29px;
+}
+
+/* =========================================================
+   STORY MODAL
+========================================================= */
+
+.storyModal{
+    position:fixed;
+    inset:0;
+    z-index:6000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    background:rgba(0,0,0,.95);
+    backdrop-filter:blur(8px);
+}
+
+.storyModal.show{
+    display:flex;
+}
+
+.storyPreview{
+    width:min(430px,100%);
+    max-height:86vh;
+    overflow:hidden;
+    border:1px solid rgba(32,156,255,.20);
+    border-radius:24px;
+    background:#11151b;
+    box-shadow:0 20px 70px rgba(0,0,0,.55);
+}
+
+.storyPreviewHead{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px;
+    border-bottom:1px solid #292929;
+}
+
+.storyPreviewUser{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.storyPreviewUser img{
+    width:40px;
+    height:40px;
+    object-fit:cover;
+    border-radius:50%;
+    background:#222;
+}
+
+.storyPreviewUser b{
+    font-size:10px;
+}
+
+.storyPreviewUser p{
+    margin-top:5px;
+    color:#888;
+    font-family:Arial,sans-serif;
+    font-size:9px;
+}
+
+.closeStoryBtn{
+    border:none;
+    background:none;
+    color:#fff;
+    cursor:pointer;
+}
+
+.storyPreviewBody{
+    max-height:70vh;
+    overflow:auto;
+    padding:16px;
+}
+
+.storyPreviewBody img,
+.storyPreviewBody video{
+    width:100%;
+    display:block;
+    border-radius:15px;
+}
+
+.storyPreviewText{
+    color:#eee;
+    font-family:Arial,sans-serif;
+    font-size:14px;
+    line-height:1.7;
+    white-space:pre-wrap;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:600px){
+
+    body{
+        padding-left:14px;
+        padding-right:14px;
+    }
+
+    .menuGrid{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .prayerTimes{
+        gap:5px;
+        padding:8px;
+    }
+
+    .prayerTime{
+        min-height:76px;
+    }
+}
+
+@media(max-width:430px){
+
+    body{
+        padding-left:12px;
+        padding-right:12px;
+    }
+
+    .logo{
+        font-size:16px;
+        letter-spacing:2px;
+    }
+
+    .menu,
+    .profile,
+    .notificationBtn{
+        width:45px;
+        height:45px;
+        min-width:45px;
+    }
+
+    .banner{
+        height:195px;
+    }
+
+    .caption{
+        left:16px;
+        bottom:17px;
+    }
+
+    .caption h2{
+        font-size:14px;
+    }
+
+    .newsBadge{
+        top:10px;
+        right:10px;
+        padding:7px 9px;
+    }
+
+    .menuGrid{
+        gap:7px;
+    }
+
+    .item{
+        height:95px;
+        border-radius:16px;
+    }
+
+    .item span{
+        font-size:26px;
+    }
+
+    .item p{
+        font-size:7px;
+    }
+
+    .prayerTop{
+        padding:12px;
+    }
+
+    .prayerDate{
+        max-width:85px;
+        font-size:6px;
+    }
+
+    .prayerTimes{
+        gap:4px;
+        padding:7px;
+    }
+
+    .prayerTime{
+        min-height:74px;
+        padding:9px 2px 7px;
+        border-radius:12px;
+    }
+
+    .prayerTimeIcon{
+        width:25px;
+        height:25px;
+        border-radius:8px;
+    }
+
+    .prayerTimeIcon span{
+        font-size:15px;
+    }
+
+    .prayerTime b{
+        font-size:5.5px;
+    }
+
+    .prayerTime > span{
+        font-size:9px;
+    }
+
+    .hpClock{
+        font-size:16px;
+    }
+
+    .nextPrayerInfo{
+        min-width:112px;
+        font-size:7px;
+    }
+
+    .profileCard{
+        gap:12px;
+    }
+
+    .avatar{
+        width:65px;
+        height:65px;
+        min-width:65px;
+    }
+
+    .weatherGlass{
+        padding:6px 7px;
+    }
+
+    #weatherTemp{
+        font-size:9px;
+    }
+
+    .weatherGlass span{
+        font-size:17px;
+    }
+}
+
+@media(max-width:350px){
+
+    .menuGrid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .prayerRealtime{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .nextPrayerInfo{
+        width:100%;
+        text-align:left;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header>
+
+    <div class="menu" id="menuBtn">
+        <span class="material-symbols-outlined">menu</span>
+    </div>
+
+    <div class="logo">PROJECT</div>
+
+    <div class="headerRight">
+
+        <button class="notificationBtn" id="notificationBtn">
+            <span class="material-symbols-outlined">notifications</span>
+            <b class="notificationBadge" id="notificationBadge">0</b>
+        </button>
+
+        <div class="profile" id="headerProfileBtn">
+            <span class="material-symbols-outlined">person</span>
+        </div>
+
+    </div>
+
+</header>
+
+<!-- =========================================================
+     NOTIFICATION
+========================================================= -->
+
+<div class="notificationPanel" id="notificationPanel">
+
+    <div class="notificationHead">
+        <h3>PENGUMUMAN</h3>
+        <button class="markReadBtn" id="markReadBtn">
+            TANDAI DIBACA
+        </button>
+    </div>
+
+    <div class="notificationList" id="notificationList">
+        <div class="emptyNotification">
+            Belum ada pengumuman.
+        </div>
+    </div>
+
+</div>
+
+<!-- =========================================================
+     BANNER
+========================================================= -->
+
+<div class="banner" id="bannerContainer">
+
+    <div class="slide active">
+
+        <img
+            id="banner1"
+            src="../img/file_00000000970881fab2104a47bc5bb145.png"
+            alt="Banner 1"
+        >
+
+        <div class="caption">
+            <h2 id="bannerTitle1">
+                Devoxtr4sh New Updates メ
+            </h2>
+
+            <p id="bannerText1">
+                Credit by @Danzzgntng
+            </p>
+        </div>
+
+    </div>
+
+    <div class="slide">
+
+        <img
+            id="banner2"
+            src="../img/file_0000000027d881faae9ff57773d2be86.png"
+            alt="Banner 2"
+        >
+
+        <div class="caption">
+            <h2 id="bannerTitle2">
+                Devonax Team
+            </h2>
+
+            <p id="bannerText2">
+                Stay silence
+            </p>
+        </div>
+
+    </div>
+
+    <div class="newsBadge" id="newsBadge">
+        NEWS 1
+    </div>
+
+    <button
+        class="bannerControl bannerPrev"
+        id="bannerPrev"
+        aria-label="Previous banner"
+    >
+        <span class="material-symbols-outlined">
+            arrow_left
+        </span>
+    </button>
+
+    <button
+        class="bannerControl bannerNext"
+        id="bannerNext"
+        aria-label="Next banner"
+    >
+        <span class="material-symbols-outlined">
+            arrow_right
+        </span>
+    </button>
+
+</div>
+
+<!-- =========================================================
+     PROFILE
+========================================================= -->
+
+<div class="card">
+
+    <div class="title">
+        WELCOME BACK,
+    </div>
+
+    <div class="profileCard">
+
+        <div class="avatar empty" id="dashboardProfileBtn">
+
+            <img id="profileImage" alt="Profile">
+
+            <span
+                id="profileIcon"
+                class="material-symbols-outlined"
+            >
+                person
+            </span>
+
+        </div>
+
+        <div class="info">
+
+            <div class="nameWeatherRow">
+
+                <h2 id="username">
+                    Loading...
+                </h2>
+
+                <div class="weatherGlass">
+
+                    <span
+                        id="weatherIcon"
+                        class="material-symbols-outlined weather-icon-cloudy"
+                    >
+                        cloud
+                    </span>
+
+                    <span id="weatherTemp">
+                        --°C
+                    </span>
+
+                    <i
+                        id="weatherIndicator"
+                        class="weatherIndicator"
+                    ></i>
+
+                </div>
+
+            </div>
+
+            <div
+                class="role role-default"
+                id="role"
+            >
+                Loading...
+            </div>
+
+            <div class="expired" id="expired">
+                Expired : -
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+     STORY
+========================================================= -->
+
+<div class="card">
+
+    <div class="storyHeader">
+
+        <div class="title">
+            STORY
+        </div>
+
+        <button
+            class="viewAllStory"
+            onclick="location.href='../story.html'"
+        >
+            LIHAT SEMUA
+        </button>
+
+    </div>
+
+    <div class="storyList" id="storyList">
+
+        <div
+            class="storyItem add"
+            id="createStoryBtn"
+        >
+
+            <div class="storyAvatarWrap">
+
+                <span class="material-symbols-outlined storyAddIcon">
+                    add
+                </span>
+
+            </div>
+
+            <span class="storyName">
+                Buat Story
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+     MUSIC
+========================================================= -->
+
+<div class="card">
+
+    <div class="title">
+        NOW PLAYING
+    </div>
+
+    <div class="musicPlayer">
+
+        <div class="musicCover">
+
+            <img
+                id="musicCover"
+                alt="Music Cover"
+            >
+
+            <span
+                id="musicDefaultIcon"
+                class="material-symbols-outlined"
+            >
+                music_note
+            </span>
+
+        </div>
+
+        <div class="musicInfo">
+
+            <h3 id="musicTitle">
+                Belum ada lagu
+            </h3>
+
+            <p id="musicArtist">
+                Pilih lagu di Music Player
+            </p>
+
+        </div>
+
+        <div class="musicAction">
+
+            <button
+                class="musicBtn"
+                id="musicBtn"
+            >
+
+                <span
+                    id="musicBtnIcon"
+                    class="material-symbols-outlined"
+                >
+                    play_arrow
+                </span>
+
+            </button>
+
+            <button
+                class="musicPageBtn"
+                onclick="location.href='../music.html'"
+            >
+
+                <span class="material-symbols-outlined">
+                    music_note
+                </span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+     JADWAL SHOLAT
+========================================================= -->
+
+<div class="card">
+
+    <div class="title">
+        JADWAL SHOLAT
+    </div>
+
+    <div class="prayerBox">
+
+        <div class="prayerTop">
+
+            <div class="prayerTopMain">
+
+                <div class="prayerTopLeft">
+
+                    <span class="material-symbols-outlined">
+                        mosque
+                    </span>
+
+                    <div>
+
+                        <h3>
+                            JADWAL HARI INI
+                        </h3>
+
+                        <p
+                            class="prayerLocation"
+                            id="prayerLocation"
+                        >
+                            Mengambil lokasi...
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div
+                    class="prayerDate"
+                    id="prayerDate"
+                >
+                    --
+                </div>
+
+            </div>
+
+            <div class="prayerRealtime">
+
+                <div class="clockBlock">
+
+                    <span class="material-symbols-outlined">
+                        schedule
+                    </span>
+
+                    <div
+                        class="hpClock"
+                        id="hpClock"
+                    >
+                        --:--:--
+                    </div>
+
+                </div>
+
+                <div
+                    class="nextPrayerInfo"
+                    id="nextPrayerInfo"
+                >
+                    Memuat waktu sholat...
+                </div>
+
+            </div>
+
+        </div>
+
+        <div
+            class="prayerTimes"
+            id="prayerTimes"
+        >
+
+            <div class="prayerLoading">
+                Memuat jadwal sholat...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+     GLOBAL CHAT
+========================================================= -->
+
+<div class="card">
+
+    <div class="globalChatBox">
+
+        <div class="globalChatTop">
+
+            <div class="globalChatTitle">
+
+                <span class="material-symbols-outlined">
+                    forum
+                </span>
+
+                <div>
+
+                    <h3>
+                        GLOBAL CHAT
+                    </h3>
+
+                    <p id="chatStatus">
+                        Realtime Chat
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="chatLive">
+                ● LIVE
+            </div>
+
+        </div>
+
+        <div class="globalChatMessage">
+
+            <div class="chatContent">
+
+                <b id="chatUsername">
+                    GLOBAL CHAT
+                </b>
+
+                <p id="latestChat">
+                    Belum ada pesan...
+                </p>
+
+            </div>
+
+        </div>
+
+        <button
+            class="openChatBtn"
+            onclick="location.href='../chat.html'"
+        >
+
+            <span class="material-symbols-outlined">
+                chat
+            </span>
+
+            BUKA CHAT
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+     QUICK ACTION
+========================================================= -->
+
+<div class="card">
+
+    <div class="title">
+        QUICK ACTIONS
+    </div>
+
+    <div class="menuGrid">
+
+        <div
+            class="item"
+            onclick="location.href='../channel.html'"
+        >
+            <span class="material-symbols-outlined">
+                campaign
+            </span>
+            <p>Info Channel</p>
+        </div>
+
+        <div
+            class="item"
+            onclick="location.href='../badak.html'"
+        >
+            <span class="material-symbols-outlined">
+                shield
+            </span>
+            <p>Badak WA</p>
+        </div>
+
+        <div
+            class="item"
+            onclick="location.href='../ucapan.html'"
+        >
+            <span class="material-symbols-outlined">
+                cake
+            </span>
+            <p>Ucapan</p>
+        </div>
+
+        <div
+            class="item"
+            onclick="location.href='../store.html'"
+        >
+            <span class="material-symbols-outlined">
+                shopping_bag
+            </span>
+            <p>Store</p>
+        </div>
+
+        <div
+            class="item"
+            onclick="location.href='../support.html'"
+        >
+            <span class="material-symbols-outlined">
+                code
+            </span>
+            <p>Support</p>
+        </div>
+
+        <div
+            class="item"
+            onclick="location.href='../tools.html'"
+        >
+            <span class="material-symbols-outlined">
+                build
+            </span>
+            <p>Tools</p>
+        </div>
+
+        <div
+            class="item"
+            onclick="location.href='../timer.html'"
+        >
+            <span class="material-symbols-outlined">
+                timer
+            </span>
+            <p>Timer</p>
+        </div>
+
+        <div
+            class="item"
+            onclick="location.href='../kalkulator.html'"
+        >
+            <span class="material-symbols-outlined">
+                calculate
+            </span>
+            <p>Kalkulator</p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+     BOTTOM NAV
+========================================================= -->
+
+<nav class="bottomNav">
+
+    <a
+        href="dashboard.html"
+        class="active"
+    >
+        <span class="material-symbols-outlined">
+            home
+        </span>
+    </a>
+
+    <a href="users.html">
+        <span class="material-symbols-outlined">
+            groups
+        </span>
+    </a>
+
+    <a href="../devices.html">
+        <span class="material-symbols-outlined">
+            devices
+        </span>
+    </a>
+
+    <a href="../change-password.html">
+        <span class="material-symbols-outlined">
+            settings
+        </span>
+    </a>
+
+</nav>
+
+<!-- =========================================================
+     DRAWER
+========================================================= -->
+
+<div id="drawer" class="drawer">
+
+    <div class="drawerHeader">
+
+        <div
+            class="drawerAvatar"
+            id="drawerProfileBtn"
+        >
+
+            <img
+                id="drawerProfileImage"
+                alt="Profile"
+            >
+
+            <span
+                id="drawerProfileIcon"
+                class="material-symbols-outlined"
+            >
+                person
+            </span>
+
+        </div>
+
+        <div>
+
+            <h2 id="drawerName">
+                Loading...
+            </h2>
+
+            <p id="drawerRole">
+                User
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="drawerMenu">
+
+        <div
+            class="drawerItem"
+            onclick="location.href='dashboard.html'"
+        >
+            <span class="material-symbols-outlined">
+                dashboard
+            </span>
+            Dashboard
+        </div>
+
+        <div
+            class="drawerItem"
+            onclick="location.href='create-user.html'"
+        >
+            <span class="material-symbols-outlined">
+                person_add
+            </span>
+            Create User
+        </div>
+
+        <div
+            class="drawerItem"
+            onclick="location.href='users.html'"
+        >
+            <span class="material-symbols-outlined">
+                groups
+            </span>
+            Manage Users
+        </div>
+
+        <div
+            class="drawerItem"
+            onclick="location.href='../profil.html'"
+        >
+            <span class="material-symbols-outlined">
+                account_circle
+            </span>
+            Profil Saya
+        </div>
+
+        <div
+            class="drawerItem"
+            onclick="location.href='../story.html'"
+        >
+            <span class="material-symbols-outlined">
+                auto_stories
+            </span>
+            Story
+        </div>
+
+        <div
+            class="drawerItem"
+            onclick="location.href='../support.html'"
+        >
+            <span class="material-symbols-outlined">
+                code
+            </span>
+            Support
+        </div>
+
+        <div
+            class="drawerItem"
+            onclick="location.href='../music.html'"
+        >
+            <span class="material-symbols-outlined">
+                music_note
+            </span>
+            Music Player
+        </div>
+
+        <div
+            class="drawerItem"
+            onclick="location.href='../tools.html'"
+        >
+            <span class="material-symbols-outlined">
+                build
+            </span>
+            Tools
+        </div>
+
+        <div
+            class="drawerItem"
+            onclick="location.href='../change-password.html'"
+        >
+            <span class="material-symbols-outlined">
+                settings
+            </span>
+            Settings
+        </div>
+
+        <div
+            class="drawerItem logout"
+            id="logoutBtn"
+        >
+            <span class="material-symbols-outlined">
+                logout
+            </span>
+            Logout
+        </div>
+
+    </div>
+
+</div>
+
+<div
+    id="overlay"
+    class="overlayMenu"
+></div>
+
+<!-- =========================================================
+     STORY MODAL
+========================================================= -->
+
+<div
+    class="storyModal"
+    id="storyModal"
+>
+
+    <div class="storyPreview">
+
+        <div class="storyPreviewHead">
+
+            <div class="storyPreviewUser">
+
+                <img
+                    id="storyPreviewAvatar"
+                    alt="Story Avatar"
+                >
+
+                <div>
+
+                    <b id="storyPreviewName">
+                        User
+                    </b>
+
+                    <p id="storyPreviewTime">
+                        Baru saja
+                    </p>
+
+                </div>
+
+            </div>
+
+            <button
+                class="closeStoryBtn"
+                id="closeStoryBtn"
+            >
+
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+
+            </button>
+
+        </div>
+
+        <div
+            class="storyPreviewBody"
+            id="storyPreviewBody"
+        ></div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* =========================================================
+   GLOBAL HELPERS
+========================================================= */
+
+function escapeStoryHTML(value){
+
+    const div=document.createElement("div");
+
+    div.textContent=String(value||"");
+
+    return div.innerHTML;
+}
+
+function escapeHTML(value){
+
+    const div=document.createElement("div");
+
+    div.textContent=String(value||"");
+
+    return div.innerHTML;
+}
+
+function timeAgo(time){
+
+    const diff=Math.max(
+        0,
+        Date.now()-Number(time||Date.now())
+    );
+
+    const minutes=Math.floor(diff/60000);
+
+    if(minutes<1){
+        return "Baru saja";
+    }
+
+    if(minutes<60){
+        return minutes+" menit lalu";
+    }
+
+    const hours=Math.floor(minutes/60);
+
+    if(hours<24){
+        return hours+" jam lalu";
+    }
+
+    return Math.floor(hours/24)+" hari lalu";
+}
+
+function isStoryExpired(story){
+
+    const now=Date.now();
+
+    const explicitExpiry=Number(
+        story.expiresAt||
+        story.expiredAt||
+        story.expireAt||
+        0
+    );
+
+    if(explicitExpiry){
+        return now>=explicitExpiry;
+    }
+
+    const created=Number(
+        story.timestamp||
+        story.time||
+        story.createdAt||
+        0
+    );
+
+    if(!created){
+        return false;
+    }
+
+    return now >= (
+        created +
+        24*60*60*1000
+    );
+}
+
+window.escapeStoryHTML=escapeStoryHTML;
+window.isStoryExpired=isStoryExpired;
+
+/* =========================================================
+   DRAWER
+========================================================= */
+
+const drawer=document.getElementById("drawer");
+const overlay=document.getElementById("overlay");
+const notificationPanel=document.getElementById("notificationPanel");
+
+document.getElementById("menuBtn").onclick=()=>{
+
+    drawer.classList.add("show");
+    overlay.classList.add("show");
+
+};
+
+overlay.onclick=()=>{
+
+    drawer.classList.remove("show");
+    overlay.classList.remove("show");
+
+};
+
+document.getElementById("notificationBtn").onclick=e=>{
+
+    e.stopPropagation();
+
+    notificationPanel.classList.toggle("show");
+
+};
+
+document.addEventListener("click",e=>{
+
+    if(
+        !notificationPanel.contains(e.target) &&
+        !document
+            .getElementById("notificationBtn")
+            .contains(e.target)
+    ){
+
+        notificationPanel.classList.remove("show");
+
+    }
+
+});
+
+function openProfile(){
+
+    location.href="../profil.html";
+
+}
+
+document.getElementById("headerProfileBtn").onclick=openProfile;
+document.getElementById("dashboardProfileBtn").onclick=openProfile;
+document.getElementById("drawerProfileBtn").onclick=openProfile;
+
+/* =========================================================
+   BANNER
+========================================================= */
+
+const slides=document.querySelectorAll(".slide");
+const newsBadge=document.getElementById("newsBadge");
+
+let currentSlide=0;
+let touchStartX=0;
+
+function showSlide(index){
+
+    if(index<0){
+        index=slides.length-1;
+    }
+
+    if(index>=slides.length){
+        index=0;
+    }
+
+    slides.forEach((slide,i)=>{
+
+        slide.classList.toggle(
+            "active",
+            i===index
+        );
+
+    });
+
+    currentSlide=index;
+
+    newsBadge.textContent=
+        "NEWS "+(index+1);
+
+}
+
+document.getElementById("bannerPrev").onclick=e=>{
+
+    e.stopPropagation();
+
+    showSlide(currentSlide-1);
+
+};
+
+document.getElementById("bannerNext").onclick=e=>{
+
+    e.stopPropagation();
+
+    showSlide(currentSlide+1);
+
+};
+
+const bannerContainer=
+    document.getElementById("bannerContainer");
+
+bannerContainer.addEventListener(
+    "touchstart",
+    e=>{
+
+        touchStartX=
+            e.changedTouches[0].screenX;
+
+    },
+    {passive:true}
+);
+
+bannerContainer.addEventListener(
+    "touchend",
+    e=>{
+
+        const touchEndX=
+            e.changedTouches[0].screenX;
+
+        const difference=
+            touchEndX-touchStartX;
+
+        if(Math.abs(difference)<40){
+            return;
+        }
+
+        if(difference<0){
+            showSlide(currentSlide+1);
+        }else{
+            showSlide(currentSlide-1);
+        }
+
+    },
+    {passive:true}
+);
+
+/* =========================================================
+   MUSIC
+========================================================= */
+
+const dashboardAudio=new Audio();
+
+function loadMusic(){
+
+    const savedMusic=
+        localStorage.getItem(
+            "devonaxCurrentMusic"
+        );
+
+    if(!savedMusic){
+        return;
+    }
+
+    try{
+
+        const music=
+            JSON.parse(savedMusic);
+
+        document.getElementById(
+            "musicTitle"
+        ).textContent=
+            music.title||
+            music.name||
+            "Tanpa Judul";
+
+        document.getElementById(
+            "musicArtist"
+        ).textContent=
+            music.artist||
+            "DEVONAX MUSIC";
+
+        if(music.cover){
+
+            const cover=
+                document.getElementById(
+                    "musicCover"
+                );
+
+            cover.src=music.cover;
+            cover.style.display="block";
+
+            document.getElementById(
+                "musicDefaultIcon"
+            ).style.display="none";
+
+        }
+
+        if(music.src){
+
+            dashboardAudio.src=
+                music.src;
+
+        }
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+loadMusic();
+
+document.getElementById("musicBtn").onclick=async()=>{
+
+    if(!dashboardAudio.src){
+
+        location.href="../music.html";
+
+        return;
+
+    }
+
+    try{
+
+        if(dashboardAudio.paused){
+
+            await dashboardAudio.play();
+
+        }else{
+
+            dashboardAudio.pause();
+
+        }
+
+    }catch(error){
+
+        location.href="../music.html";
+
+    }
+
+};
+
+dashboardAudio.onplay=()=>{
+
+    document.getElementById(
+        "musicBtnIcon"
+    ).textContent="pause";
+
+};
+
+dashboardAudio.onpause=()=>{
+
+    document.getElementById(
+        "musicBtnIcon"
+    ).textContent="play_arrow";
+
+};
+
+dashboardAudio.onended=()=>{
+
+    document.getElementById(
+        "musicBtnIcon"
+    ).textContent="play_arrow";
+
+};
+
+/* =========================================================
+   WEATHER REALTIME
+========================================================= */
+
+function weatherIconFromCode(code){
+
+    const c=Number(code);
+
+    if(c===0){
+
+        return {
+            icon:"sunny",
+            className:"weather-icon-sunny"
+        };
+
+    }
+
+    if([1,2,3].includes(c)){
+
+        return {
+            icon:"partly_cloudy_day",
+            className:"weather-icon-cloudy"
+        };
+
+    }
+
+    if([45,48].includes(c)){
+
+        return {
+            icon:"foggy",
+            className:"weather-icon-fog"
+        };
+
+    }
+
+    if(
+        [51,53,55,56,57,
+         61,63,65,66,67,
+         80,81,82].includes(c)
+    ){
+
+        return {
+            icon:"rainy",
+            className:"weather-icon-rain"
+        };
+
+    }
+
+    if(
+        [71,73,75,77,85,86].includes(c)
+    ){
+
+        return {
+            icon:"ac_unit",
+            className:"weather-icon-snow"
+        };
+
+    }
+
+    if(
+        [95,96,99].includes(c)
+    ){
+
+        return {
+            icon:"thunderstorm",
+            className:"weather-icon-storm"
+        };
+
+    }
+
+    return {
+        icon:"cloud",
+        className:"weather-icon-cloudy"
+    };
+
+}
+
+async function loadWeather(lat,lon){
+
+    try{
+
+        const response=await fetch(
+            `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`
+        );
+
+        if(!response.ok){
+            throw new Error("Weather request failed");
+        }
+
+        const data=
+            await response.json();
+
+        if(!data.current){
+            return;
+        }
+
+        document.getElementById(
+            "weatherTemp"
+        ).textContent=
+            Math.round(
+                data.current.temperature_2m
+            )+"°C";
+
+        const weather=
+            weatherIconFromCode(
+                data.current.weather_code
+            );
+
+        const icon=
+            document.getElementById(
+                "weatherIcon"
+            );
+
+        icon.textContent=
+            weather.icon;
+
+        icon.className=
+            "material-symbols-outlined "+
+            weather.className;
+
+        document.getElementById(
+            "weatherIndicator"
+        ).classList.add("online");
+
+    }catch(error){
+
+        document.getElementById(
+            "weatherTemp"
+        ).textContent="--°C";
+
+        const icon=
+            document.getElementById(
+                "weatherIcon"
+            );
+
+        icon.textContent="cloud";
+        icon.className=
+            "material-symbols-outlined weather-icon-cloudy";
+
+    }
+
+}
+
+/* =========================================================
+   JAM REALTIME
+========================================================= */
+
+function updateHPClock(){
+
+    const now=new Date();
+
+    document.getElementById(
+        "hpClock"
+    ).textContent=
+        now.toLocaleTimeString(
+            "id-ID",
+            {
+                hour:"2-digit",
+                minute:"2-digit",
+                second:"2-digit",
+                hour12:false
+            }
+        );
+
+}
+
+updateHPClock();
+
+setInterval(
+    updateHPClock,
+    1000
+);
+
+/* =========================================================
+   JADWAL SHOLAT
+========================================================= */
+
+let prayerSchedule=[];
+let prayerDateKey="";
+let notifiedPrayerKey="";
+let lastPrayerCheckMinute="";
+
+const prayerIcons={
+    SUBUH:"wb_twilight",
+    DZUHUR:"light_mode",
+    ASHAR:"wb_sunny",
+    MAGHRIB:"wb_twilight",
+    ISYA:"dark_mode"
+};
+
+function cleanPrayerTime(value){
+
+    return String(value||"")
+        .split(" ")[0]
+        .replace(/\(.*/,"")
+        .trim();
+
+}
+
+function getTodayKey(){
+
+    const now=new Date();
+
+    return [
+        now.getFullYear(),
+        String(
+            now.getMonth()+1
+        ).padStart(2,"0"),
+        String(
+            now.getDate()
+        ).padStart(2,"0")
+    ].join("-");
+
+}
+
+function prayerDateObject(time){
+
+    const now=new Date();
+
+    const parts=
+        String(time).split(":");
+
+    const hours=
+        Number(parts[0]||0);
+
+    const minutes=
+        Number(parts[1]||0);
+
+    return new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        hours,
+        minutes,
+        0,
+        0
+    );
+
+}
+
+function formatCountdown(milliseconds){
+
+    if(milliseconds<=0){
+        return "00:00:00";
+    }
+
+    const total=
+        Math.floor(
+            milliseconds/1000
+        );
+
+    const hours=
+        Math.floor(
+            total/3600
+        );
+
+    const minutes=
+        Math.floor(
+            (total%3600)/60
+        );
+
+    const seconds=
+        total%60;
+
+    return [
+        String(hours).padStart(2,"0"),
+        String(minutes).padStart(2,"0"),
+        String(seconds).padStart(2,"0")
+    ].join(":");
+
+}
+
+function getNextPrayer(){
+
+    if(!prayerSchedule.length){
+        return null;
+    }
+
+    const now=new Date();
+
+    for(const prayer of prayerSchedule){
+
+        const prayerTime=
+            prayerDateObject(
+                prayer.time
+            );
+
+        if(prayerTime>now){
+
+            return {
+                ...prayer,
+                date:prayerTime,
+                isTomorrow:false
+            };
+
+        }
+
+    }
+
+    const first=
+        prayerSchedule[0];
+
+    const tomorrow=
+        prayerDateObject(
+            first.time
+        );
+
+    tomorrow.setDate(
+        tomorrow.getDate()+1
+    );
+
+    return {
+        ...first,
+        date:tomorrow,
+        isTomorrow:true
+    };
+
+}
+
+function renderPrayerTimes(){
+
+    const container=
+        document.getElementById(
+            "prayerTimes"
+        );
+
+    if(!prayerSchedule.length){
+
+        container.innerHTML=`
+            <div class="prayerLoading">
+                Jadwal sholat belum tersedia.
+            </div>
+        `;
+
+        return;
+    }
+
+    const next=
+        getNextPrayer();
+
+    container.innerHTML=
+        prayerSchedule.map(
+            prayer=>{
+
+                const isNext=
+                    next &&
+                    prayer.name===next.name &&
+                    prayer.time===next.time;
+
+                const icon=
+                    prayerIcons[
+                        prayer.name
+                    ]||"schedule";
+
+                return `
+                    <div class="prayerTime ${isNext?"next":""}">
+
+                        ${
+                            isNext
+                            ?`
+                                <small class="prayerNextLabel">
+                                    BERIKUTNYA
+                                </small>
+                            `
+                            :""
+                        }
+
+                        <div class="prayerTimeIcon">
+                            <span class="material-symbols-outlined">
+                                ${icon}
+                            </span>
+                        </div>
+
+                        <b>
+                            ${prayer.name}
+                        </b>
+
+                        <span>
+                            ${prayer.time}
+                        </span>
+
+                    </div>
+                `;
+
+            }
+        ).join("");
+
+    if(next){
+
+        const diff=
+            next.date-Date.now();
+
+        const target=
+            next.isTomorrow
+            ?"Besok "
+            :"";
+
+        document.getElementById(
+            "nextPrayerInfo"
+        ).innerHTML=
+            `${target}Menuju <b>${next.name}</b><br>${formatCountdown(diff)}`;
+
+    }
+
+}
+
+async function loadPrayerSchedule(
+    lat=-6.2088,
+    lon=106.8456
+){
+
+    try{
+
+        const response=await fetch(
+            `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=20`
+        );
+
+        if(!response.ok){
+            throw new Error(
+                "Prayer request failed"
+            );
+        }
+
+        const json=
+            await response.json();
+
+        if(
+            !json.data||
+            !json.data.timings
+        ){
+
+            throw new Error(
+                "Prayer data tidak tersedia"
+            );
+
+        }
+
+        const t=
+            json.data.timings;
+
+        prayerSchedule=[
+            {
+                name:"SUBUH",
+                time:cleanPrayerTime(t.Fajr)
+            },
+            {
+                name:"DZUHUR",
+                time:cleanPrayerTime(t.Dhuhr)
+            },
+            {
+                name:"ASHAR",
+                time:cleanPrayerTime(t.Asr)
+            },
+            {
+                name:"MAGHRIB",
+                time:cleanPrayerTime(t.Maghrib)
+            },
+            {
+                name:"ISYA",
+                time:cleanPrayerTime(t.Isha)
+            }
+        ];
+
+        prayerDateKey=
+            getTodayKey();
+
+        document.getElementById(
+            "prayerDate"
+        ).textContent=
+            json.data.date?.readable||
+            "Hari ini";
+
+        renderPrayerTimes();
+
+    }catch(error){
+
+        console.log(error);
+
+        document.getElementById(
+            "prayerTimes"
+        ).innerHTML=`
+            <div class="prayerLoading">
+                Gagal memuat jadwal sholat
+            </div>
+        `;
+
+        document.getElementById(
+            "nextPrayerInfo"
+        ).textContent=
+            "Jadwal tidak tersedia";
+
+    }
+
+}
+
+function prayerNotification(prayer){
+
+    const key=
+        getTodayKey()+
+        "_"+
+        prayer.name+
+        "_"+
+        prayer.time;
+
+    if(
+        notifiedPrayerKey===key
+    ){
+        return;
+    }
+
+    notifiedPrayerKey=key;
+
+    if(
+        "Notification" in window
+    ){
+
+        if(
+            Notification.permission==="granted"
+        ){
+
+            new Notification(
+                "WAKTU SHOLAT",
+                {
+                    body:
+                        `Telah tiba waktu ${prayer.name} • ${prayer.time}`,
+                    icon:
+                        "../img/logo.png"
+                }
+            );
+
+        }else if(
+            Notification.permission==="default"
+        ){
+
+            Notification
+                .requestPermission()
+                .then(permission=>{
+
+                    if(
+                        permission==="granted"
+                    ){
+
+                        new Notification(
+                            "WAKTU SHOLAT",
+                            {
+                                body:
+                                    `Telah tiba waktu ${prayer.name} • ${prayer.time}`
+                            }
+                        );
+
+                    }
+
+                });
+
+        }
+
+    }
+
+}
+
+function prayerRealtimeLoop(){
+
+    if(!prayerSchedule.length){
+        return;
+    }
+
+    const now=new Date();
+
+    const currentMinute=
+        getTodayKey()+
+        "_"+
+        String(
+            now.getHours()
+        ).padStart(2,"0")+
+        ":"+
+        String(
+            now.getMinutes()
+        ).padStart(2,"0");
+
+    renderPrayerTimes();
+
+    if(
+        lastPrayerCheckMinute===
+        currentMinute
+    ){
+        return;
+    }
+
+    lastPrayerCheckMinute=
+        currentMinute;
+
+    const currentTime=
+        String(
+            now.getHours()
+        ).padStart(2,"0")+
+        ":"+
+        String(
+            now.getMinutes()
+        ).padStart(2,"0");
+
+    const currentPrayer=
+        prayerSchedule.find(
+            prayer=>
+                prayer.time===
+                currentTime
+        );
+
+    if(currentPrayer){
+
+        prayerNotification(
+            currentPrayer
+        );
+
+    }
+
+}
+
+setInterval(
+    prayerRealtimeLoop,
+    1000
+);
+
+/* =========================================================
+   LOCATION
+========================================================= */
+
+function startLocationServices(){
+
+    const fallbackLat=-6.2088;
+    const fallbackLon=106.8456;
+
+    function useFallback(){
+
+        document.getElementById(
+            "prayerLocation"
+        ).textContent=
+            "Jakarta (Default)";
+
+        loadWeather(
+            fallbackLat,
+            fallbackLon
+        );
+
+        loadPrayerSchedule(
+            fallbackLat,
+            fallbackLon
+        );
+
+    }
+
+    if(!navigator.geolocation){
+
+        useFallback();
+
+        return;
+
+    }
+
+    navigator.geolocation.getCurrentPosition(
+
+        position=>{
+
+            const lat=
+                position.coords.latitude;
+
+            const lon=
+                position.coords.longitude;
+
+            document.getElementById(
+                "prayerLocation"
+            ).textContent=
+                "Lokasi sekitar";
+
+            loadWeather(
+                lat,
+                lon
+            );
+
+            loadPrayerSchedule(
+                lat,
+                lon
+            );
+
+        },
+
+        ()=>{
+            useFallback();
+        },
+
+        {
+            enableHighAccuracy:false,
+            timeout:8000,
+            maximumAge:300000
+        }
+
+    );
+
+}
+
+startLocationServices();
+
+setInterval(()=>{
+
+    if(
+        prayerDateKey!==
+        getTodayKey()
+    ){
+
+        startLocationServices();
+
+    }
+
+},60000);
+
+/* =========================================================
+   STORY MODAL
+========================================================= */
+
+function openStoryPreview(story){
+
+    const modal=
+        document.getElementById(
+            "storyModal"
+        );
+
+    const avatar=
+        document.getElementById(
+            "storyPreviewAvatar"
+        );
+
+    const name=
+        document.getElementById(
+            "storyPreviewName"
+        );
+
+    const time=
+        document.getElementById(
+            "storyPreviewTime"
+        );
+
+    const body=
+        document.getElementById(
+            "storyPreviewBody"
+        );
+
+    const storyName=
+        story.username||
+        story.name||
+        story.displayName||
+        "DEVONAX USER";
+
+    name.textContent=
+        storyName;
+
+    time.textContent=
+        timeAgo(
+            story.timestamp||
+            story.time||
+            story.createdAt
+        );
+
+    avatar.src=
+        story.profileImage||
+        story.photoURL||
+        story.avatar||
+        "https://ui-avatars.com/api/?name="+
+        encodeURIComponent(
+            storyName
+        );
+
+    const image=
+        story.image||
+        story.imageUrl||
+        story.photo||
+        "";
+
+    const video=
+        story.video||
+        story.videoUrl||
+        "";
+
+    const text=
+        story.text||
+        story.content||
+        story.caption||
+        story.message||
+        "";
+
+    if(video){
+
+        body.innerHTML=
+            `<video controls autoplay src="${escapeStoryHTML(video)}"></video>`;
+
+    }else if(image){
+
+        body.innerHTML=
+            `<img src="${escapeStoryHTML(image)}" alt="Story">`;
+
+    }else{
+
+        body.innerHTML=
+            `<div class="storyPreviewText">${
+                escapeStoryHTML(
+                    text||
+                    "Tidak ada isi story."
+                )
+            }</div>`;
+
+    }
+
+    modal.classList.add("show");
+
+}
+
+window.openStoryPreview=
+    openStoryPreview;
+
+document.getElementById(
+    "closeStoryBtn"
+).onclick=()=>{
+
+    document
+        .getElementById("storyModal")
+        .classList.remove("show");
+
+};
+
+document.getElementById(
+    "storyModal"
+).onclick=e=>{
+
+    if(
+        e.target.id===
+        "storyModal"
+    ){
+
+        document
+            .getElementById("storyModal")
+            .classList.remove("show");
+
+    }
+
+};
+
+</script>
+
+<script type="module">
+
+import {
+    initializeApp
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+    getDatabase,
+    ref,
+    get,
+    onValue,
+    set,
+    onDisconnect
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+/* =========================================================
+   FIREBASE
+========================================================= */
+
+const firebaseConfig={
+
+    apiKey:
+        "AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+
+    authDomain:
+        "project-coding-gabut.firebaseapp.com",
+
+    databaseURL:
+        "https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+    projectId:
+        "project-coding-gabut",
+
+    storageBucket:
+        "project-coding-gabut.firebasestorage.app",
+
+    messagingSenderId:
+        "234910334669",
+
+    appId:
+        "1:234910334669:web:5203c9e9ce22a596f2b384"
+
+};
+
+const app=
+    initializeApp(
+        firebaseConfig
+    );
+
+const auth=
+    getAuth(app);
+
+const db=
+    getDatabase(app);
+
+let currentUser=null;
+let announcements=[];
+
+/* =========================================================
+   ROLE
+========================================================= */
+
+function getRoleClass(role){
+
+    const r=
+        String(
+            role||"MEMBER"
+        )
+        .trim()
+        .toUpperCase();
+
+    if(
+        r==="DEVELOPER"||
+        r==="DEV"
+    ){
+
+        return "role-developer";
+
+    }
+
+    if(r==="OWNER"){
+
+        return "role-owner";
+
+    }
+
+    if(r==="VIP"){
+
+        return "role-vip";
+
+    }
+
+    if(r==="RESELLER"){
+
+        return "role-reseller";
+
+    }
+
+    if(r==="MEMBER"){
+
+        return "role-member";
+
+    }
+
+    return "role-default";
+
+}
+
+function setRole(role){
+
+    const currentRole=
+        role||"Member";
+
+    const roleEl=
+        document.getElementById(
+            "role"
+        );
+
+    roleEl.textContent=
+        String(
+            currentRole
+        ).toUpperCase();
+
+    roleEl.className=
+        "role "+
+        getRoleClass(
+            currentRole
+        );
+
+    document.getElementById(
+        "drawerRole"
+    ).textContent=
+        String(
+            currentRole
+        ).toUpperCase();
+
+}
+
+/* =========================================================
+   BANNER FIREBASE
+========================================================= */
+
+onValue(
+    ref(db,"banner/1"),
+    snap=>{
+
+        if(!snap.exists()){
+            return;
+        }
+
+        const data=
+            snap.val();
+
+        if(data.image){
+
+            document.getElementById(
+                "banner1"
+            ).src=data.image;
+
+        }
+
+        if(data.title){
+
+            document.getElementById(
+                "bannerTitle1"
+            ).textContent=
+                data.title;
+
+        }
+
+        if(data.text){
+
+            document.getElementById(
+                "bannerText1"
+            ).textContent=
+                data.text;
+
+        }
+
+    }
+);
+
+onValue(
+    ref(db,"banner/2"),
+    snap=>{
+
+        if(!snap.exists()){
+            return;
+        }
+
+        const data=
+            snap.val();
+
+        if(data.image){
+
+            document.getElementById(
+                "banner2"
+            ).src=data.image;
+
+        }
+
+        if(data.title){
+
+            document.getElementById(
+                "bannerTitle2"
+            ).textContent=
+                data.title;
+
+        }
+
+        if(data.text){
+
+            document.getElementById(
+                "bannerText2"
+            ).textContent=
+                data.text;
+
+        }
+
+    }
+);
+
+/* =========================================================
+   STORY FIREBASE
+========================================================= */
+
+function normalizeStories(value){
+
+    if(!value){
+        return [];
+    }
+
+    let list=[];
+
+    if(Array.isArray(value)){
+
+        list=
+            value
+            .filter(Boolean)
+            .map(
+                (data,index)=>({
+
+                    id:String(index),
+
+                    ...data
+
+                })
+            );
+
+    }else if(
+        typeof value==="object"
+    ){
+
+        Object.entries(value)
+            .forEach(
+                ([id,data])=>{
+
+                    if(
+                        data&&
+                        typeof data==="object"
+                    ){
+
+                        list.push({
+
+                            id,
+
+                            ...data
+
+                        });
+
+                    }
+
+                }
+            );
+
+    }
+
+    return list
+        .filter(
+            story=>
+                !window.isStoryExpired(
+                    story
+                )
+        )
+        .sort(
+            (a,b)=>{
+
+                const timeA=
+                    Number(
+                        a.timestamp||
+                        a.time||
+                        a.createdAt||
+                        0
+                    );
+
+                const timeB=
+                    Number(
+                        b.timestamp||
+                        b.time||
+                        b.createdAt||
+                        0
+                    );
+
+                return timeB-timeA;
+
+            }
+        )
+        .slice(0,10);
+
+}
+
+function renderStories(value){
+
+    const container=
+        document.getElementById(
+            "storyList"
+        );
+
+    const stories=
+        normalizeStories(
+            value
+        );
+
+    let html=`
+
+        <div
+            class="storyItem add"
+            id="createStoryBtn"
+        >
+
+            <div class="storyAvatarWrap">
+
+                <span class="material-symbols-outlined storyAddIcon">
+                    add
+                </span>
+
+            </div>
+
+            <span class="storyName">
+                Buat Story
+            </span>
+
+        </div>
+
+    `;
+
+    stories.forEach(
+        (story,index)=>{
+
+            const name=
+                story.username||
+                story.name||
+                story.displayName||
+                "USER";
+
+            const avatar=
+                story.profileImage||
+                story.photoURL||
+                story.avatar||
+                "https://ui-avatars.com/api/?name="+
+                encodeURIComponent(
+                    name
+                );
+
+            html+=`
+
+                <div
+                    class="storyItem"
+                    data-story-index="${index}"
+                >
+
+                    <div class="storyAvatarWrap">
+
+                        <img
+                            class="storyAvatar"
+                            src="${window.escapeStoryHTML(avatar)}"
+                            alt="${window.escapeStoryHTML(name)}"
+                        >
+
+                    </div>
+
+                    <span class="storyName">
+                        ${window.escapeStoryHTML(name)}
+                    </span>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+    if(!stories.length){
+
+        html+=`
+
+            <div class="storyItem">
+
+                <div class="storyAvatarWrap">
+
+                    <div class="storyAvatar"></div>
+
+                </div>
+
+                <span class="storyName">
+                    Belum ada
+                </span>
+
+            </div>
+
+        `;
+
+    }
+
+    container.innerHTML=
+        html;
+
+    document.getElementById(
+        "createStoryBtn"
+    ).onclick=()=>{
+
+        location.href=
+            "../story.html?action=create";
+
+    };
+
+    container
+        .querySelectorAll(
+            "[data-story-index]"
+        )
+        .forEach(item=>{
+
+            item.onclick=()=>{
+
+                const index=
+                    Number(
+                        item.dataset.storyIndex
+                    );
+
+                window.openStoryPreview(
+                    stories[index]
+                );
+
+            };
+
+        });
+
+}
+
+onValue(
+    ref(db,"stories"),
+    snap=>{
+
+        renderStories(
+            snap.val()
+        );
+
+    }
+);
+
+/* =========================================================
+   GLOBAL CHAT
+========================================================= */
+
+function isModerationMessage(data){
+
+    const type=
+        String(
+            data.type||
+            data.messageType||
+            data.senderType||
+            data.systemType||
+            ""
+        ).toLowerCase();
+
+    const username=
+        String(
+            data.username||
+            data.name||
+            data.sender||
+            ""
+        ).toLowerCase();
+
+    return(
+        data.isModeration===true||
+        data.moderation===true||
+        data.isSystem===true||
+        data.system===true||
+        type.includes("moderation")||
+        type.includes("moderasi")||
+        type.includes("system")||
+        username==="moderasi"||
+        username==="moderation"
+    );
+
+}
+
+onValue(
+    ref(db,"globalChat"),
+    snap=>{
+
+        const usernameEl=
+            document.getElementById(
+                "chatUsername"
+            );
+
+        const messageEl=
+            document.getElementById(
+                "latestChat"
+            );
+
+        const statusEl=
+            document.getElementById(
+                "chatStatus"
+            );
+
+        if(!snap.exists()){
+
+            usernameEl.textContent=
+                "GLOBAL CHAT";
+
+            usernameEl.classList.remove(
+                "moderation"
+            );
+
+            messageEl.textContent=
+                "Belum ada pesan...";
+
+            statusEl.textContent=
+                "Belum ada aktivitas";
+
+            return;
+
+        }
+
+        let latest=null;
+
+        snap.forEach(
+            child=>{
+
+                const data=
+                    child.val()||{};
+
+                const timestamp=
+                    Number(
+                        data.timestamp||
+                        data.time||
+                        data.createdAt||
+                        data.date||
+                        0
+                    );
+
+                if(
+                    !latest||
+                    timestamp>=latest.timestamp
+                ){
+
+                    latest={
+                        ...data,
+                        timestamp
+                    };
+
+                }
+
+            }
+        );
+
+        if(!latest){
+            return;
+        }
+
+        const moderation=
+            isModerationMessage(
+                latest
+            );
+
+        usernameEl.textContent=
+            moderation
+            ?"MODERASI"
+            :(
+                latest.username||
+                latest.name||
+                latest.sender||
+                latest.displayName||
+                "USER"
+            );
+
+        usernameEl.classList.toggle(
+            "moderation",
+            moderation
+        );
+
+        messageEl.textContent=
+            latest.message||
+            latest.text||
+            latest.chat||
+            latest.content||
+            (
+                latest.image
+                ?"📷 Mengirim sebuah foto"
+                :"Belum ada pesan..."
+            );
+
+        statusEl.textContent=
+            moderation
+            ?"Pesan sistem moderasi • Realtime"
+            :"Pesan terbaru • Realtime";
+
+    }
+);
+
+/* =========================================================
+   PENGUMUMAN
+========================================================= */
+
+function normalizeAnnouncements(value){
+
+    if(!value){
+        return [];
+    }
+
+    let list=[];
+
+    if(Array.isArray(value)){
+
+        list=
+            value.map(
+                (data,index)=>({
+
+                    id:String(index),
+
+                    ...(data||{})
+
+                })
+            );
+
+    }else if(
+        typeof value==="object"
+    ){
+
+        Object.entries(value)
+            .forEach(
+                ([id,data])=>{
+
+                    if(
+                        data&&
+                        typeof data==="object"
+                    ){
+
+                        list.push({
+
+                            id,
+
+                            ...data
+
+                        });
+
+                    }
+
+                }
+            );
+
+    }
+
+    return list.sort(
+        (a,b)=>{
+
+            const timeB=
+                Number(
+                    b.timestamp||
+                    b.time||
+                    b.createdAt||
+                    0
+                );
+
+            const timeA=
+                Number(
+                    a.timestamp||
+                    a.time||
+                    a.createdAt||
+                    0
+                );
+
+            return timeB-timeA;
+
+        }
+    );
+
+}
+
+function getAnnouncementTitle(item){
+
+    return item.title||
+        item.judul||
+        item.name||
+        "DEVONAX ANNOUNCEMENT";
+
+}
+
+function getAnnouncementText(item){
+
+    return item.message||
+        item.text||
+        item.content||
+        item.description||
+        item.pengumuman||
+        "Pengumuman baru dari Developer atau Owner.";
+
+}
+
+function renderNotifications(){
+
+    const list=
+        document.getElementById(
+            "notificationList"
+        );
+
+    const badge=
+        document.getElementById(
+            "notificationBadge"
+        );
+
+    const readIds=
+        JSON.parse(
+            localStorage.getItem(
+                "devonaxReadAnnouncements"
+            )||
+            "[]"
+        );
+
+    const unread=
+        announcements.filter(
+            item=>
+                !readIds.includes(
+                    item.id
+                )
+        ).length;
+
+    if(unread>0){
+
+        badge.textContent=
+            unread>99
+            ?"99+"
+            :unread;
+
+        badge.style.display=
+            "flex";
+
+    }else{
+
+        badge.style.display=
+            "none";
+
+    }
+
+    if(!announcements.length){
+
+        list.innerHTML=`
+            <div class="emptyNotification">
+                Belum ada pengumuman.
+            </div>
+        `;
+
+        return;
+
+    }
+
+    list.innerHTML=
+        announcements.map(
+            item=>{
+
+                const unreadItem=
+                    !readIds.includes(
+                        item.id
+                    );
+
+                const timestamp=
+                    Number(
+                        item.timestamp||
+                        item.time||
+                        item.createdAt||
+                        0
+                    );
+
+                const timeText=
+                    timestamp
+                    ?new Date(
+                        timestamp
+                    ).toLocaleString(
+                        "id-ID"
+                    )
+                    :"Baru saja";
+
+                return `
+
+                    <div class="notificationItem ${
+                        unreadItem
+                        ?"unread"
+                        :""
+                    }">
+
+                        <div class="notificationItemTop">
+
+                            <span class="material-symbols-outlined">
+                                campaign
+                            </span>
+
+                            <div>
+
+                                <h4>
+                                    ${escapeHTML(
+                                        getAnnouncementTitle(
+                                            item
+                                        )
+                                    )}
+                                </h4>
+
+                                <p>
+                                    ${escapeHTML(
+                                        getAnnouncementText(
+                                            item
+                                        )
+                                    )}
+                                </p>
+
+                                <span class="notificationTime">
+                                    ${timeText}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+document.getElementById(
+    "markReadBtn"
+).onclick=()=>{
+
+    localStorage.setItem(
+        "devonaxReadAnnouncements",
+        JSON.stringify(
+            announcements.map(
+                item=>item.id
+            )
+        )
+    );
+
+    renderNotifications();
+
+};
+
+onValue(
+    ref(db,"pengumuman"),
+    snap=>{
+
+        announcements=
+            normalizeAnnouncements(
+                snap.val()
+            );
+
+        renderNotifications();
+
+    }
+);
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+onAuthStateChanged(
+    auth,
+    async user=>{
+
+        if(!user){
+
+            location.replace(
+                "../login.html"
+            );
+
+            return;
+
+        }
+
+        currentUser=user;
+
+        const firstSnap=
+            await get(
+                ref(
+                    db,
+                    "users/"+user.uid
+                )
+            );
+
+        if(!firstSnap.exists()){
+
+            location.replace(
+                "../setup.html"
+            );
+
+            return;
+
+        }
+
+        onValue(
+            ref(
+                db,
+                "users/"+user.uid
+            ),
+            async snap=>{
+
+                if(!snap.exists()){
+                    return;
+                }
+
+                const data=
+                    snap.val();
+
+                const expiredTime=
+                    Number(
+                        data.expiredAt||
+                        0
+                    );
+
+                if(
+                    expiredTime&&
+                    Date.now()>=expiredTime
+                ){
+
+                    alert(
+                        "Durasi akun telah habis!"
+                    );
+
+                    await set(
+                        ref(
+                            db,
+                            "online/"+user.uid
+                        ),
+                        null
+                    );
+
+                    await signOut(
+                        auth
+                    );
+
+                    location.replace(
+                        "../login.html"
+                    );
+
+                    return;
+
+                }
+
+                const username=
+                    data.username||
+                    user.email?.split("@")[0]||
+                    "User";
+
+                const role=
+                    data.role||
+                    "Member";
+
+                const profilePhoto=
+                    data.profileImage||
+                    data.photoURL||
+                    data.avatar||
+                    "";
+
+                document.getElementById(
+                    "username"
+                ).textContent=
+                    username;
+
+                document.getElementById(
+                    "drawerName"
+                ).textContent=
+                    username;
+
+                document.getElementById(
+                    "expired"
+                ).textContent=
+                    "Expired : "+
+                    (
+                        data.expired||
+                        "Permanen"
+                    );
+
+                setRole(role);
+
+                const profileImage=
+                    document.getElementById(
+                        "profileImage"
+                    );
+
+                const profileIcon=
+                    document.getElementById(
+                        "profileIcon"
+                    );
+
+                const drawerImage=
+                    document.getElementById(
+                        "drawerProfileImage"
+                    );
+
+                const drawerIcon=
+                    document.getElementById(
+                        "drawerProfileIcon"
+                    );
+
+                const avatarBox=
+                    document.getElementById(
+                        "dashboardProfileBtn"
+                    );
+
+                if(profilePhoto){
+
+                    profileImage.src=
+                        profilePhoto;
+
+                    profileImage.style.display=
+                        "block";
+
+                    profileIcon.style.display=
+                        "none";
+
+                    drawerImage.src=
+                        profilePhoto;
+
+                    drawerImage.style.display=
+                        "block";
+
+                    drawerIcon.style.display=
+                        "none";
+
+                    avatarBox.classList.remove(
+                        "empty"
+                    );
+
+                }else{
+
+                    profileImage.removeAttribute(
+                        "src"
+                    );
+
+                    profileImage.style.display=
+                        "none";
+
+                    profileIcon.style.display=
+                        "block";
+
+                    drawerImage.removeAttribute(
+                        "src"
+                    );
+
+                    drawerImage.style.display=
+                        "none";
+
+                    drawerIcon.style.display=
+                        "block";
+
+                    avatarBox.classList.add(
+                        "empty"
+                    );
+
+                }
+
+                const onlineRef=
+                    ref(
+                        db,
+                        "online/"+user.uid
+                    );
+
+                await set(
+                    onlineRef,
+                    {
+                        username,
+                        role,
+                        profileImage:
+                            profilePhoto,
+                        time:
+                            Date.now()
+                    }
+                );
+
+                onDisconnect(
+                    onlineRef
+                ).remove();
+
+            }
+        );
+
+    }
+);
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+document.getElementById(
+    "logoutBtn"
+).onclick=async()=>{
+
+    if(
+        !confirm(
+            "Logout dari DEVONAX?"
+        )
+    ){
+
+        return;
+
+    }
+
+    if(currentUser){
+
+        await set(
+            ref(
+                db,
+                "online/"+currentUser.uid
+            ),
+            null
+        );
+
+    }
+
+    await signOut(
+        auth
+    );
+
+    location.replace(
+        "../login.html"
+    );
+
+};
+
+</script>
+
+</body>
+  </html>
