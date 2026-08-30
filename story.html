@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DEVONAX STORY</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Orbitron",sans-serif;
+}
+
+:root{
+    --bg:#070707;
+    --card:#121212;
+    --blue:#209cff;
+    --blue2:#6ec8ff;
+    --text:#ffffff;
+    --muted:#888;
+    --border:#292929;
+    --danger:#ff4040;
+}
+
+body{
+    min-height:100vh;
+    padding:18px 18px 35px;
+    background:
+        radial-gradient(circle at top right,rgba(32,156,255,.12),transparent 32%),
+        radial-gradient(circle at bottom left,rgba(255,255,255,.035),transparent 30%),
+        var(--bg);
+    color:var(--text);
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    opacity:.035;
+    background-image:
+        linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
+    background-size:38px 38px;
+}
+
+/* ================= HEADER ================= */
+
+header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:22px;
+}
+
+.backBtn,
+.refreshBtn{
+    width:46px;
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #303030;
+    border-radius:15px;
+    background:rgba(20,20,20,.85);
+    color:#fff;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.backBtn:hover,
+.refreshBtn:hover{
+    border-color:var(--blue);
+    box-shadow:0 0 18px rgba(32,156,255,.16);
+    transform:translateY(-2px);
+}
+
+.backBtn span,
+.refreshBtn span{
+    font-size:25px;
+}
+
+.logo{
+    flex:1;
+    overflow:hidden;
+    text-align:center;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:17px;
+    font-weight:800;
+    letter-spacing:3px;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    position:relative;
+    overflow:hidden;
+    padding:20px;
+    margin-bottom:18px;
+    border:1px solid rgba(80,180,255,.22);
+    border-radius:24px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(32,156,255,.18),
+            rgba(32,156,255,.05)
+        );
+    box-shadow:
+        0 16px 35px rgba(0,0,0,.28),
+        inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.hero::after{
+    content:"";
+    position:absolute;
+    width:150px;
+    height:150px;
+    right:-50px;
+    top:-70px;
+    border-radius:50%;
+    background:rgba(32,156,255,.13);
+    filter:blur(15px);
+}
+
+.heroTop{
+    position:relative;
+    z-index:1;
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.heroIcon{
+    width:52px;
+    height:52px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    border:1px solid rgba(100,200,255,.3);
+    border-radius:17px;
+    background:rgba(32,156,255,.16);
+    color:#7dceff;
+    box-shadow:0 0 20px rgba(32,156,255,.12);
+}
+
+.heroIcon span{
+    font-size:29px;
+}
+
+.hero h1{
+    font-size:14px;
+    letter-spacing:1px;
+}
+
+.hero p{
+    margin-top:7px;
+    color:#aaa;
+    font-family:Arial,sans-serif;
+    font-size:11px;
+    line-height:1.55;
+}
+
+.storyLimit{
+    position:relative;
+    z-index:1;
+    margin-top:17px;
+    padding:12px 14px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:15px;
+    background:rgba(0,0,0,.17);
+}
+
+.storyLimitTop{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.storyLimit b{
+    color:#ddd;
+    font-size:9px;
+}
+
+.storyLimit span{
+    color:var(--blue2);
+    font-size:8px;
+}
+
+.limitBar{
+    height:6px;
+    margin-top:10px;
+    overflow:hidden;
+    border-radius:10px;
+    background:rgba(255,255,255,.07);
+}
+
+.limitProgress{
+    width:0%;
+    height:100%;
+    border-radius:inherit;
+    background:linear-gradient(90deg,#209cff,#79d4ff);
+    transition:.3s;
+}
+
+/* ================= CREATE ================= */
+
+.createCard{
+    margin-bottom:20px;
+    padding:17px;
+    border:1px solid #303030;
+    border-radius:23px;
+    background:rgba(18,18,18,.92);
+    box-shadow:0 14px 30px rgba(0,0,0,.2);
+}
+
+.sectionTitle{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin-bottom:16px;
+    color:#f1f1f1;
+    font-size:11px;
+    letter-spacing:1.3px;
+}
+
+.sectionTitle span{
+    color:var(--blue);
+    font-size:22px;
+}
+
+.storyTypeGrid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:9px;
+    margin-bottom:14px;
+}
+
+.typeBtn{
+    min-height:75px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    border:1px solid #2e2e2e;
+    border-radius:16px;
+    background:#171717;
+    color:#999;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.typeBtn span{
+    font-size:25px;
+}
+
+.typeBtn b{
+    font-size:7px;
+    font-weight:600;
+}
+
+.typeBtn.active{
+    border-color:rgba(32,156,255,.7);
+    background:rgba(32,156,255,.12);
+    color:#75caff;
+    box-shadow:0 0 18px rgba(32,156,255,.08);
+}
+
+.storyInputArea{
+    display:none;
+}
+
+.storyInputArea.show{
+    display:block;
+    animation:fadeIn .2s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(5px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+textarea,
+input[type="url"]{
+    width:100%;
+    border:1px solid #303030;
+    outline:none;
+    border-radius:15px;
+    background:#101010;
+    color:#fff;
+    font-family:Arial,sans-serif;
+    font-size:13px;
+}
+
+textarea{
+    min-height:125px;
+    padding:14px;
+    resize:vertical;
+    line-height:1.55;
+}
+
+input[type="url"]{
+    height:49px;
+    padding:0 14px;
+}
+
+textarea:focus,
+input[type="url"]:focus{
+    border-color:rgba(32,156,255,.7);
+    box-shadow:0 0 0 3px rgba(32,156,255,.07);
+}
+
+.previewBox{
+    display:none;
+    margin-top:12px;
+    overflow:hidden;
+    border:1px solid #292929;
+    border-radius:17px;
+    background:#0d0d0d;
+}
+
+.previewBox.show{
+    display:block;
+}
+
+.previewBox img,
+.previewBox video{
+    width:100%;
+    max-height:330px;
+    display:block;
+    object-fit:contain;
+    background:#000;
+}
+
+.storyHint{
+    margin-top:10px;
+    color:#777;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    line-height:1.5;
+}
+
+.publishBtn{
+    width:100%;
+    height:52px;
+    margin-top:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    border:1px solid rgba(32,156,255,.45);
+    border-radius:16px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(32,156,255,.95),
+            rgba(20,100,220,.95)
+        );
+    color:#fff;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:1px;
+    cursor:pointer;
+    transition:.2s;
+    box-shadow:0 10px 22px rgba(32,156,255,.12);
+}
+
+.publishBtn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 14px 28px rgba(32,156,255,.2);
+}
+
+.publishBtn:disabled{
+    cursor:not-allowed;
+    opacity:.45;
+    transform:none;
+    box-shadow:none;
+}
+
+/* ================= STORY LIST ================= */
+
+.storyListTitle{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:0 3px 13px;
+}
+
+.storyListTitle h2{
+    font-size:11px;
+    letter-spacing:1.4px;
+}
+
+.storyCount{
+    color:#69c7ff;
+    font-size:8px;
+}
+
+.storyGrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    gap:12px;
+}
+
+.storyCard{
+    position:relative;
+    min-height:210px;
+    overflow:hidden;
+    border:1px solid #2d2d2d;
+    border-radius:21px;
+    background:#121212;
+    cursor:pointer;
+    transition:.22s;
+}
+
+.storyCard:hover{
+    transform:translateY(-3px);
+    border-color:rgba(32,156,255,.45);
+    box-shadow:0 12px 25px rgba(0,0,0,.3);
+}
+
+.storyMedia{
+    width:100%;
+    height:210px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(32,156,255,.16),
+            rgba(10,10,10,.95)
+        );
+}
+
+.storyMedia img,
+.storyMedia video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.storyTextCard{
+    width:100%;
+    height:100%;
+    padding:20px 15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    color:#f3f3f3;
+    font-family:Arial,sans-serif;
+    font-size:14px;
+    line-height:1.55;
+    text-align:center;
+    word-break:break-word;
+}
+
+.storyCardOverlay{
+    position:absolute;
+    inset:auto 0 0;
+    padding:40px 11px 11px;
+    background:linear-gradient(transparent,rgba(0,0,0,.9));
+}
+
+.storyUser{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.storyAvatar{
+    width:34px;
+    height:34px;
+    flex-shrink:0;
+    overflow:hidden;
+    border:2px solid rgba(32,156,255,.75);
+    border-radius:50%;
+    background:#222;
+}
+
+.storyAvatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.storyUserInfo{
+    min-width:0;
+    flex:1;
+}
+
+.storyUserInfo b{
+    display:block;
+    overflow:hidden;
+    color:#fff;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:8px;
+}
+
+.storyUserInfo span{
+    display:block;
+    margin-top:4px;
+    color:#aaa;
+    font-family:Arial,sans-serif;
+    font-size:8px;
+}
+
+.deleteStoryBtn{
+    width:30px;
+    height:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    border:1px solid rgba(255,64,64,.4);
+    border-radius:10px;
+    background:rgba(100,0,0,.55);
+    color:#ff8d8d;
+    cursor:pointer;
+}
+
+.deleteStoryBtn span{
+    font-size:18px;
+}
+
+.emptyStories{
+    grid-column:1/-1;
+    padding:45px 15px;
+    border:1px dashed #333;
+    border-radius:22px;
+    color:#777;
+    text-align:center;
+    font-size:10px;
+    line-height:1.7;
+}
+
+/* ================= MODAL ================= */
+
+.storyModal{
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:16px;
+    background:rgba(0,0,0,.93);
+}
+
+.storyModal.show{
+    display:flex;
+}
+
+.modalBox{
+    width:min(500px,100%);
+    max-height:90vh;
+    overflow:auto;
+    border:1px solid #333;
+    border-radius:24px;
+    background:#111;
+    box-shadow:0 20px 60px rgba(0,0,0,.7);
+}
+
+.modalHead{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:14px;
+    border-bottom:1px solid #292929;
+}
+
+.modalUser{
+    min-width:0;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.modalAvatar{
+    width:42px;
+    height:42px;
+    flex-shrink:0;
+    overflow:hidden;
+    border-radius:50%;
+    background:#222;
+}
+
+.modalAvatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.modalUserInfo{
+    min-width:0;
+}
+
+.modalUserInfo b{
+    display:block;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:10px;
+}
+
+.modalUserInfo span{
+    display:block;
+    margin-top:5px;
+    color:#888;
+    font-family:Arial,sans-serif;
+    font-size:9px;
+}
+
+.closeModalBtn{
+    width:38px;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #333;
+    border-radius:12px;
+    background:#191919;
+    color:#fff;
+    cursor:pointer;
+}
+
+.modalBody{
+    min-height:320px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#090909;
+}
+
+.modalBody img,
+.modalBody video{
+    width:100%;
+    max-height:72vh;
+    display:block;
+    object-fit:contain;
+}
+
+.modalText{
+    width:100%;
+    padding:35px 22px;
+    color:#f3f3f3;
+    font-family:Arial,sans-serif;
+    font-size:17px;
+    line-height:1.7;
+    text-align:center;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+
+/* ================= LOADING ================= */
+
+.loadingScreen{
+    position:fixed;
+    inset:0;
+    z-index:9000;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:15px;
+    background:#070707;
+}
+
+.loadingSpinner{
+    width:42px;
+    height:42px;
+    border:3px solid rgba(32,156,255,.15);
+    border-top-color:#209cff;
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.loadingScreen p{
+    color:#888;
+    font-size:9px;
+    letter-spacing:1px;
+}
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    z-index:10000;
+    width:min(360px,calc(100vw - 32px));
+    padding:13px 16px;
+    border:1px solid rgba(32,156,255,.3);
+    border-radius:15px;
+    background:rgba(18,18,18,.96);
+    color:#ddd;
+    text-align:center;
+    font-family:Arial,sans-serif;
+    font-size:12px;
+    transform:translate(-50%,120px);
+    opacity:0;
+    transition:.3s;
+    box-shadow:0 15px 35px rgba(0,0,0,.45);
+}
+
+.toast.show{
+    transform:translate(-50%,0);
+    opacity:1;
+}
+
+@media(max-width:420px){
+
+    body{
+        padding-left:14px;
+        padding-right:14px;
+    }
+
+    .logo{
+        font-size:14px;
+        letter-spacing:2px;
+    }
+
+    .hero{
+        padding:16px;
+    }
+
+    .storyGrid{
+        grid-template-columns:repeat(2,1fr);
+        gap:9px;
+    }
+
+    .storyMedia{
+        height:195px;
+    }
+
+    .storyCard{
+        min-height:195px;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="loadingScreen" id="loadingScreen">
+    <div class="loadingSpinner"></div>
+    <p>MEMUAT DEVONAX STORY...</p>
+</div>
+
+<header>
+    <button class="backBtn" id="backBtn" title="Kembali">
+        <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+
+```
+<div class="logo">DEVONAX STORY</div>
+
+<button class="refreshBtn" id="refreshBtn" title="Refresh">
+    <span class="material-symbols-outlined">refresh</span>
+</button>
+```
+
+</header>
+
+<section class="hero">
+
+```
+<div class="heroTop">
+
+    <div class="heroIcon">
+        <span class="material-symbols-outlined">auto_stories</span>
+    </div>
+
+    <div>
+        <h1>SHARE YOUR STORY</h1>
+        <p>
+            Semua user dapat membuat satu story.
+            Story akan otomatis hilang setelah 24 jam.
+        </p>
+    </div>
+
+</div>
+
+<div class="storyLimit">
+
+    <div class="storyLimitTop">
+        <b>BATAS STORY HARI INI</b>
+        <span id="limitText">Memeriksa...</span>
+    </div>
+
+    <div class="limitBar">
+        <div class="limitProgress" id="limitProgress"></div>
+    </div>
+
+</div>
+```
+
+</section>
+
+<section class="createCard">
+
+```
+<div class="sectionTitle">
+    <span class="material-symbols-outlined">add_circle</span>
+    BUAT STORY
+</div>
+
+<div class="storyTypeGrid">
+
+    <button class="typeBtn active" data-type="text">
+        <span class="material-symbols-outlined">format_quote</span>
+        <b>TEKS</b>
+    </button>
+
+    <button class="typeBtn" data-type="image">
+        <span class="material-symbols-outlined">image</span>
+        <b>FOTO</b>
+    </button>
+
+    <button class="typeBtn" data-type="video">
+        <span class="material-symbols-outlined">play_circle</span>
+        <b>VIDEO</b>
+    </button>
+
+</div>
+
+<div class="storyInputArea show" id="textInputArea">
+    <textarea
+        id="storyText"
+        maxlength="1000"
+        placeholder="Apa yang sedang kamu pikirkan?"
+    ></textarea>
+</div>
+
+<div class="storyInputArea" id="imageInputArea">
+    <input
+        type="url"
+        id="storyImageUrl"
+        placeholder="Masukkan URL gambar..."
+    >
+
+    <div class="previewBox" id="imagePreviewBox">
+        <img id="imagePreview" alt="Preview gambar">
+    </div>
+
+    <div class="storyHint">
+        Masukkan URL gambar yang dapat diakses secara publik.
+    </div>
+</div>
+
+<div class="storyInputArea" id="videoInputArea">
+    <input
+        type="url"
+        id="storyVideoUrl"
+        placeholder="Masukkan URL video..."
+    >
+
+    <div class="previewBox" id="videoPreviewBox">
+        <video id="videoPreview" controls></video>
+    </div>
+
+    <div class="storyHint">
+        Masukkan URL video MP4 atau format video publik lainnya.
+    </div>
+</div>
+
+<button class="publishBtn" id="publishBtn">
+    <span class="material-symbols-outlined">send</span>
+    POST STORY
+</button>
+```
+
+</section>
+
+<div class="storyListTitle">
+    <h2>STORY AKTIF</h2>
+    <span class="storyCount" id="storyCount">0 STORY</span>
+</div>
+
+<section class="storyGrid" id="storyGrid">
+    <div class="emptyStories">
+        Memuat story...
+    </div>
+</section>
+
+<div class="storyModal" id="storyModal">
+
+```
+<div class="modalBox">
+
+    <div class="modalHead">
+
+        <div class="modalUser">
+
+            <div class="modalAvatar">
+                <img id="modalAvatar" alt="Avatar">
+            </div>
+
+            <div class="modalUserInfo">
+                <b id="modalUsername">USER</b>
+                <span id="modalTime">Baru saja</span>
+            </div>
+
+        </div>
+
+        <button class="closeModalBtn" id="closeModalBtn">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+
+    </div>
+
+    <div class="modalBody" id="modalBody"></div>
+
+</div>
+```
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+    getDatabase,
+    ref,
+    get,
+    set,
+    push,
+    remove,
+    onValue
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+
+/* ================= FIREBASE ================= */
+
+const firebaseConfig={
+    apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+    authDomain:"project-coding-gabut.firebaseapp.com",
+    databaseURL:"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId:"project-coding-gabut",
+    storageBucket:"project-coding-gabut.firebasestorage.app",
+    messagingSenderId:"234910334669",
+    appId:"1:234910334669:web:5203c9e9ce22a596f2b384"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getDatabase(app);
+
+
+/* ================= STATE ================= */
+
+let currentUser=null;
+let currentUserData={};
+let selectedType="text";
+let allStories=[];
+
+const DAY_MS=24*60*60*1000;
+
+
+/* ================= ELEMENT ================= */
+
+const loadingScreen=
+    document.getElementById("loadingScreen");
+
+const storyGrid=
+    document.getElementById("storyGrid");
+
+const publishBtn=
+    document.getElementById("publishBtn");
+
+const limitText=
+    document.getElementById("limitText");
+
+const limitProgress=
+    document.getElementById("limitProgress");
+
+const toast=
+    document.getElementById("toast");
+
+
+/* ================= UTILITIES ================= */
+
+function showToast(message){
+
+    toast.textContent=message;
+
+    toast.classList.add("show");
+
+    clearTimeout(window.toastTimer);
+
+    window.toastTimer=setTimeout(()=>{
+        toast.classList.remove("show");
+    },3000);
+}
+
+function escapeHTML(value){
+
+    const div=document.createElement("div");
+
+    div.textContent=String(value||"");
+
+    return div.innerHTML;
+}
+
+function getRole(){
+
+    return String(
+        currentUserData.role||
+        "MEMBER"
+    )
+    .trim()
+    .toUpperCase();
+}
+
+function isDeveloperOrOwner(){
+
+    const role=getRole();
+
+    return (
+        role==="DEVELOPER"||
+        role==="DEV"||
+        role==="OWNER"
+    );
+}
+
+function timeAgo(timestamp){
+
+    const diff=Math.max(
+        0,
+        Date.now()-Number(timestamp||Date.now())
+    );
+
+    const minutes=Math.floor(diff/60000);
+
+    if(minutes<1){
+        return "Baru saja";
+    }
+
+    if(minutes<60){
+        return minutes+" menit lalu";
+    }
+
+    const hours=Math.floor(minutes/60);
+
+    if(hours<24){
+        return hours+" jam lalu";
+    }
+
+    return "1 hari lalu";
+}
+
+function isExpired(story){
+
+    const expiresAt=Number(
+        story.expiresAt||
+        story.expiredAt||
+        0
+    );
+
+    if(expiresAt){
+        return Date.now()>=expiresAt;
+    }
+
+    const timestamp=Number(
+        story.timestamp||
+        story.createdAt||
+        0
+    );
+
+    return timestamp
+        ?Date.now()>=(timestamp+DAY_MS)
+        :false;
+}
+
+
+/* ================= BACK ================= */
+
+document.getElementById("backBtn").onclick=()=>{
+
+    if(history.length>1){
+        history.back();
+    }else{
+        location.href="dashboard.html";
+    }
+
+};
+
+document.getElementById("refreshBtn").onclick=()=>{
+    location.reload();
+};
+
+
+/* ================= TYPE STORY ================= */
+
+document.querySelectorAll(".typeBtn").forEach(button=>{
+
+    button.onclick=()=>{
+
+        selectedType=button.dataset.type;
+
+        document
+            .querySelectorAll(".typeBtn")
+            .forEach(btn=>{
+                btn.classList.toggle(
+                    "active",
+                    btn===button
+                );
+            });
+
+        document
+            .querySelectorAll(".storyInputArea")
+            .forEach(area=>{
+                area.classList.remove("show");
+            });
+
+        if(selectedType==="text"){
+            document
+                .getElementById("textInputArea")
+                .classList.add("show");
+        }
+
+        if(selectedType==="image"){
+            document
+                .getElementById("imageInputArea")
+                .classList.add("show");
+        }
+
+        if(selectedType==="video"){
+            document
+                .getElementById("videoInputArea")
+                .classList.add("show");
+        }
+
+    };
+
+});
+
+
+/* ================= PREVIEW ================= */
+
+document
+.getElementById("storyImageUrl")
+.addEventListener("input",e=>{
+
+    const url=e.target.value.trim();
+
+    const box=
+        document.getElementById("imagePreviewBox");
+
+    const image=
+        document.getElementById("imagePreview");
+
+    if(!url){
+
+        box.classList.remove("show");
+        image.removeAttribute("src");
+
+        return;
+    }
+
+    image.src=url;
+
+    image.onload=()=>{
+        box.classList.add("show");
+    };
+
+    image.onerror=()=>{
+        box.classList.remove("show");
+    };
+
+});
+
+document
+.getElementById("storyVideoUrl")
+.addEventListener("input",e=>{
+
+    const url=e.target.value.trim();
+
+    const box=
+        document.getElementById("videoPreviewBox");
+
+    const video=
+        document.getElementById("videoPreview");
+
+    if(!url){
+
+        box.classList.remove("show");
+        video.removeAttribute("src");
+
+        return;
+    }
+
+    video.src=url;
+
+    video.onloadeddata=()=>{
+        box.classList.add("show");
+    };
+
+    video.onerror=()=>{
+        box.classList.remove("show");
+    };
+
+});
+
+
+/* ================= STORY LIMIT ================= */
+
+function getMyActiveStory(){
+
+    if(!currentUser) return null;
+
+    return allStories.find(story=>
+        story.uid===currentUser.uid &&
+        !isExpired(story)
+    )||null;
+}
+
+function updateStoryLimit(){
+
+    const myStory=getMyActiveStory();
+
+    if(myStory){
+
+        limitText.textContent="1 / 1 STORY";
+
+        limitProgress.style.width="100%";
+
+        publishBtn.disabled=true;
+
+        publishBtn.innerHTML=`
+            <span class="material-symbols-outlined">
+                lock
+            </span>
+            BATAS STORY TERCAPAI
+        `;
+
+    }else{
+
+        limitText.textContent="0 / 1 STORY";
+
+        limitProgress.style.width="0%";
+
+        publishBtn.disabled=false;
+
+        publishBtn.innerHTML=`
+            <span class="material-symbols-outlined">
+                send
+            </span>
+            POST STORY
+        `;
+    }
+}
+
+
+/* ================= CREATE STORY ================= */
+
+publishBtn.onclick=async()=>{
+
+    if(!currentUser){
+        showToast("Silakan login terlebih dahulu.");
+        return;
+    }
+
+    if(getMyActiveStory()){
+
+        showToast(
+            "Kamu hanya dapat membuat 1 story dalam 24 jam."
+        );
+
+        return;
+    }
+
+    let content={};
+
+    if(selectedType==="text"){
+
+        const text=
+            document
+            .getElementById("storyText")
+            .value
+            .trim();
+
+        if(!text){
+            showToast("Isi story teks terlebih dahulu.");
+            return;
+        }
+
+        content={
+            type:"text",
+            text
+        };
+    }
+
+    if(selectedType==="image"){
+
+        const image=
+            document
+            .getElementById("storyImageUrl")
+            .value
+            .trim();
+
+        if(!image){
+            showToast("Masukkan URL gambar.");
+            return;
+        }
+
+        content={
+            type:"image",
+            image
+        };
+    }
+
+    if(selectedType==="video"){
+
+        const video=
+            document
+            .getElementById("storyVideoUrl")
+            .value
+            .trim();
+
+        if(!video){
+            showToast("Masukkan URL video.");
+            return;
+        }
+
+        content={
+            type:"video",
+            video
+        };
+    }
+
+    publishBtn.disabled=true;
+
+    publishBtn.innerHTML=`
+        <span class="material-symbols-outlined">
+            progress_activity
+        </span>
+        MENGIRIM...
+    `;
+
+    try{
+
+        const timestamp=Date.now();
+
+        const username=
+            currentUserData.username||
+            currentUser.email?.split("@")[0]||
+            "USER";
+
+        const profileImage=
+            currentUserData.profileImage||
+            currentUserData.photoURL||
+            currentUserData.avatar||
+            "";
+
+        const storyData={
+            uid:currentUser.uid,
+
+            username,
+
+            role:getRole(),
+
+            profileImage,
+
+            ...content,
+
+            timestamp,
+
+            createdAt:timestamp,
+
+            expiresAt:timestamp+DAY_MS
+        };
+
+        const storyRef=
+            push(ref(db,"stories"));
+
+        await set(
+            storyRef,
+            storyData
+        );
+
+        document
+        .getElementById("storyText")
+        .value="";
+
+        document
+        .getElementById("storyImageUrl")
+        .value="";
+
+        document
+        .getElementById("storyVideoUrl")
+        .value="";
+
+        document
+        .getElementById("imagePreviewBox")
+        .classList.remove("show");
+
+        document
+        .getElementById("videoPreviewBox")
+        .classList.remove("show");
+
+        showToast(
+            "Story berhasil diposting dan aktif selama 24 jam."
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            "Gagal membuat story. Coba lagi."
+        );
+
+        publishBtn.disabled=false;
+    }
+
+};
+
+
+/* ================= DELETE STORY ================= */
+
+async function deleteStory(story){
+
+    if(!currentUser){
+        return;
+    }
+
+    if(story.uid!==currentUser.uid){
+
+        showToast(
+            "Kamu hanya dapat menghapus story milik sendiri."
+        );
+
+        return;
+    }
+
+    if(!isDeveloperOrOwner()){
+
+        showToast(
+            "Hanya Developer dan Owner yang dapat menghapus story sendiri."
+        );
+
+        return;
+    }
+
+    const confirmDelete=confirm(
+        "Hapus story ini?"
+    );
+
+    if(!confirmDelete){
+        return;
+    }
+
+    try{
+
+        await remove(
+            ref(db,"stories/"+story.id)
+        );
+
+        showToast(
+            "Story berhasil dihapus."
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            "Gagal menghapus story."
+        );
+    }
+}
+
+
+/* ================= RENDER STORIES ================= */
+
+function renderStories(){
+
+    const activeStories=
+        allStories
+        .filter(story=>!isExpired(story))
+        .sort((a,b)=>
+            Number(b.timestamp||0)-
+            Number(a.timestamp||0)
+        );
+
+    document
+    .getElementById("storyCount")
+    .textContent=
+        activeStories.length+" STORY";
+
+    if(!activeStories.length){
+
+        storyGrid.innerHTML=`
+            <div class="emptyStories">
+                <span class="material-symbols-outlined"
+                    style="font-size:34px;display:block;margin-bottom:10px;color:#444">
+                    auto_stories
+                </span>
+                Belum ada story aktif.<br>
+                Jadilah yang pertama membuat story.
+            </div>
+        `;
+
+        updateStoryLimit();
+
+        return;
+    }
+
+    storyGrid.innerHTML=
+        activeStories.map(story=>{
+
+            const username=
+                story.username||
+                "USER";
+
+            const avatar=
+                story.profileImage||
+                "https://ui-avatars.com/api/?name="+
+                encodeURIComponent(username)+
+                "&background=209cff&color=fff";
+
+            let media="";
+
+            if(story.type==="image"&&story.image){
+
+                media=`
+                    <img
+                        src="${escapeHTML(story.image)}"
+                        alt="Story"
+                    >
+                `;
+            }
+
+            else if(
+                story.type==="video"&&
+                story.video
+            ){
+
+                media=`
+                    <video
+                        src="${escapeHTML(story.video)}"
+                        muted
+                        preload="metadata"
+                    ></video>
+                `;
+            }
+
+            else{
+
+                media=`
+                    <div class="storyTextCard">
+                        ${escapeHTML(story.text||"")}
+                    </div>
+                `;
+            }
+
+            const canDelete=
+                currentUser&&
+                story.uid===currentUser.uid&&
+                isDeveloperOrOwner();
+
+            return `
+                <div
+                    class="storyCard"
+                    data-story-id="${escapeHTML(story.id)}"
+                >
+
+                    <div class="storyMedia">
+                        ${media}
+                    </div>
+
+                    <div class="storyCardOverlay">
+
+                        <div class="storyUser">
+
+                            <div class="storyAvatar">
+                                <img
+                                    src="${escapeHTML(avatar)}"
+                                    alt="${escapeHTML(username)}"
+                                >
+                            </div>
+
+                            <div class="storyUserInfo">
+
+                                <b>
+                                    ${escapeHTML(username)}
+                                </b>
+
+                                <span>
+                                    ${timeAgo(story.timestamp)}
+                                </span>
+
+                            </div>
+
+                            ${
+                                canDelete
+                                ?`
+                                    <button
+                                        class="deleteStoryBtn"
+                                        data-delete-id="${escapeHTML(story.id)}"
+                                    >
+                                        <span class="material-symbols-outlined">
+                                            delete
+                                        </span>
+                                    </button>
+                                `
+                                :""
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+
+    storyGrid
+    .querySelectorAll("[data-story-id]")
+    .forEach(card=>{
+
+        card.onclick=e=>{
+
+            if(
+                e.target.closest(
+                    "[data-delete-id]"
+                )
+            ){
+                return;
+            }
+
+            const story=
+                activeStories.find(
+                    item=>
+                    item.id===
+                    card.dataset.storyId
+                );
+
+            if(story){
+                openStoryModal(story);
+            }
+
+        };
+
+    });
+
+    storyGrid
+    .querySelectorAll("[data-delete-id]")
+    .forEach(button=>{
+
+        button.onclick=e=>{
+
+            e.stopPropagation();
+
+            const story=
+                allStories.find(
+                    item=>
+                    item.id===
+                    button.dataset.deleteId
+                );
+
+            if(story){
+                deleteStory(story);
+            }
+
+        };
+
+    });
+
+    updateStoryLimit();
+}
+
+
+/* ================= STORY MODAL ================= */
+
+function openStoryModal(story){
+
+    const username=
+        story.username||
+        "USER";
+
+    const avatar=
+        story.profileImage||
+        "https://ui-avatars.com/api/?name="+
+        encodeURIComponent(username)+
+        "&background=209cff&color=fff";
+
+    document
+    .getElementById("modalAvatar")
+    .src=avatar;
+
+    document
+    .getElementById("modalUsername")
+    .textContent=username;
+
+    document
+    .getElementById("modalTime")
+    .textContent=
+        timeAgo(story.timestamp);
+
+    const modalBody=
+        document.getElementById("modalBody");
+
+    if(
+        story.type==="image"&&
+        story.image
+    ){
+
+        modalBody.innerHTML=`
+            <img
+                src="${escapeHTML(story.image)}"
+                alt="Story"
+            >
+        `;
+    }
+
+    else if(
+        story.type==="video"&&
+        story.video
+    ){
+
+        modalBody.innerHTML=`
+            <video
+                controls
+                autoplay
+                src="${escapeHTML(story.video)}"
+            ></video>
+        `;
+    }
+
+    else{
+
+        modalBody.innerHTML=`
+            <div class="modalText">
+                ${escapeHTML(story.text||"")}
+            </div>
+        `;
+    }
+
+    document
+    .getElementById("storyModal")
+    .classList.add("show");
+}
+
+function closeStoryModal(){
+
+    document
+    .getElementById("storyModal")
+    .classList.remove("show");
+
+    document
+    .getElementById("modalBody")
+    .querySelectorAll("video")
+    .forEach(video=>{
+
+        video.pause();
+
+        video.removeAttribute("src");
+    });
+}
+
+document
+.getElementById("closeModalBtn")
+.onclick=closeStoryModal;
+
+document
+.getElementById("storyModal")
+.onclick=e=>{
+
+    if(e.target.id==="storyModal"){
+        closeStoryModal();
+    }
+
+};
+
+
+/* ================= CLEAN EXPIRED ================= */
+
+async function cleanExpiredStories(){
+
+    const expiredStories=
+        allStories.filter(
+            story=>isExpired(story)
+        );
+
+    for(const story of expiredStories){
+
+        try{
+
+            await remove(
+                ref(db,"stories/"+story.id)
+            );
+
+        }catch(error){
+
+            console.log(
+                "Expired story cleanup skipped:",
+                error
+            );
+        }
+    }
+}
+
+
+/* ================= FIREBASE STORY ================= */
+
+onValue(
+    ref(db,"stories"),
+    snap=>{
+
+        const value=snap.val();
+
+        let stories=[];
+
+        if(value&&typeof value==="object"){
+
+            Object.entries(value)
+            .forEach(([id,data])=>{
+
+                if(
+                    data&&
+                    typeof data==="object"
+                ){
+
+                    stories.push({
+                        id,
+                        ...data
+                    });
+                }
+
+            });
+        }
+
+        allStories=stories;
+
+        renderStories();
+
+        cleanExpiredStories();
+
+    }
+);
+
+
+/* ================= AUTH ================= */
+
+onAuthStateChanged(
+    auth,
+    async user=>{
+
+        if(!user){
+
+            location.replace(
+                "login.html"
+            );
+
+            return;
+        }
+
+        currentUser=user;
+
+        try{
+
+            const snap=
+                await get(
+                    ref(
+                        db,
+                        "users/"+user.uid
+                    )
+                );
+
+            if(!snap.exists()){
+
+                location.replace(
+                    "setup.html"
+                );
+
+                return;
+            }
+
+            currentUserData=
+                snap.val()||{};
+
+            updateStoryLimit();
+
+        }catch(error){
+
+            console.error(error);
+
+            showToast(
+                "Gagal memuat data user."
+            );
+        }
+
+        loadingScreen.style.display="none";
+
+    }
+);
+
+
+/* ================= AUTO REFRESH LIMIT ================= */
+
+setInterval(()=>{
+    updateStoryLimit();
+    renderStories();
+},60000);
+
+</script>
+
+</body>
+</html>
