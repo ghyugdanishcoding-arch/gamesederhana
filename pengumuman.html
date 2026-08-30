@@ -1,0 +1,1468 @@
+<!DOCTYPE html><html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DEVONAX | PENGUMUMAN DEVELOPER</title><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"><style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Orbitron",sans-serif;
+}
+
+:root{
+    --bg:#070707;
+    --card:rgba(13,18,25,.84);
+    --blue:#209cff;
+    --blue2:#74c6ff;
+    --red:#ff3030;
+    --text:#fff;
+    --muted:#929292;
+    --border:rgba(255,255,255,.10);
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    padding:18px 16px 40px;
+    overflow-x:hidden;
+    color:var(--text);
+    background:
+        radial-gradient(circle at 0% 0%,rgba(32,156,255,.16),transparent 32%),
+        radial-gradient(circle at 100% 100%,rgba(255,48,48,.07),transparent 34%),
+        var(--bg);
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    pointer-events:none;
+    opacity:.55;
+    background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:38px 38px;
+}
+
+/* ================= HEADER ================= */
+
+header{
+    width:100%;
+    max-width:850px;
+    margin:0 auto 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.backBtn{
+    width:48px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:none;
+    border:1px solid rgba(32,156,255,.32);
+    border-radius:15px;
+    background:rgba(32,156,255,.08);
+    color:var(--blue2);
+    cursor:pointer;
+    transition:.25s;
+    backdrop-filter:blur(16px);
+}
+
+.backBtn:hover{
+    transform:translateX(-3px);
+    background:rgba(32,156,255,.17);
+    box-shadow:0 0 22px rgba(32,156,255,.15);
+}
+
+.backBtn span{
+    font-size:26px;
+}
+
+.headerTitle{
+    flex:1;
+    min-width:0;
+    text-align:center;
+}
+
+.headerTitle h1{
+    font-size:16px;
+    letter-spacing:2px;
+}
+
+.headerTitle p{
+    margin-top:5px;
+    color:var(--muted);
+    font-family:Arial,sans-serif;
+    font-size:10px;
+}
+
+.devBadge{
+    height:42px;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:0 11px;
+    border:1px solid rgba(32,156,255,.25);
+    border-radius:14px;
+    background:rgba(32,156,255,.08);
+    color:var(--blue2);
+    font-size:8px;
+    letter-spacing:.7px;
+}
+
+.devBadge span{
+    font-size:18px;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    width:100%;
+    max-width:850px;
+    margin:auto;
+}
+
+.glassCard{
+    position:relative;
+    overflow:hidden;
+    margin-bottom:17px;
+    padding:17px;
+    border:1px solid var(--border);
+    border-radius:23px;
+    background:
+        linear-gradient(135deg,rgba(32,156,255,.08),transparent 48%),
+        var(--card);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.04),
+        0 15px 45px rgba(0,0,0,.24);
+}
+
+.glassCard::after{
+    content:"";
+    position:absolute;
+    width:160px;
+    height:160px;
+    top:-110px;
+    right:-100px;
+    pointer-events:none;
+    border-radius:50%;
+    background:rgba(32,156,255,.08);
+    filter:blur(25px);
+}
+
+/* ================= SECTION HEADER ================= */
+
+.sectionHead{
+    position:relative;
+    z-index:1;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    margin-bottom:16px;
+}
+
+.sectionIcon{
+    width:43px;
+    height:43px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:none;
+    border:1px solid rgba(32,156,255,.25);
+    border-radius:14px;
+    background:rgba(32,156,255,.09);
+    color:var(--blue2);
+}
+
+.sectionIcon span{
+    font-size:23px;
+}
+
+.sectionHead h2{
+    font-size:12px;
+    letter-spacing:1.2px;
+}
+
+.sectionHead p{
+    margin-top:5px;
+    color:#888;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    line-height:1.4;
+}
+
+/* ================= INFO TARGET ================= */
+
+.targetInfo{
+    position:relative;
+    z-index:1;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:16px;
+    padding:11px 13px;
+    border:1px solid rgba(32,156,255,.16);
+    border-radius:15px;
+    background:rgba(32,156,255,.055);
+}
+
+.targetInfo span{
+    color:var(--blue2);
+    font-size:20px;
+}
+
+.targetInfo p{
+    color:#aeb8c2;
+    font-family:Arial,sans-serif;
+    font-size:11px;
+    line-height:1.5;
+}
+
+.targetInfo b{
+    color:#fff;
+}
+
+/* ================= FORM ================= */
+
+.formGroup{
+    position:relative;
+    z-index:1;
+    margin-bottom:13px;
+}
+
+.formGroup label{
+    display:block;
+    margin-bottom:8px;
+    color:#bdbdbd;
+    font-size:8px;
+    letter-spacing:1px;
+}
+
+.input,
+.textarea{
+    width:100%;
+    outline:none;
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:15px;
+    background:rgba(0,0,0,.24);
+    color:#fff;
+    font-family:Arial,sans-serif;
+    transition:.2s;
+}
+
+.input{
+    height:51px;
+    padding:0 14px;
+    font-size:14px;
+}
+
+.textarea{
+    min-height:155px;
+    padding:14px;
+    resize:vertical;
+    font-size:14px;
+    line-height:1.6;
+}
+
+.input:focus,
+.textarea:focus{
+    border-color:rgba(32,156,255,.68);
+    box-shadow:0 0 0 3px rgba(32,156,255,.08);
+}
+
+.input::placeholder,
+.textarea::placeholder{
+    color:#606060;
+}
+
+.linkHint{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-top:8px;
+    color:#777;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+}
+
+.linkHint span{
+    color:var(--blue);
+    font-size:16px;
+}
+
+.formBottom{
+    position:relative;
+    z-index:1;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.charCount{
+    color:#777;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+}
+
+.publishBtn{
+    min-width:160px;
+    height:49px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    border:1px solid rgba(32,156,255,.5);
+    border-radius:15px;
+    background:linear-gradient(135deg,#209cff,#1669d9);
+    color:#fff;
+    font-size:9px;
+    letter-spacing:1px;
+    cursor:pointer;
+    transition:.25s;
+    box-shadow:0 10px 25px rgba(32,156,255,.16);
+}
+
+.publishBtn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 14px 32px rgba(32,156,255,.28);
+}
+
+.publishBtn:disabled{
+    opacity:.55;
+    cursor:not-allowed;
+    transform:none;
+}
+
+.publishBtn span{
+    font-size:20px;
+}
+
+/* ================= LIST ================= */
+
+.listHead{
+    position:relative;
+    z-index:1;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:15px;
+}
+
+.listTitle{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.listTitle > span{
+    color:var(--blue2);
+    font-size:23px;
+}
+
+.listTitle h2{
+    font-size:12px;
+    letter-spacing:1.2px;
+}
+
+.totalBadge{
+    padding:7px 10px;
+    border:1px solid rgba(32,156,255,.2);
+    border-radius:20px;
+    background:rgba(32,156,255,.08);
+    color:var(--blue2);
+    font-size:8px;
+}
+
+.announcementList{
+    position:relative;
+    z-index:1;
+    display:grid;
+    gap:11px;
+}
+
+.announcementItem{
+    position:relative;
+    overflow:hidden;
+    padding:15px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+    background:
+        linear-gradient(135deg,rgba(32,156,255,.07),transparent 55%),
+        rgba(0,0,0,.22);
+}
+
+.announcementItem::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:4px;
+    height:100%;
+    background:linear-gradient(var(--blue2),var(--blue));
+}
+
+.announcementTop{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.announcementTitle{
+    padding-left:5px;
+    min-width:0;
+    color:#fff;
+    font-size:11px;
+    line-height:1.5;
+    word-break:break-word;
+}
+
+.deleteBtn{
+    width:36px;
+    height:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:none;
+    border:1px solid rgba(255,48,48,.2);
+    border-radius:11px;
+    background:rgba(255,48,48,.06);
+    color:#ff7777;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.deleteBtn:hover{
+    background:rgba(255,48,48,.14);
+    border-color:rgba(255,48,48,.45);
+    transform:scale(1.04);
+}
+
+.deleteBtn span{
+    font-size:19px;
+}
+
+.announcementText{
+    margin-top:11px;
+    padding-left:5px;
+    color:#cacaca;
+    font-family:Arial,sans-serif;
+    font-size:13px;
+    line-height:1.7;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+
+.announcementText a{
+    color:#65bdff;
+    text-decoration:none;
+    word-break:break-all;
+    border-bottom:1px solid rgba(101,189,255,.45);
+}
+
+.announcementText a:hover{
+    color:#b8e4ff;
+    border-bottom-color:#b8e4ff;
+}
+
+.announcementMeta{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-top:14px;
+    padding-left:5px;
+    color:#777;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+}
+
+.authorName{
+    color:#72bdff;
+}
+
+/* ================= EMPTY ================= */
+
+.emptyState{
+    padding:48px 15px;
+    text-align:center;
+    border:1px dashed rgba(255,255,255,.12);
+    border-radius:18px;
+    color:#777;
+}
+
+.emptyState span{
+    display:block;
+    margin-bottom:10px;
+    color:#444;
+    font-size:42px;
+}
+
+.emptyState p{
+    font-family:Arial,sans-serif;
+    font-size:12px;
+}
+
+/* ================= FULLSCREEN STATE ================= */
+
+.screenState{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:
+        radial-gradient(circle at center,rgba(32,156,255,.09),transparent 45%),
+        #070707;
+}
+
+.screenState.hidden{
+    display:none;
+}
+
+.stateBox{
+    width:min(390px,100%);
+    padding:28px 22px;
+    text-align:center;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:25px;
+    background:rgba(18,18,18,.92);
+    box-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+
+.bigIcon{
+    width:70px;
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 15px;
+    border:1px solid rgba(32,156,255,.25);
+    border-radius:50%;
+    background:rgba(32,156,255,.08);
+    color:var(--blue2);
+}
+
+.bigIcon span{
+    font-size:34px;
+}
+
+.stateBox h2{
+    font-size:13px;
+    letter-spacing:1px;
+}
+
+.stateBox p{
+    margin-top:10px;
+    color:#888;
+    font-family:Arial,sans-serif;
+    font-size:12px;
+    line-height:1.6;
+}
+
+.loadingRing{
+    width:30px;
+    height:30px;
+    margin:18px auto 0;
+    border:3px solid rgba(255,255,255,.08);
+    border-top-color:var(--blue);
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:24px;
+    z-index:10001;
+    width:min(390px,calc(100vw - 30px));
+    padding:13px 16px;
+    border:1px solid rgba(32,156,255,.3);
+    border-radius:15px;
+    background:rgba(14,22,31,.95);
+    color:#fff;
+    text-align:center;
+    font-family:Arial,sans-serif;
+    font-size:13px;
+    backdrop-filter:blur(15px);
+    transform:translate(-50%,130px);
+    opacity:0;
+    transition:.3s;
+}
+
+.toast.show{
+    transform:translate(-50%,0);
+    opacity:1;
+}
+
+.toast.error{
+    border-color:rgba(255,48,48,.4);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:500px){
+
+    body{
+        padding-left:13px;
+        padding-right:13px;
+    }
+
+    .headerTitle h1{
+        font-size:13px;
+        letter-spacing:1.3px;
+    }
+
+    .headerTitle p{
+        font-size:9px;
+    }
+
+    .devBadge{
+        width:46px;
+        padding:0;
+        justify-content:center;
+    }
+
+    .devBadge b{
+        display:none;
+    }
+
+    .formBottom{
+        align-items:stretch;
+        flex-direction:column;
+    }
+
+    .charCount{
+        text-align:right;
+    }
+
+    .publishBtn{
+        width:100%;
+    }
+}
+</style></head><body><!-- LOADING --><div class="screenState" id="loadingScreen"><div class="stateBox">
+
+    <div class="bigIcon">
+        <span class="material-symbols-outlined">campaign</span>
+    </div>
+
+    <h2>MEMVERIFIKASI AKSES</h2>
+
+    <p>
+        Memeriksa role Developer DEVONAX...
+    </p>
+
+    <div class="loadingRing"></div>
+
+</div>
+
+</div><!-- ACCESS DENIED --><div class="screenState hidden" id="accessDenied"><div class="stateBox">
+
+    <div class="bigIcon"
+         style="border-color:rgba(255,48,48,.25);background:rgba(255,48,48,.08);color:#ff7777;">
+
+        <span class="material-symbols-outlined">
+            lock
+        </span>
+
+    </div>
+
+    <h2>AKSES KHUSUS DEVELOPER</h2>
+
+    <p>
+        Halaman ini hanya dapat digunakan oleh user dengan role DEVELOPER.
+    </p>
+
+    <button
+        class="publishBtn"
+        style="width:100%;margin-top:20px;"
+        id="deniedBackBtn"
+    >
+        <span class="material-symbols-outlined">
+            arrow_back
+        </span>
+
+        KEMBALI
+
+    </button>
+
+</div>
+
+</div><header><button class="backBtn" id="backBtn" title="Kembali">
+
+    <span class="material-symbols-outlined">
+        arrow_back
+    </span>
+
+</button>
+
+<div class="headerTitle">
+
+    <h1>PENGUMUMAN</h1>
+
+    <p>DEVELOPER BROADCAST CENTER</p>
+
+</div>
+
+<div class="devBadge">
+
+    <span class="material-symbols-outlined">
+        code
+    </span>
+
+    <b>DEVELOPER</b>
+
+</div>
+
+</header><main class="main"><!-- CREATE ANNOUNCEMENT -->
+<section class="glassCard">
+
+    <div class="sectionHead">
+
+        <div class="sectionIcon">
+
+            <span class="material-symbols-outlined">
+                campaign
+            </span>
+
+        </div>
+
+        <div>
+
+            <h2>BUAT PENGUMUMAN</h2>
+
+            <p>
+                Kirim informasi realtime ke seluruh user.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="targetInfo">
+
+        <span class="material-symbols-outlined">
+            group
+        </span>
+
+        <p>
+            Target pengumuman:
+            <b>SEMUA USER</b>
+            kecuali user dengan role
+            <b>DEVELOPER</b>.
+        </p>
+
+    </div>
+
+    <div class="formGroup">
+
+        <label for="announcementTitle">
+            JUDUL PENGUMUMAN
+        </label>
+
+        <input
+            id="announcementTitle"
+            class="input"
+            type="text"
+            maxlength="100"
+            placeholder="Contoh: Update DEVONAX Terbaru"
+        >
+
+    </div>
+
+    <div class="formGroup">
+
+        <label for="announcementText">
+            ISI PENGUMUMAN
+        </label>
+
+        <textarea
+            id="announcementText"
+            class="textarea"
+            maxlength="2000"
+            placeholder="Tulis pengumuman di sini. Link https://contoh.com akan otomatis bisa diklik."
+        ></textarea>
+
+        <div class="linkHint">
+
+            <span class="material-symbols-outlined">
+                link
+            </span>
+
+            Link dengan awalan https:// atau http:// otomatis dapat diklik.
+
+        </div>
+
+    </div>
+
+    <div class="formBottom">
+
+        <div class="charCount">
+            <span id="charCount">0</span>/2000 KARAKTER
+        </div>
+
+        <button class="publishBtn" id="publishBtn">
+
+            <span class="material-symbols-outlined" id="publishIcon">
+                send
+            </span>
+
+            <span id="publishText">
+                KIRIM PENGUMUMAN
+            </span>
+
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ANNOUNCEMENT LIST -->
+<section class="glassCard">
+
+    <div class="listHead">
+
+        <div class="listTitle">
+
+            <span class="material-symbols-outlined">
+                notifications_active
+            </span>
+
+            <h2>RIWAYAT PENGUMUMAN</h2>
+
+        </div>
+
+        <div class="totalBadge" id="totalBadge">
+            0 DATA
+        </div>
+
+    </div>
+
+    <div class="announcementList" id="announcementList">
+
+        <div class="emptyState">
+
+            <span class="material-symbols-outlined">
+                campaign
+            </span>
+
+            <p>Belum ada pengumuman.</p>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main><div class="toast" id="toast"></div><script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+    getDatabase,
+    ref,
+    get,
+    push,
+    set,
+    remove,
+    onValue
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+
+/* ================= FIREBASE ================= */
+
+const firebaseConfig={
+    apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+    authDomain:"project-coding-gabut.firebaseapp.com",
+    databaseURL:"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId:"project-coding-gabut",
+    storageBucket:"project-coding-gabut.firebasestorage.app",
+    messagingSenderId:"234910334669",
+    appId:"1:234910334669:web:5203c9e9ce22a596f2b384"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getDatabase(app);
+
+
+/* ================= ELEMENT ================= */
+
+const loadingScreen=document.getElementById("loadingScreen");
+const accessDenied=document.getElementById("accessDenied");
+
+const backBtn=document.getElementById("backBtn");
+const deniedBackBtn=document.getElementById("deniedBackBtn");
+
+const titleInput=document.getElementById("announcementTitle");
+const textInput=document.getElementById("announcementText");
+
+const charCount=document.getElementById("charCount");
+
+const publishBtn=document.getElementById("publishBtn");
+const publishText=document.getElementById("publishText");
+const publishIcon=document.getElementById("publishIcon");
+
+const announcementList=document.getElementById("announcementList");
+const totalBadge=document.getElementById("totalBadge");
+
+const toast=document.getElementById("toast");
+
+
+/* ================= STATE ================= */
+
+let currentUser=null;
+let currentUserData={};
+let isDeveloper=false;
+let announcements=[];
+
+
+/* ================= BACK HISTORY ================= */
+
+function goBack(){
+
+    if(history.length>1){
+
+        history.back();
+
+    }else{
+
+        location.href="dashboard.html";
+    }
+}
+
+backBtn.onclick=goBack;
+deniedBackBtn.onclick=goBack;
+
+
+/* ================= TOAST ================= */
+
+let toastTimer;
+
+function showToast(message,type="success"){
+
+    clearTimeout(toastTimer);
+
+    toast.textContent=message;
+    toast.className="toast show";
+
+    if(type==="error"){
+        toast.classList.add("error");
+    }
+
+    toastTimer=setTimeout(()=>{
+
+        toast.classList.remove("show");
+
+    },3000);
+}
+
+
+/* ================= HELPERS ================= */
+
+function normalizeRole(role){
+
+    return String(role||"")
+        .trim()
+        .toUpperCase();
+}
+
+function escapeHTML(value){
+
+    const div=document.createElement("div");
+
+    div.textContent=String(value||"");
+
+    return div.innerHTML;
+}
+
+
+/*
+    Mengubah URL biasa menjadi link yang dapat diklik.
+    Teks tetap di-escape terlebih dahulu agar aman.
+*/
+
+function textWithClickableLinks(value){
+
+    const escaped=escapeHTML(value);
+
+    const urlRegex=
+        /(https?:\/\/[^\s<]+)/g;
+
+    return escaped.replace(
+        urlRegex,
+        url=>{
+            return `<a
+                href="${url}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >${url}</a>`;
+        }
+    );
+}
+
+function formatTime(timestamp){
+
+    const time=Number(timestamp||0);
+
+    if(!time) return "Baru saja";
+
+    return new Date(time).toLocaleString(
+        "id-ID",
+        {
+            dateStyle:"medium",
+            timeStyle:"short"
+        }
+    );
+}
+
+
+/* ================= CHARACTER COUNT ================= */
+
+function updateCharCount(){
+
+    charCount.textContent=
+        textInput.value.length;
+}
+
+textInput.addEventListener(
+    "input",
+    updateCharCount
+);
+
+
+/* ================= RENDER ================= */
+
+function renderAnnouncements(){
+
+    totalBadge.textContent=
+        announcements.length+" DATA";
+
+    if(!announcements.length){
+
+        announcementList.innerHTML=`
+            <div class="emptyState">
+
+                <span class="material-symbols-outlined">
+                    campaign
+                </span>
+
+                <p>
+                    Belum ada pengumuman.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    announcementList.innerHTML=
+        announcements.map(item=>{
+
+            const title=
+                item.title||
+                "DEVONAX ANNOUNCEMENT";
+
+            const message=
+                item.message||
+                item.text||
+                item.content||
+                "";
+
+            const author=
+                item.authorName||
+                "DEVELOPER";
+
+            return `
+                <article class="announcementItem">
+
+                    <div class="announcementTop">
+
+                        <h3 class="announcementTitle">
+                            ${escapeHTML(title)}
+                        </h3>
+
+                        <button
+                            class="deleteBtn"
+                            data-delete-id="${escapeHTML(item.id)}"
+                            title="Hapus pengumuman"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                delete
+                            </span>
+
+                        </button>
+
+                    </div>
+
+                    <div class="announcementText">
+                        ${textWithClickableLinks(message)}
+                    </div>
+
+                    <div class="announcementMeta">
+
+                        <span class="authorName">
+                            ${escapeHTML(author)}
+                        </span>
+
+                        <span>•</span>
+
+                        <span>
+                            ${formatTime(
+                                item.timestamp||
+                                item.createdAt
+                            )}
+                        </span>
+
+                        <span>•</span>
+
+                        <span>
+                            TARGET: NON-DEVELOPER
+                        </span>
+
+                    </div>
+
+                </article>
+            `;
+
+        }).join("");
+
+
+    document
+        .querySelectorAll("[data-delete-id]")
+        .forEach(button=>{
+
+            button.onclick=async()=>{
+
+                const id=
+                    button.dataset.deleteId;
+
+                if(
+                    !confirm(
+                        "Yakin ingin menghapus pengumuman ini?"
+                    )
+                ){
+                    return;
+                }
+
+                try{
+
+                    await remove(
+                        ref(
+                            db,
+                            "pengumuman/"+id
+                        )
+                    );
+
+                    showToast(
+                        "Pengumuman berhasil dihapus."
+                    );
+
+                }catch(error){
+
+                    console.error(error);
+
+                    showToast(
+                        "Gagal menghapus pengumuman.",
+                        "error"
+                    );
+                }
+            };
+        });
+}
+
+
+/* ================= FIREBASE LISTENER ================= */
+
+onValue(
+    ref(db,"pengumuman"),
+    snap=>{
+
+        const value=snap.val();
+        const list=[];
+
+        if(
+            value&&
+            typeof value==="object"
+        ){
+
+            Object.entries(value)
+                .forEach(([id,data])=>{
+
+                    if(
+                        data&&
+                        typeof data==="object"
+                    ){
+
+                        list.push({
+                            id,
+                            ...data
+                        });
+                    }
+                });
+        }
+
+        announcements=list.sort((a,b)=>{
+
+            const timeB=Number(
+                b.timestamp||
+                b.createdAt||
+                0
+            );
+
+            const timeA=Number(
+                a.timestamp||
+                a.createdAt||
+                0
+            );
+
+            return timeB-timeA;
+        });
+
+        renderAnnouncements();
+    }
+);
+
+
+/* ================= PUBLISH ================= */
+
+publishBtn.onclick=async()=>{
+
+    if(!isDeveloper||!currentUser){
+
+        showToast(
+            "Akses Developer diperlukan.",
+            "error"
+        );
+
+        return;
+    }
+
+    const title=
+        titleInput.value.trim();
+
+    const message=
+        textInput.value.trim();
+
+    if(!title){
+
+        showToast(
+            "Judul pengumuman wajib diisi.",
+            "error"
+        );
+
+        titleInput.focus();
+
+        return;
+    }
+
+    if(!message){
+
+        showToast(
+            "Isi pengumuman wajib diisi.",
+            "error"
+        );
+
+        textInput.focus();
+
+        return;
+    }
+
+    publishBtn.disabled=true;
+
+    publishText.textContent=
+        "MENGIRIM...";
+
+    publishIcon.textContent=
+        "sync";
+
+    try{
+
+        const now=Date.now();
+
+        const newAnnouncement=push(
+            ref(db,"pengumuman")
+        );
+
+        await set(
+            newAnnouncement,
+            {
+                title,
+                message,
+
+                /* Pengumuman ditargetkan
+                   untuk semua kecuali Developer */
+                target:"non-developer",
+                excludeRoles:[
+                    "DEVELOPER",
+                    "DEV"
+                ],
+
+                authorUid:
+                    currentUser.uid,
+
+                authorName:
+                    currentUserData.username||
+                    currentUser.email
+                        ?.split("@")[0]||
+                    "DEVELOPER",
+
+                authorRole:"DEVELOPER",
+
+                timestamp:now,
+                createdAt:now
+            }
+        );
+
+        titleInput.value="";
+        textInput.value="";
+
+        updateCharCount();
+
+        showToast(
+            "Pengumuman berhasil dikirim ke semua user non-Developer."
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            "Gagal mengirim pengumuman.",
+            "error"
+        );
+
+    }finally{
+
+        publishBtn.disabled=false;
+
+        publishText.textContent=
+            "KIRIM PENGUMUMAN";
+
+        publishIcon.textContent=
+            "send";
+    }
+};
+
+
+/* ================= AUTH & DEVELOPER ONLY ================= */
+
+onAuthStateChanged(
+    auth,
+    async user=>{
+
+        if(!user){
+
+            location.replace(
+                "login.html"
+            );
+
+            return;
+        }
+
+        currentUser=user;
+
+        try{
+
+            const userSnap=await get(
+                ref(
+                    db,
+                    "users/"+user.uid
+                )
+            );
+
+            if(!userSnap.exists()){
+
+                location.replace(
+                    "setup.html"
+                );
+
+                return;
+            }
+
+            currentUserData=
+                userSnap.val()||{};
+
+            const role=
+                normalizeRole(
+                    currentUserData.role
+                );
+
+            /*
+                Hanya DEVELOPER atau DEV
+                yang boleh membuat / menghapus.
+            */
+
+            if(
+                role!=="DEVELOPER"&&
+                role!=="DEV"
+            ){
+
+                loadingScreen.classList.add(
+                    "hidden"
+                );
+
+                accessDenied.classList.remove(
+                    "hidden"
+                );
+
+                return;
+            }
+
+            isDeveloper=true;
+
+            loadingScreen.classList.add(
+                "hidden"
+            );
+
+        }catch(error){
+
+            console.error(error);
+
+            loadingScreen.classList.add(
+                "hidden"
+            );
+
+            accessDenied.classList.remove(
+                "hidden"
+            );
+        }
+    }
+);
+
+</script></body>
+  </html>
