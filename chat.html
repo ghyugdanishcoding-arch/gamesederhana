@@ -1,0 +1,3074 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+
+<title>DEVOXTR4SH | Global Chat</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Poppins,sans-serif;
+  -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+  --bg:#070707;
+  --card:#111;
+  --card2:#181818;
+  --border:#2b2b2b;
+  --text:#fff;
+  --sub:#8b8b8b;
+  --red:#ff2020;
+  --green:#63ff8c;
+  --blue:#58a6ff;
+  --purple:#b678ff;
+  --yellow:#ffc94d;
+  --member:#9b9b9b;
+  --reseller:#52db7b;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:var(--bg);
+  color:var(--text);
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 0% 0%,#ff000010,transparent 30%),
+    radial-gradient(circle at 100% 100%,#5b00ff0d,transparent 35%);
+}
+
+.grid{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.035;
+  background-image:
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+  background-size:42px 42px;
+}
+
+/* ================= HEADER ================= */
+
+header{
+  height:72px;
+  position:relative;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 14px;
+  background:#0d0d0d;
+  border-bottom:1px solid #242424;
+}
+
+.iconBtn{
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:15px;
+  border:1px solid #333;
+  background:#171717;
+  color:#fff;
+  cursor:pointer;
+}
+
+.iconBtn span{
+  font-size:24px;
+}
+
+.backBtn span{
+  color:var(--red);
+}
+
+.forumBtn span{
+  color:#fff;
+}
+
+.headerTitle{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+  pointer-events:none;
+}
+
+.headerTitle h1{
+  font-family:Orbitron,sans-serif;
+  font-size:15px;
+  letter-spacing:2px;
+  white-space:nowrap;
+}
+
+.headerTitle p{
+  margin-top:3px;
+  color:#777;
+  font-size:7px;
+  letter-spacing:1px;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+  position:relative;
+  z-index:2;
+  height:calc(100vh - 72px);
+  padding:11px;
+  display:flex;
+  flex-direction:column;
+}
+
+.tabs{
+  display:flex;
+  gap:7px;
+  margin-bottom:10px;
+}
+
+.tabBtn{
+  flex:1;
+  height:42px;
+  border-radius:13px;
+  border:1px solid #303030;
+  background:#151515;
+  color:#777;
+  font-family:Orbitron,sans-serif;
+  font-size:8px;
+  cursor:pointer;
+}
+
+.tabBtn span{
+  font-size:17px;
+  vertical-align:middle;
+}
+
+.tabBtn.active{
+  color:#fff;
+  border-color:var(--red);
+  background:#260707;
+}
+
+.page{
+  display:none;
+  flex:1;
+  min-height:0;
+}
+
+.page.active{
+  display:flex;
+  flex-direction:column;
+}
+
+.scrollPage{
+  overflow-y:auto;
+  padding-right:2px;
+}
+
+/* ================= CHAT ================= */
+
+.chatTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 4px;
+  margin-bottom:8px;
+}
+
+.chatInfo{
+  color:#777;
+  font-size:9px;
+}
+
+.chatInfo b{
+  color:#ddd;
+}
+
+.lockBadge{
+  display:none;
+  align-items:center;
+  gap:5px;
+  padding:5px 8px;
+  border-radius:9px;
+  color:#ff8888;
+  background:#280909;
+  border:1px solid #682020;
+  font-family:Orbitron,sans-serif;
+  font-size:7px;
+}
+
+.lockBadge.show{
+  display:flex;
+}
+
+.lockBadge span{
+  font-size:14px;
+}
+
+.pinnedBox{
+  display:none;
+  padding:10px 12px;
+  margin-bottom:8px;
+  border-radius:15px;
+  background:#1d170d;
+  border:1px solid #654b14;
+  cursor:pointer;
+}
+
+.pinnedBox.show{
+  display:block;
+}
+
+.pinnedTitle{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:var(--yellow);
+  font-family:Orbitron,sans-serif;
+  font-size:8px;
+  margin-bottom:4px;
+}
+
+.pinnedTitle span{
+  font-size:16px;
+}
+
+.pinnedText{
+  color:#d6c69c;
+  font-size:10px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.chatBox{
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  padding:11px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+}
+
+.chatBox::-webkit-scrollbar{
+  width:4px;
+}
+
+.chatBox::-webkit-scrollbar-thumb{
+  background:var(--red);
+  border-radius:10px;
+}
+
+.loading{
+  margin:auto;
+  color:#777;
+  font-size:10px;
+  text-align:center;
+}
+
+/* ================= MESSAGE ================= */
+
+.messageWrap{
+  max-width:94%;
+  display:flex;
+  gap:7px;
+  animation:messageIn .18s ease;
+}
+
+.messageWrap.me{
+  align-self:flex-end;
+  flex-direction:row-reverse;
+}
+
+@keyframes messageIn{
+  from{
+    opacity:0;
+    transform:translateY(6px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+.avatar{
+  width:35px;
+  height:35px;
+  flex:none;
+  object-fit:cover;
+  border-radius:11px;
+  background:#171717;
+  border:1px solid #3a3a3a;
+}
+
+.messageContent{
+  min-width:0;
+}
+
+.bubble{
+  min-width:110px;
+  padding:9px 10px;
+  border-radius:16px;
+  background:#191919;
+  border:1px solid #303030;
+  cursor:pointer;
+}
+
+.me .bubble{
+  background:#250707;
+  border-color:#742020;
+}
+
+.nameRow{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:6px;
+  flex-wrap:wrap;
+}
+
+.username{
+  color:#eee;
+  font-size:10px;
+  font-weight:700;
+}
+
+/* ROLE TAG */
+
+.role{
+  padding:3px 6px;
+  border-radius:7px;
+  font-family:Orbitron,sans-serif;
+  font-size:6px;
+  border:1px solid transparent;
+}
+
+.role.developer{
+  color:#e3d0ff;
+  background:#351259;
+  border-color:#7b37bc;
+}
+
+.role.owner{
+  color:#d5e9ff;
+  background:#0b2d55;
+  border-color:#2772bd;
+}
+
+.role.reseller{
+  color:#d5ffe0;
+  background:#0d3b1a;
+  border-color:#299f49;
+}
+
+.role.member{
+  color:#ddd;
+  background:#292929;
+  border-color:#484848;
+}
+
+.msg{
+  color:#eee;
+  font-size:12px;
+  line-height:1.55;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+.time{
+  margin-top:6px;
+  text-align:right;
+  color:#666;
+  font-size:8px;
+}
+
+/* ================= REPLY ================= */
+
+.replyMessage{
+  margin-bottom:7px;
+  padding:7px 8px;
+  border-left:3px solid var(--red);
+  border-radius:8px;
+  background:#101010;
+}
+
+.replyName{
+  color:#ff8888;
+  font-size:8px;
+  font-weight:700;
+}
+
+.replyText{
+  margin-top:2px;
+  color:#999;
+  font-size:9px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.replyBox{
+  display:none;
+  margin-top:8px;
+  padding:9px;
+  border-left:4px solid var(--red);
+  border-radius:13px;
+  background:#1b1b1b;
+}
+
+.replyBox.show{
+  display:block;
+}
+
+.replyHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.replyUser{
+  color:#ff8888;
+  font-size:10px;
+  font-weight:700;
+}
+
+.replyCancel{
+  width:25px;
+  height:25px;
+  border:0;
+  border-radius:8px;
+  color:#ff8888;
+  background:#2b1111;
+}
+
+.replyPreview{
+  margin-top:3px;
+  color:#999;
+  font-size:9px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* ================= IMAGE ================= */
+
+.imageWrap{
+  position:relative;
+  width:min(280px,100%);
+  margin-top:7px;
+}
+
+.chatImage{
+  display:block;
+  width:100%;
+  max-height:350px;
+  object-fit:cover;
+  border-radius:12px;
+  border:1px solid #333;
+  cursor:pointer;
+}
+
+.imageActions{
+  position:absolute;
+  right:7px;
+  bottom:7px;
+  display:flex;
+  gap:5px;
+}
+
+.imageAction{
+  width:31px;
+  height:31px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  border:1px solid #555;
+  background:#000b;
+  color:#fff;
+}
+
+.imageAction.replyIcon{
+  color:#ff8888;
+}
+
+.imageAction span{
+  font-size:17px;
+}
+
+/* ================= BOT ================= */
+
+.botBubble{
+  width:100%;
+  padding:10px 11px;
+  border-radius:15px;
+  background:#17120a;
+  border:1px solid #624600;
+}
+
+.botTitle{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:5px;
+  color:var(--yellow);
+  font-family:Orbitron,sans-serif;
+  font-size:8px;
+}
+
+.botTitle span{
+  font-size:17px;
+}
+
+.botText{
+  color:#d7c89e;
+  font-size:10px;
+  line-height:1.55;
+  white-space:pre-wrap;
+}
+
+/* ================= STATUS ================= */
+
+.statusBox{
+  display:none;
+  margin-top:8px;
+  padding:9px;
+  border-radius:12px;
+  border:1px solid #552020;
+  background:#211111;
+  color:#ff9999;
+  font-size:9px;
+  text-align:center;
+}
+
+.statusBox.show{
+  display:block;
+}
+
+/* ================= INPUT ================= */
+
+.previewBox{
+  display:none;
+  align-items:center;
+  gap:9px;
+  margin-top:8px;
+  padding:7px;
+  background:#151515;
+  border:1px solid #333;
+  border-radius:13px;
+}
+
+.previewBox.show{
+  display:flex;
+}
+
+.previewBox img{
+  width:46px;
+  height:46px;
+  object-fit:cover;
+  border-radius:9px;
+}
+
+.previewText{
+  flex:1;
+  min-width:0;
+  color:#aaa;
+  font-size:9px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.removePreview{
+  width:30px;
+  height:30px;
+  border:0;
+  border-radius:8px;
+  color:var(--red);
+  background:#2b1111;
+}
+
+.inputArea{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin-top:9px;
+}
+
+.attachBtn,.sendBtn{
+  width:50px;
+  height:50px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:15px;
+  cursor:pointer;
+}
+
+.attachBtn{
+  color:#fff;
+  border:1px solid #333;
+  background:#191919;
+}
+
+.sendBtn{
+  color:#fff;
+  border:0;
+  background:var(--red);
+}
+
+.attachBtn span,.sendBtn span{
+  font-size:23px;
+}
+
+.messageInput{
+  flex:1;
+  min-width:0;
+  height:50px;
+  padding:0 14px;
+  border-radius:15px;
+  outline:none;
+  border:1px solid #333;
+  background:#171717;
+  color:#fff;
+  font-size:12px;
+}
+
+.messageInput:focus{
+  border-color:var(--red);
+}
+
+.messageInput:disabled,
+.sendBtn:disabled,
+.attachBtn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+/* ================= CARD ================= */
+
+.card{
+  margin-bottom:10px;
+  padding:15px;
+  border-radius:20px;
+  background:var(--card);
+  border:1px solid var(--border);
+}
+
+.cardTitle{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin-bottom:11px;
+  font-family:Orbitron,sans-serif;
+  font-size:10px;
+}
+
+.cardTitle span{
+  color:var(--red);
+  font-size:19px;
+}
+
+.rule{
+  display:flex;
+  gap:9px;
+  padding:9px 0;
+  border-bottom:1px solid #242424;
+  color:#ccc;
+  font-size:10px;
+  line-height:1.5;
+}
+
+.rule:last-child{
+  border-bottom:0;
+}
+
+.num{
+  min-width:22px;
+  height:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:7px;
+  background:#202020;
+  color:#ff8888;
+  font-family:Orbitron,sans-serif;
+  font-size:7px;
+}
+
+.command{
+  margin-top:7px;
+  padding:10px;
+  border-radius:10px;
+  background:#101010;
+  border:1px solid #2e2e2e;
+}
+
+.command b{
+  color:#ff8888;
+  font-family:monospace;
+  font-size:10px;
+}
+
+.command p{
+  margin-top:3px;
+  color:#888;
+  font-size:9px;
+}
+
+/* ================= IMAGE VIEWER ================= */
+
+.imageViewer{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  flex-direction:column;
+  background:#000;
+}
+
+.imageViewer.show{
+  display:flex;
+}
+
+.viewerHeader{
+  height:65px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 12px;
+  background:#080808;
+  border-bottom:1px solid #222;
+}
+
+.viewerBack{
+  width:45px;
+  height:45px;
+  border-radius:14px;
+  border:1px solid #333;
+  background:#171717;
+  color:#fff;
+}
+
+.viewerTitle{
+  font-family:Orbitron,sans-serif;
+  font-size:10px;
+  letter-spacing:1px;
+}
+
+.viewerBody{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px;
+}
+
+.viewerBody img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+}
+</style>
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<header>
+
+  <button id="backBtn" class="iconBtn backBtn">
+    <span class="material-symbols-outlined">arrow_back</span>
+  </button>
+
+  <div class="headerTitle">
+    <h1>GLOBAL CHAT</h1>
+    <p>BACA & PATUHI RULES</p>
+  </div>
+
+  <button id="forumBtn" class="iconBtn forumBtn">
+    <span class="material-symbols-outlined">forum</span>
+  </button>
+
+</header>
+
+<div class="main">
+
+  <div class="tabs">
+
+    <button class="tabBtn active" data-tab="chat">
+      <span class="material-symbols-outlined">forum</span>
+      CHAT
+    </button>
+
+    <button class="tabBtn" data-tab="rules">
+      <span class="material-symbols-outlined">gavel</span>
+      RULES
+    </button>
+
+    <button class="tabBtn" data-tab="commands">
+      <span class="material-symbols-outlined">terminal</span>
+      CMD
+    </button>
+
+  </div>
+
+  <!-- CHAT -->
+  <div id="chatPage" class="page active">
+
+    <div class="chatTop">
+      <div class="chatInfo">
+        Global Chat • <b id="onlineText">Online 0</b>
+      </div>
+
+      <div id="lockBadge" class="lockBadge">
+        <span class="material-symbols-outlined">lock</span>
+        GLOBAL LOCKED
+      </div>
+    </div>
+
+    <div id="pinnedBox" class="pinnedBox">
+      <div class="pinnedTitle">
+        <span class="material-symbols-outlined">push_pin</span>
+        PINNED MESSAGE
+      </div>
+      <div id="pinnedText" class="pinnedText"></div>
+    </div>
+
+    <div id="chatBox" class="chatBox">
+      <div class="loading">Menghubungkan ke Global Chat...</div>
+    </div>
+
+    <div id="replyBox" class="replyBox">
+      <div class="replyHeader">
+        <div id="replyUser" class="replyUser"></div>
+        <button id="cancelReply" class="replyCancel">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div id="replyText" class="replyPreview"></div>
+    </div>
+
+    <div id="statusBox" class="statusBox"></div>
+
+    <div id="previewBox" class="previewBox">
+      <img id="previewImage" alt="Preview">
+      <div id="previewText" class="previewText">Foto dipilih</div>
+      <button id="removePreview" class="removePreview">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <div class="inputArea">
+
+      <input
+        id="imageInput"
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/gif"
+        hidden
+      >
+
+      <button id="attachBtn" class="attachBtn">
+        <span class="material-symbols-outlined">image</span>
+      </button>
+
+      <input
+        id="messageInput"
+        class="messageInput"
+        type="text"
+        maxlength="500"
+        autocomplete="off"
+        placeholder="Tulis pesan atau /help..."
+      >
+
+      <button id="sendBtn" class="sendBtn">
+        <span class="material-symbols-outlined">send</span>
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- RULES -->
+  <div id="rulesPage" class="page scrollPage">
+
+    <div class="card">
+      <div class="cardTitle">
+        <span class="material-symbols-outlined">check_circle</span>
+        DIPERBOLEHKAN
+      </div>
+
+      <div class="rule"><div class="num">1</div><div>Diskusi seputar project, fitur, update, dan komunitas.</div></div>
+      <div class="rule"><div class="num">2</div><div>Tanya jawab dan berbagi informasi yang bermanfaat.</div></div>
+      <div class="rule"><div class="num">3</div><div>Gunakan bahasa yang sopan kepada seluruh pengguna.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="cardTitle">
+        <span class="material-symbols-outlined">block</span>
+        DILARANG
+      </div>
+
+      <div class="rule"><div class="num">1</div><div>Spam dan pesan berulang.</div></div>
+      <div class="rule"><div class="num">2</div><div>URL, link promosi, atau iklan yang tidak diizinkan.</div></div>
+      <div class="rule"><div class="num">3</div><div>Hinaan, pelecehan, ancaman, dan bahasa kasar.</div></div>
+      <div class="rule"><div class="num">4</div><div>Nomor telepon dan ajakan transaksi tanpa izin.</div></div>
+    </div>
+
+    <div class="card">
+      <div class="cardTitle">
+        <span class="material-symbols-outlined">shield</span>
+        SISTEM MODERASI
+      </div>
+
+      <div class="rule"><div class="num">1</div><div>Warn ke-3 dapat menyebabkan mute otomatis selama 7 hari.</div></div>
+      <div class="rule"><div class="num">2</div><div>Developer dan Owner kebal terhadap moderasi otomatis.</div></div>
+      <div class="rule"><div class="num">3</div><div>Developer tidak dapat memoderasi Owner.</div></div>
+      <div class="rule"><div class="num">4</div><div>Owner tidak dapat memoderasi Developer.</div></div>
+      <div class="rule"><div class="num">5</div><div>Saat chat dikunci, hanya Developer dan Owner yang dapat mengirim pesan.</div></div>
+    </div>
+
+  </div>
+
+  <!-- COMMANDS -->
+  <div id="commandsPage" class="page scrollPage">
+
+    <div class="card">
+      <div class="cardTitle">
+        <span class="material-symbols-outlined">person</span>
+        COMMAND USER
+      </div>
+
+      <div class="command"><b>/help</b><p>Menampilkan seluruh command yang tersedia untuk user.</p></div>
+      <div class="command"><b>/rules</b><p>Bot mengirim rules Global Chat.</p></div>
+      <div class="command"><b>/online</b><p>Menampilkan jumlah user online.</p></div>
+      <div class="command"><b>/all</b><p>Menampilkan jumlah seluruh user terdaftar.</p></div>
+      <div class="command"><b>/lapor @user</b><p>Melaporkan user kepada Owner dan Developer.</p></div>
+      <div class="command"><b>/onuser</b><p>Menampilkan daftar user yang sedang online.</p></div>
+    </div>
+
+    <div class="card">
+      <div class="cardTitle">
+        <span class="material-symbols-outlined">admin_panel_settings</span>
+        COMMAND DEVELOPER / OWNER
+      </div>
+
+      <div class="command"><b>/all</b><p>Menampilkan seluruh username yang terdaftar.</p></div>
+      <div class="command"><b>/pin</b><p>Balas pesan kemudian gunakan command ini.</p></div>
+      <div class="command"><b>/unpin</b><p>Menghapus pesan yang dipin.</p></div>
+      <div class="command"><b>/cakun usn pw role durasi</b><p>Membuat data akun. Owner tidak dapat membuat Developer.</p></div>
+      <div class="command"><b>/delakun @username</b><p>Menghapus data akun user.</p></div>
+      <div class="command"><b>/user</b><p>Menampilkan jumlah dan data user.</p></div>
+      <div class="command"><b>/mute @user</b><p>Mute user selama 7 hari.</p></div>
+      <div class="command"><b>/unmute @user</b><p>Membuka mute user.</p></div>
+      <div class="command"><b>/warn @user</b><p>Menambah jumlah warn user.</p></div>
+      <div class="command"><b>/unwarn @user</b><p>Mengurangi satu warn user.</p></div>
+      <div class="command"><b>/up @user role</b><p>Mengubah role user.</p></div>
+      <div class="command"><b>/add @user jumlah_hari</b><p>Menambahkan durasi akun.</p></div>
+      <div class="command"><b>/ban @user</b><p>Ban permanen dari Global Chat.</p></div>
+      <div class="command"><b>/unban @user</b><p>Membuka ban user.</p></div>
+      <div class="command"><b>/lock</b><p>Mengunci Global Chat.</p></div>
+      <div class="command"><b>/unlock</b><p>Membuka Global Chat.</p></div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- IMAGE VIEWER -->
+<div id="imageViewer" class="imageViewer">
+
+  <div class="viewerHeader">
+    <button id="viewerBack" class="viewerBack">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button>
+
+    <div class="viewerTitle">IMAGE PREVIEW</div>
+  </div>
+
+  <div class="viewerBody">
+    <img id="viewerImage" alt="Full Preview">
+  </div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+  getDatabase,
+  ref,
+  push,
+  get,
+  set,
+  update,
+  remove,
+  query,
+  limitToLast,
+  onChildAdded,
+  onValue
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+
+/* ================= FIREBASE ================= */
+
+const firebaseConfig={
+  apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+  authDomain:"project-coding-gabut.firebaseapp.com",
+  databaseURL:"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:"project-coding-gabut",
+  storageBucket:"project-coding-gabut.firebasestorage.app",
+  messagingSenderId:"234910334669",
+  appId:"1:234910334669:web:5203c9e9ce22a596f2b384"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getDatabase(app);
+
+
+/* ================= ELEMENT ================= */
+
+const chatBox=document.getElementById("chatBox");
+const input=document.getElementById("messageInput");
+const sendBtn=document.getElementById("sendBtn");
+const attachBtn=document.getElementById("attachBtn");
+const imageInput=document.getElementById("imageInput");
+const statusBox=document.getElementById("statusBox");
+
+const replyBox=document.getElementById("replyBox");
+const replyUser=document.getElementById("replyUser");
+const replyText=document.getElementById("replyText");
+
+const previewBox=document.getElementById("previewBox");
+const previewImage=document.getElementById("previewImage");
+const previewText=document.getElementById("previewText");
+
+const imageViewer=document.getElementById("imageViewer");
+const viewerImage=document.getElementById("viewerImage");
+
+
+/* ================= STATE ================= */
+
+let myUid="";
+let myName="User";
+let myRole="Member";
+let myAvatar="";
+
+let replyData=null;
+let selectedImage=null;
+
+let warnCount=0;
+let mutedUntil=0;
+let banned=false;
+let globalLocked=false;
+
+let chatLoaded=false;
+
+
+/* ================= HELPERS ================= */
+
+function roleName(role){
+  return String(role||"member").trim().toLowerCase();
+}
+
+function roleLabel(role){
+  const r=roleName(role);
+
+  if(r==="developer") return "DEVELOPER";
+  if(r==="owner") return "OWNER";
+  if(r==="reseller") return "RESELLER";
+
+  return "MEMBER";
+}
+
+function isDeveloper(role=myRole){
+  return roleName(role)==="developer";
+}
+
+function isOwner(role=myRole){
+  return roleName(role)==="owner";
+}
+
+function isStaff(role=myRole){
+  return isDeveloper(role)||isOwner(role);
+}
+
+function isProtected(role){
+  return isStaff(role);
+}
+
+function canModerateTarget(targetRole){
+
+  if(!isStaff()) return false;
+
+  if(isDeveloper() && isOwner(targetRole)){
+    return false;
+  }
+
+  if(isOwner() && isDeveloper(targetRole)){
+    return false;
+  }
+
+  return true;
+}
+
+function escapeHtml(value){
+
+  return String(value??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function formatDate(value){
+
+  if(!value) return "-";
+
+  const date=new Date(Number(value));
+
+  if(Number.isNaN(date.getTime())) return "-";
+
+  return date.toLocaleDateString("id-ID");
+}
+
+
+/* ================= TABS ================= */
+
+document.querySelectorAll(".tabBtn").forEach(btn=>{
+
+  btn.onclick=()=>{
+
+    const tab=btn.dataset.tab;
+
+    document.querySelectorAll(".tabBtn")
+      .forEach(x=>x.classList.remove("active"));
+
+    document.querySelectorAll(".page")
+      .forEach(x=>x.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    document.getElementById(tab+"Page")
+      .classList.add("active");
+
+  };
+
+});
+
+
+/* ================= HEADER ================= */
+
+document.getElementById("backBtn").onclick=()=>{
+  history.back();
+};
+
+document.getElementById("forumBtn").onclick=()=>{
+  document.querySelector('[data-tab="chat"]').click();
+};
+
+
+/* ================= AUTH ================= */
+
+onAuthStateChanged(auth,async user=>{
+
+  if(!user){
+    location.href="../login.html";
+    return;
+  }
+
+  myUid=user.uid;
+
+  try{
+
+    const snap=await get(ref(db,"users/"+myUid));
+
+    if(snap.exists()){
+
+      const data=snap.val();
+
+      myName=
+        data.username||
+        user.email?.split("@")[0]||
+        "User";
+
+      myRole=data.role||"Member";
+
+      myAvatar=
+        data.photoURL||
+        data.photo||
+        data.avatar||
+        "";
+
+    }
+
+    await loadModeration();
+
+    loadGlobalLock();
+    loadPinned();
+    loadOnline();
+    loadChat();
+
+  }catch(error){
+
+    console.error(error);
+
+    showStatus("Gagal memuat Global Chat.");
+
+  }
+
+});
+
+
+/* ================= MODERATION ================= */
+
+async function loadModeration(){
+
+  const snap=await get(
+    ref(db,"globalChatModeration/"+myUid)
+  );
+
+  if(!snap.exists()) return;
+
+  const data=snap.val();
+
+  warnCount=Number(data.warns||0);
+  mutedUntil=Number(data.mutedUntil||0);
+  banned=Boolean(data.banned);
+
+  /* DEVELOPER & OWNER KEBAL */
+
+  if(isStaff()){
+
+    warnCount=0;
+    mutedUntil=0;
+    banned=false;
+
+    enableChat();
+
+    return;
+
+  }
+
+  if(banned){
+
+    disableChat(
+      "⛔ Kamu telah diban permanen dari Global Chat."
+    );
+
+    return;
+
+  }
+
+  if(mutedUntil>Date.now()){
+
+    const days=Math.ceil(
+      (mutedUntil-Date.now())/
+      (24*60*60*1000)
+    );
+
+    disableChat(
+      "🔇 Kamu sedang mute. Sisa sekitar "+
+      days+
+      " hari."
+    );
+
+  }
+
+}
+
+function disableChat(message){
+
+  input.disabled=true;
+  sendBtn.disabled=true;
+  attachBtn.disabled=true;
+
+  statusBox.textContent=message;
+  statusBox.classList.add("show");
+
+}
+
+function enableChat(){
+
+  if(
+    !isStaff() &&
+    (
+      banned ||
+      mutedUntil>Date.now() ||
+      globalLocked
+    )
+  ){
+    return;
+  }
+
+  input.disabled=false;
+  sendBtn.disabled=false;
+  attachBtn.disabled=false;
+
+  statusBox.classList.remove("show");
+
+}
+
+function showStatus(message){
+
+  statusBox.textContent=message;
+  statusBox.classList.add("show");
+
+}
+
+
+/* ================= LOCK ================= */
+
+function loadGlobalLock(){
+
+  onValue(
+    ref(db,"globalChatSettings/locked"),
+    snap=>{
+
+      globalLocked=Boolean(snap.val());
+
+      const badge=
+        document.getElementById("lockBadge");
+
+      if(globalLocked){
+
+        badge.classList.add("show");
+
+        if(!isStaff()){
+
+          disableChat(
+            "🔒 Global Chat sedang dikunci oleh Staff."
+          );
+
+        }
+
+      }else{
+
+        badge.classList.remove("show");
+
+        if(
+          !banned &&
+          mutedUntil<=Date.now()
+        ){
+          enableChat();
+        }
+
+      }
+
+    }
+  );
+
+}
+
+
+/* ================= ONLINE ================= */
+
+function loadOnline(){
+
+  onValue(
+    ref(db,"online"),
+    snap=>{
+
+      const total=snap.exists()
+        ? Object.keys(snap.val()||{}).length
+        : 0;
+
+      document.getElementById("onlineText")
+        .textContent="Online "+total;
+
+    }
+  );
+
+}
+
+
+/* ================= PIN ================= */
+
+function loadPinned(){
+
+  onValue(
+    ref(db,"globalChatPinned"),
+    snap=>{
+
+      const box=
+        document.getElementById("pinnedBox");
+
+      const text=
+        document.getElementById("pinnedText");
+
+      if(!snap.exists()){
+
+        box.classList.remove("show");
+        return;
+
+      }
+
+      const data=snap.val();
+
+      text.textContent=
+        (data.username||"Unknown")+
+        ": "+
+        (data.message||"📷 Foto");
+
+      box.classList.add("show");
+
+    }
+  );
+
+}
+
+
+/* ================= REPLY ================= */
+
+function setReply(data){
+
+  if(!data || data.type) return;
+
+  replyData={
+    uid:data.uid||"",
+    username:data.username||"Unknown",
+    message:data.message||"",
+    image:data.image||null
+  };
+
+  replyUser.textContent=
+    "Membalas "+replyData.username;
+
+  replyText.textContent=
+    replyData.message||
+    (replyData.image?"📷 Foto":"Pesan");
+
+  replyBox.classList.add("show");
+
+  input.focus();
+
+}
+
+function cancelReply(){
+
+  replyData=null;
+  replyBox.classList.remove("show");
+
+}
+
+document.getElementById("cancelReply").onclick=cancelReply;
+
+
+/* ================= IMAGE VIEWER ================= */
+
+function openImage(src){
+
+  if(!src) return;
+
+  viewerImage.src=src;
+  imageViewer.classList.add("show");
+
+}
+
+function closeImage(){
+
+  viewerImage.src="";
+  imageViewer.classList.remove("show");
+
+}
+
+document.getElementById("viewerBack").onclick=closeImage;
+
+
+/* ================= CHAT LOAD ================= */
+
+function loadChat(){
+
+  if(chatLoaded) return;
+
+  chatLoaded=true;
+
+  chatBox.innerHTML="";
+
+  const q=query(
+    ref(db,"globalChat"),
+    limitToLast(200)
+  );
+
+  onChildAdded(q,snap=>{
+
+    const data=snap.val();
+
+    if(
+      data.type==="moderation" ||
+      data.type==="system" ||
+      data.type==="announcement"
+    ){
+
+      renderBot(data);
+      return;
+
+    }
+
+    renderMessage(data,snap.key);
+
+  });
+
+}
+
+
+/* ================= BOT RENDER ================= */
+
+function renderBot(data){
+
+  const el=document.createElement("div");
+
+  el.className="botBubble";
+
+  let title="SYSTEM BOT";
+  let icon="smart_toy";
+
+  if(data.type==="moderation"){
+    title="MODERATION BOT";
+    icon="shield";
+  }
+
+  if(data.type==="announcement"){
+    title="GLOBAL ANNOUNCEMENT";
+    icon="campaign";
+  }
+
+  el.innerHTML=`
+    <div class="botTitle">
+      <span class="material-symbols-outlined">${icon}</span>
+      ${title}
+    </div>
+
+    <div class="botText">
+      ${escapeHtml(data.message||"")}
+    </div>
+  `;
+
+  chatBox.appendChild(el);
+
+  scrollChat();
+
+}
+
+
+/* ================= MESSAGE RENDER ================= */
+
+function renderMessage(data,key){
+
+  const wrap=document.createElement("div");
+
+  wrap.className=
+    "messageWrap"+
+    (data.uid===myUid?" me":"");
+
+  const avatar=document.createElement("img");
+
+  avatar.className="avatar";
+
+  avatar.src=
+    data.avatar||
+    "data:image/svg+xml;charset=UTF-8,"+
+    encodeURIComponent(`
+      <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+        <rect width="100" height="100" fill="#171717"/>
+        <text x="50" y="60" text-anchor="middle"
+          fill="#ffffff" font-size="38">
+          ${String(data.username||"U").charAt(0).toUpperCase()}
+        </text>
+      </svg>
+    `);
+
+  const content=document.createElement("div");
+
+  content.className="messageContent";
+
+  const bubble=document.createElement("div");
+
+  bubble.className="bubble";
+
+  const rClass=roleName(data.role);
+
+  const time=data.time
+    ? new Date(data.time).toLocaleTimeString(
+        "id-ID",
+        {
+          hour:"2-digit",
+          minute:"2-digit"
+        }
+      )
+    : "--:--";
+
+  let html=`
+
+    <div class="nameRow">
+
+      <div class="username">
+        ${escapeHtml(data.username||"Unknown")}
+      </div>
+
+      <div class="role ${rClass}">
+        ${roleLabel(data.role)}
+      </div>
+
+    </div>
+  `;
+
+  if(data.reply){
+
+    html+=`
+
+      <div class="replyMessage">
+
+        <div class="replyName">
+          ${escapeHtml(data.reply.username||"Unknown")}
+        </div>
+
+        <div class="replyText">
+          ${escapeHtml(
+            data.reply.message||
+            (data.reply.image?"📷 Foto":"Pesan")
+          )}
+        </div>
+
+      </div>
+    `;
+
+  }
+
+  if(data.message){
+
+    html+=`
+      <div class="msg">
+        ${escapeHtml(data.message)}
+      </div>
+    `;
+
+  }
+
+  if(data.image){
+
+    html+=`
+
+      <div class="imageWrap">
+
+        <img
+          class="chatImage"
+          src="${escapeHtml(data.image)}"
+          alt="Foto chat"
+        >
+
+        <div class="imageActions">
+
+          <button
+            class="imageAction replyIcon"
+            type="button"
+          >
+            <span class="material-symbols-outlined">
+              reply
+            </span>
+          </button>
+
+          <button
+            class="imageAction previewIcon"
+            type="button"
+          >
+            <span class="material-symbols-outlined">
+              open_in_full
+            </span>
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+  }
+
+  html+=`
+    <div class="time">${time}</div>
+  `;
+
+  bubble.innerHTML=html;
+
+  bubble.onclick=e=>{
+
+    if(
+      e.target.closest(".imageAction") ||
+      e.target.closest(".chatImage")
+    ){
+      return;
+    }
+
+    setReply(data);
+
+  };
+
+  const image=
+    bubble.querySelector(".chatImage");
+
+  if(image){
+
+    image.onclick=e=>{
+
+      e.stopPropagation();
+      openImage(data.image);
+
+    };
+
+  }
+
+  const replyButton=
+    bubble.querySelector(".replyIcon");
+
+  if(replyButton){
+
+    replyButton.onclick=e=>{
+
+      e.stopPropagation();
+      setReply(data);
+
+    };
+
+  }
+
+  const previewButton=
+    bubble.querySelector(".previewIcon");
+
+  if(previewButton){
+
+    previewButton.onclick=e=>{
+
+      e.stopPropagation();
+      openImage(data.image);
+
+    };
+
+  }
+
+  content.appendChild(bubble);
+
+  wrap.appendChild(avatar);
+  wrap.appendChild(content);
+
+  chatBox.appendChild(wrap);
+
+  scrollChat();
+
+}
+
+function scrollChat(){
+
+  setTimeout(()=>{
+    chatBox.scrollTop=chatBox.scrollHeight;
+  },30);
+
+}
+
+
+/* ================= IMAGE SELECT ================= */
+
+attachBtn.onclick=()=>{
+
+  if(input.disabled) return;
+
+  imageInput.click();
+
+};
+
+imageInput.onchange=()=>{
+
+  const file=imageInput.files?.[0];
+
+  if(!file) return;
+
+  if(!file.type.startsWith("image/")){
+
+    alert("File harus berupa gambar.");
+    imageInput.value="";
+    return;
+
+  }
+
+  if(file.size>700*1024){
+
+    alert("Ukuran gambar maksimal 700 KB.");
+    imageInput.value="";
+    return;
+
+  }
+
+  const reader=new FileReader();
+
+  reader.onload=()=>{
+
+    selectedImage=reader.result;
+
+    previewImage.src=selectedImage;
+    previewText.textContent=file.name;
+
+    previewBox.classList.add("show");
+
+  };
+
+  reader.readAsDataURL(file);
+
+};
+
+document.getElementById("removePreview").onclick=()=>{
+
+  selectedImage=null;
+  imageInput.value="";
+  previewImage.src="";
+
+  previewBox.classList.remove("show");
+
+};
+
+
+/* ================= MODERATION FILTER ================= */
+
+function detectViolation(text){
+
+  const t=String(text||"")
+    .toLowerCase()
+    .trim();
+
+  if(!t) return null;
+
+  if(
+    /(https?:\/\/|www\.)/i.test(t) ||
+    /\b[a-z0-9-]+\.(com|net|org|xyz|site|link|gg|me|app|io)\b/i.test(t)
+  ){
+    return "URL atau link tidak diperbolehkan.";
+  }
+
+  if(
+    /(?:\+?62|0)\s*8[\d\s.\-]{7,14}/i.test(t)
+  ){
+    return "Nomor telepon tidak diperbolehkan.";
+  }
+
+  if(
+    /\b(bangsat|kontol|memek|ngentot|jembut|tolol|goblok|idiot|bego|fuck|bitch|asshole)\b/i.test(t)
+  ){
+    return "Bahasa kasar atau hinaan tidak diperbolehkan.";
+  }
+
+  if(/(.)\1{7,}/i.test(t)){
+    return "Spam karakter berulang.";
+  }
+
+  return null;
+
+}
+
+async function addAutoWarning(reason){
+
+  if(isStaff()) return;
+
+  warnCount++;
+
+  const data={
+    warns:warnCount,
+    lastReason:reason,
+    lastViolation:Date.now()
+  };
+
+  if(warnCount>=3){
+
+    mutedUntil=
+      Date.now()+
+      7*24*60*60*1000;
+
+    data.mutedUntil=mutedUntil;
+
+  }
+
+  await update(
+    ref(db,"globalChatModeration/"+myUid),
+    data
+  );
+
+  await botNotice(
+    "Pesan "+myName+
+    " diblokir. Alasan: "+
+    reason+
+    " Warn "+warnCount+"/3.",
+    "moderation"
+  );
+
+  if(warnCount>=3){
+
+    disableChat(
+      "🔇 Kamu otomatis mute selama 7 hari."
+    );
+
+  }
+
+}
+
+
+/* ================= FIND USER ================= */
+
+async function findUser(username){
+
+  const target=String(username||"")
+    .replace(/^@/,"")
+    .trim()
+    .toLowerCase();
+
+  if(!target) return null;
+
+  const snap=await get(ref(db,"users"));
+
+  if(!snap.exists()) return null;
+
+  const users=snap.val();
+
+  for(const uid in users){
+
+    const user=users[uid]||{};
+
+    if(
+      String(user.username||"")
+        .trim()
+        .toLowerCase()===target
+    ){
+
+      return{
+        uid,
+        username:user.username||target,
+        role:user.role||"Member",
+        data:user
+      };
+
+    }
+
+  }
+
+  return null;
+
+}
+
+
+/* ================= BOT NOTICE ================= */
+
+async function botNotice(
+  message,
+  type="moderation"
+){
+
+  await push(
+    ref(db,"globalChat"),
+    {
+      type,
+      message,
+      time:Date.now()
+    }
+  );
+
+}
+
+
+/* ================= USER COMMAND ================= */
+
+async function handleUserCommand(text){
+
+  const lower=text.toLowerCase().trim();
+
+
+  /* HELP */
+
+  if(lower==="/help"){
+
+    let help=
+`COMMAND USER
+/help - daftar command
+/rules - menampilkan rules
+/online - jumlah user online
+/all - jumlah user terdaftar
+/lapor @user - laporkan user
+/onuser - daftar user online`;
+
+    if(isStaff()){
+
+      help+=`
+
+STAFF
+/pin
+/unpin
+/cakun usn pw role durasi
+/delakun @username
+/user
+/mute @user
+/unmute @user
+/warn @user
+/unwarn @user
+/up @user role
+/add @user jumlah_hari
+/ban @user
+/unban @user
+/lock
+/unlock`;
+
+    }
+
+    await botNotice(help);
+
+    return true;
+
+  }
+
+
+  /* RULES */
+
+  if(lower==="/rules"){
+
+    await botNotice(
+`GLOBAL CHAT RULES
+1. Jangan spam.
+2. Jangan menghina user lain.
+3. Jangan mengirim link/promosi tanpa izin.
+4. Jangan mengganggu pengguna lain.
+5. Patuhi instruksi Developer dan Owner.`,
+      "moderation"
+    );
+
+    return true;
+
+  }
+
+
+  /* ONLINE */
+
+  if(lower==="/online"){
+
+    const snap=await get(ref(db,"online"));
+
+    const total=snap.exists()
+      ? Object.keys(snap.val()||{}).length
+      : 0;
+
+    await botNotice(
+      "👥 Jumlah user online: "+total
+    );
+
+    return true;
+
+  }
+
+
+  /* USER / ALL */
+
+  if(lower==="/all"){
+
+    const snap=await get(ref(db,"users"));
+
+    const users=snap.exists()
+      ? Object.values(snap.val()||{})
+      : [];
+
+    if(isStaff()){
+
+      const names=users
+        .map(u=>u.username)
+        .filter(Boolean);
+
+      await botNotice(
+        "👥 SELURUH USER TERDAFTAR ("+
+        names.length+
+        ")\n"+
+        (names.length
+          ? names.join(", ")
+          : "Belum ada user.")
+      );
+
+    }else{
+
+      await botNotice(
+        "👥 Jumlah seluruh user terdaftar: "+
+        users.length
+      );
+
+    }
+
+    return true;
+
+  }
+
+
+  /* ONUSER */
+
+  if(lower==="/onuser"){
+
+    const onlineSnap=
+      await get(ref(db,"online"));
+
+    if(!onlineSnap.exists()){
+
+      await botNotice(
+        "Tidak ada user yang terdeteksi online."
+      );
+
+      return true;
+
+    }
+
+    const onlineData=onlineSnap.val()||{};
+    const onlineUids=Object.keys(onlineData);
+
+    const usersSnap=await get(ref(db,"users"));
+    const users=usersSnap.val()||{};
+
+    const names=onlineUids.map(uid=>{
+
+      const u=users[uid]||{};
+      return u.username||uid;
+
+    });
+
+    await botNotice(
+      "🟢 USER ONLINE ("+
+      names.length+
+      ")\n"+
+      names.join(", ")
+    );
+
+    return true;
+
+  }
+
+
+  /* REPORT */
+
+  if(lower.startsWith("/lapor ")){
+
+    const targetName=
+      text.split(/\s+/)
+      .slice(1)
+      .join(" ")
+      .replace(/^@/,"")
+      .trim();
+
+    if(!targetName){
+
+      alert("Gunakan: /lapor @username");
+      return true;
+
+    }
+
+    const target=
+      await findUser(targetName);
+
+    if(!target){
+
+      alert("User tidak ditemukan.");
+      return true;
+
+    }
+
+    const reportRef=push(ref(db,"globalChatReports"));
+
+    await set(reportRef,{
+      reporterUid:myUid,
+      reporterUsername:myName,
+      targetUid:target.uid,
+      targetUsername:target.username,
+      status:"pending",
+      time:Date.now()
+    });
+
+    await botNotice(
+      "📩 Laporan terhadap "+
+      target.username+
+      " berhasil dikirim ke Owner & Developer."
+    );
+
+    return true;
+
+  }
+
+
+  return false;
+
+}
+
+
+/* ================= STAFF COMMAND ================= */
+
+async function handleStaffCommand(text){
+
+  if(!isStaff()) return false;
+
+  const parts=text.trim().split(/\s+/);
+  const command=(parts[0]||"").toLowerCase();
+
+
+  /* PIN */
+
+  if(command==="/pin"){
+
+    if(!replyData){
+
+      alert("Balas pesan terlebih dahulu.");
+
+      return true;
+
+    }
+
+    await set(
+      ref(db,"globalChatPinned"),
+      {
+        ...replyData,
+        pinnedBy:myName,
+        pinnedRole:myRole,
+        time:Date.now()
+      }
+    );
+
+    await botNotice(
+      "📌 Pesan "+replyData.username+
+      " berhasil di-pin."
+    );
+
+    return true;
+
+  }
+
+
+  /* UNPIN */
+
+  if(command==="/unpin"){
+
+    await remove(ref(db,"globalChatPinned"));
+
+    await botNotice(
+      "📌 Pinned message berhasil dihapus."
+    );
+
+    return true;
+
+  }
+
+
+  /* LOCK */
+
+  if(command==="/lock"){
+
+    await set(
+      ref(db,"globalChatSettings/locked"),
+      true
+    );
+
+    await botNotice(
+      "🔒 Global Chat dikunci oleh "+myName+"."
+    );
+
+    return true;
+
+  }
+
+
+  /* UNLOCK */
+
+  if(command==="/unlock"){
+
+    await set(
+      ref(db,"globalChatSettings/locked"),
+      false
+    );
+
+    await botNotice(
+      "🔓 Global Chat dibuka oleh "+myName+"."
+    );
+
+    return true;
+
+  }
+
+
+  /* CREATE ACCOUNT */
+
+  if(command==="/cakun"){
+
+    if(parts.length<5){
+
+      alert(
+        "Gunakan: /cakun username password role durasi"
+      );
+
+      return true;
+
+    }
+
+    const username=parts[1];
+    const password=parts[2];
+    const roleInput=roleName(parts[3]);
+    const durationDays=Number(parts[4]);
+
+    const allowedRoles=[
+      "member",
+      "reseller",
+      "owner",
+      "developer"
+    ];
+
+    if(!allowedRoles.includes(roleInput)){
+
+      alert(
+        "Role: member, reseller, owner, developer"
+      );
+
+      return true;
+
+    }
+
+    if(
+      isOwner() &&
+      roleInput==="developer"
+    ){
+
+      alert(
+        "Owner tidak dapat membuat akun Developer."
+      );
+
+      return true;
+
+    }
+
+    if(
+      !Number.isFinite(durationDays) ||
+      durationDays<1
+    ){
+
+      alert("Durasi harus berupa jumlah hari.");
+
+      return true;
+
+    }
+
+    const existing=
+      await findUser(username);
+
+    if(existing){
+
+      alert("Username sudah digunakan.");
+
+      return true;
+
+    }
+
+    /*
+      DATA ACCOUNT DATABASE
+
+      password disimpan sebagai accountPassword
+      agar tidak mengganggu Firebase Auth client.
+      Untuk login Firebase Auth sebenarnya,
+      gunakan backend/Admin SDK.
+    */
+
+    const newUid=
+      "manual_"+
+      Date.now()+
+      "_"+
+      Math.random()
+        .toString(36)
+        .slice(2,8);
+
+    const expiredAt=
+      Date.now()+
+      durationDays*24*60*60*1000;
+
+    await set(
+      ref(db,"users/"+newUid),
+      {
+        username,
+        accountPassword:password,
+        role:roleLabel(roleInput),
+        durationDays,
+        createdAt:Date.now(),
+        expiredAt,
+        createdBy:myName,
+        accountType:"manual"
+      }
+    );
+
+    await botNotice(
+`AKUN BERHASIL DIBUAT
+USN: ${username}
+ROLE: ${roleLabel(roleInput)}
+DURASI: ${durationDays} HARI`,
+      "system"
+    );
+
+    return true;
+
+  }
+
+
+  /* DELETE ACCOUNT */
+
+  if(command==="/delakun"){
+
+    const targetName=parts[1];
+
+    if(!targetName){
+
+      alert("Gunakan: /delakun @username");
+      return true;
+
+    }
+
+    const target=
+      await findUser(targetName);
+
+    if(!target){
+
+      alert("User tidak ditemukan.");
+      return true;
+
+    }
+
+    if(!canModerateTarget(target.role)){
+
+      alert(
+        "Developer dan Owner tidak dapat saling memoderasi atau menghapus akun."
+      );
+
+      return true;
+
+    }
+
+    await remove(ref(db,"users/"+target.uid));
+
+    await remove(
+      ref(db,"globalChatModeration/"+target.uid)
+    );
+
+    await botNotice(
+      "🗑️ Akun "+target.username+
+      " berhasil dihapus oleh "+myName+"."
+    );
+
+    return true;
+
+  }
+
+
+  /* USER DATA */
+
+  if(command==="/user"){
+
+    const snap=await get(ref(db,"users"));
+
+    const users=snap.val()||{};
+    const list=[];
+
+    for(const uid in users){
+
+      const u=users[uid]||{};
+
+      list.push(
+        "• "+(u.username||"Unknown")+
+        " | "+roleLabel(u.role)+
+        " | Exp: "+formatDate(u.expiredAt)
+      );
+
+    }
+
+    await botNotice(
+      "👥 TOTAL USER: "+list.length+
+      "\n\n"+
+      (list.length
+        ? list.join("\n")
+        : "Belum ada user.")
+    );
+
+    return true;
+
+  }
+
+
+  /* TARGET COMMAND */
+
+  const targetCommands=[
+    "/mute",
+    "/unmute",
+    "/warn",
+    "/unwarn",
+    "/up",
+    "/add",
+    "/ban",
+    "/unban"
+  ];
+
+  if(!targetCommands.includes(command)){
+    return false;
+  }
+
+  const targetName=parts[1];
+
+  if(!targetName){
+
+    alert("Target user belum diisi.");
+
+    return true;
+
+  }
+
+  const target=
+    await findUser(targetName);
+
+  if(!target){
+
+    alert("User tidak ditemukan.");
+
+    return true;
+
+  }
+
+  if(target.uid===myUid){
+
+    alert("Kamu tidak dapat memoderasi diri sendiri.");
+
+    return true;
+
+  }
+
+  if(!canModerateTarget(target.role)){
+
+    alert(
+      "Developer tidak dapat memoderasi Owner dan Owner tidak dapat memoderasi Developer."
+    );
+
+    return true;
+
+  }
+
+
+  /* MUTE */
+
+  if(command==="/mute"){
+
+    await update(
+      ref(db,"globalChatModeration/"+target.uid),
+      {
+        mutedUntil:
+          Date.now()+
+          7*24*60*60*1000,
+        mutedBy:myName,
+        mutedAt:Date.now()
+      }
+    );
+
+    await botNotice(
+      "🔇 "+target.username+
+      " telah di-mute selama 7 hari."
+    );
+
+    return true;
+
+  }
+
+
+  /* UNMUTE */
+
+  if(command==="/unmute"){
+
+    await update(
+      ref(db,"globalChatModeration/"+target.uid),
+      {
+        mutedUntil:0,
+        unmutedBy:myName,
+        unmutedAt:Date.now()
+      }
+    );
+
+    await botNotice(
+      "🔊 "+target.username+
+      " telah di-unmute."
+    );
+
+    return true;
+
+  }
+
+
+  /* WARN */
+
+  if(command==="/warn"){
+
+    const modRef=
+      ref(db,"globalChatModeration/"+target.uid);
+
+    const snap=await get(modRef);
+
+    const old=snap.exists()
+      ? snap.val()
+      : {};
+
+    const warns=Number(old.warns||0)+1;
+
+    const updateData={
+      warns,
+      warnedBy:myName,
+      warnedAt:Date.now()
+    };
+
+    if(warns>=3){
+
+      updateData.mutedUntil=
+        Date.now()+
+        7*24*60*60*1000;
+
+    }
+
+    await update(modRef,updateData);
+
+    await botNotice(
+      "⚠️ "+target.username+
+      " mendapat warn. Total warn: "+
+      warns+"/3."
+    );
+
+    return true;
+
+  }
+
+
+  /* UNWARN */
+
+  if(command==="/unwarn"){
+
+    const modRef=
+      ref(db,"globalChatModeration/"+target.uid);
+
+    const snap=await get(modRef);
+
+    const old=snap.exists()
+      ? snap.val()
+      : {};
+
+    const warns=Math.max(
+      0,
+      Number(old.warns||0)-1
+    );
+
+    await update(
+      modRef,
+      {
+        warns,
+        unwarnedBy:myName,
+        unwarnedAt:Date.now()
+      }
+    );
+
+    await botNotice(
+      "✅ Warn "+target.username+
+      " dikurangi. Total warn: "+
+      warns+"/3."
+    );
+
+    return true;
+
+  }
+
+
+  /* UP ROLE */
+
+  if(command==="/up"){
+
+    const newRole=
+      roleName(parts[2]);
+
+    const allowed=[
+      "member",
+      "reseller",
+      "owner",
+      "developer"
+    ];
+
+    if(!allowed.includes(newRole)){
+
+      alert(
+        "Gunakan role: member, reseller, owner, developer"
+      );
+
+      return true;
+
+    }
+
+    if(
+      isOwner() &&
+      newRole==="developer"
+    ){
+
+      alert(
+        "Owner tidak dapat menaikkan user menjadi Developer."
+      );
+
+      return true;
+
+    }
+
+    await update(
+      ref(db,"users/"+target.uid),
+      {
+        role:roleLabel(newRole),
+        updatedBy:myName,
+        updatedAt:Date.now()
+      }
+    );
+
+    await botNotice(
+      "⬆️ Role "+target.username+
+      " berhasil diubah menjadi "+
+      roleLabel(newRole)+"."
+    );
+
+    return true;
+
+  }
+
+
+  /* ADD DURATION */
+
+  if(command==="/add"){
+
+    const days=Number(parts[2]);
+
+    if(
+      !Number.isFinite(days) ||
+      days<=0
+    ){
+
+      alert(
+        "Gunakan: /add @user jumlah_hari"
+      );
+
+      return true;
+
+    }
+
+    const currentExpired=
+      Number(target.data.expiredAt||0);
+
+    const base=
+      currentExpired>Date.now()
+        ? currentExpired
+        : Date.now();
+
+    const newExpired=
+      base+
+      days*24*60*60*1000;
+
+    await update(
+      ref(db,"users/"+target.uid),
+      {
+        expiredAt:newExpired,
+        addedDays:
+          Number(target.data.addedDays||0)+days,
+        updatedBy:myName,
+        updatedAt:Date.now()
+      }
+    );
+
+    await botNotice(
+      "➕ Durasi "+target.username+
+      " berhasil ditambah "+
+      days+
+      " hari."
+    );
+
+    return true;
+
+  }
+
+
+  /* BAN */
+
+  if(command==="/ban"){
+
+    await update(
+      ref(db,"globalChatModeration/"+target.uid),
+      {
+        banned:true,
+        bannedBy:myName,
+        bannedAt:Date.now(),
+        mutedUntil:0
+      }
+    );
+
+    await botNotice(
+      "⛔ "+target.username+
+      " telah diban permanen dari Global Chat."
+    );
+
+    return true;
+
+  }
+
+
+  /* UNBAN */
+
+  if(command==="/unban"){
+
+    await update(
+      ref(db,"globalChatModeration/"+target.uid),
+      {
+        banned:false,
+        unbannedBy:myName,
+        unbannedAt:Date.now()
+      }
+    );
+
+    await botNotice(
+      "✅ Ban "+target.username+
+      " telah dibuka."
+    );
+
+    return true;
+
+  }
+
+
+  return false;
+
+}
+
+
+/* ================= SEND ================= */
+
+async function sendMessage(){
+
+  const text=input.value.trim();
+
+  if(!text && !selectedImage) return;
+
+
+  /* BAN */
+
+  if(banned && !isStaff()){
+
+    disableChat(
+      "⛔ Kamu telah diban dari Global Chat."
+    );
+
+    return;
+
+  }
+
+
+  /* MUTE */
+
+  if(
+    !isStaff() &&
+    mutedUntil>Date.now()
+  ){
+
+    disableChat(
+      "🔇 Kamu sedang mute dari Global Chat."
+    );
+
+    return;
+
+  }
+
+
+  /* LOCK */
+
+  if(
+    globalLocked &&
+    !isStaff()
+  ){
+
+    disableChat(
+      "🔒 Global Chat sedang dikunci."
+    );
+
+    return;
+
+  }
+
+  sendBtn.disabled=true;
+
+  try{
+
+    /* STAFF COMMAND */
+
+    if(text.startsWith("/")){
+
+      const staffCommand=
+        await handleStaffCommand(text);
+
+      if(staffCommand){
+
+        input.value="";
+        cancelReply();
+
+        sendBtn.disabled=false;
+
+        return;
+
+      }
+
+      const userCommand=
+        await handleUserCommand(text);
+
+      if(userCommand){
+
+        input.value="";
+        cancelReply();
+
+        sendBtn.disabled=false;
+
+        return;
+
+      }
+
+    }
+
+
+    /* AUTO MODERATION */
+
+    if(
+      !isStaff() &&
+      text
+    ){
+
+      const violation=
+        detectViolation(text);
+
+      if(violation){
+
+        await addAutoWarning(violation);
+
+        input.value="";
+        cancelReply();
+
+        if(!input.disabled){
+          sendBtn.disabled=false;
+        }
+
+        return;
+
+      }
+
+    }
+
+
+    /* NORMAL MESSAGE */
+
+    await push(
+      ref(db,"globalChat"),
+      {
+        uid:myUid,
+        username:myName,
+        role:myRole,
+        avatar:myAvatar||null,
+
+        message:text,
+        image:selectedImage||null,
+        reply:replyData||null,
+
+        time:Date.now()
+      }
+    );
+
+    input.value="";
+
+    selectedImage=null;
+    imageInput.value="";
+    previewImage.src="";
+
+    previewBox.classList.remove("show");
+
+    cancelReply();
+
+    sendBtn.disabled=false;
+
+  }catch(error){
+
+    console.error(error);
+
+    alert("Gagal mengirim pesan.");
+
+    if(!input.disabled){
+      sendBtn.disabled=false;
+    }
+
+  }
+
+}
+
+
+sendBtn.onclick=sendMessage;
+
+input.addEventListener(
+  "keydown",
+  e=>{
+
+    if(
+      e.key==="Enter" &&
+      !e.shiftKey
+    ){
+
+      e.preventDefault();
+      sendMessage();
+
+    }
+
+  }
+);
+
+
+document.addEventListener(
+  "keydown",
+  e=>{
+
+    if(
+      e.key==="Escape" &&
+      imageViewer.classList.contains("show")
+    ){
+      closeImage();
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>
