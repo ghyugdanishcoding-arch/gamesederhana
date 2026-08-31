@@ -1,0 +1,2277 @@
+<!DOCTYPE html><html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DEVONAX STORY</title><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"><style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Orbitron',sans-serif;
+}
+
+:root{
+    --bg:#070707;
+    --card:#121212;
+    --card2:#181818;
+    --blue:#209cff;
+    --blue2:#58b8ff;
+    --text:#fff;
+    --muted:#888;
+    --border:#2b2b2b;
+    --danger:#ff3030;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    padding:16px 15px 40px;
+    color:var(--text);
+    background:var(--bg);
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 10% 0%,rgba(32,156,255,.12),transparent 34%),
+        radial-gradient(circle at 90% 20%,rgba(0,120,255,.07),transparent 35%),
+        radial-gradient(circle at 50% 100%,rgba(32,156,255,.05),transparent 35%);
+}
+
+.grid{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    opacity:.035;
+    background-image:
+        linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
+    background-size:40px 40px;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:18px;
+}
+
+.backBtn{
+    width:46px;
+    height:46px;
+    min-width:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #333;
+    border-radius:15px;
+    background:#151515;
+    color:#fff;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.backBtn:hover{
+    border-color:var(--blue);
+    color:var(--blue2);
+    box-shadow:0 0 18px rgba(32,156,255,.2);
+}
+
+.backBtn span{
+    font-size:25px;
+}
+
+.headerTitle{
+    flex:1;
+}
+
+.headerTitle h1{
+    font-size:17px;
+    letter-spacing:2px;
+}
+
+.headerTitle p{
+    margin-top:5px;
+    color:#777;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+}
+
+.headerIcon{
+    width:46px;
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(32,156,255,.35);
+    border-radius:15px;
+    background:rgba(32,156,255,.1);
+    color:var(--blue2);
+}
+
+.headerIcon span{
+    font-size:25px;
+}
+
+/* ================= CARD ================= */
+
+.card{
+    padding:17px;
+    margin-bottom:16px;
+    border:1px solid var(--border);
+    border-radius:23px;
+    background:rgba(18,18,18,.94);
+    box-shadow:0 0 22px rgba(0,0,0,.25);
+}
+
+.sectionTitle{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin-bottom:14px;
+}
+
+.sectionTitle span{
+    color:var(--blue2);
+    font-size:21px;
+}
+
+.sectionTitle h2{
+    font-size:12px;
+    letter-spacing:1.5px;
+}
+
+/* ================= USER ================= */
+
+.currentUser{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    border:1px solid #292929;
+    border-radius:17px;
+    background:#151515;
+}
+
+.currentAvatar{
+    width:48px;
+    height:48px;
+    min-width:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    border-radius:50%;
+    border:2px solid rgba(32,156,255,.55);
+    background:#222;
+}
+
+.currentAvatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.currentAvatar span{
+    color:var(--blue2);
+    font-size:24px;
+}
+
+.currentInfo{
+    flex:1;
+    min-width:0;
+}
+
+.currentInfo h3{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:11px;
+}
+
+.currentInfo p{
+    margin-top:5px;
+    color:#777;
+    font-size:8px;
+}
+
+.roleBadge{
+    padding:6px 9px;
+    border:1px solid;
+    border-radius:20px;
+    font-size:7px;
+    white-space:nowrap;
+}
+
+.role-owner{
+    color:#74c4ff;
+    background:rgba(32,156,255,.12);
+    border-color:#2586df;
+}
+
+.role-developer{
+    color:#c98cff;
+    background:rgba(150,50,255,.1);
+    border-color:#8c44bf;
+}
+
+.role-vip{
+    color:#ffe891;
+    background:rgba(220,180,30,.1);
+    border-color:#d6ae22;
+}
+
+.role-reseller{
+    color:#7dffb5;
+    background:rgba(30,180,100,.1);
+    border-color:#27b867;
+}
+
+.role-member{
+    color:#ddd;
+    background:#222;
+    border-color:#555;
+}
+
+.role-default{
+    color:#ffaaaA;
+    background:#250909;
+    border-color:#732323;
+}
+
+/* ================= LIMIT ================= */
+
+.limitBox{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:12px;
+    padding:11px 13px;
+    border:1px solid rgba(32,156,255,.18);
+    border-radius:15px;
+    background:rgba(32,156,255,.06);
+}
+
+.limitBox span{
+    color:var(--blue2);
+    font-size:20px;
+}
+
+.limitText{
+    flex:1;
+}
+
+.limitText b{
+    display:block;
+    font-size:9px;
+}
+
+.limitText p{
+    margin-top:4px;
+    color:#777;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    line-height:1.4;
+}
+
+.limitStatus{
+    color:#62ff9d;
+    font-size:8px;
+}
+
+/* ================= COMPOSER ================= */
+
+textarea{
+    width:100%;
+    min-height:115px;
+    resize:none;
+    padding:13px;
+    outline:none;
+    border:1px solid #303030;
+    border-radius:17px;
+    background:#101010;
+    color:#fff;
+    font-family:Arial,sans-serif;
+    font-size:13px;
+    line-height:1.6;
+}
+
+textarea:focus{
+    border-color:var(--blue);
+    box-shadow:0 0 15px rgba(32,156,255,.1);
+}
+
+textarea::placeholder{
+    color:#555;
+}
+
+.photoArea{
+    margin-top:12px;
+}
+
+.photoLabel{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    min-height:52px;
+    border:1px dashed #3b3b3b;
+    border-radius:16px;
+    background:#151515;
+    color:#aaa;
+    font-size:9px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.photoLabel:hover{
+    border-color:var(--blue);
+    color:var(--blue2);
+    background:rgba(32,156,255,.05);
+}
+
+.photoLabel span{
+    font-size:22px;
+}
+
+#photoInput{
+    display:none;
+}
+
+.photoPreview{
+    display:none;
+    align-items:center;
+    gap:12px;
+    margin-top:11px;
+    padding:10px;
+    border:1px solid #303030;
+    border-radius:16px;
+    background:#151515;
+}
+
+.photoPreview.show{
+    display:flex;
+}
+
+.previewImageBox{
+    width:70px;
+    height:70px;
+    min-width:70px;
+    overflow:hidden;
+    border-radius:12px;
+    border:1px solid #3a3a3a;
+    background:#0c0c0c;
+}
+
+.previewImageBox img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+}
+
+.previewInfo{
+    flex:1;
+    min-width:0;
+}
+
+.previewInfo b{
+    display:block;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    color:#eee;
+    font-family:Arial,sans-serif;
+    font-size:11px;
+}
+
+.previewInfo p{
+    margin-top:5px;
+    color:#666;
+    font-family:Arial,sans-serif;
+    font-size:9px;
+}
+
+.removePhoto{
+    width:34px;
+    height:34px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #552222;
+    border-radius:11px;
+    background:#210d0d;
+    color:#ff6666;
+    cursor:pointer;
+}
+
+.removePhoto span{
+    font-size:19px;
+}
+
+.createBtn{
+    width:100%;
+    height:50px;
+    margin-top:13px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    border:none;
+    border-radius:16px;
+    background:linear-gradient(135deg,#087bd4,#209cff);
+    color:#fff;
+    font-size:10px;
+    letter-spacing:1.5px;
+    cursor:pointer;
+    box-shadow:0 7px 22px rgba(32,156,255,.16);
+}
+
+.createBtn:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+    box-shadow:none;
+}
+
+.createBtn span{
+    font-size:20px;
+}
+
+/* ================= STORY LIST ================= */
+
+.storyList{
+    display:flex;
+    flex-direction:column;
+    gap:13px;
+}
+
+.emptyStory{
+    padding:38px 15px;
+    text-align:center;
+    border:1px dashed #292929;
+    border-radius:18px;
+    background:#111;
+}
+
+.emptyStory span{
+    color:#444;
+    font-size:38px;
+}
+
+.emptyStory p{
+    margin-top:10px;
+    color:#666;
+    font-size:9px;
+}
+
+.storyCard{
+    position:relative;
+    overflow:hidden;
+    border:1px solid #2c2c2c;
+    border-radius:20px;
+    background:#151515;
+}
+
+.storyHead{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:13px;
+    border-bottom:1px solid #242424;
+}
+
+.storyAvatar{
+    width:43px;
+    height:43px;
+    min-width:43px;
+    overflow:hidden;
+    border-radius:50%;
+    border:2px solid rgba(32,156,255,.45);
+    background:#222;
+}
+
+.storyAvatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.storyUser{
+    flex:1;
+    min-width:0;
+}
+
+.storyUser h3{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:10px;
+}
+
+.storyUser p{
+    margin-top:5px;
+    color:#777;
+    font-family:Arial,sans-serif;
+    font-size:9px;
+}
+
+.storyRole{
+    padding:5px 7px;
+    border:1px solid;
+    border-radius:10px;
+    font-size:6px;
+}
+
+.storyDelete{
+    width:35px;
+    height:35px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #512020;
+    border-radius:11px;
+    background:#210d0d;
+    color:#ff5555;
+    cursor:pointer;
+}
+
+.storyDelete span{
+    font-size:19px;
+}
+
+.storyBody{
+    padding:13px;
+}
+
+.storyText{
+    color:#ddd;
+    font-family:Arial,sans-serif;
+    font-size:13px;
+    line-height:1.7;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+
+.storyPhoto{
+    width:100%;
+    max-height:400px;
+    margin-top:11px;
+    display:block;
+    object-fit:contain;
+    border-radius:15px;
+    background:#090909;
+}
+
+.storyTime{
+    margin-top:11px;
+    color:#555;
+    font-family:Arial,sans-serif;
+    font-size:9px;
+}
+
+/* ================= LOADING ================= */
+
+.loading{
+    padding:35px 10px;
+    text-align:center;
+    color:#666;
+    font-size:9px;
+}
+
+.loading span{
+    display:block;
+    margin-bottom:8px;
+    color:var(--blue);
+    font-size:25px;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    background:rgba(0,0,0,.78);
+    backdrop-filter:blur(8px);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modalBox{
+    width:min(390px,100%);
+    padding:20px;
+    border:1px solid #333;
+    border-radius:23px;
+    background:#141414;
+    box-shadow:0 25px 70px rgba(0,0,0,.8);
+}
+
+.modalIcon{
+    width:52px;
+    height:52px;
+    margin:0 auto 12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:16px;
+    background:rgba(32,156,255,.1);
+    color:var(--blue2);
+}
+
+.modalIcon span{
+    font-size:28px;
+}
+
+.modalBox h3{
+    text-align:center;
+    font-size:13px;
+}
+
+.modalBox p{
+    margin-top:8px;
+    color:#888;
+    text-align:center;
+    font-family:Arial,sans-serif;
+    font-size:11px;
+    line-height:1.6;
+}
+
+.modalActions{
+    display:flex;
+    gap:9px;
+    margin-top:18px;
+}
+
+.modalBtn{
+    flex:1;
+    height:45px;
+    border-radius:14px;
+    cursor:pointer;
+    font-size:9px;
+}
+
+.cancelBtn{
+    border:1px solid #333;
+    background:#202020;
+    color:#aaa;
+}
+
+.confirmBtn{
+    border:1px solid #173f60;
+    background:#0b3150;
+    color:#70c4ff;
+}
+
+.dangerBtn{
+    border-color:#592020;
+    background:#260d0d;
+    color:#ff7777;
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:24px;
+    z-index:9000;
+    width:max-content;
+    max-width:calc(100vw - 30px);
+    padding:12px 16px;
+    transform:translate(-50%,20px);
+    opacity:0;
+    pointer-events:none;
+    border:1px solid #333;
+    border-radius:14px;
+    background:#181818;
+    color:#ddd;
+    font-family:Arial,sans-serif;
+    font-size:11px;
+    box-shadow:0 15px 40px rgba(0,0,0,.6);
+    transition:.25s;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+.toast.success{
+    border-color:#1b7046;
+    color:#75ffad;
+}
+
+.toast.error{
+    border-color:#702020;
+    color:#ff8585;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:430px){
+
+    body{
+        padding-left:12px;
+        padding-right:12px;
+    }
+
+    .card{
+        padding:14px;
+    }
+
+    .headerTitle h1{
+        font-size:15px;
+    }
+
+    .roleBadge{
+        font-size:6px;
+    }
+
+    .storyPhoto{
+        max-height:330px;
+    }
+}
+</style></head><body><div class="grid"></div><!-- ================= HEADER ================= --><header class="header"><button class="backBtn" id="backBtn">
+    <span class="material-symbols-outlined">arrow_back</span>
+</button>
+
+<div class="headerTitle">
+    <h1>DEVONAX STORY</h1>
+    <p>Bagikan story kepada semua user</p>
+</div>
+
+<div class="headerIcon">
+    <span class="material-symbols-outlined">auto_stories</span>
+</div>
+
+</header><!-- ================= CURRENT USER ================= --><div class="card"><div class="sectionTitle">
+    <span class="material-symbols-outlined">account_circle</span>
+    <h2>PROFIL SAYA</h2>
+</div>
+
+<div class="currentUser">
+
+    <div class="currentAvatar">
+        <img id="currentAvatarImage" style="display:none">
+        <span id="currentAvatarIcon"
+              class="material-symbols-outlined">
+            person
+        </span>
+    </div>
+
+    <div class="currentInfo">
+        <h3 id="currentUsername">Loading...</h3>
+        <p id="currentEmail">-</p>
+    </div>
+
+    <div class="roleBadge role-member" id="currentRole">
+        MEMBER
+    </div>
+
+</div>
+
+<div class="limitBox">
+
+    <span class="material-symbols-outlined">
+        schedule
+    </span>
+
+    <div class="limitText">
+        <b>BATAS STORY HARIAN</b>
+        <p id="limitDescription">
+            Maksimal 1 story setiap 24 jam.
+        </p>
+    </div>
+
+    <div class="limitStatus" id="limitStatus">
+        TERSEDIA
+    </div>
+
+</div>
+
+</div><!-- ================= CREATE STORY ================= --><div class="card"><div class="sectionTitle">
+    <span class="material-symbols-outlined">add_circle</span>
+    <h2>BUAT STORY</h2>
+</div>
+
+<textarea
+    id="storyText"
+    maxlength="1000"
+    placeholder="Tulis sesuatu untuk story kamu..."></textarea>
+
+<div class="photoArea">
+
+    <label class="photoLabel" for="photoInput">
+
+        <span class="material-symbols-outlined">
+            add_photo_alternate
+        </span>
+
+        PILIH FOTO DARI GALERI
+
+    </label>
+
+    <input
+        type="file"
+        id="photoInput"
+        accept="image/*">
+
+    <div class="photoPreview" id="photoPreview">
+
+        <div class="previewImageBox">
+            <img id="previewImage">
+        </div>
+
+        <div class="previewInfo">
+            <b id="fileName">-</b>
+            <p id="fileSize">-</p>
+        </div>
+
+        <button class="removePhoto" id="removePhoto">
+
+            <span class="material-symbols-outlined">
+                close
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+<button class="createBtn" id="createStoryBtn">
+
+    <span class="material-symbols-outlined">
+        publish
+    </span>
+
+    POST STORY
+
+</button>
+
+</div><!-- ================= ALL STORIES ================= --><div class="card"><div class="sectionTitle">
+
+    <span class="material-symbols-outlined">
+        dynamic_feed
+    </span>
+
+    <h2>STORY SEMUA USER</h2>
+
+</div>
+
+<div class="storyList" id="storyList">
+
+    <div class="loading">
+
+        <span class="material-symbols-outlined">
+            sync
+        </span>
+
+        Memuat story...
+
+    </div>
+
+</div>
+
+</div><!-- ================= CONFIRM DELETE ================= --><div class="modal" id="deleteModal"><div class="modalBox">
+
+    <div class="modalIcon">
+        <span class="material-symbols-outlined">
+            delete
+        </span>
+    </div>
+
+    <h3>HAPUS STORY?</h3>
+
+    <p id="deleteDescription">
+        Story ini akan dihapus secara permanen.
+    </p>
+
+    <div class="modalActions">
+
+        <button
+            class="modalBtn cancelBtn"
+            id="cancelDelete">
+            BATAL
+        </button>
+
+        <button
+            class="modalBtn confirmBtn dangerBtn"
+            id="confirmDelete">
+            HAPUS
+        </button>
+
+    </div>
+
+</div>
+
+</div><!-- ================= TOAST ================= --><div class="toast" id="toast"></div><script type="module">
+
+import {
+    initializeApp
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+    getDatabase,
+    ref,
+    push,
+    set,
+    remove,
+    onValue
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+import {
+    getStorage,
+    ref as storageRef,
+    uploadBytes,
+    getDownloadURL
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-storage.js";
+
+
+/* ================= FIREBASE ================= */
+
+const firebaseConfig={
+
+    apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+
+    authDomain:
+        "project-coding-gabut.firebaseapp.com",
+
+    databaseURL:
+        "https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+    projectId:
+        "project-coding-gabut",
+
+    storageBucket:
+        "project-coding-gabut.firebasestorage.app",
+
+    messagingSenderId:
+        "234910334669",
+
+    appId:
+        "1:234910334669:web:5203c9e9ce22a596f2b384"
+};
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getDatabase(app);
+
+const storage=getStorage(app);
+
+
+/* ================= STATE ================= */
+
+let currentUser=null;
+let currentUserData=null;
+let allStories=[];
+let selectedPhoto=null;
+let deleteTarget=null;
+
+
+/* ================= ELEMENT ================= */
+
+const storyText=
+    document.getElementById("storyText");
+
+const photoInput=
+    document.getElementById("photoInput");
+
+const photoPreview=
+    document.getElementById("photoPreview");
+
+const previewImage=
+    document.getElementById("previewImage");
+
+const fileName=
+    document.getElementById("fileName");
+
+const fileSize=
+    document.getElementById("fileSize");
+
+const createStoryBtn=
+    document.getElementById("createStoryBtn");
+
+const storyList=
+    document.getElementById("storyList");
+
+const limitStatus=
+    document.getElementById("limitStatus");
+
+const limitDescription=
+    document.getElementById("limitDescription");
+
+const toast=
+    document.getElementById("toast");
+
+
+/* ================= BACK ================= */
+
+document.getElementById("backBtn").onclick=()=>{
+
+    if(history.length>1){
+        history.back();
+    }else{
+        location.href="dashboard.html";
+    }
+
+};
+
+
+/* ================= TOAST ================= */
+
+let toastTimer=null;
+
+function showToast(message,type="success"){
+
+    clearTimeout(toastTimer);
+
+    toast.textContent=message;
+
+    toast.className=
+        "toast show "+type;
+
+    toastTimer=setTimeout(()=>{
+
+        toast.className="toast";
+
+    },3000);
+}
+
+
+/* ================= ROLE ================= */
+
+function normalizeRole(role){
+
+    const r=String(role||"MEMBER")
+        .trim()
+        .toUpperCase();
+
+    if(r==="OWNER"){
+        return "OWNER";
+    }
+
+    if(r==="DEVELOPER"||r==="DEV"){
+        return "DEVELOPER";
+    }
+
+    if(r==="VIP"){
+        return "VIP";
+    }
+
+    if(r==="RESELLER"){
+        return "RESELLER";
+    }
+
+    return "MEMBER";
+}
+
+
+function roleLevel(role){
+
+    const r=normalizeRole(role);
+
+    if(r==="OWNER") return 5;
+    if(r==="DEVELOPER") return 4;
+    if(r==="VIP") return 3;
+    if(r==="RESELLER") return 2;
+
+    return 1;
+}
+
+
+function roleClass(role){
+
+    const r=normalizeRole(role);
+
+    return "role-"+r.toLowerCase();
+}
+
+
+function canDeleteStory(story){
+
+    if(!currentUser||!currentUserData){
+        return false;
+    }
+
+    /* pemilik story selalu boleh hapus */
+
+    if(story.uid===currentUser.uid){
+        return true;
+    }
+
+    const myRole=normalizeRole(currentUserData.role);
+
+    const targetRole=normalizeRole(story.role);
+
+    /*
+        Owner:
+        dapat menghapus semua role di bawahnya.
+        Story owner lain tidak dapat dihapus.
+    */
+
+    if(myRole==="OWNER"){
+        return targetRole!=="OWNER";
+    }
+
+    /*
+        Developer:
+        dapat menghapus semua role di bawah developer.
+        Owner tidak dapat dihapus.
+    */
+
+    if(myRole==="DEVELOPER"){
+
+        return(
+            targetRole!=="OWNER" &&
+            roleLevel(targetRole)<roleLevel(myRole)
+        );
+
+    }
+
+    return false;
+}
+
+
+/* ================= 24 JAM ================= */
+
+function isExpired(story){
+
+    const created=Number(
+        story.createdAt||
+        story.timestamp||
+        story.time||
+        0
+    );
+
+    if(!created){
+        return true;
+    }
+
+    return Date.now()-created>=24*60*60*1000;
+}
+
+
+function isSameDay(timestamp){
+
+    const d=new Date(Number(timestamp));
+
+    const now=new Date();
+
+    return(
+        d.getFullYear()===now.getFullYear() &&
+        d.getMonth()===now.getMonth() &&
+        d.getDate()===now.getDate()
+    );
+}
+
+
+/*
+    Story harian:
+    jika user sudah punya story yang dibuat
+    hari kalender yang sama, tidak boleh post lagi.
+*/
+
+function hasPostedToday(){
+
+    if(!currentUser){
+        return false;
+    }
+
+    return allStories.some(story=>{
+
+        if(story.uid!==currentUser.uid){
+            return false;
+        }
+
+        if(isExpired(story)){
+            return false;
+        }
+
+        return isSameDay(
+            story.createdAt||
+            story.timestamp||
+            story.time
+        );
+
+    });
+}
+
+
+/* ================= UPDATE LIMIT ================= */
+
+function updateLimitUI(){
+
+    const already=hasPostedToday();
+
+    if(already){
+
+        limitStatus.textContent="SUDAH POST";
+
+        limitStatus.style.color="#ff7777";
+
+        limitDescription.textContent=
+            "Kamu sudah membuat story hari ini. Coba lagi besok.";
+
+        createStoryBtn.disabled=true;
+
+    }else{
+
+        limitStatus.textContent="TERSEDIA";
+
+        limitStatus.style.color="#62ff9d";
+
+        limitDescription.textContent=
+            "Maksimal 1 story setiap hari. Story aktif selama 24 jam.";
+
+        createStoryBtn.disabled=false;
+    }
+}
+
+
+/* ================= PHOTO ================= */
+
+photoInput.addEventListener("change",()=>{
+
+    const file=photoInput.files[0];
+
+    if(!file){
+        return;
+    }
+
+    if(!file.type.startsWith("image/")){
+
+        showToast(
+            "File harus berupa gambar.",
+            "error"
+        );
+
+        photoInput.value="";
+        return;
+    }
+
+    /*
+        Batas client 8 MB.
+    */
+
+    if(file.size>8*1024*1024){
+
+        showToast(
+            "Ukuran foto maksimal 8 MB.",
+            "error"
+        );
+
+        photoInput.value="";
+        return;
+    }
+
+    selectedPhoto=file;
+
+    const reader=new FileReader();
+
+    reader.onload=e=>{
+
+        previewImage.src=e.target.result;
+
+        fileName.textContent=file.name;
+
+        fileSize.textContent=
+            formatFileSize(file.size);
+
+        photoPreview.classList.add("show");
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+
+function formatFileSize(bytes){
+
+    if(bytes<1024){
+        return bytes+" B";
+    }
+
+    if(bytes<1024*1024){
+        return(
+            (bytes/1024).toFixed(1)+" KB"
+        );
+    }
+
+    return(
+        (bytes/(1024*1024)).toFixed(2)+" MB"
+    );
+}
+
+
+document.getElementById("removePhoto").onclick=()=>{
+
+    selectedPhoto=null;
+
+    photoInput.value="";
+
+    previewImage.removeAttribute("src");
+
+    fileName.textContent="-";
+
+    fileSize.textContent="-";
+
+    photoPreview.classList.remove("show");
+
+};
+
+
+/* ================= ESCAPE ================= */
+
+function escapeHTML(value){
+
+    const div=document.createElement("div");
+
+    div.textContent=String(value||"");
+
+    return div.innerHTML;
+}
+
+
+/* ================= TIME ================= */
+
+function timeAgo(timestamp){
+
+    const diff=
+        Math.max(
+            0,
+            Date.now()-Number(timestamp||Date.now())
+        );
+
+    const minutes=
+        Math.floor(diff/60000);
+
+    if(minutes<1){
+        return "Baru saja";
+    }
+
+    if(minutes<60){
+        return minutes+" menit lalu";
+    }
+
+    const hours=
+        Math.floor(minutes/60);
+
+    if(hours<24){
+        return hours+" jam lalu";
+    }
+
+    return Math.floor(hours/24)+" hari lalu";
+}
+
+
+function remainingTime(timestamp){
+
+    const end=
+        Number(timestamp)+24*60*60*1000;
+
+    const diff=Math.max(
+        0,
+        end-Date.now()
+    );
+
+    const hours=
+        Math.floor(diff/3600000);
+
+    const minutes=
+        Math.floor(
+            (diff%3600000)/60000
+        );
+
+    if(hours>0){
+        return hours+" jam "+minutes+" menit lagi";
+    }
+
+    return minutes+" menit lagi";
+}
+
+
+/* ================= AVATAR ================= */
+
+function avatarURL(story){
+
+    const name=
+        story.username||
+        story.name||
+        story.displayName||
+        "USER";
+
+    return(
+        story.profileImage||
+        story.photoURL||
+        story.avatar||
+        "https://ui-avatars.com/api/?name="+
+        encodeURIComponent(name)+
+        "&background=111111&color=ffffff"
+    );
+}
+
+
+/* ================= LOAD STORIES ================= */
+
+onValue(
+    ref(db,"stories"),
+    snapshot=>{
+
+        const stories=[];
+
+        if(snapshot.exists()){
+
+            snapshot.forEach(child=>{
+
+                const data=child.val();
+
+                if(
+                    data&&
+                    typeof data==="object"
+                ){
+
+                    stories.push({
+
+                        id:child.key,
+
+                        ...data
+
+                    });
+
+                }
+
+            });
+
+        }
+
+        /*
+            Bersihkan story yang sudah lebih
+            dari 24 jam secara visual.
+        */
+
+        allStories=stories
+            .filter(story=>!isExpired(story))
+            .sort((a,b)=>{
+
+                return Number(
+                    b.createdAt||
+                    b.timestamp||
+                    b.time||
+                    0
+                )-
+                Number(
+                    a.createdAt||
+                    a.timestamp||
+                    a.time||
+                    0
+                );
+
+            });
+
+        renderStories();
+
+        updateLimitUI();
+
+    },
+    error=>{
+
+        console.error(error);
+
+        storyList.innerHTML=`
+
+            <div class="emptyStory">
+
+                <span class="material-symbols-outlined">
+                    error
+                </span>
+
+                <p>
+                    Gagal memuat story.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+);
+
+
+/* ================= RENDER ================= */
+
+function renderStories(){
+
+    if(!allStories.length){
+
+        storyList.innerHTML=`
+
+            <div class="emptyStory">
+
+                <span class="material-symbols-outlined">
+                    auto_stories
+                </span>
+
+                <p>
+                    Belum ada story aktif.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+    storyList.innerHTML=
+        allStories.map(renderStory).join("");
+
+    storyList
+        .querySelectorAll("[data-delete-id]")
+        .forEach(button=>{
+
+            button.onclick=()=>{
+
+                const id=
+                    button.dataset.deleteId;
+
+                const story=
+                    allStories.find(
+                        item=>item.id===id
+                    );
+
+                if(story){
+                    openDeleteModal(story);
+                }
+
+            };
+
+        });
+}
+
+
+function renderStory(story){
+
+    const username=
+        story.username||
+        story.name||
+        story.displayName||
+        "DEVONAX USER";
+
+    const role=
+        normalizeRole(story.role);
+
+    const createdAt=
+        Number(
+            story.createdAt||
+            story.timestamp||
+            story.time||
+            Date.now()
+        );
+
+    const image=
+        story.image||
+        story.imageUrl||
+        story.photoURL||
+        "";
+
+    const text=
+        story.text||
+        story.content||
+        story.caption||
+        "";
+
+    const canDelete=
+        canDeleteStory(story);
+
+    const deleteButton=
+        canDelete
+        ?`
+
+            <button
+                class="storyDelete"
+                data-delete-id="${escapeHTML(story.id)}"
+                title="Hapus story">
+
+                <span class="material-symbols-outlined">
+                    delete
+                </span>
+
+            </button>
+
+        `
+        :"";
+
+    const photoHTML=
+        image
+        ?`
+
+            <img
+                class="storyPhoto"
+                src="${escapeHTML(image)}"
+                alt="Story">
+
+        `
+        :"";
+
+    const textHTML=
+        text
+        ?`
+
+            <div class="storyText">
+                ${escapeHTML(text)}
+            </div>
+
+        `
+        :"";
+
+    return`
+
+        <article class="storyCard">
+
+            <div class="storyHead">
+
+                <div class="storyAvatar">
+
+                    <img
+                        src="${escapeHTML(avatarURL(story))}"
+                        alt="${escapeHTML(username)}">
+
+                </div>
+
+                <div class="storyUser">
+
+                    <h3>
+                        ${escapeHTML(username)}
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(timeAgo(createdAt))}
+                        • ${escapeHTML(
+                            remainingTime(createdAt)
+                        )}
+                    </p>
+
+                </div>
+
+                <div class="storyRole ${roleClass(role)}">
+                    ${escapeHTML(role)}
+                </div>
+
+                ${deleteButton}
+
+            </div>
+
+            <div class="storyBody">
+
+                ${textHTML}
+
+                ${photoHTML}
+
+                <div class="storyTime">
+                    STORY AKAN HILANG OTOMATIS SETELAH 24 JAM
+                </div>
+
+            </div>
+
+        </article>
+
+    `;
+}
+
+
+/* ================= CREATE STORY ================= */
+
+createStoryBtn.onclick=async()=>{
+
+    if(!currentUser||!currentUserData){
+
+        showToast(
+            "Data user belum siap.",
+            "error"
+        );
+
+        return;
+    }
+
+    if(hasPostedToday()){
+
+        updateLimitUI();
+
+        showToast(
+            "Kamu sudah membuat story hari ini.",
+            "error"
+        );
+
+        return;
+    }
+
+    const text=
+        storyText.value.trim();
+
+    /*
+        Story harus memiliki teks atau foto.
+    */
+
+    if(!text&&!selectedPhoto){
+
+        showToast(
+            "Isi teks atau pilih foto terlebih dahulu.",
+            "error"
+        );
+
+        return;
+    }
+
+    createStoryBtn.disabled=true;
+
+    const oldText=createStoryBtn.innerHTML;
+
+    createStoryBtn.innerHTML=`
+
+        <span class="material-symbols-outlined">
+            sync
+        </span>
+
+        MENGUPLOAD...
+
+    `;
+
+    try{
+
+        const storyKey=
+            push(ref(db,"stories")).key;
+
+        if(!storyKey){
+            throw new Error("Gagal membuat ID story.");
+        }
+
+        let imageURL="";
+
+        /*
+            Upload foto jika user memilih foto.
+        */
+
+        if(selectedPhoto){
+
+            const extension=
+                selectedPhoto.name
+                    .split(".")
+                    .pop()
+                    .toLowerCase();
+
+            const path=
+                "stories/"+
+                currentUser.uid+
+                "/"+
+                storyKey+
+                "."+
+                extension;
+
+            const fileRef=
+                storageRef(
+                    storage,
+                    path
+                );
+
+            const metadata={
+                contentType:
+                    selectedPhoto.type,
+                customMetadata:{
+                    ownerUid:
+                        currentUser.uid,
+                    storyId:
+                        storyKey
+                }
+            };
+
+            await uploadBytes(
+                fileRef,
+                selectedPhoto,
+                metadata
+            );
+
+            imageURL=
+                await getDownloadURL(fileRef);
+        }
+
+        const now=Date.now();
+
+        const username=
+            currentUserData.username||
+            currentUser.email?.split("@")[0]||
+            "USER";
+
+        const role=
+            normalizeRole(
+                currentUserData.role
+            );
+
+        const profileImage=
+            currentUserData.profileImage||
+            currentUserData.photoURL||
+            currentUserData.avatar||
+            "";
+
+        const storyData={
+
+            uid:currentUser.uid,
+
+            username,
+
+            role,
+
+            profileImage,
+
+            text,
+
+            image:imageURL,
+
+            createdAt:now,
+
+            timestamp:now,
+
+            expiresAt:
+                now+(24*60*60*1000)
+
+        };
+
+        await set(
+            ref(
+                db,
+                "stories/"+storyKey
+            ),
+            storyData
+        );
+
+        storyText.value="";
+
+        selectedPhoto=null;
+
+        photoInput.value="";
+
+        previewImage.removeAttribute("src");
+
+        photoPreview.classList.remove("show");
+
+        showToast(
+            "Story berhasil dibuat.",
+            "success"
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            "Gagal membuat story: "+
+            (error.message||"unknown error"),
+            "error"
+        );
+
+    }finally{
+
+        createStoryBtn.innerHTML=oldText;
+
+        updateLimitUI();
+
+    }
+
+};
+
+
+/* ================= DELETE MODAL ================= */
+
+function openDeleteModal(story){
+
+    if(!canDeleteStory(story)){
+
+        showToast(
+            "Kamu tidak memiliki izin menghapus story ini.",
+            "error"
+        );
+
+        return;
+    }
+
+    deleteTarget=story;
+
+    const username=
+        story.username||
+        story.name||
+        "USER";
+
+    document.getElementById(
+        "deleteDescription"
+    ).textContent=
+        "Hapus story milik "+
+        username+
+        "? Tindakan ini tidak dapat dibatalkan.";
+
+    document.getElementById(
+        "deleteModal"
+    ).classList.add("show");
+}
+
+
+function closeDeleteModal(){
+
+    deleteTarget=null;
+
+    document.getElementById(
+        "deleteModal"
+    ).classList.remove("show");
+}
+
+
+document.getElementById(
+    "cancelDelete"
+).onclick=closeDeleteModal;
+
+
+document.getElementById(
+    "confirmDelete"
+).onclick=async()=>{
+
+    if(!deleteTarget){
+        return;
+    }
+
+    const story=deleteTarget;
+
+    if(!canDeleteStory(story)){
+
+        closeDeleteModal();
+
+        showToast(
+            "Tidak memiliki izin.",
+            "error"
+        );
+
+        return;
+    }
+
+    const button=
+        document.getElementById(
+            "confirmDelete"
+        );
+
+    button.disabled=true;
+
+    button.textContent="MENGHAPUS...";
+
+    try{
+
+        await remove(
+            ref(
+                db,
+                "stories/"+story.id
+            )
+        );
+
+        showToast(
+            "Story berhasil dihapus.",
+            "success"
+        );
+
+        closeDeleteModal();
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            "Gagal menghapus story.",
+            "error"
+        );
+
+    }finally{
+
+        button.disabled=false;
+
+        button.textContent="HAPUS";
+
+    }
+
+};
+
+
+document.getElementById(
+    "deleteModal"
+).onclick=e=>{
+
+    if(e.target.id==="deleteModal"){
+        closeDeleteModal();
+    }
+
+};
+
+
+/* ================= AUTH ================= */
+
+onAuthStateChanged(
+    auth,
+    user=>{
+
+        if(!user){
+
+            location.replace(
+                "../login.html"
+            );
+
+            return;
+        }
+
+        currentUser=user;
+
+        loadUser(user);
+
+    }
+);
+
+
+/* ================= USER DATA ================= */
+
+onValue(
+    ref(db,"users"),
+    snapshot=>{
+
+        if(!currentUser){
+            return;
+        }
+
+        const data=
+            snapshot.child(
+                currentUser.uid
+            ).val();
+
+        if(!data){
+            return;
+        }
+
+        currentUserData=data;
+
+        renderCurrentUser();
+
+        updateLimitUI();
+
+        renderStories();
+
+    }
+);
+
+
+/* ================= CURRENT USER ================= */
+
+function loadUser(user){
+
+    onValue(
+        ref(
+            db,
+            "users/"+user.uid
+        ),
+        snapshot=>{
+
+            if(!snapshot.exists()){
+
+                location.replace(
+                    "../setup.html"
+                );
+
+                return;
+            }
+
+            currentUserData=
+                snapshot.val();
+
+            renderCurrentUser();
+
+            updateLimitUI();
+
+            renderStories();
+
+        }
+    );
+
+}
+
+
+function renderCurrentUser(){
+
+    if(!currentUserData){
+        return;
+    }
+
+    const username=
+        currentUserData.username||
+        currentUser?.email?.split("@")[0]||
+        "USER";
+
+    const role=
+        normalizeRole(
+            currentUserData.role
+        );
+
+    const email=
+        currentUser?.email||
+        "-";
+
+    document.getElementById(
+        "currentUsername"
+    ).textContent=username;
+
+    document.getElementById(
+        "currentEmail"
+    ).textContent=email;
+
+    const roleEl=
+        document.getElementById(
+            "currentRole"
+        );
+
+    roleEl.textContent=role;
+
+    roleEl.className=
+        "roleBadge "+
+        roleClass(role);
+
+    const avatar=
+        currentUserData.profileImage||
+        currentUserData.photoURL||
+        currentUserData.avatar||
+        "";
+
+    const avatarImage=
+        document.getElementById(
+            "currentAvatarImage"
+        );
+
+    const avatarIcon=
+        document.getElementById(
+            "currentAvatarIcon"
+        );
+
+    if(avatar){
+
+        avatarImage.src=avatar;
+
+        avatarImage.style.display=
+            "block";
+
+        avatarIcon.style.display=
+            "none";
+
+    }else{
+
+        avatarImage.removeAttribute("src");
+
+        avatarImage.style.display=
+            "none";
+
+        avatarIcon.style.display=
+            "block";
+
+    }
+
+}
+
+
+/* ================= AUTO REFRESH ================= */
+
+setInterval(()=>{
+
+    /*
+        Firebase realtime listener akan
+        memperbarui data, sementara bagian
+        ini membuat story yang tepat 24 jam
+        langsung hilang dari tampilan.
+    */
+
+    const before=allStories.length;
+
+    allStories=
+        allStories.filter(
+            story=>!isExpired(story)
+        );
+
+    if(before!==allStories.length){
+
+        renderStories();
+
+    }
+
+    updateLimitUI();
+
+},30000);
+
+
+/* ================= REQUEST NOTIFICATION ================= */
+
+if(
+    "Notification" in window &&
+    Notification.permission==="default"
+){
+
+    /*
+        Tidak langsung meminta permission saat
+        halaman dibuka. Permission akan diminta
+        oleh browser sesuai interaksi user bila
+        nantinya fitur notifikasi digunakan.
+    */
+
+}
+
+
+/* ================= GLOBAL ERROR ================= */
+
+window.addEventListener(
+    "unhandledrejection",
+    event=>{
+
+        console.error(
+            "Unhandled:",
+            event.reason
+        );
+
+    }
+);
+
+</script></body>
+</html>
