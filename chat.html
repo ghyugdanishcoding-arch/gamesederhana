@@ -1,0 +1,4568 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080808">
+
+<title>DEVONXTRASH — GLOBAL CHAT</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Orbitron',sans-serif;
+    -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+    --bg:#070707;
+    --panel:#101010;
+    --panel2:#151515;
+    --panel3:#1b1b1b;
+    --red:#ff2020;
+    --red2:#ff4545;
+    --red3:#8e0000;
+    --text:#fff;
+    --muted:#888;
+    --line:#2b2b2b;
+    --green:#32e875;
+    --blue:#279fff;
+    --yellow:#ffd34d;
+}
+
+html,
+body{
+    width:100%;
+    min-height:100%;
+    background:var(--bg);
+    color:var(--text);
+}
+
+body{
+    overflow:hidden;
+}
+
+/* BACKGROUND */
+
+.bgGlow{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-3;
+    background:
+        radial-gradient(circle at 10% 0%,rgba(255,0,0,.14),transparent 34%),
+        radial-gradient(circle at 90% 100%,rgba(255,0,0,.08),transparent 32%);
+}
+
+.grid{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    opacity:.035;
+    pointer-events:none;
+    background-image:
+        linear-gradient(rgba(255,255,255,.6) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.6) 1px,transparent 1px);
+    background-size:40px 40px;
+}
+
+/* APP */
+
+.app{
+    width:100%;
+    height:100dvh;
+    display:flex;
+    flex-direction:column;
+}
+
+/* HEADER */
+
+.header{
+    height:68px;
+    min-height:68px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 14px;
+    border-bottom:1px solid #292929;
+    background:rgba(9,9,9,.94);
+    backdrop-filter:blur(18px);
+    z-index:50;
+}
+
+.headerBtn{
+    width:45px;
+    height:45px;
+    min-width:45px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #333;
+    border-radius:14px;
+    background:#151515;
+    color:#fff;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.headerBtn:hover{
+    border-color:var(--red);
+    color:var(--red);
+    box-shadow:0 0 15px rgba(255,32,32,.2);
+}
+
+.headerBtn span{
+    font-size:25px;
+}
+
+.chatHead{
+    flex:1;
+    min-width:0;
+}
+
+.chatHeadTitle{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.chatHeadTitle h1{
+    font-size:14px;
+    letter-spacing:2px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.liveDot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 10px var(--green);
+}
+
+.chatHead p{
+    margin-top:4px;
+    color:#777;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+}
+
+/* CHAT */
+
+.chatArea{
+    flex:1;
+    min-height:0;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding:15px 13px 12px;
+    scroll-behavior:smooth;
+}
+
+.chatArea::-webkit-scrollbar{
+    width:4px;
+}
+
+.chatArea::-webkit-scrollbar-thumb{
+    background:#3a0000;
+    border-radius:20px;
+}
+
+/* DATE */
+
+.dateDivider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:9px 0 15px;
+    color:#666;
+    font-size:7px;
+    letter-spacing:1px;
+}
+
+.dateDivider::before,
+.dateDivider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:#222;
+}
+
+/* MESSAGE */
+
+.message{
+    display:flex;
+    gap:9px;
+    margin-bottom:13px;
+    animation:messageIn .22s ease;
+}
+
+@keyframes messageIn{
+    from{
+        opacity:0;
+        transform:translateY(7px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.message.me{
+    flex-direction:row-reverse;
+}
+
+.messageAvatar{
+    width:37px;
+    height:37px;
+    min-width:37px;
+    overflow:hidden;
+    border:2px solid #3a0000;
+    border-radius:50%;
+    background:#1a1a1a;
+}
+
+.messageAvatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.messageMain{
+    max-width:min(78%,520px);
+}
+
+.message.me .messageMain{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+}
+
+.messageUser{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    margin:0 4px 5px;
+}
+
+.messageUserName{
+    max-width:180px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    color:#ff5a5a;
+    font-size:9px;
+}
+
+.messageTime{
+    color:#555;
+    font-family:Arial,sans-serif;
+    font-size:8px;
+}
+
+.roleMini{
+    padding:3px 6px;
+    border:1px solid;
+    border-radius:8px;
+    font-size:5px;
+    letter-spacing:.5px;
+}
+
+.role-developer{
+    color:#dba4ff;
+    border-color:#8439bd;
+    background:#250936;
+}
+
+.role-owner{
+    color:#75c2ff;
+    border-color:#1976bd;
+    background:#06223a;
+}
+
+.role-vip{
+    color:#ffe47c;
+    border-color:#ae8a17;
+    background:#302706;
+}
+
+.role-reseller{
+    color:#6effb1;
+    border-color:#1d9d5a;
+    background:#062c1a;
+}
+
+.role-member{
+    color:#bbb;
+    border-color:#555;
+    background:#202020;
+}
+
+.messageBubble{
+    position:relative;
+    padding:11px 12px;
+    border:1px solid #2d2d2d;
+    border-radius:16px;
+    border-top-left-radius:5px;
+    background:#151515;
+    box-shadow:0 7px 20px rgba(0,0,0,.16);
+}
+
+.message.me .messageBubble{
+    border-color:#5b0909;
+    border-top-left-radius:16px;
+    border-top-right-radius:5px;
+    background:#260b0b;
+}
+
+.messageBubble p{
+    color:#eee;
+    font-family:Arial,sans-serif;
+    font-size:13px;
+    line-height:1.55;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+
+.messageMeta{
+    display:flex;
+    justify-content:flex-end;
+    gap:5px;
+    margin-top:6px;
+    color:#666;
+    font-family:Arial,sans-serif;
+    font-size:8px;
+}
+
+/* BOT */
+
+.message.bot .messageAvatar{
+    border-color:var(--red);
+    background:#270000;
+}
+
+.message.bot .messageAvatar span{
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--red);
+    font-size:20px;
+}
+
+.message.bot .messageBubble{
+    border-color:#681010;
+    background:
+        linear-gradient(135deg,rgba(255,32,32,.1),transparent),
+        #180909;
+}
+
+.botTag{
+    color:#ff7373;
+    font-size:6px;
+}
+
+/* SYSTEM */
+
+.systemMessage{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    margin:12px 0;
+}
+
+.systemMessageBox{
+    max-width:90%;
+    padding:8px 11px;
+    border:1px solid #3c1515;
+    border-radius:12px;
+    background:#160909;
+    color:#aaa;
+    text-align:center;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+}
+
+/* MEDIA */
+
+.mediaBox{
+    width:min(260px,100%);
+    overflow:hidden;
+    border:1px solid #3a3a3a;
+    border-radius:14px;
+    background:#101010;
+}
+
+.mediaBox img{
+    width:100%;
+    max-height:280px;
+    object-fit:cover;
+    display:block;
+    cursor:pointer;
+}
+
+.mediaBox video{
+    width:100%;
+    max-height:280px;
+    display:block;
+    background:#000;
+}
+
+.fileBox{
+    min-width:180px;
+    max-width:260px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px;
+    border:1px solid #3b1818;
+    border-radius:13px;
+    background:#180d0d;
+}
+
+.fileIcon{
+    width:39px;
+    height:39px;
+    min-width:39px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    background:#290909;
+    color:var(--red);
+}
+
+.fileIcon span{
+    font-size:21px;
+}
+
+.fileInfo{
+    min-width:0;
+}
+
+.fileName{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    color:#eee;
+    font-family:Arial,sans-serif;
+    font-size:11px;
+}
+
+.fileType{
+    margin-top:4px;
+    color:#777;
+    font-family:Arial,sans-serif;
+    font-size:8px;
+}
+
+.audioBox{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:7px;
+    border:1px solid #3b1818;
+    border-radius:13px;
+    background:#180d0d;
+}
+
+.audioBox audio{
+    width:210px;
+    max-width:100%;
+    height:35px;
+}
+
+/* REPLY */
+
+.replyPreview{
+    display:none;
+    align-items:center;
+    gap:8px;
+    padding:8px 10px;
+    border-left:3px solid var(--red);
+    border-radius:8px;
+    background:#171717;
+}
+
+.replyPreview.show{
+    display:flex;
+}
+
+.replyPreviewText{
+    flex:1;
+    min-width:0;
+}
+
+.replyPreviewText b{
+    display:block;
+    color:#ff5555;
+    font-size:8px;
+}
+
+.replyPreviewText p{
+    margin-top:4px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    color:#999;
+    font-family:Arial,sans-serif;
+    font-size:9px;
+}
+
+.closeReply{
+    border:none;
+    background:none;
+    color:#888;
+    cursor:pointer;
+}
+
+/* COMPOSER */
+
+.composerArea{
+    position:relative;
+    padding:7px 10px calc(9px + env(safe-area-inset-bottom));
+    border-top:1px solid #292929;
+    background:rgba(8,8,8,.97);
+    backdrop-filter:blur(20px);
+    z-index:40;
+}
+
+.lockBanner{
+    display:none;
+    align-items:center;
+    gap:8px;
+    padding:7px 10px;
+    margin-bottom:7px;
+    border:1px solid #5a1111;
+    border-radius:11px;
+    background:#180909;
+    color:#ff8b8b;
+    font-size:8px;
+}
+
+.lockBanner.show{
+    display:flex;
+}
+
+.composer{
+    display:flex;
+    align-items:flex-end;
+    gap:7px;
+}
+
+.attachBtn{
+    width:43px;
+    height:43px;
+    min-width:43px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #333;
+    border-radius:14px;
+    background:#151515;
+    color:#ff4545;
+    cursor:pointer;
+}
+
+.attachBtn span{
+    font-size:22px;
+}
+
+.messageInputWrap{
+    flex:1;
+    min-width:0;
+    display:flex;
+    align-items:flex-end;
+    border:1px solid #333;
+    border-radius:17px;
+    background:#131313;
+    transition:.2s;
+}
+
+.messageInputWrap:focus-within{
+    border-color:#7b1515;
+    box-shadow:0 0 15px rgba(255,32,32,.08);
+}
+
+#messageInput{
+    width:100%;
+    min-height:43px;
+    max-height:130px;
+    resize:none;
+    overflow-y:auto;
+    padding:12px 13px;
+    border:none;
+    outline:none;
+    background:transparent;
+    color:#fff;
+    font-family:Arial,sans-serif;
+    font-size:13px;
+    line-height:1.4;
+}
+
+#messageInput::placeholder{
+    color:#666;
+}
+
+.sendBtn{
+    width:43px;
+    height:43px;
+    min-width:43px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:none;
+    border-radius:14px;
+    background:linear-gradient(145deg,#ff3030,#a50000);
+    color:#fff;
+    cursor:pointer;
+    box-shadow:0 0 15px rgba(255,32,32,.16);
+}
+
+.sendBtn:disabled{
+    opacity:.35;
+    cursor:not-allowed;
+}
+
+.sendBtn span{
+    font-size:21px;
+}
+
+/* ATTACH MENU */
+
+.attachMenu{
+    position:absolute;
+    left:10px;
+    bottom:70px;
+    width:210px;
+    display:none;
+    padding:8px;
+    border:1px solid #333;
+    border-radius:17px;
+    background:#111;
+    box-shadow:0 15px 35px rgba(0,0,0,.7);
+}
+
+.attachMenu.show{
+    display:block;
+    animation:menuUp .18s ease;
+}
+
+@keyframes menuUp{
+    from{
+        opacity:0;
+        transform:translateY(7px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.attachOption{
+    width:100%;
+    height:46px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:0 12px;
+    border:none;
+    border-radius:12px;
+    background:transparent;
+    color:#ddd;
+    cursor:pointer;
+    text-align:left;
+    font-size:9px;
+}
+
+.attachOption:hover{
+    background:#1c1c1c;
+}
+
+.attachOption span{
+    color:#ff4545;
+    font-size:21px;
+}
+
+/* FILE INPUT */
+
+.hiddenFile{
+    display:none;
+}
+
+/* PREVIEW */
+
+.uploadPreview{
+    display:none;
+    align-items:center;
+    gap:9px;
+    margin-bottom:7px;
+    padding:7px;
+    border:1px solid #3c1515;
+    border-radius:12px;
+    background:#160909;
+}
+
+.uploadPreview.show{
+    display:flex;
+}
+
+.previewThumb{
+    width:44px;
+    height:44px;
+    min-width:44px;
+    overflow:hidden;
+    border-radius:9px;
+    background:#222;
+}
+
+.previewThumb img,
+.previewThumb video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.previewInfo{
+    flex:1;
+    min-width:0;
+}
+
+.previewInfo b{
+    display:block;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+}
+
+.previewInfo p{
+    margin-top:4px;
+    color:#777;
+    font-family:Arial,sans-serif;
+    font-size:8px;
+}
+
+.cancelUpload{
+    width:32px;
+    height:32px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:none;
+    border-radius:9px;
+    background:#280909;
+    color:#ff6666;
+    cursor:pointer;
+}
+
+/* MORE MENU */
+
+.moreMenu{
+    position:absolute;
+    top:58px;
+    right:10px;
+    width:190px;
+    display:none;
+    padding:7px;
+    border:1px solid #333;
+    border-radius:16px;
+    background:#111;
+    box-shadow:0 15px 40px rgba(0,0,0,.7);
+}
+
+.moreMenu.show{
+    display:block;
+}
+
+.moreItem{
+    width:100%;
+    height:43px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:0 11px;
+    border:none;
+    border-radius:11px;
+    background:transparent;
+    color:#ddd;
+    cursor:pointer;
+    text-align:left;
+    font-size:8px;
+}
+
+.moreItem:hover{
+    background:#1b1b1b;
+}
+
+.moreItem span{
+    color:#ff4545;
+    font-size:19px;
+}
+
+/* ONLINE PANEL */
+
+.onlinePanel{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    background:rgba(0,0,0,.7);
+}
+
+.onlinePanel.show{
+    display:flex;
+}
+
+.onlineBox{
+    width:min(500px,100%);
+    max-height:70vh;
+    overflow:auto;
+    padding:17px;
+    border:1px solid #3a3a3a;
+    border-bottom:none;
+    border-radius:23px 23px 0 0;
+    background:#111;
+}
+
+.onlineHead{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:14px;
+}
+
+.onlineHead h3{
+    font-size:12px;
+    letter-spacing:1px;
+}
+
+.closePanel{
+    border:none;
+    background:none;
+    color:#888;
+    cursor:pointer;
+}
+
+.onlineCount{
+    margin-bottom:13px;
+    padding:11px;
+    border:1px solid #3b1010;
+    border-radius:13px;
+    background:#180909;
+    color:#ff7777;
+    font-size:9px;
+}
+
+.onlineUser{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px;
+    border-bottom:1px solid #222;
+}
+
+.onlineAvatar{
+    width:38px;
+    height:38px;
+    overflow:hidden;
+    border-radius:50%;
+    background:#222;
+}
+
+.onlineAvatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.onlineUserInfo{
+    min-width:0;
+}
+
+.onlineUserInfo b{
+    display:block;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:9px;
+}
+
+.onlineUserInfo p{
+    margin-top:4px;
+    color:#777;
+    font-family:Arial,sans-serif;
+    font-size:8px;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:92px;
+    z-index:9000;
+    max-width:calc(100vw - 30px);
+    padding:11px 15px;
+    transform:translate(-50%,15px);
+    opacity:0;
+    pointer-events:none;
+    border:1px solid #4b1111;
+    border-radius:14px;
+    background:#160909;
+    color:#eee;
+    font-family:Arial,sans-serif;
+    font-size:11px;
+    box-shadow:0 15px 35px rgba(0,0,0,.6);
+    transition:.25s;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+/* EMPTY */
+
+.empty{
+    min-height:55vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:9px;
+    color:#555;
+}
+
+.empty span{
+    font-size:40px;
+}
+
+.empty p{
+    font-size:9px;
+}
+
+/* PINNED */
+
+.pinnedBar{
+    display:none;
+    align-items:center;
+    gap:9px;
+    padding:7px 12px;
+    border-bottom:1px solid #321010;
+    background:#120808;
+}
+
+.pinnedBar.show{
+    display:flex;
+}
+
+.pinnedBar > span{
+    color:#ff4545;
+    font-size:18px;
+}
+
+.pinnedText{
+    flex:1;
+    min-width:0;
+}
+
+.pinnedText b{
+    display:block;
+    color:#ff6565;
+    font-size:7px;
+}
+
+.pinnedText p{
+    margin-top:3px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    color:#aaa;
+    font-family:Arial,sans-serif;
+    font-size:9px;
+}
+
+.pinnedClose{
+    border:none;
+    background:none;
+    color:#666;
+    cursor:pointer;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:8000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+    background:rgba(0,0,0,.94);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modalContent{
+    width:min(700px,100%);
+    max-height:90vh;
+    overflow:auto;
+    border:1px solid #3b3b3b;
+    border-radius:20px;
+    background:#111;
+}
+
+.modalHead{
+    height:53px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 14px;
+    border-bottom:1px solid #292929;
+}
+
+.modalHead h3{
+    font-size:10px;
+}
+
+.modalClose{
+    border:none;
+    background:none;
+    color:#aaa;
+    cursor:pointer;
+}
+
+.modalBody{
+    padding:15px;
+}
+
+.modalBody img,
+.modalBody video{
+    width:100%;
+    max-height:75vh;
+    object-fit:contain;
+    display:block;
+}
+
+/* ADMIN */
+
+.adminPanel{
+    position:fixed;
+    inset:0;
+    z-index:7000;
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    background:rgba(0,0,0,.75);
+}
+
+.adminPanel.show{
+    display:flex;
+}
+
+.adminBox{
+    width:min(500px,100%);
+    max-height:85vh;
+    overflow:auto;
+    padding:17px;
+    border:1px solid #3a3a3a;
+    border-bottom:none;
+    border-radius:24px 24px 0 0;
+    background:#111;
+}
+
+.adminBox h3{
+    font-size:12px;
+}
+
+.adminDesc{
+    margin-top:7px;
+    color:#777;
+    font-family:Arial,sans-serif;
+    font-size:10px;
+    line-height:1.5;
+}
+
+.adminInput{
+    width:100%;
+    height:43px;
+    margin-top:10px;
+    padding:0 12px;
+    outline:none;
+    border:1px solid #333;
+    border-radius:12px;
+    background:#181818;
+    color:#fff;
+}
+
+.adminAction{
+    width:100%;
+    height:43px;
+    margin-top:8px;
+    border:1px solid #591010;
+    border-radius:12px;
+    background:#230909;
+    color:#ff7070;
+    cursor:pointer;
+    font-size:9px;
+}
+
+/* MOBILE */
+
+@media(max-width:500px){
+
+    .header{
+        height:63px;
+        min-height:63px;
+        padding:8px 10px;
+    }
+
+    .headerBtn{
+        width:42px;
+        height:42px;
+        min-width:42px;
+    }
+
+    .chatHeadTitle h1{
+        font-size:12px;
+    }
+
+    .chatArea{
+        padding-left:9px;
+        padding-right:9px;
+    }
+
+    .messageMain{
+        max-width:82%;
+    }
+
+    .messageAvatar{
+        width:34px;
+        height:34px;
+        min-width:34px;
+    }
+
+    .messageBubble{
+        padding:10px;
+    }
+
+    .messageBubble p{
+        font-size:13px;
+    }
+
+    .composerArea{
+        padding-left:7px;
+        padding-right:7px;
+    }
+
+    .attachBtn,
+    .sendBtn{
+        width:42px;
+        min-width:42px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="bgGlow"></div>
+<div class="grid"></div>
+
+<div class="app">
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <button class="headerBtn" id="backBtn">
+            <span class="material-symbols-outlined">arrow_back</span>
+        </button>
+
+        <div class="chatHead">
+            <div class="chatHeadTitle">
+                <span class="liveDot"></span>
+                <h1>DEVONXTRASH GLOBAL CHAT</h1>
+            </div>
+
+            <p id="chatSubtitle">Menghubungkan ke server...</p>
+        </div>
+
+        <button class="headerBtn" id="onlineBtn">
+            <span class="material-symbols-outlined">group</span>
+        </button>
+
+        <button class="headerBtn" id="moreBtn">
+            <span class="material-symbols-outlined">more_vert</span>
+        </button>
+
+    </header>
+
+    <!-- MORE -->
+    <div class="moreMenu" id="moreMenu">
+
+        <button class="moreItem" id="refreshBtn">
+            <span class="material-symbols-outlined">refresh</span>
+            Refresh Chat
+        </button>
+
+        <button class="moreItem" id="notificationBtn">
+            <span class="material-symbols-outlined">notifications</span>
+            Aktifkan Notifikasi
+        </button>
+
+        <button class="moreItem" id="clearLocalBtn">
+            <span class="material-symbols-outlined">visibility_off</span>
+            Tutup Menu
+        </button>
+
+    </div>
+
+    <!-- PINNED -->
+    <div class="pinnedBar" id="pinnedBar">
+
+        <span class="material-symbols-outlined">push_pin</span>
+
+        <div class="pinnedText">
+            <b>PESAN DISEMATKAN</b>
+            <p id="pinnedText">Belum ada pesan pin.</p>
+        </div>
+
+        <button class="pinnedClose" id="pinnedClose">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+
+    </div>
+
+    <!-- CHAT -->
+    <main class="chatArea" id="chatArea">
+
+        <div class="empty" id="emptyChat">
+
+            <span class="material-symbols-outlined">
+                forum
+            </span>
+
+            <p>Belum ada pesan</p>
+
+        </div>
+
+    </main>
+
+    <!-- COMPOSER -->
+    <section class="composerArea">
+
+        <div class="lockBanner" id="lockBanner">
+
+            <span class="material-symbols-outlined">
+                lock
+            </span>
+
+            <span id="lockText">
+                Global chat sedang dikunci.
+            </span>
+
+        </div>
+
+        <div class="replyPreview" id="replyPreview">
+
+            <div class="replyPreviewText">
+
+                <b id="replyName">User</b>
+
+                <p id="replyText">
+                    Pesan
+                </p>
+
+            </div>
+
+            <button class="closeReply" id="closeReply">
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+
+        </div>
+
+        <div class="uploadPreview" id="uploadPreview">
+
+            <div class="previewThumb" id="previewThumb"></div>
+
+            <div class="previewInfo">
+                <b id="previewName">file</b>
+                <p id="previewSize">0 KB</p>
+            </div>
+
+            <button class="cancelUpload" id="cancelUpload">
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+
+        </div>
+
+        <div class="composer">
+
+            <button class="attachBtn" id="attachBtn">
+                <span class="material-symbols-outlined">
+                    add
+                </span>
+            </button>
+
+            <div class="messageInputWrap">
+
+                <textarea
+                    id="messageInput"
+                    rows="1"
+                    maxlength="5000"
+                    placeholder="Tulis pesan..."
+                    autocomplete="off"
+                    spellcheck="true"
+                ></textarea>
+
+            </div>
+
+            <button class="sendBtn" id="sendBtn">
+                <span class="material-symbols-outlined">
+                    send
+                </span>
+            </button>
+
+        </div>
+
+        <div class="attachMenu" id="attachMenu">
+
+            <button class="attachOption" data-type="image">
+                <span class="material-symbols-outlined">
+                    image
+                </span>
+                Kirim Gambar
+            </button>
+
+            <button class="attachOption" data-type="voice">
+                <span class="material-symbols-outlined">
+                    mic
+                </span>
+                Rekam Voice
+            </button>
+
+            <button class="attachOption" data-type="sound">
+                <span class="material-symbols-outlined">
+                    audio_file
+                </span>
+                Kirim Sound
+            </button>
+
+            <button class="attachOption" data-type="video">
+                <span class="material-symbols-outlined">
+                    videocam
+                </span>
+                Kirim Video
+            </button>
+
+        </div>
+
+        <input
+            class="hiddenFile"
+            id="imageInput"
+            type="file"
+            accept="image/*"
+        >
+
+        <input
+            class="hiddenFile"
+            id="audioInput"
+            type="file"
+            accept="audio/*"
+        >
+
+        <input
+            class="hiddenFile"
+            id="videoInput"
+            type="file"
+            accept="video/*"
+        >
+
+    </section>
+
+</div>
+
+<!-- ONLINE PANEL -->
+
+<div class="onlinePanel" id="onlinePanel">
+
+    <div class="onlineBox">
+
+        <div class="onlineHead">
+
+            <h3>USER ONLINE</h3>
+
+            <button class="closePanel" id="closeOnline">
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+
+        </div>
+
+        <div class="onlineCount" id="onlineCount">
+            0 user online
+        </div>
+
+        <div id="onlineList"></div>
+
+    </div>
+
+</div>
+
+<!-- MEDIA MODAL -->
+
+<div class="modal" id="mediaModal">
+
+    <div class="modalContent">
+
+        <div class="modalHead">
+
+            <h3>MEDIA PREVIEW</h3>
+
+            <button class="modalClose" id="mediaClose">
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+
+        </div>
+
+        <div class="modalBody" id="mediaModalBody"></div>
+
+    </div>
+
+</div>
+
+<!-- ADMIN PANEL -->
+
+<div class="adminPanel" id="adminPanel">
+
+    <div class="adminBox">
+
+        <h3>MODERATION CONTROL</h3>
+
+        <p class="adminDesc">
+            Panel kontrol hanya dapat digunakan oleh Developer dan Owner.
+        </p>
+
+        <input
+            class="adminInput"
+            id="adminCommandInput"
+            placeholder="/status"
+        >
+
+        <button class="adminAction" id="adminRunBtn">
+            JALANKAN COMMAND
+        </button>
+
+        <button class="adminAction" id="adminCloseBtn">
+            TUTUP
+        </button>
+
+    </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+    getDatabase,
+    ref,
+    push,
+    set,
+    get,
+    update,
+    remove,
+    onValue,
+    query,
+    orderByChild,
+    limitToLast
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+
+/* =========================================================
+   FIREBASE
+========================================================= */
+
+const firebaseConfig = {
+    apiKey:"AIzaSyAV5qFI5J0cZd0eg2Q6mhEZ0KEiR1URv1c",
+    authDomain:"project-coding-gabut.firebaseapp.com",
+    databaseURL:"https://project-coding-gabut-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId:"project-coding-gabut",
+    storageBucket:"project-coding-gabut.firebasestorage.app",
+    messagingSenderId:"234910334669",
+    appId:"1:234910334669:web:5203c9e9ce22a596f2b384"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+
+/* =========================================================
+   ELEMENT
+========================================================= */
+
+const chatArea =
+    document.getElementById("chatArea");
+
+const messageInput =
+    document.getElementById("messageInput");
+
+const sendBtn =
+    document.getElementById("sendBtn");
+
+const attachBtn =
+    document.getElementById("attachBtn");
+
+const attachMenu =
+    document.getElementById("attachMenu");
+
+const imageInput =
+    document.getElementById("imageInput");
+
+const audioInput =
+    document.getElementById("audioInput");
+
+const videoInput =
+    document.getElementById("videoInput");
+
+const uploadPreview =
+    document.getElementById("uploadPreview");
+
+const previewThumb =
+    document.getElementById("previewThumb");
+
+const previewName =
+    document.getElementById("previewName");
+
+const previewSize =
+    document.getElementById("previewSize");
+
+const cancelUpload =
+    document.getElementById("cancelUpload");
+
+const replyPreview =
+    document.getElementById("replyPreview");
+
+const replyName =
+    document.getElementById("replyName");
+
+const replyText =
+    document.getElementById("replyText");
+
+const lockBanner =
+    document.getElementById("lockBanner");
+
+const lockText =
+    document.getElementById("lockText");
+
+const toast =
+    document.getElementById("toast");
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let currentUser = null;
+let currentProfile = null;
+
+let selectedFile = null;
+let selectedFileType = null;
+
+let replyTarget = null;
+
+let chatLocked = false;
+
+let cooldownSeconds = 3;
+
+let lastSentAt = 0;
+
+let messagesCache = {};
+
+let moderationRunning = false;
+
+let lastBotMinute = "";
+
+let pinnedMessage = null;
+
+
+/* =========================================================
+   UTILITY
+========================================================= */
+
+function showToast(text){
+
+    toast.textContent = text;
+
+    toast.classList.add("show");
+
+    clearTimeout(showToast.timer);
+
+    showToast.timer = setTimeout(()=>{
+        toast.classList.remove("show");
+    },3000);
+}
+
+
+function escapeHTML(value){
+
+    const div = document.createElement("div");
+
+    div.textContent = String(value ?? "");
+
+    return div.innerHTML;
+}
+
+
+function escapeAttribute(value){
+
+    return escapeHTML(value)
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+function formatBytes(bytes){
+
+    if(!bytes) return "0 B";
+
+    const units = [
+        "B",
+        "KB",
+        "MB",
+        "GB"
+    ];
+
+    const index =
+        Math.floor(
+            Math.log(bytes) /
+            Math.log(1024)
+        );
+
+    return (
+        (bytes /
+        Math.pow(1024,index))
+        .toFixed(index ? 1 : 0)
+        +" "+
+        units[index]
+    );
+}
+
+
+function formatTime(timestamp){
+
+    if(!timestamp) return "--:--";
+
+    return new Date(timestamp)
+        .toLocaleTimeString("id-ID",{
+            hour:"2-digit",
+            minute:"2-digit",
+            hour12:false
+        });
+}
+
+
+function normalizeRole(role){
+
+    return String(role || "Member")
+        .trim()
+        .toUpperCase();
+}
+
+
+function isPrivileged(role){
+
+    const r = normalizeRole(role);
+
+    return (
+        r === "DEVELOPER" ||
+        r === "DEV" ||
+        r === "OWNER"
+    );
+}
+
+
+function isDeveloper(role){
+
+    const r = normalizeRole(role);
+
+    return r === "DEVELOPER" || r === "DEV";
+}
+
+
+function roleClass(role){
+
+    const r = normalizeRole(role);
+
+    if(r==="DEVELOPER" || r==="DEV")
+        return "role-developer";
+
+    if(r==="OWNER")
+        return "role-owner";
+
+    if(r==="VIP")
+        return "role-vip";
+
+    if(r==="RESELLER")
+        return "role-reseller";
+
+    return "role-member";
+}
+
+
+/* =========================================================
+   BACK
+========================================================= */
+
+document.getElementById("backBtn").onclick = ()=>{
+
+    if(history.length > 1){
+        history.back();
+    }else{
+        location.href="../dashboard.html";
+    }
+
+};
+
+
+/* =========================================================
+   TEXTAREA AUTO HEIGHT
+========================================================= */
+
+function resizeInput(){
+
+    messageInput.style.height = "auto";
+
+    messageInput.style.height =
+        Math.min(
+            messageInput.scrollHeight,
+            130
+        )+"px";
+}
+
+
+messageInput.addEventListener(
+    "input",
+    resizeInput
+);
+
+
+/* ENTER SEND
+   SHIFT + ENTER = BARIS BARU
+*/
+
+messageInput.addEventListener(
+    "keydown",
+    e=>{
+
+        if(
+            e.key==="Enter" &&
+            !e.shiftKey
+        ){
+
+            e.preventDefault();
+
+            sendCurrentMessage();
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ATTACH MENU
+========================================================= */
+
+attachBtn.onclick = e=>{
+
+    e.stopPropagation();
+
+    attachMenu.classList.toggle("show");
+
+};
+
+
+document.addEventListener("click",e=>{
+
+    if(
+        !attachMenu.contains(e.target) &&
+        e.target!==attachBtn
+    ){
+        attachMenu.classList.remove("show");
+    }
+
+});
+
+
+document
+.querySelectorAll(".attachOption")
+.forEach(button=>{
+
+    button.onclick = ()=>{
+
+        const type =
+            button.dataset.type;
+
+        attachMenu.classList.remove("show");
+
+        if(type==="image"){
+            imageInput.click();
+        }
+
+        if(type==="sound"){
+            audioInput.click();
+        }
+
+        if(type==="video"){
+            videoInput.click();
+        }
+
+        if(type==="voice"){
+            startVoiceRecorder();
+        }
+
+    };
+
+});
+
+
+/* =========================================================
+   FILE SELECT
+========================================================= */
+
+function prepareFile(file,type){
+
+    if(!file) return;
+
+    selectedFile = file;
+    selectedFileType = type;
+
+    previewName.textContent =
+        file.name || "Media";
+
+    previewSize.textContent =
+        formatBytes(file.size);
+
+    previewThumb.innerHTML = "";
+
+    if(type==="image"){
+
+        const img =
+            document.createElement("img");
+
+        img.src =
+            URL.createObjectURL(file);
+
+        previewThumb.appendChild(img);
+
+    }else{
+
+        const icon =
+            document.createElement("span");
+
+        icon.className =
+            "material-symbols-outlined";
+
+        icon.textContent =
+            type==="video"
+            ? "movie"
+            : "audio_file";
+
+        icon.style.display="flex";
+        icon.style.alignItems="center";
+        icon.style.justifyContent="center";
+        icon.style.width="100%";
+        icon.style.height="100%";
+        icon.style.color="#ff4545";
+
+        previewThumb.appendChild(icon);
+    }
+
+    uploadPreview.classList.add("show");
+}
+
+
+imageInput.onchange = ()=>{
+
+    const file = imageInput.files[0];
+
+    prepareFile(file,"image");
+
+};
+
+
+audioInput.onchange = ()=>{
+
+    const file = audioInput.files[0];
+
+    prepareFile(file,"sound");
+
+};
+
+
+videoInput.onchange = ()=>{
+
+    const file = videoInput.files[0];
+
+    prepareFile(file,"video");
+
+};
+
+
+cancelUpload.onclick = clearSelectedFile;
+
+
+function clearSelectedFile(){
+
+    selectedFile = null;
+    selectedFileType = null;
+
+    imageInput.value="";
+    audioInput.value="";
+    videoInput.value="";
+
+    previewThumb.innerHTML="";
+
+    uploadPreview.classList.remove("show");
+}
+
+
+/* =========================================================
+   VOICE RECORDER
+========================================================= */
+
+let mediaRecorder = null;
+let voiceChunks = [];
+let recording = false;
+
+async function startVoiceRecorder(){
+
+    if(recording){
+
+        if(mediaRecorder){
+            mediaRecorder.stop();
+        }
+
+        return;
+    }
+
+    if(!navigator.mediaDevices ||
+       !navigator.mediaDevices.getUserMedia){
+
+        showToast(
+            "Browser tidak mendukung voice recorder."
+        );
+
+        return;
+    }
+
+    try{
+
+        const stream =
+            await navigator.mediaDevices
+            .getUserMedia({
+                audio:true
+            });
+
+        voiceChunks=[];
+
+        mediaRecorder =
+            new MediaRecorder(stream);
+
+        recording=true;
+
+        attachBtn.innerHTML =
+            `<span class="material-symbols-outlined">
+                stop
+            </span>`;
+
+        showToast(
+            "Merekam voice... tekan tombol + untuk berhenti."
+        );
+
+        mediaRecorder.ondataavailable = e=>{
+
+            if(e.data.size){
+                voiceChunks.push(e.data);
+            }
+
+        };
+
+        mediaRecorder.onstop = ()=>{
+
+            stream
+                .getTracks()
+                .forEach(track=>track.stop());
+
+            recording=false;
+
+            attachBtn.innerHTML =
+                `<span class="material-symbols-outlined">
+                    add
+                </span>`;
+
+            const blob =
+                new Blob(
+                    voiceChunks,
+                    {
+                        type:
+                        mediaRecorder.mimeType ||
+                        "audio/webm"
+                    }
+                );
+
+            const file =
+                new File(
+                    [blob],
+                    "voice-"+Date.now()+".webm",
+                    {
+                        type:
+                        blob.type ||
+                        "audio/webm"
+                    }
+                );
+
+            prepareFile(file,"voice");
+
+        };
+
+        mediaRecorder.start();
+
+    }catch(error){
+
+        showToast(
+            "Izin mikrofon ditolak atau tidak tersedia."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   REPLY
+========================================================= */
+
+function setReply(message){
+
+    replyTarget = message;
+
+    replyName.textContent =
+        message.username || "USER";
+
+    replyText.textContent =
+        message.text ||
+        getMediaLabel(message) ||
+        "Media";
+
+    replyPreview.classList.add("show");
+
+    messageInput.focus();
+}
+
+
+function clearReply(){
+
+    replyTarget=null;
+
+    replyPreview.classList.remove("show");
+}
+
+
+document.getElementById("closeReply")
+.onclick = clearReply;
+
+
+function getMediaLabel(message){
+
+    if(message.mediaName)
+        return message.mediaName;
+
+    if(message.type==="image")
+        return "📷 Gambar";
+
+    if(
+        message.type==="voice" ||
+        message.type==="sound"
+    )
+        return "🎵 Audio";
+
+    if(message.type==="video")
+        return "🎬 Video";
+
+    return "";
+}
+
+
+/* =========================================================
+   MEDIA RENDER
+========================================================= */
+
+function renderMedia(message){
+
+    const type =
+        message.type || "text";
+
+    const url =
+        message.mediaUrl || "";
+
+    if(!url) return "";
+
+    if(type==="image"){
+
+        return `
+            <div class="mediaBox">
+                <img
+                    src="${escapeAttribute(url)}"
+                    alt="gambar"
+                    class="clickMedia"
+                    data-url="${escapeAttribute(url)}"
+                    data-type="image"
+                >
+            </div>
+        `;
+    }
+
+    if(type==="video"){
+
+        return `
+            <div class="mediaBox">
+                <video
+                    controls
+                    preload="metadata"
+                    src="${escapeAttribute(url)}"
+                ></video>
+            </div>
+        `;
+    }
+
+    if(
+        type==="voice" ||
+        type==="sound"
+    ){
+
+        return `
+            <div class="audioBox">
+
+                <span
+                    class="material-symbols-outlined"
+                    style="color:#ff4545"
+                >
+                    ${
+                        type==="voice"
+                        ? "mic"
+                        : "audio_file"
+                    }
+                </span>
+
+                <audio
+                    controls
+                    preload="metadata"
+                    src="${escapeAttribute(url)}"
+                ></audio>
+
+            </div>
+
+            <div class="fileBox" style="margin-top:6px">
+
+                <div class="fileIcon">
+                    <span class="material-symbols-outlined">
+                        download
+                    </span>
+                </div>
+
+                <div class="fileInfo">
+                    <div class="fileName">
+                        ${escapeHTML(
+                            message.mediaName ||
+                            "Audio"
+                        )}
+                    </div>
+
+                    <div class="fileType">
+                        ${escapeHTML(
+                            message.mediaSize ||
+                            ""
+                        )}
+                    </div>
+                </div>
+
+            </div>
+        `;
+    }
+
+    return `
+        <div class="fileBox">
+
+            <div class="fileIcon">
+                <span class="material-symbols-outlined">
+                    attach_file
+                </span>
+            </div>
+
+            <div class="fileInfo">
+                <div class="fileName">
+                    ${escapeHTML(
+                        message.mediaName ||
+                        "File"
+                    )}
+                </div>
+
+                <div class="fileType">
+                    ${escapeHTML(
+                        message.mediaSize || ""
+                    )}
+                </div>
+            </div>
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   MESSAGE RENDER
+========================================================= */
+
+function renderMessage(id,message){
+
+    const role =
+        normalizeRole(message.role);
+
+    const mine =
+        currentUser &&
+        message.uid === currentUser.uid;
+
+    const bot =
+        message.isBot === true ||
+        message.senderType === "moderation";
+
+    const avatar =
+        message.profileImage ||
+        "https://ui-avatars.com/api/?name="+
+        encodeURIComponent(
+            message.username || "USER"
+        )+
+        "&background=220000&color=ffffff";
+
+    const roleHTML =
+        `<span class="roleMini ${roleClass(role)}">
+            ${escapeHTML(role)}
+        </span>`;
+
+    let content = "";
+
+    if(message.type==="text" || !message.type){
+
+        content =
+            `<p>${escapeHTML(
+                message.text || ""
+            )}</p>`;
+
+    }else{
+
+        if(message.text){
+
+            content +=
+                `<p style="margin-bottom:8px">
+                    ${escapeHTML(message.text)}
+                </p>`;
+        }
+
+        content +=
+            renderMedia(message);
+    }
+
+    if(message.replyTo){
+
+        content =
+            `<div style="
+                margin-bottom:8px;
+                padding:7px 9px;
+                border-left:2px solid #ff3030;
+                border-radius:8px;
+                background:#0e0e0e;
+            ">
+                <b style="
+                    display:block;
+                    color:#ff5555;
+                    font-family:Arial,sans-serif;
+                    font-size:8px;
+                ">
+                    ${escapeHTML(
+                        message.replyTo.username ||
+                        "USER"
+                    )}
+                </b>
+
+                <small style="
+                    display:block;
+                    margin-top:3px;
+                    color:#777;
+                    font-family:Arial,sans-serif;
+                    font-size:8px;
+                ">
+                    ${escapeHTML(
+                        message.replyTo.text ||
+                        getMediaLabel(message.replyTo) ||
+                        "Media"
+                    )}
+                </small>
+            </div>`+
+            content;
+    }
+
+    const div =
+        document.createElement("div");
+
+    div.className =
+        "message"+
+        (mine ? " me" : "")+
+        (bot ? " bot" : "");
+
+    div.dataset.id=id;
+
+    div.innerHTML = `
+
+        <div class="messageAvatar">
+
+            ${
+                bot
+                ?
+                `<span class="material-symbols-outlined">
+                    shield
+                </span>`
+                :
+                `<img
+                    src="${escapeAttribute(avatar)}"
+                    alt=""
+                >`
+            }
+
+        </div>
+
+        <div class="messageMain">
+
+            <div class="messageUser">
+
+                <span class="messageUserName">
+                    ${escapeHTML(
+                        bot
+                        ? "DEVONXTRASH MODERATION"
+                        :
+                        (
+                            message.username ||
+                            "USER"
+                        )
+                    )}
+                </span>
+
+                ${roleHTML}
+
+                ${
+                    bot
+                    ?
+                    `<span class="botTag">
+                        BOT
+                    </span>`
+                    :
+                    ""
+                }
+
+                <span class="messageTime">
+                    ${formatTime(
+                        message.timestamp
+                    )}
+                </span>
+
+            </div>
+
+            <div
+                class="messageBubble"
+                data-message-id="${escapeAttribute(id)}"
+            >
+
+                ${content}
+
+                <div class="messageMeta">
+
+                    ${
+                        message.edited
+                        ? "diedit • "
+                        : ""
+                    }
+
+                    ${
+                        message.pinned
+                        ? "📌 "
+                        : ""
+                    }
+
+                    <button
+                        class="replyMessage"
+                        style="
+                            border:none;
+                            background:none;
+                            color:#777;
+                            cursor:pointer;
+                            font-size:8px;
+                        "
+                    >
+                        Balas
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+    const replyButton =
+        div.querySelector(".replyMessage");
+
+    replyButton.onclick = e=>{
+
+        e.stopPropagation();
+
+        setReply({
+            id,
+            ...message
+        });
+
+    };
+
+
+    const media =
+        div.querySelector(".clickMedia");
+
+    if(media){
+
+        media.onclick = ()=>{
+
+            openMedia(
+                media.dataset.url,
+                media.dataset.type
+            );
+
+        };
+
+    }
+
+    return div;
+}
+
+
+/* =========================================================
+   MEDIA MODAL
+========================================================= */
+
+function openMedia(url,type){
+
+    const body =
+        document.getElementById(
+            "mediaModalBody"
+        );
+
+    if(type==="image"){
+
+        body.innerHTML =
+            `<img src="${escapeAttribute(url)}">`;
+
+    }else{
+
+        body.innerHTML =
+            `<video controls autoplay src="${
+                escapeAttribute(url)
+            }"></video>`;
+    }
+
+    document
+        .getElementById("mediaModal")
+        .classList.add("show");
+}
+
+
+document.getElementById("mediaClose").onclick=()=>{
+    document
+        .getElementById("mediaModal")
+        .classList.remove("show");
+};
+
+
+document.getElementById("mediaModal").onclick=e=>{
+
+    if(e.target.id==="mediaModal"){
+
+        document
+            .getElementById("mediaModal")
+            .classList.remove("show");
+    }
+
+};
+
+
+/* =========================================================
+   RENDER CHAT
+========================================================= */
+
+function renderChat(data){
+
+    messagesCache=data || {};
+
+    chatArea.innerHTML="";
+
+    const entries =
+        Object.entries(messagesCache)
+        .sort(
+            (a,b)=>
+                Number(a[1]?.timestamp||0) -
+                Number(b[1]?.timestamp||0)
+        );
+
+    if(!entries.length){
+
+        chatArea.innerHTML=`
+
+            <div class="empty">
+
+                <span class="material-symbols-outlined">
+                    forum
+                </span>
+
+                <p>Belum ada pesan</p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+    let previousDate="";
+
+    entries.forEach(([id,message])=>{
+
+        const date =
+            message.timestamp
+            ?
+            new Date(
+                message.timestamp
+            ).toLocaleDateString(
+                "id-ID",
+                {
+                    day:"2-digit",
+                    month:"long",
+                    year:"numeric"
+                }
+            )
+            :
+            "";
+
+        if(date && date!==previousDate){
+
+            const divider =
+                document.createElement("div");
+
+            divider.className =
+                "dateDivider";
+
+            divider.textContent=date;
+
+            chatArea.appendChild(divider);
+
+            previousDate=date;
+        }
+
+        chatArea.appendChild(
+            renderMessage(id,message)
+        );
+
+    });
+
+    requestAnimationFrame(()=>{
+        chatArea.scrollTop =
+            chatArea.scrollHeight;
+    });
+
+}
+
+
+/* =========================================================
+   FIREBASE CHAT LISTENER
+========================================================= */
+
+function listenChat(){
+
+    const chatQuery =
+        query(
+            ref(db,"globalChat"),
+            orderByChild("timestamp"),
+            limitToLast(300)
+        );
+
+    onValue(
+        chatQuery,
+        snapshot=>{
+
+            const data =
+                snapshot.val() || {};
+
+            renderChat(data);
+
+        },
+        error=>{
+
+            console.error(error);
+
+            showToast(
+                "Gagal membaca Global Chat."
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SEND MESSAGE
+========================================================= */
+
+async function sendCurrentMessage(){
+
+    if(!currentUser || !currentProfile){
+
+        showToast(
+            "Akun belum siap."
+        );
+
+        return;
+    }
+
+    if(chatLocked &&
+       !isPrivileged(currentProfile.role)){
+
+        showToast(
+            "Global Chat sedang dikunci."
+        );
+
+        return;
+    }
+
+    if(
+        currentProfile.muteUntil &&
+        Number(currentProfile.muteUntil)>Date.now() &&
+        !isPrivileged(currentProfile.role)
+    ){
+
+        const remain =
+            Math.ceil(
+                (
+                    Number(
+                        currentProfile.muteUntil
+                    ) -
+                    Date.now()
+                ) /
+                86400000
+            );
+
+        showToast(
+            "Kamu sedang dibisukan. Sisa sekitar "+
+            remain+
+            " hari."
+        );
+
+        return;
+    }
+
+    const now=Date.now();
+
+    if(
+        !isPrivileged(currentProfile.role) &&
+        now-lastSentAt <
+        cooldownSeconds*1000
+    ){
+
+        const remain =
+            Math.ceil(
+                (
+                    cooldownSeconds*1000 -
+                    (now-lastSentAt)
+                )/1000
+            );
+
+        showToast(
+            "Cooldown "+remain+" detik."
+        );
+
+        return;
+    }
+
+    const text =
+        messageInput.value.trim();
+
+    if(!text && !selectedFile){
+
+        return;
+    }
+
+    /* COMMAND */
+
+    if(
+        text.startsWith("/") &&
+        !selectedFile
+    ){
+
+        messageInput.value="";
+        resizeInput();
+
+        await handleCommand(text);
+
+        return;
+    }
+
+    /* AUTOMATIC MODERATION */
+
+    if(
+        !isPrivileged(currentProfile.role)
+    ){
+
+        const violation =
+            detectViolation(text);
+
+        if(violation){
+
+            await registerViolation(
+                violation
+            );
+
+            messageInput.value="";
+            resizeInput();
+
+            return;
+        }
+    }
+
+    const messageRef =
+        push(ref(db,"globalChat"));
+
+    const base = {
+
+        uid:currentUser.uid,
+
+        username:
+            currentProfile.username ||
+            currentUser.email?.split("@")[0] ||
+            "USER",
+
+        role:
+            currentProfile.role ||
+            "Member",
+
+        profileImage:
+            currentProfile.profileImage ||
+            currentProfile.photoURL ||
+            currentProfile.avatar ||
+            "",
+
+        timestamp:now,
+
+        type:selectedFile
+            ? selectedFileType
+            : "text",
+
+        text:text || "",
+
+        replyTo:
+            replyTarget
+            ?
+            {
+                id:replyTarget.id,
+                username:
+                    replyTarget.username,
+                text:
+                    replyTarget.text ||
+                    getMediaLabel(replyTarget)
+            }
+            :
+            null
+
+    };
+
+    /*
+       Firebase Storage upload perlu ditambahkan
+       jika ingin media disimpan sebagai URL permanen.
+       Untuk teks, pesan langsung disimpan.
+    */
+
+    if(selectedFile){
+
+        /*
+          Demo media mode:
+          File tidak diubah menjadi DataURL agar
+          Firebase Realtime Database tidak dibebani
+          binary/base64 besar.
+
+          Untuk produksi gunakan Firebase Storage.
+        */
+
+        showToast(
+            "Media dipilih. Hubungkan Firebase Storage untuk upload permanen."
+        );
+
+        return;
+    }
+
+    try{
+
+        await set(
+            messageRef,
+            base
+        );
+
+        lastSentAt=now;
+
+        messageInput.value="";
+
+        resizeInput();
+
+        clearReply();
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            "Pesan gagal dikirim."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SEND BUTTON
+========================================================= */
+
+sendBtn.onclick =
+    sendCurrentMessage;
+
+
+/* =========================================================
+   MODERATION DETECTOR
+========================================================= */
+
+const prohibitedPatterns = [
+
+    /\bspam\b/i,
+    /\bscam\b/i,
+    /\bpenipu\b/i,
+    /\brasis\b/i,
+    /\bbunuh\b/i,
+    /\bkill\b/i,
+    /\bterror\b/i,
+    /\bporno\b/i,
+    /\bnarkoba\b/i,
+    /\bpenipuan\b/i
+
+];
+
+
+function detectViolation(text){
+
+    if(!text) return null;
+
+    for(const pattern of prohibitedPatterns){
+
+        if(pattern.test(text)){
+
+            return {
+                type:"PROHIBITED_CONTENT",
+                reason:
+                    "Pesan mengandung konten yang tidak diperbolehkan."
+            };
+        }
+
+    }
+
+    /* flood sederhana */
+
+    const compact =
+        text
+        .replace(/\s+/g,"")
+        .toLowerCase();
+
+    if(
+        compact.length>0 &&
+        /(.)\1{14,}/.test(compact)
+    ){
+
+        return {
+            type:"SPAM",
+            reason:
+                "Terdeteksi spam karakter berulang."
+        };
+    }
+
+    return null;
+}
+
+
+/* =========================================================
+   REGISTER VIOLATION
+========================================================= */
+
+async function registerViolation(violation){
+
+    if(!currentUser || !currentProfile)
+        return;
+
+    if(isPrivileged(currentProfile.role))
+        return;
+
+    const userRef =
+        ref(
+            db,
+            "users/"+currentUser.uid
+        );
+
+    const snap =
+        await get(userRef);
+
+    const data =
+        snap.val() || {};
+
+    let warnings =
+        Number(data.warnings || 0);
+
+    warnings++;
+
+    if(warnings>=3){
+
+        const muteUntil =
+            Date.now() +
+            (3*86400000);
+
+        await update(
+            userRef,
+            {
+                warnings:0,
+                muteUntil,
+                muteReason:
+                    "Otomatis karena 3 pelanggaran"
+            }
+        );
+
+        currentProfile.warnings=0;
+        currentProfile.muteUntil=muteUntil;
+
+        await sendBotMessage(
+            "⚠️ @"+
+            (
+                currentProfile.username ||
+                "USER"
+            )+
+            " telah mendapatkan 3 peringatan. "+
+            "User otomatis dibisukan selama 3 hari. "+
+            "Jumlah warn direset menjadi 0."
+        );
+
+        showToast(
+            "Kamu mendapat mute 3 hari."
+        );
+
+    }else{
+
+        await update(
+            userRef,
+            {
+                warnings
+            }
+        );
+
+        currentProfile.warnings=warnings;
+
+        await sendBotMessage(
+            "⚠️ Peringatan untuk @"+
+            (
+                currentProfile.username ||
+                "USER"
+            )+
+            ": pelanggaran terdeteksi. "+
+            "Warn "+warnings+"/3. "+
+            violation.reason
+        );
+
+        showToast(
+            "Peringatan "+warnings+"/3."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   BOT MESSAGE
+========================================================= */
+
+async function sendBotMessage(text){
+
+    const messageRef =
+        push(ref(db,"globalChat"));
+
+    await set(
+        messageRef,
+        {
+            uid:"DEVONXTRASH_MODERATION_BOT",
+
+            username:"DEVONXTRASH MODERATION",
+
+            role:"SYSTEM",
+
+            isBot:true,
+
+            senderType:"moderation",
+
+            text,
+
+            type:"text",
+
+            timestamp:Date.now()
+        }
+    );
+
+}
+
+
+/* =========================================================
+   COMMAND PARSER
+========================================================= */
+
+function tokenizeCommand(text){
+
+    return text
+        .trim()
+        .split(/\s+/);
+}
+
+
+async function handleCommand(commandText){
+
+    const parts =
+        tokenizeCommand(commandText);
+
+    const command =
+        (parts[0] || "")
+        .toLowerCase();
+
+
+    /*
+      COMMAND PUBLIC
+    */
+
+    if(command==="/help"){
+
+        await sendBotMessage(
+`📚 DEVONXTRASH GLOBAL CHAT
+
+Command umum:
+/help
+/status
+/online
+
+Command moderator:
+/start
+/off
+/cpanel
+/pin
+/unpin
+/mute @user durasi
+/unmute @user
+/warn @user
+/unwarn @user
+/clearall
+/clear
+/setcd detik
+
+Developer/Owner:
+/cakun usn, pw, role, durasi
+/delakun @username`
+        );
+
+        return;
+    }
+
+
+    if(command==="/status"){
+
+        await sendBotMessage(
+            chatLocked
+            ?
+            "🔒 Global Chat saat ini TUTUP."
+            :
+            "🟢 Global Chat saat ini BUKA."
+        );
+
+        return;
+    }
+
+
+    if(command==="/online"){
+
+        await commandOnline();
+
+        return;
+    }
+
+
+    /*
+      COMMAND PRIVILEGED
+    */
+
+    if(!isPrivileged(currentProfile.role)){
+
+        await sendBotMessage(
+            "⛔ Command tersebut hanya dapat digunakan Developer atau Owner."
+        );
+
+        return;
+    }
+
+
+    if(command==="/start"){
+
+        moderationRunning=true;
+
+        await set(
+            ref(db,"moderation/status"),
+            {
+                enabled:true,
+                updatedAt:Date.now(),
+                updatedBy:
+                    currentUser.uid
+            }
+        );
+
+        await sendBotMessage(
+            "🛡️ Sistem moderasi DEVONXTRASH telah AKTIF."
+        );
+
+        return;
+    }
+
+
+    if(command==="/off"){
+
+        moderationRunning=false;
+
+        await set(
+            ref(db,"moderation/status"),
+            {
+                enabled:false,
+                updatedAt:Date.now(),
+                updatedBy:
+                    currentUser.uid
+            }
+        );
+
+        await sendBotMessage(
+            "🛡️ Sistem moderasi DEVONXTRASH telah DINONAKTIFKAN."
+        );
+
+        return;
+    }
+
+
+    if(command==="/cpanel"){
+
+        await sendBotMessage(
+            "⚙️ Firebase Control Panel aktif. Gunakan Firebase Console untuk pengaturan database dan security rules."
+        );
+
+        return;
+    }
+
+
+    if(command==="/pin"){
+
+        const target =
+            getLatestUserMessage();
+
+        if(!target){
+
+            await sendBotMessage(
+                "Tidak ada pesan yang dapat disematkan."
+            );
+
+            return;
+        }
+
+        await pinMessage(
+            target.id
+        );
+
+        return;
+    }
+
+
+    if(command==="/unpin"){
+
+        await unpinMessage();
+
+        return;
+    }
+
+
+    if(command==="/clearall"){
+
+        await clearAllMessages();
+
+        return;
+    }
+
+
+    if(command==="/clear"){
+
+        await clearLatestMessages(20);
+
+        return;
+    }
+
+
+    if(command==="/setcd"){
+
+        const seconds =
+            Math.max(
+                0,
+                Number(parts[1] || 3)
+            );
+
+        cooldownSeconds=seconds;
+
+        await set(
+            ref(db,"settings/chatCooldown"),
+            {
+                seconds,
+                updatedAt:Date.now(),
+                updatedBy:
+                    currentUser.uid
+            }
+        );
+
+        await sendBotMessage(
+            "⏱️ Cooldown global diubah menjadi "+
+            seconds+
+            " detik untuk user di bawah Developer/Owner."
+        );
+
+        return;
+    }
+
+
+    if(command==="/mute"){
+
+        await commandMute(parts);
+
+        return;
+    }
+
+
+    if(command==="/unmute"){
+
+        await commandUnmute(parts);
+
+        return;
+    }
+
+
+    if(command==="/warn"){
+
+        await commandWarn(parts);
+
+        return;
+    }
+
+
+    if(command==="/unwarn"){
+
+        await commandUnwarn(parts);
+
+        return;
+    }
+
+
+    if(command==="/cakun"){
+
+        await commandCreateAccount(commandText);
+
+        return;
+    }
+
+
+    if(command==="/delakun"){
+
+        await commandDeleteAccount(parts);
+
+        return;
+    }
+
+
+    await sendBotMessage(
+        "❓ Command tidak dikenal. Gunakan /help."
+    );
+
+}
+
+
+/* =========================================================
+   LATEST USER MESSAGE
+========================================================= */
+
+function getLatestUserMessage(){
+
+    const list =
+        Object.entries(messagesCache)
+        .filter(
+            ([id,msg])=>
+                msg &&
+                !msg.isBot &&
+                msg.uid
+        )
+        .sort(
+            (a,b)=>
+                Number(b[1].timestamp||0)-
+                Number(a[1].timestamp||0)
+        );
+
+    if(!list.length)
+        return null;
+
+    return {
+        id:list[0][0],
+        ...list[0][1]
+    };
+}
+
+
+/* =========================================================
+   PIN
+========================================================= */
+
+async function pinMessage(id){
+
+    const message =
+        messagesCache[id];
+
+    if(!message){
+
+        await sendBotMessage(
+            "Pesan tidak ditemukan."
+        );
+
+        return;
+    }
+
+    await update(
+        ref(db,"globalChat/"+id),
+        {
+            pinned:true
+        }
+    );
+
+    await set(
+        ref(db,"globalChatMeta/pinned"),
+        {
+            id,
+            username:
+                message.username || "USER",
+            text:
+                message.text ||
+                getMediaLabel(message),
+            timestamp:Date.now()
+        }
+    );
+
+    await sendBotMessage(
+        "📌 Pesan berhasil disematkan."
+    );
+
+}
+
+
+async function unpinMessage(){
+
+    if(!pinnedMessage){
+
+        const snap =
+            await get(
+                ref(db,"globalChatMeta/pinned")
+            );
+
+        pinnedMessage =
+            snap.val();
+    }
+
+    if(
+        pinnedMessage &&
+        pinnedMessage.id
+    ){
+
+        await update(
+            ref(
+                db,
+                "globalChat/"+pinnedMessage.id
+            ),
+            {
+                pinned:false
+            }
+        );
+    }
+
+    await remove(
+        ref(db,"globalChatMeta/pinned")
+    );
+
+    pinnedMessage=null;
+
+    await sendBotMessage(
+        "📌 Pesan sematan telah dilepas."
+    );
+
+}
+
+
+/* =========================================================
+   LOAD PIN
+========================================================= */
+
+onValue(
+    ref(db,"globalChatMeta/pinned"),
+    snap=>{
+
+        pinnedMessage =
+            snap.val();
+
+        const bar =
+            document.getElementById(
+                "pinnedBar"
+            );
+
+        if(!pinnedMessage){
+
+            bar.classList.remove("show");
+
+            return;
+        }
+
+        document.getElementById(
+            "pinnedText"
+        ).textContent =
+            pinnedMessage.username+
+            " • "+
+            (
+                pinnedMessage.text ||
+                "Media"
+            );
+
+        bar.classList.add("show");
+
+    }
+);
+
+
+document.getElementById("pinnedClose")
+.onclick=()=>{
+    document
+        .getElementById("pinnedBar")
+        .classList.remove("show");
+};
+
+
+/* =========================================================
+   ONLINE
+========================================================= */
+
+async function commandOnline(){
+
+    const snap =
+        await get(
+            ref(db,"online")
+        );
+
+    let users=[];
+
+    if(snap.exists()){
+
+        snap.forEach(child=>{
+
+            const data =
+                child.val();
+
+            if(data){
+
+                users.push({
+                    id:child.key,
+                    ...data
+                });
+
+            }
+
+        });
+
+    }
+
+    await sendBotMessage(
+        "🟢 User online saat ini: "+
+        users.length
+    );
+
+}
+
+
+document.getElementById("onlineBtn")
+.onclick=async()=>{
+
+    document
+        .getElementById("onlinePanel")
+        .classList.add("show");
+
+    await loadOnlinePanel();
+
+};
+
+
+async function loadOnlinePanel(){
+
+    const snap =
+        await get(
+            ref(db,"online")
+        );
+
+    const list =
+        document.getElementById(
+            "onlineList"
+        );
+
+    list.innerHTML="";
+
+    let count=0;
+
+    if(snap.exists()){
+
+        snap.forEach(child=>{
+
+            const data =
+                child.val() || {};
+
+            count++;
+
+            const avatar =
+                data.profileImage ||
+                "https://ui-avatars.com/api/?name="+
+                encodeURIComponent(
+                    data.username || "USER"
+                )+
+                "&background=220000&color=ffffff";
+
+            const row =
+                document.createElement("div");
+
+            row.className="onlineUser";
+
+            row.innerHTML=`
+
+                <div class="onlineAvatar">
+                    <img
+                        src="${escapeAttribute(avatar)}"
+                    >
+                </div>
+
+                <div class="onlineUserInfo">
+
+                    <b>
+                        ${escapeHTML(
+                            data.username ||
+                            "USER"
+                        )}
+                    </b>
+
+                    <p>
+                        ${escapeHTML(
+                            data.role ||
+                            "Member"
+                        )}
+                    </p>
+
+                </div>
+
+            `;
+
+            list.appendChild(row);
+
+        });
+
+    }
+
+    document.getElementById(
+        "onlineCount"
+    ).textContent =
+        count+
+        (
+            count===1
+            ? " user online"
+            : " users online"
+        );
+
+}
+
+
+document.getElementById("closeOnline")
+.onclick=()=>{
+    document
+        .getElementById("onlinePanel")
+        .classList.remove("show");
+};
+
+
+document.getElementById("onlinePanel")
+.addEventListener("click",e=>{
+
+    if(e.target.id==="onlinePanel"){
+
+        document
+            .getElementById("onlinePanel")
+            .classList.remove("show");
+    }
+
+});
+
+
+/* =========================================================
+   MUTE
+========================================================= */
+
+async function findUserByUsername(username){
+
+    const snap =
+        await get(
+            ref(db,"users")
+        );
+
+    if(!snap.exists())
+        return null;
+
+    let found=null;
+
+    snap.forEach(child=>{
+
+        const data =
+            child.val() || {};
+
+        if(
+            String(
+                data.username || ""
+            ).toLowerCase()
+            ===
+            String(username).toLowerCase()
+        ){
+
+            found={
+                uid:child.key,
+                ...data
+            };
+
+        }
+
+    });
+
+    return found;
+}
+
+
+async function commandMute(parts){
+
+    const username =
+        String(
+            parts[1] || ""
+        ).replace(/^@/,"");
+
+    const days =
+        Math.max(
+            1,
+            Number(parts[2] || 1)
+        );
+
+    if(!username){
+
+        await sendBotMessage(
+            "Format: /mute @username durasiHari"
+        );
+
+        return;
+    }
+
+    const target =
+        await findUserByUsername(username);
+
+    if(!target){
+
+        await sendBotMessage(
+            "User @"+
+            username+
+            " tidak ditemukan."
+        );
+
+        return;
+    }
+
+    if(isPrivileged(target.role)){
+
+        await sendBotMessage(
+            "⛔ Developer dan Owner kebal terhadap mute."
+        );
+
+        return;
+    }
+
+    const until =
+        Date.now()+
+        days*86400000;
+
+    await update(
+        ref(
+            db,
+            "users/"+target.uid
+        ),
+        {
+            muteUntil:until,
+            muteReason:
+                "Moderasi manual"
+        }
+    );
+
+    await sendBotMessage(
+        "🔇 @"+
+        username+
+        " dibisukan selama "+
+        days+
+        " hari."
+    );
+
+}
+
+
+async function commandUnmute(parts){
+
+    const username =
+        String(
+            parts[1] || ""
+        ).replace(/^@/,"");
+
+    const target =
+        await findUserByUsername(username);
+
+    if(!target){
+
+        await sendBotMessage(
+            "User tidak ditemukan."
+        );
+
+        return;
+    }
+
+    await update(
+        ref(
+            db,
+            "users/"+target.uid
+        ),
+        {
+            muteUntil:0,
+            muteReason:null
+        }
+    );
+
+    await sendBotMessage(
+        "🔊 @"+
+        username+
+        " telah di-unmute."
+    );
+
+}
+
+
+/* =========================================================
+   WARN
+========================================================= */
+
+async function commandWarn(parts){
+
+    const username =
+        String(
+            parts[1] || ""
+        ).replace(/^@/,"");
+
+    const target =
+        await findUserByUsername(username);
+
+    if(!target){
+
+        await sendBotMessage(
+            "User tidak ditemukan."
+        );
+
+        return;
+    }
+
+    if(isPrivileged(target.role)){
+
+        await sendBotMessage(
+            "⛔ Developer dan Owner kebal terhadap warn."
+        );
+
+        return;
+    }
+
+    const warnings =
+        Number(target.warnings || 0)+1;
+
+    if(warnings>=3){
+
+        const until =
+            Date.now()+
+            3*86400000;
+
+        await update(
+            ref(
+                db,
+                "users/"+target.uid
+            ),
+            {
+                warnings:0,
+                muteUntil:until
+            }
+        );
+
+        await sendBotMessage(
+            "⚠️ @"+
+            username+
+            " mencapai 3 warn dan otomatis mute 3 hari. Warn direset 0."
+        );
+
+    }else{
+
+        await update(
+            ref(
+                db,
+                "users/"+target.uid
+            ),
+            {
+                warnings
+            }
+        );
+
+        await sendBotMessage(
+            "⚠️ @"+
+            username+
+            " mendapat warn. Total "+
+            warnings+
+            "/3."
+        );
+
+    }
+
+}
+
+
+async function commandUnwarn(parts){
+
+    const username =
+        String(
+            parts[1] || ""
+        ).replace(/^@/,"");
+
+    const target =
+        await findUserByUsername(username);
+
+    if(!target){
+
+        await sendBotMessage(
+            "User tidak ditemukan."
+        );
+
+        return;
+    }
+
+    await update(
+        ref(
+            db,
+            "users/"+target.uid
+        ),
+        {
+            warnings:0
+        }
+    );
+
+    await sendBotMessage(
+        "✅ Warn @"+
+        username+
+        " telah direset menjadi 0."
+    );
+
+}
+
+
+/* =========================================================
+   CLEAR
+========================================================= */
+
+async function clearAllMessages(){
+
+    await remove(
+        ref(db,"globalChat")
+    );
+
+    await sendBotMessage(
+        "🧹 Semua pesan Global Chat telah dibersihkan."
+    );
+
+}
+
+
+async function clearLatestMessages(amount){
+
+    const entries =
+        Object.entries(messagesCache)
+        .sort(
+            (a,b)=>
+                Number(b[1]?.timestamp||0)-
+                Number(a[1]?.timestamp||0)
+        )
+        .slice(0,amount);
+
+    for(const [id] of entries){
+
+        await remove(
+            ref(db,"globalChat/"+id)
+        );
+
+    }
+
+    await sendBotMessage(
+        "🧹 "+
+        entries.length+
+        " pesan terakhir telah dibersihkan."
+    );
+
+}
+
+
+/* =========================================================
+   CREATE ACCOUNT
+========================================================= */
+
+async function commandCreateAccount(commandText){
+
+    /*
+       Format:
+       /cakun username, password, role, durasi
+
+       Catatan:
+       Membuat Firebase Auth user dari client secara langsung
+       tidak aman dan membutuhkan Admin SDK / Cloud Function.
+       Di sini command dimasukkan sebagai request ke queue.
+    */
+
+    const raw =
+        commandText
+        .replace(/^\/cakun\s*/i,"");
+
+    const parts =
+        raw.split(",")
+        .map(v=>v.trim());
+
+    if(parts.length<4){
+
+        await sendBotMessage(
+            "Format: /cakun username, password, role, durasi"
+        );
+
+        return;
+    }
+
+    const username=parts[0];
+    const role=parts[2];
+    const duration=parts[3];
+
+    await push(
+        ref(db,"adminRequests/createAccount"),
+        {
+            requestedBy:currentUser.uid,
+            requestedByRole:
+                currentProfile.role,
+            username,
+            role,
+            duration,
+            createdAt:Date.now(),
+            status:"pending"
+        }
+    );
+
+    await sendBotMessage(
+        "📝 Permintaan pembuatan akun @"+
+        username+
+        " telah masuk ke queue Admin. "+
+        "Password tidak disimpan di Realtime Database."
+    );
+
+}
+
+
+/* =========================================================
+   DELETE ACCOUNT
+========================================================= */
+
+async function commandDeleteAccount(parts){
+
+    const username =
+        String(
+            parts[1] || ""
+        ).replace(/^@/,"");
+
+    if(!username){
+
+        await sendBotMessage(
+            "Format: /delakun @username"
+        );
+
+        return;
+    }
+
+    const target =
+        await findUserByUsername(username);
+
+    if(!target){
+
+        await sendBotMessage(
+            "User tidak ditemukan."
+        );
+
+        return;
+    }
+
+    if(isPrivileged(target.role)){
+
+        await sendBotMessage(
+            "⛔ Developer/Owner tidak dapat dihapus melalui command ini."
+        );
+
+        return;
+    }
+
+    await push(
+        ref(db,"adminRequests/deleteAccount"),
+        {
+            requestedBy:currentUser.uid,
+            requestedByRole:
+                currentProfile.role,
+            targetUid:target.uid,
+            targetUsername:username,
+            createdAt:Date.now(),
+            status:"pending"
+        }
+    );
+
+    await sendBotMessage(
+        "🗑️ Permintaan penghapusan akun @"+
+        username+
+        " telah dikirim ke Admin queue."
+    );
+
+}
+
+
+/* =========================================================
+   GLOBAL CHAT STATUS
+========================================================= */
+
+onValue(
+    ref(db,"settings/globalChat"),
+    snap=>{
+
+        const data =
+            snap.val() || {};
+
+        chatLocked =
+            data.locked === true;
+
+        if(chatLocked){
+
+            lockBanner.classList.add("show");
+
+            lockText.textContent =
+                data.reason ||
+                "Global Chat sedang dikunci.";
+
+        }else{
+
+            lockBanner.classList.remove("show");
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   COOLDOWN
+========================================================= */
+
+onValue(
+    ref(db,"settings/chatCooldown"),
+    snap=>{
+
+        const data =
+            snap.val();
+
+        if(
+            data &&
+            Number.isFinite(
+                Number(data.seconds)
+            )
+        ){
+
+            cooldownSeconds =
+                Math.max(
+                    0,
+                    Number(data.seconds)
+                );
+        }
+
+    }
+);
+
+
+/* =========================================================
+   MODERATION STATUS
+========================================================= */
+
+onValue(
+    ref(db,"moderation/status"),
+    snap=>{
+
+        const data =
+            snap.val() || {};
+
+        moderationRunning =
+            data.enabled === true;
+
+        updateModerationStatus();
+
+    }
+);
+
+
+function updateModerationStatus(){
+
+    document.getElementById(
+        "chatSubtitle"
+    ).textContent =
+        moderationRunning
+        ?
+        "Realtime • Moderation ON"
+        :
+        "Realtime • Moderation OFF";
+
+}
+
+
+/* =========================================================
+   AUTO BOT EVERY MINUTE
+========================================================= */
+
+setInterval(
+    async()=>{
+
+        if(!moderationRunning)
+            return;
+
+        if(!currentUser ||
+           !currentProfile)
+            return;
+
+        /*
+           Bot otomatis hanya boleh menjalankan
+           health/status message satu kali per menit.
+        */
+
+        const now =
+            new Date();
+
+        const minuteKey =
+            now.getFullYear()+
+            "-"+
+            String(
+                now.getMonth()+1
+            ).padStart(2,"0")+
+            "-"+
+            String(
+                now.getDate()
+            ).padStart(2,"0")+
+            "_"+
+            String(
+                now.getHours()
+            ).padStart(2,"0")+
+            ":"+
+            String(
+                now.getMinutes()
+            ).padStart(2,"0");
+
+        if(lastBotMinute===minuteKey)
+            return;
+
+        lastBotMinute=minuteKey;
+
+        /*
+           Hanya satu client yang mencoba menjadi bot.
+           Untuk produksi, pindahkan scheduler ini ke
+           Cloud Functions supaya tidak terjadi duplikasi.
+        */
+
+        if(!isPrivileged(currentProfile.role))
+            return;
+
+        await sendBotMessage(
+            "🛡️ Moderation heartbeat • Global Chat stabil • "+
+            new Date().toLocaleTimeString(
+                "id-ID",
+                {
+                    hour:"2-digit",
+                    minute:"2-digit"
+                }
+            )
+        );
+
+    },
+    1000
+);
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+onAuthStateChanged(
+    auth,
+    async user=>{
+
+        if(!user){
+
+            location.replace(
+                "../login.html"
+            );
+
+            return;
+        }
+
+        currentUser=user;
+
+        const snap =
+            await get(
+                ref(
+                    db,
+                    "users/"+user.uid
+                )
+            );
+
+        if(!snap.exists()){
+
+            location.replace(
+                "../setup.html"
+            );
+
+            return;
+        }
+
+        currentProfile =
+            snap.val() || {};
+
+        listenChat();
+
+        /*
+           Online presence menggunakan node
+           yang sudah digunakan dashboard.
+        */
+
+        try{
+
+            await set(
+                ref(
+                    db,
+                    "online/"+user.uid
+                ),
+                {
+                    username:
+                        currentProfile.username ||
+                        user.email?.split("@")[0] ||
+                        "USER",
+
+                    role:
+                        currentProfile.role ||
+                        "Member",
+
+                    profileImage:
+                        currentProfile.profileImage ||
+                        currentProfile.photoURL ||
+                        "",
+
+                    time:Date.now()
+                }
+            );
+
+        }catch(error){
+
+            console.warn(
+                "Online status gagal:",
+                error
+            );
+
+        }
+
+        /*
+           Pantau perubahan profil agar mute/warn
+           langsung diterapkan.
+        */
+
+        onValue(
+            ref(
+                db,
+                "users/"+user.uid
+            ),
+            profileSnap=>{
+
+                if(
+                    profileSnap.exists()
+                ){
+
+                    currentProfile =
+                        profileSnap.val() || {};
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   MORE MENU
+========================================================= */
+
+document.getElementById("moreBtn")
+.onclick=e=>{
+
+    e.stopPropagation();
+
+    document
+        .getElementById("moreMenu")
+        .classList.toggle("show");
+
+};
+
+
+document.addEventListener("click",e=>{
+
+    const menu =
+        document.getElementById(
+            "moreMenu"
+        );
+
+    if(
+        !menu.contains(e.target) &&
+        e.target.id!=="moreBtn"
+    ){
+
+        menu.classList.remove("show");
+
+    }
+
+});
+
+
+document.getElementById("refreshBtn")
+.onclick=()=>{
+
+    location.reload();
+
+};
+
+
+document.getElementById("clearLocalBtn")
+.onclick=()=>{
+
+    document
+        .getElementById("moreMenu")
+        .classList.remove("show");
+
+};
+
+
+/* =========================================================
+   NOTIFICATION
+========================================================= */
+
+document.getElementById("notificationBtn")
+.onclick=async()=>{
+
+    if(
+        "Notification" in window
+    ){
+
+        const permission =
+            await Notification.requestPermission();
+
+        if(permission==="granted"){
+
+            new Notification(
+                "DEVONXTRASH",
+                {
+                    body:
+                        "Notifikasi Global Chat aktif."
+                }
+            );
+
+            showToast(
+                "Notifikasi aktif."
+            );
+
+        }else{
+
+            showToast(
+                "Notifikasi belum diizinkan."
+            );
+
+        }
+
+    }
+
+};
+
+
+/* =========================================================
+   ADMIN PANEL
+========================================================= */
+
+document.getElementById("adminCloseBtn")
+.onclick=()=>{
+
+    document
+        .getElementById("adminPanel")
+        .classList.remove("show");
+
+};
+
+
+document.getElementById("adminRunBtn")
+.onclick=async()=>{
+
+    const input =
+        document.getElementById(
+            "adminCommandInput"
+        );
+
+    const command =
+        input.value.trim();
+
+    if(!command)
+        return;
+
+    if(!currentProfile ||
+       !isPrivileged(currentProfile.role)){
+
+        showToast(
+            "Akses ditolak."
+        );
+
+        return;
+    }
+
+    await handleCommand(command);
+
+    input.value="";
+
+};
+
+
+/* =========================================================
+   PREVENT PAGE ZOOM ON DOUBLE TAP
+========================================================= */
+
+let lastTap=0;
+
+document.addEventListener(
+    "touchend",
+    e=>{
+
+        const now=Date.now();
+
+        if(now-lastTap<300){
+
+            e.preventDefault();
+
+        }
+
+        lastTap=now;
+
+    },
+    {
+        passive:false
+    }
+);
+
+
+/* =========================================================
+   INITIAL
+========================================================= */
+
+resizeInput();
+
+</script>
+
+</body>
+  </html>
