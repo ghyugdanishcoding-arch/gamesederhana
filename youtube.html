@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080808">
+
+<title>DEVOXTRASH • YouTube Downloader</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+    --bg:#050505;
+    --panel:#101010;
+    --panel2:#151515;
+    --red:#ff2020;
+    --red2:#b90000;
+    --white:#ffffff;
+    --muted:#888;
+    --line:#292929;
+}
+
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 50% -10%,rgba(255,20,20,.16),transparent 35%),
+        var(--bg);
+    color:var(--white);
+    font-family:Arial,Helvetica,sans-serif;
+    overflow-x:hidden;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+.app{
+    width:100%;
+    max-width:600px;
+    min-height:100vh;
+    margin:auto;
+    padding:18px 16px 35px;
+}
+
+/* HEADER */
+.header{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:22px;
+}
+
+.back{
+    width:44px;
+    height:44px;
+    border:1px solid var(--line);
+    border-radius:13px;
+    background:#0d0d0d;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.back:active{
+    transform:scale(.94);
+    border-color:var(--red);
+}
+
+.back .material-icons-round{
+    font-size:24px;
+}
+
+.header-text{
+    flex:1;
+}
+
+.header-title{
+    font-family:Orbitron,sans-serif;
+    font-size:18px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.header-title span{
+    color:var(--red);
+}
+
+.header-sub{
+    color:#777;
+    font-size:11px;
+    margin-top:4px;
+    letter-spacing:.5px;
+}
+
+/* HERO */
+.hero{
+    position:relative;
+    overflow:hidden;
+    border:1px solid #2a1515;
+    border-radius:22px;
+    padding:25px 20px;
+    margin-bottom:16px;
+    background:
+        linear-gradient(135deg,rgba(255,20,20,.12),transparent 55%),
+        #0d0d0d;
+}
+
+.hero:after{
+    content:"";
+    position:absolute;
+    width:150px;
+    height:150px;
+    right:-65px;
+    top:-70px;
+    background:rgba(255,20,20,.12);
+    border-radius:50%;
+    filter:blur(10px);
+}
+
+.hero-icon{
+    width:58px;
+    height:58px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:17px;
+    background:rgba(255,20,20,.1);
+    border:1px solid rgba(255,32,32,.35);
+    color:var(--red);
+    margin-bottom:15px;
+}
+
+.hero-icon .material-icons-round{
+    font-size:32px;
+}
+
+.hero h1{
+    font-family:Orbitron,sans-serif;
+    font-size:22px;
+    line-height:1.25;
+    margin-bottom:8px;
+}
+
+.hero h1 span{
+    color:var(--red);
+}
+
+.hero p{
+    color:#8b8b8b;
+    font-size:13px;
+    line-height:1.6;
+}
+
+/* CARD */
+.card{
+    background:linear-gradient(145deg,#111,#0b0b0b);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:17px;
+    margin-bottom:14px;
+}
+
+.label{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:#bbb;
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:9px;
+}
+
+.label .material-icons-round{
+    color:var(--red);
+    font-size:18px;
+}
+
+.input-wrap{
+    position:relative;
+}
+
+.url-input{
+    width:100%;
+    min-height:53px;
+    padding:0 48px 0 15px;
+    border-radius:14px;
+    outline:none;
+    border:1px solid #2b2b2b;
+    background:#080808;
+    color:white;
+    font-size:13px;
+    transition:.2s;
+}
+
+.url-input:focus{
+    border-color:var(--red);
+    box-shadow:0 0 0 3px rgba(255,32,32,.08);
+}
+
+.url-input::placeholder{
+    color:#555;
+}
+
+.clear{
+    position:absolute;
+    right:7px;
+    top:7px;
+    width:39px;
+    height:39px;
+    border:0;
+    border-radius:11px;
+    background:#151515;
+    color:#777;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+.clear .material-icons-round{
+    font-size:20px;
+}
+
+/* FORMAT */
+.format-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+}
+
+.format{
+    position:relative;
+}
+
+.format input{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+}
+
+.format label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:13px;
+    border:1px solid #282828;
+    background:#090909;
+    border-radius:13px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.format label .material-icons-round{
+    color:#777;
+    font-size:21px;
+}
+
+.format-title{
+    font-size:12px;
+    font-weight:700;
+}
+
+.format-desc{
+    display:block;
+    color:#666;
+    font-size:10px;
+    margin-top:3px;
+}
+
+.format input:checked + label{
+    border-color:var(--red);
+    background:rgba(255,32,32,.08);
+}
+
+.format input:checked + label .material-icons-round{
+    color:var(--red);
+}
+
+/* DOWNLOAD */
+.download-btn{
+    width:100%;
+    height:55px;
+    border:0;
+    border-radius:15px;
+    background:linear-gradient(135deg,var(--red),#b50000);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    font-family:Orbitron,sans-serif;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.6px;
+    cursor:pointer;
+    box-shadow:0 8px 25px rgba(255,0,0,.14);
+    transition:.2s;
+}
+
+.download-btn:active{
+    transform:scale(.98);
+}
+
+.download-btn:disabled{
+    opacity:.55;
+    cursor:not-allowed;
+    transform:none;
+}
+
+.download-btn .material-icons-round{
+    font-size:22px;
+}
+
+/* LOADING */
+.loading{
+    display:none;
+    text-align:center;
+    padding:25px 10px;
+}
+
+.loader{
+    width:38px;
+    height:38px;
+    border:3px solid #292929;
+    border-top-color:var(--red);
+    border-radius:50%;
+    margin:0 auto 13px;
+    animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+.loading-title{
+    font-family:Orbitron,sans-serif;
+    font-size:12px;
+    margin-bottom:5px;
+}
+
+.loading-text{
+    color:#666;
+    font-size:11px;
+}
+
+/* RESULT */
+.result{
+    display:none;
+    border:1px solid #292929;
+    background:#0c0c0c;
+    border-radius:18px;
+    padding:16px;
+}
+
+.result-top{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.result-icon{
+    width:45px;
+    height:45px;
+    border-radius:13px;
+    background:rgba(0,190,80,.1);
+    color:#00d66b;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.result-icon .material-icons-round{
+    font-size:26px;
+}
+
+.result-title{
+    font-size:13px;
+    font-weight:800;
+}
+
+.result-desc{
+    color:#666;
+    font-size:10px;
+    margin-top:4px;
+}
+
+.save-btn{
+    width:100%;
+    height:48px;
+    border-radius:13px;
+    border:1px solid #333;
+    background:#151515;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    cursor:pointer;
+}
+
+.save-btn:hover{
+    border-color:var(--red);
+}
+
+/* ERROR */
+.error{
+    display:none;
+    align-items:flex-start;
+    gap:10px;
+    padding:14px;
+    border-radius:14px;
+    border:1px solid #4a1717;
+    background:rgba(255,20,20,.07);
+    margin-top:12px;
+}
+
+.error .material-icons-round{
+    color:var(--red);
+}
+
+.error-text{
+    color:#c7c7c7;
+    font-size:11px;
+    line-height:1.5;
+}
+
+/* INFO */
+.info{
+    display:flex;
+    gap:9px;
+    align-items:flex-start;
+    color:#5f5f5f;
+    font-size:10px;
+    line-height:1.5;
+    margin-top:13px;
+}
+
+.info .material-icons-round{
+    color:#777;
+    font-size:16px;
+}
+
+/* FOOTER */
+.footer{
+    text-align:center;
+    color:#414141;
+    font-size:9px;
+    letter-spacing:1px;
+    margin-top:24px;
+    font-family:Orbitron,sans-serif;
+}
+
+@media(max-width:380px){
+    .app{
+        padding-left:12px;
+        padding-right:12px;
+    }
+
+    .hero h1{
+        font-size:19px;
+    }
+
+    .format-grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <header class="header">
+
+        <button class="back" onclick="goBack()" aria-label="Kembali">
+            <span class="material-icons-round">arrow_back</span>
+        </button>
+
+        <div class="header-text">
+            <div class="header-title">
+                DEVOX<span>TRASH</span>
+            </div>
+            <div class="header-sub">
+                YOUTUBE DOWNLOADER
+            </div>
+        </div>
+
+    </header>
+
+
+    <section class="hero">
+
+        <div class="hero-icon">
+            <span class="material-icons-round">smart_display</span>
+        </div>
+
+        <h1>
+            YouTube <span>Downloader</span>
+        </h1>
+
+        <p>
+            Download media dari URL YouTube menggunakan layanan
+            downloader DEVOXTRASH.
+        </p>
+
+    </section>
+
+
+    <section class="card">
+
+        <div class="label">
+            <span class="material-icons-round">link</span>
+            URL VIDEO YOUTUBE
+        </div>
+
+        <div class="input-wrap">
+
+            <input
+                id="url"
+                class="url-input"
+                type="url"
+                autocomplete="off"
+                placeholder="https://youtube.com/watch?v=..."
+                oninput="toggleClear()"
+            >
+
+            <button
+                id="clearBtn"
+                class="clear"
+                onclick="clearUrl()"
+            >
+                <span class="material-icons-round">close</span>
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="card">
+
+        <div class="label">
+            <span class="material-icons-round">tune</span>
+            PILIH FORMAT
+        </div>
+
+        <div class="format-grid">
+
+            <div class="format">
+
+                <input
+                    type="radio"
+                    id="mp3"
+                    name="format"
+                    value="mp3"
+                    checked
+                >
+
+                <label for="mp3">
+
+                    <span class="material-icons-round">
+                        music_note
+                    </span>
+
+                    <span>
+                        <span class="format-title">MP3</span>
+                        <span class="format-desc">Audio</span>
+                    </span>
+
+                </label>
+
+            </div>
+
+
+            <div class="format">
+
+                <input
+                    type="radio"
+                    id="mp4"
+                    name="format"
+                    value="mp4"
+                >
+
+                <label for="mp4">
+
+                    <span class="material-icons-round">
+                        movie
+                    </span>
+
+                    <span>
+                        <span class="format-title">MP4</span>
+                        <span class="format-desc">Video</span>
+                    </span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="card">
+
+        <button
+            id="downloadBtn"
+            class="download-btn"
+            onclick="downloadVideo()"
+        >
+            <span class="material-icons-round">
+                download
+            </span>
+
+            DOWNLOAD SEKARANG
+        </button>
+
+
+        <div id="loading" class="loading">
+
+            <div class="loader"></div>
+
+            <div class="loading-title">
+                MEMPROSES...
+            </div>
+
+            <div class="loading-text">
+                Sedang meminta data ke server downloader
+            </div>
+
+        </div>
+
+
+        <div id="errorBox" class="error">
+
+            <span class="material-icons-round">
+                error_outline
+            </span>
+
+            <div id="errorText" class="error-text">
+                Terjadi kesalahan.
+            </div>
+
+        </div>
+
+
+        <div id="result" class="result">
+
+            <div class="result-top">
+
+                <div class="result-icon">
+                    <span class="material-icons-round">
+                        check_circle
+                    </span>
+                </div>
+
+                <div>
+                    <div class="result-title">
+                        DOWNLOAD SIAP
+                    </div>
+
+                    <div class="result-desc">
+                        File berhasil diproses oleh server.
+                    </div>
+                </div>
+
+            </div>
+
+            <button
+                id="saveBtn"
+                class="save-btn"
+                onclick="openDownload()"
+            >
+                <span class="material-icons-round">
+                    download
+                </span>
+
+                BUKA / DOWNLOAD FILE
+            </button>
+
+        </div>
+
+
+        <div class="info">
+
+            <span class="material-icons-round">
+                info
+            </span>
+
+            <span>
+                Gunakan URL video yang dapat diakses publik.
+                Pastikan kamu memiliki hak untuk mengunduh dan
+                menggunakan konten tersebut.
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <div class="footer">
+        DEVOXTRASH • SYSTEM
+    </div>
+
+</div>
+
+
+<script>
+/*
+    DEVOXTRASH YOUTUBE DOWNLOADER
+
+    Endpoint:
+    https://p.savenow.to
+
+    API:
+    /api/v2/download
+*/
+
+
+const API_KEY =
+    "2aa50371319f9a6cb69cd2913363e4ed37bfef91";
+
+const API_BASE =
+    "https://p.savenow.to";
+
+
+let downloadUrl = "";
+
+
+/* BACK */
+function goBack(){
+
+    if(history.length > 1){
+        history.back();
+    }else{
+        window.location.href = "tools.html";
+    }
+
+}
+
+
+/* CLEAR */
+function toggleClear(){
+
+    const input = document.getElementById("url");
+    const clear = document.getElementById("clearBtn");
+
+    clear.style.display =
+        input.value.trim()
+        ? "flex"
+        : "none";
+}
+
+
+function clearUrl(){
+
+    document.getElementById("url").value = "";
+
+    toggleClear();
+
+    document.getElementById("url").focus();
+
+}
+
+
+/* ERROR */
+function showError(message){
+
+    const box =
+        document.getElementById("errorBox");
+
+    const text =
+        document.getElementById("errorText");
+
+    text.textContent = message;
+
+    box.style.display = "flex";
+
+}
+
+
+function hideError(){
+
+    document.getElementById("errorBox").style.display =
+        "none";
+
+}
+
+
+/* LOADING */
+function setLoading(state){
+
+    const loading =
+        document.getElementById("loading");
+
+    const button =
+        document.getElementById("downloadBtn");
+
+    if(state){
+
+        loading.style.display = "block";
+
+        button.disabled = true;
+
+        button.innerHTML = `
+            <span class="material-icons-round">
+                sync
+            </span>
+            MEMPROSES...
+        `;
+
+    }else{
+
+        loading.style.display = "none";
+
+        button.disabled = false;
+
+        button.innerHTML = `
+            <span class="material-icons-round">
+                download
+            </span>
+            DOWNLOAD SEKARANG
+        `;
+
+    }
+
+}
+
+
+/* VALIDATE YOUTUBE */
+function isYoutubeUrl(url){
+
+    try{
+
+        const u = new URL(url);
+
+        const host =
+            u.hostname
+                .toLowerCase()
+                .replace("www.","");
+
+        return (
+            host === "youtube.com" ||
+            host === "youtu.be" ||
+            host === "m.youtube.com" ||
+            host === "youtube-nocookie.com"
+        );
+
+    }catch(e){
+
+        return false;
+
+    }
+
+}
+
+
+/* MAIN DOWNLOAD */
+async function downloadVideo(){
+
+    hideError();
+
+    document.getElementById("result").style.display =
+        "none";
+
+    downloadUrl = "";
+
+    const input =
+        document.getElementById("url");
+
+    const url =
+        input.value.trim();
+
+    const format =
+        document.querySelector(
+            'input[name="format"]:checked'
+        ).value;
+
+
+    if(!url){
+
+        showError(
+            "Masukkan URL YouTube terlebih dahulu."
+        );
+
+        input.focus();
+
+        return;
+
+    }
+
+
+    if(!isYoutubeUrl(url)){
+
+        showError(
+            "URL tidak valid. Masukkan link YouTube yang benar."
+        );
+
+        input.focus();
+
+        return;
+
+    }
+
+
+    setLoading(true);
+
+
+    try{
+
+        const endpoint =
+            API_BASE +
+            "/api/v2/download?format=" +
+            encodeURIComponent(format) +
+            "&url=" +
+            encodeURIComponent(url) +
+            "&apikey=" +
+            encodeURIComponent(API_KEY);
+
+
+        const response =
+            await fetch(endpoint, {
+                method:"GET"
+            });
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "Server API mengembalikan HTTP " +
+                response.status
+            );
+
+        }
+
+
+        const contentType =
+            response.headers.get("content-type") || "";
+
+
+        let data;
+
+
+        if(contentType.includes("application/json")){
+
+            data = await response.json();
+
+        }else{
+
+            const text = await response.text();
+
+            try{
+
+                data = JSON.parse(text);
+
+            }catch{
+
+                data = {
+                    raw:text
+                };
+
+            }
+
+        }
+
+
+        /*
+            Beberapa downloader API mengembalikan
+            field URL dengan nama berbeda.
+        */
+
+        downloadUrl =
+            data.download_url ||
+            data.downloadUrl ||
+            data.url ||
+            data.link ||
+            data.result?.download_url ||
+            data.result?.downloadUrl ||
+            data.result?.url ||
+            data.data?.download_url ||
+            data.data?.downloadUrl ||
+            data.data?.url ||
+            "";
+
+
+        if(!downloadUrl){
+
+            /*
+                Jika API memberikan URL melalui
+                object lain, coba cari secara rekursif.
+            */
+
+            downloadUrl =
+                findDownloadUrl(data);
+        }
+
+
+        if(!downloadUrl){
+
+            console.log("API RESPONSE:", data);
+
+            throw new Error(
+                "API tidak mengembalikan link download."
+            );
+
+        }
+
+
+        document.getElementById("result").style.display =
+            "block";
+
+
+        document.getElementById("result")
+            .scrollIntoView({
+                behavior:"smooth",
+                block:"center"
+            });
+
+
+    }catch(error){
+
+        console.error(error);
+
+        showError(
+            error.message ||
+            "Gagal memproses video. Coba lagi."
+        );
+
+    }finally{
+
+        setLoading(false);
+
+    }
+
+}
+
+
+/* SEARCH DOWNLOAD URL */
+function findDownloadUrl(obj){
+
+    if(!obj) return "";
+
+    if(typeof obj === "string"){
+
+        if(
+            obj.startsWith("http://") ||
+            obj.startsWith("https://")
+        ){
+
+            return obj;
+
+        }
+
+        return "";
+
+    }
+
+
+    if(Array.isArray(obj)){
+
+        for(const item of obj){
+
+            const found =
+                findDownloadUrl(item);
+
+            if(found) return found;
+
+        }
+
+        return "";
+
+    }
+
+
+    if(typeof obj === "object"){
+
+        const keys = [
+            "download",
+            "download_url",
+            "downloadUrl",
+            "file",
+            "file_url",
+            "fileUrl",
+            "link",
+            "url"
+        ];
+
+
+        for(const key of keys){
+
+            if(typeof obj[key] === "string"){
+
+                const value = obj[key];
+
+                if(
+                    value.startsWith("http://") ||
+                    value.startsWith("https://")
+                ){
+
+                    return value;
+
+                }
+
+            }
+
+        }
+
+
+        for(const key of Object.keys(obj)){
+
+            const found =
+                findDownloadUrl(obj[key]);
+
+            if(found) return found;
+
+        }
+
+    }
+
+    return "";
+
+}
+
+
+/* OPEN DOWNLOAD */
+function openDownload(){
+
+    if(!downloadUrl){
+
+        showError(
+            "Link download tidak tersedia."
+        );
+
+        return;
+
+    }
+
+
+    window.open(
+        downloadUrl,
+        "_blank",
+        "noopener,noreferrer"
+    );
+
+}
+
+
+/* ENTER KEY */
+document
+    .getElementById("url")
+    .addEventListener("keydown", function(e){
+
+        if(e.key === "Enter"){
+
+            downloadVideo();
+
+        }
+
+    });
+
+
+/* AUTO CLEAR BUTTON */
+toggleClear();
+
+</script>
+
+</body>
+  </html>
