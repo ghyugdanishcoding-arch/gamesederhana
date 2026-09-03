@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070707">
+<title>DEVOXTR4SH — Al-Qur'an</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#050505;--panel:#101010;--panel2:#151515;--line:#292929;
+  --red:#ff3030;--red2:#ff5b5b;--text:#f5f5f5;--muted:#858585;
+  --green:#39dc84;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text)}
+body{
+  font-family:Poppins,sans-serif;
+  background:
+    linear-gradient(rgba(255,255,255,.016) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.016) 1px,transparent 1px),
+    radial-gradient(circle at 50% -10%,rgba(255,25,25,.12),transparent 34%),#050505;
+  background-size:28px 28px,28px 28px,auto;
+}
+button,input{font:inherit}
+button{border:0}
+.app{width:min(100%,1080px);margin:auto;padding:12px 15px 35px}
+.topbar{height:60px;display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.back,.icon-btn{
+  width:46px;height:46px;border-radius:15px;display:grid;place-items:center;
+  background:#111;color:#eee;border:1px solid var(--line);cursor:pointer
+}
+.back:active,.icon-btn:active{transform:scale(.96)}
+.brand{flex:1;font:800 17px Orbitron,sans-serif;letter-spacing:1.5px}
+.brand span{color:var(--red)}
+.tag{
+  padding:8px 10px;border-radius:11px;background:#190909;border:1px solid #441919;
+  color:var(--red2);font:700 9px Orbitron,sans-serif;letter-spacing:1px
+}
+.hero{
+  padding:21px;border:1px solid var(--line);border-radius:23px;
+  background:linear-gradient(145deg,#151515,#0d0d0d);box-shadow:0 15px 40px #0005
+}
+.hero-row{display:flex;gap:14px;align-items:center}
+.hero-icon{
+  width:58px;height:58px;border-radius:18px;display:grid;place-items:center;
+  color:var(--red);background:#1b0909;border:1px solid #491818
+}
+.hero-icon .material-icons-round{font-size:30px}
+h1{margin:0;font:700 21px Orbitron,sans-serif;letter-spacing:1px}
+h1 span{color:var(--red)}
+.hero p{margin:12px 0 0;color:#929292;font-size:11px;line-height:1.7}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.stat{
+  display:flex;align-items:center;gap:6px;padding:8px 10px;border:1px solid #272727;
+  border-radius:11px;background:#0d0d0d;color:#999;font-size:10px
+}
+.stat b{color:var(--red2)}.stat .material-icons-round{font-size:15px;color:var(--red)}
+
+.search{
+  position:relative;margin:13px 0
+}
+.search>span{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#707070}
+#q{
+  width:100%;height:51px;border-radius:15px;background:#0e0e0e;border:1px solid var(--line);
+  color:#fff;outline:none;padding:0 45px;font-size:12px
+}
+#q:focus{border-color:#5b2222;box-shadow:0 0 0 3px #ff20200d}
+#clear{
+  display:none;position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  width:35px;height:35px;border-radius:10px;background:#191919;color:#aaa
+}
+
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:16px 2px 10px}
+.section-head h2{margin:0;color:var(--red2);font:600 13px Orbitron,sans-serif;letter-spacing:1.4px}
+.section-head small{color:#666;font-size:10px}
+
+.surah-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.surah{
+  min-height:138px;padding:15px;border:1px solid #292929;border-radius:18px;
+  background:linear-gradient(145deg,#151515,#0d0d0d);cursor:pointer;
+  position:relative;overflow:hidden;transition:.2s
+}
+.surah:hover{transform:translateY(-2px);border-color:#542020}
+.surah:before{content:"";position:absolute;left:0;top:0;width:3px;height:0;background:var(--red);transition:.2s}
+.surah:hover:before{height:100%}
+.surah-top{display:flex;align-items:center;justify-content:space-between}
+.num{
+  width:33px;height:33px;border-radius:10px;display:grid;place-items:center;
+  background:#190b0b;border:1px solid #421818;color:var(--red);
+  font:700 10px Orbitron,sans-serif
+}
+.mini{font-size:9px;color:#666}
+.arabic-small{
+  direction:rtl;text-align:right;font:700 24px Amiri,serif;margin-top:9px
+}
+.name{font:600 11px Orbitron,sans-serif;color:#eee;margin-top:3px}
+.translation{font-size:9px;color:#777;margin-top:4px}
+.meta{font-size:9px;color:#555;margin-top:7px}
+
+.reader{
+  display:none;margin-top:13px;border:1px solid var(--line);border-radius:22px;
+  overflow:hidden;background:#0d0d0d
+}
+.reader-head{
+  padding:16px;border-bottom:1px solid #252525;background:#111;
+  display:flex;align-items:center;gap:10px
+}
+.reader-head .back-reader{
+  width:38px;height:38px;border-radius:11px;background:#1a0b0b;color:var(--red);
+  display:grid;place-items:center;cursor:pointer
+}
+.reader-title{flex:1}
+.reader-title b{display:block;font:700 13px Orbitron,sans-serif}
+.reader-title small{color:#777;font-size:9px}
+.ayahs{padding:8px}
+.ayah{
+  padding:19px 13px;border-bottom:1px solid #222
+}
+.ayah:last-child{border-bottom:0}
+.ayah-num{
+  display:inline-grid;place-items:center;width:28px;height:28px;border-radius:9px;
+  background:#1b0a0a;border:1px solid #421818;color:var(--red);
+  font:700 9px Orbitron,sans-serif;margin-bottom:10px
+}
+.arabic{
+  direction:rtl;text-align:right;font:400 30px/2 Amiri,serif;color:#fff
+}
+.translation{
+  margin-top:12px;color:#999;font-size:11px;line-height:1.8
+}
+.loader{text-align:center;padding:45px;color:#777;font-size:11px}
+.loader .material-icons-round{display:block;color:var(--red);font-size:32px;margin-bottom:8px}
+.empty{
+  display:none;text-align:center;padding:40px;border:1px dashed #292929;border-radius:17px;color:#666;font-size:11px
+}
+.toast{
+  position:fixed;z-index:50;left:50%;bottom:22px;transform:translate(-50%,18px);
+  opacity:0;pointer-events:none;display:flex;align-items:center;gap:7px;padding:10px 14px;
+  background:#111;border:1px solid #3d2020;border-radius:12px;color:#ddd;font-size:11px;transition:.25s
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast .material-icons-round{font-size:17px;color:var(--green)}
+
+@media(max-width:820px){.surah-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){
+  .app{padding:9px 11px 28px}.brand{font-size:14px}.tag{font-size:8px}
+  .hero{padding:18px;border-radius:20px}h1{font-size:17px}
+  .surah-grid{grid-template-columns:1fr;gap:9px}.surah{min-height:128px}
+  .arabic{font-size:27px}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+  <header class="topbar">
+    <button class="back" onclick="history.back()"><span class="material-icons-round">arrow_back</span></button>
+    <div class="brand">DEVOX<span>TR4SH</span></div>
+    <div class="tag">TOOLS</div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-row">
+      <div class="hero-icon"><span class="material-icons-round">menu_book</span></div>
+      <div>
+        <h1>AL-QUR'<span>AN</span></h1>
+        <div style="font-size:10px;color:#666;margin-top:4px">BACA AL-QUR'AN DIGITAL</div>
+      </div>
+    </div>
+    <p>Pilih surah untuk membaca ayat lengkap dengan tulisan Arab dan terjemahan Bahasa Indonesia.</p>
+    <div class="stats">
+      <div class="stat"><span class="material-icons-round">auto_stories</span><b>114</b> Surah</div>
+      <div class="stat"><span class="material-icons-round">translate</span>Indonesia</div>
+      <div class="stat"><span class="material-icons-round">wifi</span>Online API</div>
+    </div>
+  </section>
+
+  <div id="surahView">
+    <div class="search">
+      <span class="material-icons-round">search</span>
+      <input id="q" type="search" placeholder="Cari nama atau nomor surah..." autocomplete="off">
+      <button id="clear" onclick="clearSearch()"><span class="material-icons-round">close</span></button>
+    </div>
+
+    <div class="section-head">
+      <h2>DAFTAR SURAH</h2>
+      <small id="result">114 surah</small>
+    </div>
+    <div id="grid" class="surah-grid"></div>
+    <div id="empty" class="empty">Surah tidak ditemukan.</div>
+  </div>
+
+  <section id="reader" class="reader">
+    <div class="reader-head">
+      <button class="back-reader" onclick="closeReader()"><span class="material-icons-round">arrow_back</span></button>
+      <div class="reader-title">
+        <b id="readerName">SURAH</b>
+        <small id="readerInfo">Memuat...</small>
+      </div>
+      <button class="icon-btn" onclick="scrollToTop()" title="Ke atas"><span class="material-icons-round">vertical_align_top</span></button>
+    </div>
+    <div id="ayahs" class="ayahs">
+      <div class="loader"><span class="material-icons-round">sync</span>Memuat ayat...</div>
+    </div>
+  </section>
+
+  <div style="text-align:center;color:#4d4d4d;font-size:9px;letter-spacing:1px;margin-top:24px">
+    DEVOX<b style="color:#8b2020">TR4SH</b> • AL-QUR'AN
+  </div>
+</div>
+
+<div id="toast" class="toast"><span class="material-icons-round">check_circle</span><span id="toastText">Selesai</span></div>
+
+<script>
+const API="https://api.alquran.cloud/v1";
+let surahs=[];
+const grid=document.getElementById("grid");
+const q=document.getElementById("q");
+const clearBtn=document.getElementById("clear");
+const empty=document.getElementById("empty");
+
+async function loadSurahs(){
+  grid.innerHTML='<div class="loader" style="grid-column:1/-1"><span class="material-icons-round">sync</span>Memuat daftar surah...</div>';
+  try{
+    const r=await fetch(API+"/surah");
+    if(!r.ok) throw new Error();
+    const j=await r.json();
+    surahs=j.data||[];
+    renderSurahs(surahs);
+  }catch(e){
+    grid.innerHTML='<div class="empty" style="display:block;grid-column:1/-1">Gagal memuat daftar surah. Periksa koneksi internet.</div>';
+  }
+}
+
+function renderSurahs(list){
+  grid.innerHTML="";
+  list.forEach(s=>{
+    const el=document.createElement("article");
+    el.className="surah";
+    el.innerHTML=`
+      <div class="surah-top">
+        <div class="num">${String(s.number).padStart(3,"0")}</div>
+        <div class="mini">${s.revelationType==="Meccan"?"MAKKIYAH":"MADANIYAH"}</div>
+      </div>
+      <div class="arabic-small">${s.name}</div>
+      <div class="name">${s.englishName}</div>
+      <div class="translation">${s.englishNameTranslation||""}</div>
+      <div class="meta">${s.numberOfAyahs} Ayat</div>`;
+    el.onclick=()=>openSurah(s.number);
+    grid.appendChild(el);
+  });
+  document.getElementById("result").textContent=list.length+" surah";
+  empty.style.display=list.length?"none":"block";
+}
+
+q.addEventListener("input",()=>{
+  const term=q.value.trim().toLowerCase();
+  clearBtn.style.display=term?"grid":"none";
+  const list=surahs.filter(s=>
+    String(s.number)===term ||
+    s.name.toLowerCase().includes(term) ||
+    s.englishName.toLowerCase().includes(term) ||
+    (s.englishNameTranslation||"").toLowerCase().includes(term)
+  );
+  renderSurahs(list);
+});
+
+function clearSearch(){q.value="";q.focus();renderSurahs(surahs)}
+
+async function openSurah(number){
+  document.getElementById("surahView").style.display="none";
+  const reader=document.getElementById("reader");
+  reader.style.display="block";
+  document.getElementById("ayahs").innerHTML='<div class="loader"><span class="material-icons-round">sync</span>Memuat ayat...</div>';
+  window.scrollTo({top:0,behavior:"smooth"});
+
+  const s=surahs.find(x=>x.number===number);
+  document.getElementById("readerName").textContent=(s?s.englishName:"SURAH").toUpperCase();
+  document.getElementById("readerInfo").textContent=s?s.numberOfAyahs+" Ayat • "+(s.revelationType==="Meccan"?"Makkiyah":"Madaniyah"):"";
+
+  try{
+    const r=await fetch(API+"/surah/"+number+"/editions/quran-uthmani,id.indonesian");
+    if(!r.ok) throw new Error();
+    const j=await r.json();
+    const arabic=j.data?.find(x=>x.edition?.identifier==="quran-uthmani");
+    const indo=j.data?.find(x=>x.edition?.identifier==="id.indonesian");
+    const a=arabic?.ayahs||[], t=indo?.ayahs||[];
+    const wrap=document.getElementById("ayahs");
+    wrap.innerHTML="";
+    a.forEach((ayah,i)=>{
+      const el=document.createElement("article");
+      el.className="ayah";
+      const translation=t[i]?.text||"";
+      el.innerHTML=`
+        <div class="ayah-num">${ayah.numberInSurah}</div>
+        <div class="arabic">${ayah.text}</div>
+        <div class="translation">${translation}</div>`;
+      wrap.appendChild(el);
+    });
+  }catch(e){
+    document.getElementById("ayahs").innerHTML='<div class="loader"><span class="material-icons-round">error_outline</span>Gagal memuat ayat. Coba lagi.</div>';
+  }
+}
+
+function closeReader(){
+  document.getElementById("reader").style.display="none";
+  document.getElementById("surahView").style.display="block";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function scrollToTop(){window.scrollTo({top:0,behavior:"smooth"})}
+loadSurahs();
+</script>
+</body>
+</html>
